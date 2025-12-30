@@ -1,0 +1,546 @@
+solid "urban2<stl unit=MM>"
+   facet normal 1.48029736616688E-15 1 0
+      outer loop
+         vertex -449.999999999999 1200 450
+         vertex -299.999999999999 1200 450
+         vertex -449.999999999999 1200 0
+      endloop
+   endfacet
+   facet normal 1.48029736616688E-15 1 0
+      outer loop
+         vertex -449.999999999999 1200 0
+         vertex -299.999999999999 1200 450
+         vertex -299.999999999999 1200 0
+      endloop
+   endfacet
+   facet normal 1 -5.55111512312578E-16 0
+      outer loop
+         vertex -299.999999999999 1200 450
+         vertex -300 99.9999999999999 450
+         vertex -299.999999999999 1200 0
+      endloop
+   endfacet
+   facet normal 1 -5.55111512312578E-16 0
+      outer loop
+         vertex -299.999999999999 1200 0
+         vertex -300 99.9999999999999 450
+         vertex -300 99.9999999999999 0
+      endloop
+   endfacet
+   facet normal -6.47630097698008E-16 -1 0
+      outer loop
+         vertex -300 99.9999999999999 450
+         vertex -450 100 450
+         vertex -300 99.9999999999999 0
+      endloop
+   endfacet
+   facet normal -6.47630097698008E-16 -1 0
+      outer loop
+         vertex -300 99.9999999999999 0
+         vertex -450 100 450
+         vertex -450 100 0
+      endloop
+   endfacet
+   facet normal -1 6.56040878187593E-16 0
+      outer loop
+         vertex -450 100 450
+         vertex -449.999999999999 1200 450
+         vertex -450 100 0
+      endloop
+   endfacet
+   facet normal -1 6.56040878187593E-16 0
+      outer loop
+         vertex -450 100 0
+         vertex -449.999999999999 1200 450
+         vertex -449.999999999999 1200 0
+      endloop
+   endfacet
+   facet normal 0 0 1
+      outer loop
+         vertex -299.999999999999 1200 450
+         vertex -449.999999999999 1200 450
+         vertex -300 99.9999999999999 450
+      endloop
+   endfacet
+   facet normal 0 0 1
+      outer loop
+         vertex -300 99.9999999999999 450
+         vertex -449.999999999999 1200 450
+         vertex -450 100 450
+      endloop
+   endfacet
+   facet normal 0 0 -1
+      outer loop
+         vertex -449.999999999999 1200 0
+         vertex -299.999999999999 1200 0
+         vertex -450 100 0
+      endloop
+   endfacet
+   facet normal 0 0 -1
+      outer loop
+         vertex -450 100 0
+         vertex -299.999999999999 1200 0
+         vertex -300 99.9999999999999 0
+      endloop
+   endfacet
+endsolid
+solid "urban2<stl unit=MM>"
+   facet normal 1.48029736616688E-15 1 0
+      outer loop
+         vertex 1260 1200 450
+         vertex 1410 1200 450
+         vertex 1260 1200 0
+      endloop
+   endfacet
+   facet normal 1.48029736616688E-15 1 0
+      outer loop
+         vertex 1260 1200 0
+         vertex 1410 1200 450
+         vertex 1410 1200 0
+      endloop
+   endfacet
+   facet normal 1 -6.05576195250085E-16 0
+      outer loop
+         vertex 1410 1200 450
+         vertex 1410 99.9999999999998 450
+         vertex 1410 1200 0
+      endloop
+   endfacet
+   facet normal 1 -6.05576195250085E-16 0
+      outer loop
+         vertex 1410 1200 0
+         vertex 1410 99.9999999999998 450
+         vertex 1410 99.9999999999998 0
+      endloop
+   endfacet
+   facet normal -3.70074341541719E-16 -1 0
+      outer loop
+         vertex 1410 99.9999999999998 450
+         vertex 1260 99.9999999999999 450
+         vertex 1410 99.9999999999998 0
+      endloop
+   endfacet
+   facet normal -3.70074341541719E-16 -1 0
+      outer loop
+         vertex 1410 99.9999999999998 0
+         vertex 1260 99.9999999999999 450
+         vertex 1260 99.9999999999999 0
+      endloop
+   endfacet
+   facet normal -1 6.05576195250085E-16 0
+      outer loop
+         vertex 1260 99.9999999999999 450
+         vertex 1260 1200 450
+         vertex 1260 99.9999999999999 0
+      endloop
+   endfacet
+   facet normal -1 6.05576195250085E-16 0
+      outer loop
+         vertex 1260 99.9999999999999 0
+         vertex 1260 1200 450
+         vertex 1260 1200 0
+      endloop
+   endfacet
+   facet normal 0 0 1
+      outer loop
+         vertex 1410 1200 450
+         vertex 1260 1200 450
+         vertex 1410 99.9999999999998 450
+      endloop
+   endfacet
+   facet normal 0 0 1
+      outer loop
+         vertex 1410 99.9999999999998 450
+         vertex 1260 1200 450
+         vertex 1260 99.9999999999999 450
+      endloop
+   endfacet
+   facet normal 0 0 -1
+      outer loop
+         vertex 1260 1200 0
+         vertex 1410 1200 0
+         vertex 1260 99.9999999999999 0
+      endloop
+   endfacet
+   facet normal 0 0 -1
+      outer loop
+         vertex 1260 99.9999999999999 0
+         vertex 1410 1200 0
+         vertex 1410 99.9999999999998 0
+      endloop
+   endfacet
+endsolid
+solid "urban2<stl unit=MM>"
+   facet normal 0.869991086875505 -0.493067448486694 0
+      outer loop
+         vertex 770 1300 300
+         vertex 543.3 900 300
+         vertex 770 1300 0
+      endloop
+   endfacet
+   facet normal 0.869991086875505 -0.493067448486694 0
+      outer loop
+         vertex 770 1300 0
+         vertex 543.3 900 300
+         vertex 543.3 900 0
+      endloop
+   endfacet
+   facet normal -1.51462895583241E-15 -1 0
+      outer loop
+         vertex 543.3 900 300
+         vertex 470 900 300
+         vertex 543.3 900 0
+      endloop
+   endfacet
+   facet normal -1.51462895583241E-15 -1 0
+      outer loop
+         vertex 543.3 900 0
+         vertex 470 900 300
+         vertex 470 900 0
+      endloop
+   endfacet
+   facet normal -1 1.11022302462516E-15 0
+      outer loop
+         vertex 470 900 300
+         vertex 470 1300 300
+         vertex 470 900 0
+      endloop
+   endfacet
+   facet normal -1 1.11022302462516E-15 0
+      outer loop
+         vertex 470 900 0
+         vertex 470 1300 300
+         vertex 470 1300 0
+      endloop
+   endfacet
+   facet normal 1.48029736616688E-15 1 0
+      outer loop
+         vertex 470 1300 300
+         vertex 770 1300 300
+         vertex 470 1300 0
+      endloop
+   endfacet
+   facet normal 1.48029736616688E-15 1 0
+      outer loop
+         vertex 470 1300 0
+         vertex 770 1300 300
+         vertex 770 1300 0
+      endloop
+   endfacet
+   facet normal 0 0 1
+      outer loop
+         vertex 770 1300 300
+         vertex 470 1300 300
+         vertex 543.3 900 300
+      endloop
+   endfacet
+   facet normal 0 0 1
+      outer loop
+         vertex 543.3 900 300
+         vertex 470 1300 300
+         vertex 470 900 300
+      endloop
+   endfacet
+   facet normal 0 0 -1
+      outer loop
+         vertex 770 1300 0
+         vertex 543.3 900 0
+         vertex 470 1300 0
+      endloop
+   endfacet
+   facet normal 0 0 -1
+      outer loop
+         vertex 470 1300 0
+         vertex 543.3 900 0
+         vertex 470 900 0
+      endloop
+   endfacet
+endsolid
+solid "urban2<stl unit=MM>"
+   facet normal -4.04768811061255E-16 1 0
+      outer loop
+         vertex 480 200 300
+         vertex 960 200 300
+         vertex 480 200 0
+      endloop
+   endfacet
+   facet normal -4.04768811061255E-16 1 0
+      outer loop
+         vertex 480 200 0
+         vertex 960 200 300
+         vertex 960 200 0
+      endloop
+   endfacet
+   facet normal 1 0 0
+      outer loop
+         vertex 960 200 300
+         vertex 960 -7.34763812293426E-14 300
+         vertex 960 200 0
+      endloop
+   endfacet
+   facet normal 1 0 0
+      outer loop
+         vertex 960 200 0
+         vertex 960 -7.34763812293426E-14 300
+         vertex 960 -7.34763812293426E-14 0
+      endloop
+   endfacet
+   facet normal -1.22460635382238E-16 -1 0
+      outer loop
+         vertex 960 -7.34763812293426E-14 300
+         vertex 360 -9.9096019435532E-31 300
+         vertex 960 -7.34763812293426E-14 0
+      endloop
+   endfacet
+   facet normal -1.22460635382238E-16 -1 0
+      outer loop
+         vertex 960 -7.34763812293426E-14 0
+         vertex 360 -9.9096019435532E-31 300
+         vertex 360 -9.9096019435532E-31 0
+      endloop
+   endfacet
+   facet normal -0.857492925712544 0.514495755427527 0
+      outer loop
+         vertex 360 -9.9096019435532E-31 300
+         vertex 480 200 300
+         vertex 360 -9.9096019435532E-31 0
+      endloop
+   endfacet
+   facet normal -0.857492925712544 0.514495755427527 0
+      outer loop
+         vertex 360 -9.9096019435532E-31 0
+         vertex 480 200 300
+         vertex 480 200 0
+      endloop
+   endfacet
+   facet normal 0 0 1
+      outer loop
+         vertex 960 200 300
+         vertex 480 200 300
+         vertex 960 -7.34763812293426E-14 300
+      endloop
+   endfacet
+   facet normal 0 0 1
+      outer loop
+         vertex 960 -7.34763812293426E-14 300
+         vertex 480 200 300
+         vertex 360 -9.9096019435532E-31 300
+      endloop
+   endfacet
+   facet normal 0 0 -1
+      outer loop
+         vertex 360 -9.9096019435532E-31 0
+         vertex 480 200 0
+         vertex 960 -7.34763812293426E-14 0
+      endloop
+   endfacet
+   facet normal 0 0 -1
+      outer loop
+         vertex 960 -7.34763812293426E-14 0
+         vertex 480 200 0
+         vertex 960 200 0
+      endloop
+   endfacet
+endsolid
+solid "urban2<stl unit=MM>"
+   facet normal 7.40148683083438E-16 1 0
+      outer loop
+         vertex 3.33066907387547E-13 1300 400
+         vertex 300 1300 400
+         vertex 3.33066907387547E-13 1300 0
+      endloop
+   endfacet
+   facet normal 7.40148683083438E-16 1 0
+      outer loop
+         vertex 3.33066907387547E-13 1300 0
+         vertex 300 1300 400
+         vertex 300 1300 0
+      endloop
+   endfacet
+   facet normal 1 -6.93889390390723E-16 0
+      outer loop
+         vertex 300 1300 400
+         vertex 300 900 400
+         vertex 300 1300 0
+      endloop
+   endfacet
+   facet normal 1 -6.93889390390723E-16 0
+      outer loop
+         vertex 300 1300 0
+         vertex 300 900 400
+         vertex 300 900 0
+      endloop
+   endfacet
+   facet normal -3.70074341541719E-16 -1 0
+      outer loop
+         vertex 300 900 400
+         vertex 5.5107285922007E-14 900 400
+         vertex 300 900 0
+      endloop
+   endfacet
+   facet normal -3.70074341541719E-16 -1 0
+      outer loop
+         vertex 300 900 0
+         vertex 5.5107285922007E-14 900 400
+         vertex 5.5107285922007E-14 900 0
+      endloop
+   endfacet
+   facet normal -1 6.9489905366385E-16 0
+      outer loop
+         vertex 5.5107285922007E-14 900 400
+         vertex 3.33066907387547E-13 1300 400
+         vertex 5.5107285922007E-14 900 0
+      endloop
+   endfacet
+   facet normal -1 6.9489905366385E-16 0
+      outer loop
+         vertex 5.5107285922007E-14 900 0
+         vertex 3.33066907387547E-13 1300 400
+         vertex 3.33066907387547E-13 1300 0
+      endloop
+   endfacet
+   facet normal 0 0 1
+      outer loop
+         vertex 300 1300 400
+         vertex 3.33066907387547E-13 1300 400
+         vertex 300 900 400
+      endloop
+   endfacet
+   facet normal 0 0 1
+      outer loop
+         vertex 300 900 400
+         vertex 3.33066907387547E-13 1300 400
+         vertex 5.5107285922007E-14 900 400
+      endloop
+   endfacet
+   facet normal 0 0 -1
+      outer loop
+         vertex 3.33066907387547E-13 1300 0
+         vertex 300 1300 0
+         vertex 5.5107285922007E-14 900 0
+      endloop
+   endfacet
+   facet normal 0 0 -1
+      outer loop
+         vertex 5.5107285922007E-14 900 0
+         vertex 300 1300 0
+         vertex 300 900 0
+      endloop
+   endfacet
+endsolid
+solid "urban2<stl unit=MM>"
+   facet normal 0.832050294337844 -0.554700196225229 0
+      outer loop
+         vertex 400 600 400
+         vertex 2.77555756156289E-14 -5.0037075531084E-14 400
+         vertex 400 600 0
+      endloop
+   endfacet
+   facet normal 0.832050294337844 -0.554700196225229 0
+      outer loop
+         vertex 400 600 0
+         vertex 2.77555756156289E-14 -5.0037075531084E-14 400
+         vertex 2.77555756156289E-14 -5.0037075531084E-14 0
+      endloop
+   endfacet
+   facet normal -1 1.4971024998404E-17 0
+      outer loop
+         vertex 2.77555756156289E-14 -5.0037075531084E-14 400
+         vertex 3.67381906146713E-14 600 400
+         vertex 2.77555756156289E-14 -5.0037075531084E-14 0
+      endloop
+   endfacet
+   facet normal -1 1.4971024998404E-17 0
+      outer loop
+         vertex 2.77555756156289E-14 -5.0037075531084E-14 0
+         vertex 3.67381906146713E-14 600 400
+         vertex 3.67381906146713E-14 600 0
+      endloop
+   endfacet
+   facet normal 0 1 0
+      outer loop
+         vertex 3.67381906146713E-14 600 400
+         vertex 400 600 400
+         vertex 3.67381906146713E-14 600 0
+      endloop
+   endfacet
+   facet normal 0 1 0
+      outer loop
+         vertex 3.67381906146713E-14 600 0
+         vertex 400 600 400
+         vertex 400 600 0
+      endloop
+   endfacet
+   facet normal 0 0 1
+      outer loop
+         vertex 2.77555756156289E-14 -5.0037075531084E-14 400
+         vertex 400 600 400
+         vertex 3.67381906146713E-14 600 400
+      endloop
+   endfacet
+   facet normal 0 0 -1
+      outer loop
+         vertex 3.67381906146713E-14 600 0
+         vertex 400 600 0
+         vertex 2.77555756156289E-14 -5.0037075531084E-14 0
+      endloop
+   endfacet
+endsolid
+solid "urban2<stl unit=MM>"
+   facet normal -0.862211146605727 0.506549048630868 0
+      outer loop
+         vertex 659.999999999999 500 400
+         vertex 1130 1300 400
+         vertex 659.999999999999 500 0
+      endloop
+   endfacet
+   facet normal -0.862211146605727 0.506549048630868 0
+      outer loop
+         vertex 659.999999999999 500 0
+         vertex 1130 1300 400
+         vertex 1130 1300 0
+      endloop
+   endfacet
+   facet normal 1 -2.22044604925032E-15 0
+      outer loop
+         vertex 1130 1300 400
+         vertex 1130 499.999999999998 400
+         vertex 1130 1300 0
+      endloop
+   endfacet
+   facet normal 1 -2.22044604925032E-15 0
+      outer loop
+         vertex 1130 1300 0
+         vertex 1130 499.999999999998 400
+         vertex 1130 499.999999999998 0
+      endloop
+   endfacet
+   facet normal -2.71650314535943E-15 -1 0
+      outer loop
+         vertex 1130 499.999999999998 400
+         vertex 659.999999999999 500 400
+         vertex 1130 499.999999999998 0
+      endloop
+   endfacet
+   facet normal -2.71650314535943E-15 -1 0
+      outer loop
+         vertex 1130 499.999999999998 0
+         vertex 659.999999999999 500 400
+         vertex 659.999999999999 500 0
+      endloop
+   endfacet
+   facet normal 0 0 1
+      outer loop
+         vertex 1130 1300 400
+         vertex 659.999999999999 500 400
+         vertex 1130 499.999999999998 400
+      endloop
+   endfacet
+   facet normal 0 0 -1
+      outer loop
+         vertex 1130 499.999999999998 0
+         vertex 659.999999999999 500 0
+         vertex 1130 1300 0
+      endloop
+   endfacet
+endsolid

@@ -1,0 +1,986 @@
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/0/T.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 300;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    windows_master
+    {
+        type            burstCyclicAMI;
+        intactPatch
+        {
+            type      zeroGradient;
+        }
+    }
+    windows_slave
+    {
+        type            burstCyclicAMI;
+        intactPatch
+        {
+            type      zeroGradient;
+        }
+    }
+
+    baffles_master
+    {
+        type      zeroGradient;
+    }
+    baffles_slave
+    {
+        type      zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/0/U.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    walls
+    {
+        type            slip;
+    }
+
+    windows_master
+    {
+        type            burstCyclicAMI;
+        intactPatch
+        {
+            type      slip;
+        }
+    }
+    windows_slave
+    {
+        type            burstCyclicAMI;
+        intactPatch
+        {
+            type      slip;
+        }
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/0/alpha.c4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.c4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    windows_master
+    {
+        type            burstCyclicAMI;
+        intactPatch
+        {
+            type      zeroGradient;
+        }
+    }
+    windows_slave
+    {
+        type            burstCyclicAMI;
+        intactPatch
+        {
+            type      zeroGradient;
+        }
+    }
+
+    baffles_master
+    {
+        type            zeroGradient;
+    }
+    baffles_slave
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/0/p.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 101298;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    windows_master
+    {
+        type            burstCyclicAMI;
+        intactPatch
+        {
+            type      zeroGradient;
+        }
+    }
+    windows_slave
+    {
+        type            burstCyclicAMI;
+        intactPatch
+        {
+            type      zeroGradient;
+        }
+    }
+
+    baffles_master
+    {
+        type      zeroGradient;
+    }
+    baffles_slave
+    {
+        type      zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/0/rho.air.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.air;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1.225;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    windows_master
+    {
+        type            burstCyclicAMI;
+        intactPatch
+        {
+            type      zeroGradient;
+        }
+    }
+    windows_slave
+    {
+        type            burstCyclicAMI;
+        intactPatch
+        {
+            type      zeroGradient;
+        }
+    }
+
+    baffles_master
+    {
+        type      zeroGradient;
+    }
+    baffles_slave
+    {
+        type      zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/0/rho.c4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.c4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1601;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    windows_master
+    {
+        type            burstCyclicAMI;
+        intactPatch
+        {
+            type      zeroGradient;
+        }
+    }
+    windows_slave
+    {
+        type            burstCyclicAMI;
+        intactPatch
+        {
+            type      zeroGradient;
+        }
+    }
+
+    baffles_master
+    {
+        type            zeroGradient;
+    }
+    baffles_slave
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/constant/dynamicMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh   adaptiveFvMesh;
+errorEstimator  densityGradient;
+
+// How often to refine
+refineInterval  3;
+
+// Refine field in between lower..upper
+lowerRefineLevel 0.1;
+
+// If value < unrefineLevel unrefine
+unrefineLevel   0.1;
+
+// Have slower than 2:1 refinement
+nBufferLayers   3;
+
+// Refine cells only up to maxRefinement levels
+maxRefinement   2;
+
+// Write the refinement level as a volScalarField
+dumpLevel       true;
+
+protectedPatches
+(
+    windows_slave
+    windows_master
+);
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/constant/phaseProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      phaseProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phases (c4 air);
+
+radiationModel none;
+
+c4
+{
+    type detonating;
+    reactants
+    {
+        thermoType
+        {
+            transport   const;
+            thermo      eConst;
+            equationOfState Murnaghan;
+        }
+        equationOfState
+        {
+            Gamma           0.25;
+            pRef            101298;
+            rho0            1601;
+            K0              0;
+        }
+        specie
+        {
+            molWeight       55.0;
+        }
+        transport
+        {
+            mu              0;              // Viscosity
+            Pr              1;              // Prandtl number
+        }
+        thermodynamics
+        {
+            Cv              1400;           // Heat capacity
+            Hf              0.0;
+        }
+    }
+    products
+    {
+        thermoType
+        {
+            transport   const;
+            thermo      eConst;
+            equationOfState JWL;
+        }
+        equationOfState
+        {
+            rho0      1601;
+            A         609.77e9;
+            B         12.95e9;
+            R1        4.50;
+            R2        1.4;
+            omega     0.25;
+        }
+        specie
+        {
+            molWeight       55.0;
+        }
+        transport
+        {
+            mu              0;              // Viscosity
+            Pr              1;              // Prandtl number
+        }
+        thermodynamics
+        {
+            Cv              1400;           // Heat capacity
+            Hf              0.0;
+        }
+    }
+
+    afterburnModel Miller;
+
+    MillerCoeffs
+    {
+        Q0  10e6;
+        m   0.5;
+        n   0.1667;
+        a   0.0065;
+
+        pMin 1e5;
+        pScale 1e-6; // convert to MPa
+    }
+
+    activationModel linear;
+    initiation
+    {
+        E0          9.0e9; // true or false
+        points     ((0 0 0)); // m center top detonated
+        vDet       7850; // 8285; // m/s
+        pRef       101298; // refernece pressure for initialization [Pa]
+    }
+
+    residualRho     1e-6;           // Minimum density of the phase
+    residualAlpha   1e-10;          // Minimum volume fraction used for division
+}
+
+air
+{
+    type basic;
+    thermoType
+    {
+        transport   const;
+        thermo      eConst;
+        equationOfState idealGas;
+    }
+    equationOfState
+    {
+        gamma           1.4;            // Heat capactiy ratio
+    }
+    specie
+    {
+        molWeight       28.97;
+    }
+    transport
+    {
+        mu              0;
+        Pr              1;
+    }
+    thermodynamics
+    {
+        type        eConst;
+        Cv          718;
+        Hf          0;
+    }
+
+    residualRho     1e-6;
+    residualAlpha   1e-10;
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/system/blockMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1;
+
+vertices
+(
+    (0     -1     -1)
+    (5     -1     -1)
+    (5      1     -1)
+    (0      1     -1)
+    (0     -1     1)
+    (5     -1     1)
+    (5      1     1)
+    (0      1     1)
+);
+
+blocks
+(
+	 hex (0 1 2 3 4 5 6 7) (50 1 20) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    walls
+    {
+        type wall;
+        faces
+        (
+            (0 1 2 3)
+            (4 5 6 7)
+//             (0 1 5 4)
+            (1 2 6 5)
+//             (2 3 7 6)
+            (3 0 4 7)
+        );
+    }
+
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/system/controlDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     blastFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         0.005;
+
+deltaT          1e-8;
+
+writeControl    adjustableRunTime;
+
+writeInterval   5e-5;
+
+cycleWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   12;
+
+runTimeModifiable true;
+
+adjustTimeStep  yes;
+
+maxCo           0.5;
+
+maxDeltaT       1;
+
+functions
+{
+    impulse
+    {
+        type impulse;
+        writeControl writeTime;
+        pRef 101298;
+    }
+}
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/system/createBafflesDict ---
+
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      createBafflesDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Sample for creating baffles:
+// - usually converting internal faces into two boundary faces
+// - or converting boundary faces into a boundary face
+//   (internalFacesOnly=false)(though should use really createPatch
+//    to do this)
+//
+// - selection of faces (and orientation) to 'baffle' through:
+//      faceZone:
+//          type        faceZone;
+//          zoneName    f0;
+//      searchableSurface:
+//          type        searchableSurface;
+//          surface     triSurfaceMesh;
+//          name        baffle1D.stl;
+//
+// - specification of patches for baffle sides in one of two modes:
+//      - patchPairs : create two patches of same type, same input
+//      - patches    : create patches separately, full control over what
+//                     to create on what side
+//                     (this mode can also create duplicate (overlapping)
+//                      sets of baffles:
+//                      - internalFacesOnly = false
+//                      - have 4 entries in patches:
+//                          - master
+//                          - slave
+//                          - additional master
+//                          - additional slave)
+
+
+// Whether to convert internal faces only (so leave boundary faces intact).
+// This is only relevant if your face selection type can pick up boundary
+// faces.
+internalFacesOnly true;
+
+// Optionally do not read/convert/write any fields.
+//noFields true;
+
+
+// Baffles to create.
+baffles
+{
+    windows
+    {
+        //- Use surface to select faces and orientation.
+        type        faceZone;
+        zoneName    windowFaces;
+
+
+        // Generate patchGroup windows with two patches:
+        //  - windows_master
+        //  - windows_slave
+        patchPairs
+        {
+            type            burstCyclicAMI;
+            partialBurst    yes;
+
+            burstModel      field;
+            burstValues
+            (
+                p 4e7
+                impulse 10000
+            );
+
+            // burstModel      pressureImpulse;
+            // impulseBurst    10000;
+            // pBurst          4e7;
+        }
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/system/createPatchDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      createPatchDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+pointSync false;
+
+// Patches to create.
+patches
+(
+    {
+        // Name of new patch
+        name outlet;
+
+        // Dictionary to construct new patch from
+        patchInfo
+        {
+            type pach;
+        }
+
+        // How to construct: either from 'patches' or 'set'
+        constructFrom set;
+
+        // If constructFrom = set : name of faceSet
+        set outletFaces;
+    }
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/system/fvSchemes ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fluxScheme      Kurganov;
+
+ddtSchemes
+{
+    default         Euler;
+    timeIntegrator  RK2SSP;
+}
+
+gradSchemes
+{
+    default         cellMDLimited leastSquares 1.0;
+}
+
+divSchemes
+{
+    default         none;
+    div(alphaRhoPhi.c4,lambda.c4) Riemann;
+    div(alphaRhoPhi.c4,c.c4) Riemann;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default             cubic;
+    reconstruct(alpha)  Minmod;
+    reconstruct(rho)    Minmod;
+    reconstruct(U)      MinmodV;
+    reconstruct(e)      Minmod;
+    reconstruct(p)      Minmod;
+    reconstruct(speedOfSound)      Minmod;
+
+    reconstruct(lambda.c4)   Minmod;
+
+    // Afterburn reaction progress variable
+    reconstruct(c.c4)   Minmod;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/system/fvSolution ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(rho|rhoU|rhoE|alpha|.*)"
+    {
+        solver          diagonal;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/system/setFieldsDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fields (alpha.c4);
+nBufferLayers 1;
+
+defaultFieldValues
+(
+    volScalarFieldValue alpha.c4 0
+);
+
+
+regions
+(
+    sphereToCell
+    {
+        refineInternal yes;
+        level 5;
+
+        centre (0 0 0);
+        radius 0.1;
+
+        backup
+        {
+            centre (0 0 0);
+            radius 1;
+        }
+
+        fieldValues
+        (
+            volScalarFieldValue alpha.c4    1
+        );
+    }
+    boxToCell
+    {
+        boxes
+        (
+            (0.9 -1 -1) (1.1 1 -0.5)
+            (0.9 -1 0.5) (1.1 1 1)
+
+            (1.9 -1 -1) (2.1 1 -0.5)
+            (1.9 -1 0.5) (2.1 1 1)
+
+            (2.9 -1 -1) (3.1 1 -0.5)
+            (2.9 -1 0.5) (3.1 1 1)
+        );
+        refineCells yes;
+        level 2;
+        cellSets
+        (
+            {
+                selectionMode internal;
+                name wallCells;
+                action new;
+            }
+            {
+                selectionMode internal;
+                name internalCells;
+                action invert;
+                source wallCells;
+            }
+        );
+    }
+    boxToPoint
+    {
+        boxes
+        (
+            (0.99 -1 -0.5) (1.01 1 0.5)
+            (1.99 -1 -0.5) (2.01 1 0.5)
+            (2.99 -1 -0.5) (3.01 1 0.5)
+        );
+        refineFaces yes;
+        level 2;
+        faceZones
+        (
+            {
+                selectionMode internal;
+                name windowFaces;
+                action new;
+            }
+        );
+    }
+    boxToCell
+    {
+        boxes
+        (
+            (4.5 -2 -0.5) (10 1 0.5)
+        );
+        faceSets
+        (
+            {
+                selectionMode boundary;
+                patches (walls);
+                name outletFaces;
+                action new;
+            }
+        );
+    }
+);
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+

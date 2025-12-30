@@ -1,0 +1,742 @@
+--- FILE: blastReactingFoam/reacting/0/CH4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      "CH4.orig";
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 0.0;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/0/N2.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      "N2.orig";
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1.0;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/0/O2.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      "O2.orig";
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 0.0;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/0/T.orig ---
+
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    object      T.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 300;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/0/U.orig ---
+
+FoamFile
+{
+    format      ascii;
+    class       volVectorField;
+    object      U.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    walls
+    {
+        type            noSlip;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/0/Ydefault ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      "Ydefault";
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 0.0;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/0/p.orig ---
+
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 1e5;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/0/rho.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      "rho";
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1.0;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/constant/chemistryProperties ---
+
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      chemistryProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+chemistryType
+{
+    solver            ode;
+}
+
+chemistry           on;
+
+initialChemicalTimeStep 1e-07;
+
+EulerImplicitCoeffs
+{
+    cTauChem        1;
+}
+
+odeCoeffs
+{
+    solver          Euler;
+    absTol          1e-8;
+    relTol          0.01;
+}
+
+#include "reactions"
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/constant/combustionProperties ---
+
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      combustionProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+combustionModel  laminar;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/constant/momentumTransport ---
+
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      momentumTransport;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+simulationType  laminar;
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/constant/reactions ---
+
+
+reactions
+{
+    methaneReaction
+    {
+        type     irreversibleArrhenius;
+        reaction "CH4 + 2O2 = CO2 + 2H2O";
+        A        5.2e16;
+        beta     0;
+        Ta       14906;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/constant/thermo.compressibleGas ---
+
+
+species
+(
+    O2
+    H2O
+    CH4
+    CO2
+    N2
+);
+
+O2
+{
+    specie
+    {
+        molWeight       31.9988;
+    }
+    equationOfState
+    {
+        Tc 154.6;
+        Pc 5.050e6;
+    }
+    thermodynamics
+    {
+        Tlow            200;
+        Thigh           5000;
+        Tcommon         1000;
+        highCpCoeffs    ( 3.69758 0.00061352 -1.25884e-07 1.77528e-11 -1.13644e-15 -1233.93 3.18917 );
+        lowCpCoeffs     ( 3.21294 0.00112749 -5.75615e-07 1.31388e-09 -8.76855e-13 -1005.25 6.03474 );
+    }
+    transport
+    {
+        As              1.753e-6;
+        Ts              139;
+    }
+}
+
+H2O
+{
+    specie
+    {
+        molWeight       18.0153;
+    }
+    equationOfState
+    {
+        Tc 647.096;
+        Pc 22.060e6;
+    }
+    thermodynamics
+    {
+        Tlow            200;
+        Thigh           5000;
+        Tcommon         1000;
+        highCpCoeffs    ( 2.67215 0.00305629 -8.73026e-07 1.201e-10 -6.39162e-15 -29899.2 6.86282 );
+        lowCpCoeffs     ( 3.38684 0.00347498 -6.3547e-06 6.96858e-09 -2.50659e-12 -30208.1 2.59023 );
+    }
+    transport
+    {
+        As              2.978e-7;
+        Ts              1064;
+    }
+}
+
+CH4
+{
+    specie
+    {
+        molWeight       16.0428;
+    }
+    equationOfState
+    {
+        Tc 190.8;
+        Pc 4.640e6;
+    }
+    thermodynamics
+    {
+        Tlow            200;
+        Thigh           6000;
+        Tcommon         1000;
+        highCpCoeffs    ( 1.63543 0.0100844 -3.36924e-06 5.34973e-10 -3.15528e-14 -10005.6 9.9937 );
+        lowCpCoeffs     ( 5.14988 -0.013671 4.91801e-05 -4.84744e-08 1.66694e-11 -10246.6 -4.64132 );
+    }
+    transport
+    {
+        As              1.0194e-06;
+        Ts              171.06;
+    }
+}
+
+CO2
+{
+    specie
+    {
+        molWeight       44.01;
+    }
+    equationOfState
+    {
+        Tc 304.19;
+        Pc 7.380e3;
+    }
+    thermodynamics
+    {
+        Tlow            200;
+        Thigh           5000;
+        Tcommon         1000;
+        highCpCoeffs    ( 4.45362 0.00314017 -1.27841e-06 2.394e-10 -1.66903e-14 -48967 -0.955396 );
+        lowCpCoeffs     ( 2.27572 0.00992207 -1.04091e-05 6.86669e-09 -2.11728e-12 -48373.1 10.1885 );
+    }
+    transport
+    {
+        As              1.503e-6;
+        Ts              222;
+    }
+}
+
+N2
+{
+    specie
+    {
+        molWeight       28.0134;
+    }
+    equationOfState
+    {
+        Tc 126.2;
+        Pc 3.390e3;
+    }
+    thermodynamics
+    {
+        Tlow            200;
+        Thigh           5000;
+        Tcommon         1000;
+        highCpCoeffs    ( 2.92664 0.00148798 -5.68476e-07 1.0097e-10 -6.75335e-15 -922.798 5.98053 );
+        lowCpCoeffs     ( 3.29868 0.00140824 -3.96322e-06 5.64152e-09 -2.44486e-12 -1020.9 3.95037 );
+    }
+    transport
+    {
+        As              1.401e-6;
+        Ts              107;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/constant/thermophysicalProperties ---
+
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+thermoType
+{
+    type hePsiThermo;
+    mixture multiComponentMixture;
+    transport sutherland;
+    thermo janaf;
+    energy sensibleInternalEnergy;
+    equationOfState perfectGas;
+    specie specie;
+};
+
+#include "thermo.compressibleGas"
+defaultSpecie N2;
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/system/blockMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+convertToMeters 1;
+
+vertices
+(
+    (0 -1 -1)
+    (100 -1 -1)
+    (100 1 -1)
+    (0 1 -1)
+    (0 -1 1)
+    (100 -1 1)
+    (100 1 1)
+    (0 1 1)
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (500 1 1) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    walls
+    {
+        type patch;
+        faces
+        (
+            (1 2 6 5)
+            (0 4 7 3)
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/system/controlDict ---
+
+FoamFile
+{
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      "controlDict";
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     blastReactingFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         0.5;
+
+writeControl    adjustableRunTime;
+
+writeInterval   0.05;
+
+writeFormat     ascii;
+
+writePrecision  12;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   12;
+
+runTimeModifiable true;
+
+adjustTimeStep  yes;
+
+deltaT          1e-6;
+
+maxCo           0.5;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/system/fvSchemes ---
+
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      "fvSchemes";
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fluxScheme      HLLC;
+
+ddtSchemes
+{
+    default         Euler;
+    timeIntegrator  RK2SSP;
+}
+
+gradSchemes
+{
+    default         cellMDLimited leastSquares 1.0;
+}
+
+divSchemes
+{
+    default         none;
+    div(rhoPhi,Yi) Riemann;
+    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss linear;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default             linear;
+
+    reconstruct(rho)    quadraticMUSCL Minmod;
+    reconstruct(U)      quadraticMUSCL Minmod;
+    reconstruct(e)      quadraticMUSCL Minmod;
+    reconstruct(p)      quadraticMUSCL Minmod;
+    reconstruct(speedOfSound) quadraticMUSCL Minmod;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/system/fvSolution ---
+
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(rho|rhoU|rhoE|alpha)"
+    {
+        solver          diagonal;
+    }
+    "(rho|rhoU|rhoE|alpha)Final"
+    {
+        solver          diagonal;
+    }
+
+    "(U|e|Yi)"
+    {
+        solver          PBiCGStab;
+        preconditioner  DIC;
+        tolerance       1e-6;
+        relTol          0.1;
+        minIter         1;
+    }
+
+    "(U|e)Final"
+    {
+        $U;
+        relTol          0;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastReactingFoam/reacting/system/setFieldsDict ---
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+defaultFieldValues
+(
+    volScalarFieldValue rho 1.0
+    volScalarFieldValue p 1e5
+    volScalarFieldValue T 300
+    volScalarFieldValue CH4 0
+    volScalarFieldValue N2 0.77
+    volScalarFieldValue O2 0.23
+);
+
+regions
+(
+    boxToCell
+    {
+        box (50 -1 -1) (100 1 1);
+        fieldValues
+        (
+            volScalarFieldValue rho 0.125
+            volScalarFieldValue p 1e6
+            volScalarFieldValue T 500
+            volScalarFieldValue CH4 1.0
+            volScalarFieldValue N2 0.0
+            volScalarFieldValue O2 0.0
+        );
+    }
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+

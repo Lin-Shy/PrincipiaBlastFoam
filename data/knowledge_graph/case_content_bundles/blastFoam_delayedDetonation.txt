@@ -1,0 +1,730 @@
+--- FILE: blastFoam/delayedDetonation/0/T.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 300;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    "wedge.*"
+    {
+        type            wedge;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/delayedDetonation/0/U.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    walls
+    {
+        type            slip;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    "wedge.*"
+    {
+        type            wedge;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/delayedDetonation/0/alpha.RDX.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.RDX.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    "wedge.*"
+    {
+        type            wedge;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/delayedDetonation/0/alpha.gas.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.gas.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 1;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    "wedge.*"
+    {
+        type            wedge;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/delayedDetonation/0/p.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 101298;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            pressureWaveTransmissive;
+        value           $internalField;
+    }
+    "wedge.*"
+    {
+        type            wedge;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/delayedDetonation/0/rho.RDX.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.RDX.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1160;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    "wedge.*"
+    {
+        type            wedge;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/delayedDetonation/0/rho.gas.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.gas;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1.225;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    "wedge.*"
+    {
+        type            wedge;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/delayedDetonation/constant/dynamicMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh   adaptiveFvMesh;
+errorEstimator densityGradient;
+
+// How often to refine
+refineInterval  3;
+beginUnrefine 11e-6;
+
+// Refine field in between lower..upper
+lowerRefineLevel 0.05;
+
+// If value < unrefineLevel unrefine
+unrefineLevel   0.05;
+
+// Have slower than 2:1 refinement
+nBufferLayers   3;
+
+// Refine cells only up to maxRefinement levels
+maxRefinement   2;
+
+// Write the refinement level as a volScalarField
+dumpLevel       true;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/delayedDetonation/constant/phaseProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      phaseProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phases (RDX gas);
+
+RDX
+{
+    type detonating;
+    reactants
+    {
+        thermoType
+        {
+            transport   const;
+            thermo      eConst;
+            equationOfState Murnaghan;
+        }
+        equationOfState
+        {
+            rho0            1160;
+            n               7.4;
+            kappa           3.9e11;
+            Gamma           0.35;
+            pRef            101298;
+        }
+        specie
+        {
+            molWeight       222.12;
+        }
+        transport
+        {
+            mu              0;              // Viscosity
+            Pr              1;              // Prandtl number
+        }
+        thermodynamics
+        {
+            Cv              1130.78;           // Heat capacity
+            Hf              0.0;
+        }
+    }
+    products
+    {
+        thermoType
+        {
+            transport   const;
+            thermo      eConst;
+            equationOfState JWL;
+        }
+        equationOfState
+        {
+            A               2.9867e11;
+            B               4.11706e9;
+            R1              4.95;
+            R2              1.15;
+            C               7.206147e8;
+            omega           0.35;
+            rho0            1160;
+        }
+        specie
+        {
+            molWeight       55.0;
+        }
+        transport
+        {
+            mu              0;              // Viscosity
+            Pr              1;              // Prandtl number
+        }
+        thermodynamics
+        {
+            Cv              1000;           // Heat capacity
+            Hf              0.0;
+        }
+    }
+
+    activationModel programmedIgnition;
+    initiation
+    {
+        // Detonation energy
+        E0              4.0e9;
+
+        // Detonation points
+        points
+        (
+            (0 0.02 0)
+            (0 0.1 0)
+            (0 0.2 0)
+            (0 0.3 0)
+            (0 0.4 0)
+            (0 0.5 0)
+        );
+
+        // Delays
+        delays
+        (
+            0.0
+            5e-6
+            10e-6
+            5e-6
+            10e-6
+            0.0
+        );
+
+        // Radii to set (for each point)
+        radius 0.01; // Radius of activation (overridden by radii entry)
+        radii
+        (
+            0   // use the closest cell
+            0.02
+            0.03
+            0.015
+            0.025
+            0.01
+        );
+
+        // Detonation velocity
+        vDet    7850;
+
+        // Chapman-Jouguet pressure
+        Pcj     0.1017e11;
+
+        // Linear and compression activation
+        burnModel programmedBeta;
+
+        pMin 1.1e5;
+    }
+
+    residualRho     1e-6;           // Minimum density of the phase
+    residualAlpha   1e-10;          // Minimum volume fraction used for division
+}
+
+gas
+{
+    type basic;
+    thermoType
+    {
+        transport   const;
+        thermo      eConst;
+        equationOfState idealGas;
+    }
+    equationOfState
+    {
+        gamma           1.4;            // Heat capactiy ratio
+    }
+    specie
+    {
+        molWeight       28.97;
+    }
+    transport
+    {
+        mu              0;
+        Pr              1;
+    }
+    thermodynamics
+    {
+        type        eConst;
+        Cv          718;
+        Hf          0;
+    }
+
+    residualRho     1e-6;
+    residualAlpha   1e-6;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/delayedDetonation/system/blockMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1;
+
+R 0.5;
+x #calc "0.9961946981 * $R";
+z #calc "0.0871557427 * $R";
+nz #calc "-0.0871557427 * $R";
+
+vertices
+(
+    (0.0    0.0     0.0) // bottom
+    ($x     0.0     $nz)
+    ($x     1.0     $nz)
+    (0.0    1.0     0.0)
+    ($x     0       $z)
+    ($x     1.0     $z)
+);
+
+blocks
+(
+	 hex (0 1 2 3 0 4 5 3) (25 50 1) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    walls
+    {
+        type patch;
+        faces
+        (
+            (0 1 4 0)
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+
+            (1 2 5 4)
+            (3 2 5 3)
+        );
+    }
+    wedge0
+    {
+        type wedge;
+        faces
+        (
+            (0 1 2 3)
+        );
+    }
+    wedge1
+    {
+        type wedge;
+        faces
+        (
+            (0 4 5 3)
+        );
+    }
+
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/delayedDetonation/system/controlDict ---
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     blastFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         50e-6;
+
+writeControl    adjustableRunTime;
+
+writeInterval   1e-6;
+
+writeFormat     binary;
+
+writePrecision  10;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   12;
+
+runTimeModifiable true;
+
+adjustTimeStep  yes;
+
+deltaT          1e-8;
+
+maxCo           0.5;
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+functions
+{}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/delayedDetonation/system/fvSchemes ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fluxScheme      HLLC;
+
+ddtSchemes
+{
+    default         Euler;
+    timeIntegrator  RK2SSP;
+}
+
+gradSchemes
+{
+    default         cellMDLimited leastSquares 1;
+}
+
+divSchemes
+{
+    default         none;
+    div(tauMC)      Gauss linear;
+    div(alphaRhoPhi.RDX,lambda.RDX) Riemann;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default             cubic;
+    reconstruct(alpha)  vanLeer;
+    reconstruct(rho)    vanLeer;
+    reconstruct(U)      vanLeerV;
+    reconstruct(e)      vanLeer;
+    reconstruct(p)      vanLeer;
+    reconstruct(c)      vanLeer;
+    reconstruct(speedOfSound) vanLeer;
+    "reconstruct\(lambda.*\)" vanLeer;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/delayedDetonation/system/fvSolution ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(rho|rhoU|rhoE|alpha|.*)"
+    {
+        solver          diagonal;
+    }
+
+    "(U|e|epsilon|k)"
+    {
+        solver          PBiCGStab;
+        preconditioner  DIC;
+        nSweeps         3;;
+        tolerance       1e-09;
+        relTol          0;
+        minIter         1;
+    }
+
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/delayedDetonation/system/setFieldsDict ---
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fields (alpha.RDX);
+nBufferLayers 1;
+
+
+defaultFieldValues
+(
+    volScalarFieldValue alpha.gas       1
+    volScalarFieldValue alpha.RDX       0
+);
+
+regions
+(
+    cylinderToCell
+    {
+        level 4;
+        refineInternal yes;
+
+        p1 (0 0.01 0);
+        p2 (0 0.5 0);
+        radius 0.05;
+
+        backup
+        {
+            p1 (0 0 0);
+            p2 (0 1 0);
+            radius 0.25;
+        }
+
+        fieldValues
+        (
+            volScalarFieldValue alpha.RDX   1
+            volScalarFieldValue alpha.gas   0
+        );
+    }
+ );
+
+// ************************************************************************* //
+--- END OF FILE ---
+

@@ -1,0 +1,8 @@
+metric,value
+total_queries,120
+avg_target_files_per_query,1.117
+unique_target_files_count,20
+top_target_files,constant/phaseProperties(31);system/controlDict(25);constant/combustionProperties(12);constant/dynamicMeshDict(10);system/setFieldsDict(9);constant/turbulenceProperties(8);system/fvSchemes(6);0/U(5);system/blockMeshDict(4);constant/turbulenceProperties.particles(4)
+difficulty_basic,35
+difficulty_intermediate,38
+difficulty_advanced,47

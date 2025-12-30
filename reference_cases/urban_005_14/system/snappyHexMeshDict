@@ -1,0 +1,181 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  | =========                 |                                                 |
+  | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+  |  \\    /   O peration     | Version:  2.3.x                                 |
+  |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+  |    \\/     M anipulation  |                                                 |
+  \*---------------------------------------------------------------------------*/
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+castellatedMesh on; //网格细化切分和移除
+snap            on; //网格节点移动以贴合
+addLayers       off;
+
+geometry//定义几何体
+{
+    walls
+    {
+        type triSurfaceMesh;
+        file "urban2.stl";   //1,通过triSurfaceMesh类型导入.stl几何体（对应refinementSurfaces局部细化）
+        scale 0.001;
+    }
+};
+
+castellatedMeshControls//一，网格细化切分和移除
+{
+    
+    maxLocalCells 10000000;
+    maxGlobalCells 200000000;
+    minRefinementCells 2;
+    maxLoadUnBalance 0.1;
+    nCellsBetweenLevels 2;
+    resolveFeatureAngle 30; //3.隐式特征细化的特征角
+    allowFreeStandingZoneFaces false;
+
+    features//3.显式特征细化（在边附近进行细化）
+    (
+        {
+            file  "urban2.extendedFeatureEdgeMesh";//加载特征边文件
+            level 0;
+        }
+    );
+
+    refinementSurfaces//1.局部细化。定义进行局部细化的具体几何体（从geometry中）
+    {
+        walls
+        {
+            level (1 1);
+            patchInfo { type wall; }
+        }    
+    }
+
+
+    refinementRegions//2.区域细化。定义进行区域细化的具体几何体（从geometry中）
+    {
+    }
+
+    locationInMesh (0.1 -0.1 0.1);
+}
+
+snapControls //二，节点移动，网格贴合
+{
+
+    nSmoothPatch    3;
+    tolerance       1.0;
+    nSolveIter      100;
+    nRelaxIter      10;
+
+    nFeatureSnapIter 15;
+
+    explicitFeatureSnap    false;
+    multiRegionFeatureSnap false;
+    implicitFeatureSnap    true;  //3.特征细化方式（隐式）
+}
+
+addLayersControls//三，添加边界层
+{
+    featureAngle              100;
+    slipFeatureAngle          30;
+
+    nLayerIter                50;
+    nRelaxedIter              20;
+    nRelaxIter                5;
+
+    nGrow                     0;
+
+    nSmoothSurfaceNormals     1;
+    nSmoothNormals            3;
+    nSmoothThickness          10;
+    maxFaceThicknessRatio     0.5;
+    maxThicknessToMedialRatio 0.3;
+
+    minMedialAxisAngle        90;
+    nMedialAxisIter           10;
+
+    nBufferCellsNoExtrude     0;
+    additionalReporting       false;
+//    nSmoothDisplacement       0;
+//    detectExtrusionIsland     false;
+
+    layers
+    {
+    }
+
+    relativeSizes       true;
+    expansionRatio      1.2;
+    finalLayerThickness 0.5;
+    minThickness        1e-3;
+}
+
+meshQualityControls
+{
+    maxNonOrtho 65;
+
+    maxBoundarySkewness 20;
+
+    maxInternalSkewness 4;
+
+    maxConcave 80;
+
+    // Minimum cell pyramid volume; case dependent
+    minVol 1e-13;
+
+    //  1e-15 (small positive) to enable tracking
+    // -1e+30 (large negative) for best layer insertion
+    minTetQuality 1e-15;
+
+    // if >0 : preserve single cells with all points on the surface if the
+    // resulting volume after snapping (by approximation) is larger than
+    // minVolCollapseRatio times old volume (i.e. not collapsed to flat cell).
+    //  If <0 : delete always.
+    //minVolCollapseRatio 0.5;
+
+    minArea          -1;
+
+    minTwist          0.02;
+
+    minDeterminant    0.001;
+
+    minFaceWeight     0.05;
+
+    minVolRatio       0.01;
+
+    minTriangleTwist -1;
+
+    nSmoothScale   4;
+
+    errorReduction 0.75;
+
+    relaxed
+    {
+        maxNonOrtho   75;
+    }
+}
+
+writeFlags
+(
+    scalarLevels
+    layerSets
+    layerFields
+//     mesh
+//     noRefinement
+);
+// debugFlags
+// (
+//     layerInfo
+// );
+// outputFlags
+// (
+//     layerInfo
+// );
+// debug 1;
+mergeTolerance 1e-6;
+
+// ************************************************************************* //

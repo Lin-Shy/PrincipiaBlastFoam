@@ -1,0 +1,115 @@
+
+============================================================
+知识图谱对齐工具 - 方案一
+============================================================
+
+============================================================
+Step 1: 加载 User Guide 知识图谱
+============================================================
+✓ 成功加载 233 个 User Guide 节点
+✓ 构建了 214 个唯一标题的索引
+
+============================================================
+Step 2: 加载 Case Content 知识图谱
+============================================================
+找到 28 个案例文件
+✓ 成功加载 28 个案例，共 3989 个节点
+✓ Case Content 总索引: 775 个唯一名称
+
+==================================================
+步骤 3: 对齐 Case Content → User Guide
+==================================================
+
+4.2 对齐 Case Content 图谱...
+  ✓ blastFoam_reacting: 9 个节点对齐
+  ✓ blastFoam_triplePointShockInteration: 6 个节点对齐
+  ✓ solids4Foam_flap: 10 个节点对齐
+  ✓ blastFoam_movingCone: 7 个节点对齐
+  ✓ blastFSIFoam_flap: 16 个节点对齐
+  ✓ blastFoam_internalDetonation_internalDetonation: 11 个节点对齐
+  ✓ blastFoam_mappedBuilding3D: 15 个节点对齐
+  ✓ blastFoam_building3D: 9 个节点对齐
+  ✓ blastReactingFoam_reacting: 9 个节点对齐
+  ✓ blastFoam_shockTube_tabulated: 7 个节点对齐
+  ✓ initializeAtmosphere: 1 个节点对齐
+  ✓ preCICE_flap_Fluid: 9 个节点对齐
+  ✓ blastEulerFoam_shockTube_polydisperse: 20 个节点对齐
+  ✓ blastFoam_axisymmetricCharge: 12 个节点对齐
+  ✓ blastFoam_delayedDetonation: 10 个节点对齐
+  ✓ blastFSIFoam_building3D: 10 个节点对齐
+  ✓ blastFoam_burstingWindow_workshop: 11 个节点对齐
+  ✓ blastFoam_freeField: 8 个节点对齐
+  ✓ blastFoam_mappedBuilding3D_building3D: 15 个节点对齐
+  ✓ blastFoam_internalDetonation_internalDetonation_withObstacleAndGlass: 11 个节点对齐
+  ✓ blastEulerFoam_reactingParticles: 22 个节点对齐
+  ✓ blastParcelFoam_forwardStep: 10 个节点对齐
+  ✓ blastFoam_mappedBuilding3D_sector: 9 个节点对齐
+  ✓ blastReactingFoam_obliqueShock: 8 个节点对齐
+  ✓ blastFoam_twoChargeDetonation: 10 个节点对齐
+  ✓ blastFoam_mappedBuilding3D_wedge: 3 个节点对齐
+  ✓ blastFoam_building3DWorkshop: 13 个节点对齐
+  ✓ blastXiFoam_deflagrationToDetonationTransition: 2 个节点对齐
+
+  ✓ 所有案例对齐总计: 283 个节点
+
+========================================
+总计对齐 Case Content -> User Guide: 283 个节点
+========================================
+
+============================================================
+Step 4: 对齐 User Guide -> Case Content
+============================================================
+✓ 对齐完成:
+  - 68 个 User Guide 节点找到了对应的 Case 示例
+  - 总共关联了 339 个 Case 节点
+  - 平均每个 User Guide 节点: 5.0 个示例
+
+============================================================
+对齐报告
+============================================================
+
+【数据统计】
+  User Guide 节点总数: 233
+  Case Content 节点数: 3989
+
+【对齐结果】
+  Case Content -> User Guide: 283 个节点
+    覆盖率: 7.09%
+
+  User Guide -> Case Content: 68 个节点
+    覆盖率: 29.18%
+
+【高频匹配分析】
+  User Guide 节点被引用最多的前 10 个:
+    1. Euler (NumericalMethod): 26 个示例
+    2. Solvers (ConceptCluster): 26 个示例
+    3. RK2SSP (NumericalMethod): 23 个示例
+    4. idealGas (PhysicalModel): 19 个示例
+    5. linear (PhysicalModel): 17 个示例
+    6. linear (PhysicalModel): 17 个示例
+    7. JWL (PhysicalModel): 16 个示例
+    8. eConst (PhysicalModel): 13 个示例
+    9. Murnaghan (PhysicalModel): 13 个示例
+    10. blastFoam (Utility): 13 个示例
+
+【未匹配分析】
+  未找到示例的 User Guide 节点（按类型）:
+    PhysicalModel: 69 个
+    ConceptCluster: 38 个
+    NumericalMethod: 30 个
+    Utility: 26 个
+    GoverningEquation: 2 个
+
+============================================================
+Step 6: 保存对齐后的知识图谱
+============================================================
+
+6.1 保存 User Guide...
+  ✓ 已保存到: /media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam/data/knowledge_graph/user_guide_knowledge_graph/aligned_user_guide_knowledge_graph.json
+
+6.2 保存 Case Content 图谱...
+  ✓ 已保存 28 个案例到: /media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam/data/knowledge_graph/case_content_knowledge_graph_aligned
+
+============================================================
+✓ 对齐完成！
+============================================================

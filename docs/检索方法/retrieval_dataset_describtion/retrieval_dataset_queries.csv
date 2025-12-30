@@ -1,0 +1,121 @@
+id,query,difficulty,category,num_target_files,target_files
+1,Change the turbulence model from Spalart-Allmaras to kOmegaSST,basic,turbulence_model,1,constant/turbulenceProperties
+2,Increase the simulation end time to 0.005 seconds,basic,time_control,1,system/controlDict
+3,"Adjust the mesh resolution to have 100 cells in x-direction, 50 in y, and 25 in z",basic,mesh,1,system/blockMeshDict
+4,Set the maximum Courant number to 0.3,basic,time_control,1,system/controlDict
+5,Change the explosive density to 1700 kg/m³,basic,material_properties,1,constant/phaseProperties
+6,Modify the equivalence ratio to 0.9,basic,combustion,1,constant/combustionProperties
+7,Increase the write interval to output results every 1e-4 seconds,basic,output_control,1,system/controlDict
+8,Set the laminar flame speed (Su) to 0.5 m/s,basic,combustion,1,constant/combustionProperties
+9,Change the maximum refinement level to 4 for adaptive mesh refinement,basic,mesh,1,constant/dynamicMeshDict
+10,"Modify the explosive charge location to center at (1.0, 0.5, 0.5)",basic,initial_conditions,1,system/setFieldsDict
+11,Switch from kOmegaSST to kEpsilon turbulence model,basic,turbulence_model,1,constant/turbulenceProperties
+12,Set the window burst pressure threshold to 50 kPa,basic,boundary_conditions,1,constant/phaseProperties
+13,Change particle diameter to 2 millimeters in the particle phase,basic,multiphase,1,constant/phaseProperties
+14,Set initial velocity field to 500 m/s in x-direction for the moving cone,basic,boundary_conditions,1,0/U
+15,Disable turbulence modeling and use laminar flow,basic,turbulence_model,1,constant/turbulenceProperties
+16,Change the equation of state for the explosive from perfectGas to JWL,advanced,equation_of_state,1,constant/phaseProperties
+17,Use stiffenedGas EOS for air instead of perfectGas,advanced,equation_of_state,1,constant/phaseProperties
+18,Switch combustion reaction model from laminar flame speed to Arrhenius kinetics,advanced,combustion,1,constant/combustionProperties
+19,Change thermodynamic model from perfectThermo to eConst,advanced,thermodynamics,1,constant/phaseProperties
+20,Use JANAF tables for more accurate air thermodynamic properties,advanced,thermodynamics,1,constant/phaseProperties
+21,Change window material model from linearElastic to elasticPlastic,advanced,structural_mechanics,1,constant/phaseProperties
+22,Switch window fracture criterion from pressure-based to principal strain,advanced,structural_mechanics,1,constant/phaseProperties
+23,Change convection scheme from vanAlbada to MUSCL for higher accuracy,advanced,numerical_schemes,1,system/fvSchemes
+24,Switch flux limiter from vanAlbada to vanLeer,advanced,numerical_schemes,1,system/fvSchemes
+25,Use Gidaspow drag model instead of SchillerNaumann for particle-gas interaction,advanced,multiphase,1,constant/phaseProperties
+26,Set interfacial heat transfer model to RanzMarshall,advanced,multiphase,1,constant/phaseProperties
+27,Change granular viscosity model from Syamlal to HrenyaSinclair,advanced,multiphase,1,constant/turbulenceProperties.particles
+28,Use SinclairJackson radial distribution function for particle collisions,advanced,multiphase,1,constant/turbulenceProperties.particles
+29,Change the explosive EOS to BKW (Becker-Kistiakowsky-Wilson),advanced,equation_of_state,1,constant/phaseProperties
+30,Apply viscoElastic material model to window structures,advanced,structural_mechanics,1,constant/phaseProperties
+31,Increase simulation time and reduce time step by setting maxCo to 0.2 and endTime to 0.01,intermediate,time_control,1,system/controlDict
+32,Refine mesh to 200x100x50 cells and increase maxRefinement to 3,intermediate,mesh,2,system/blockMeshDict;constant/dynamicMeshDict
+33,Change explosive properties: density to 1650 kg/m³ and use JWL equation of state,intermediate,material_properties,1,constant/phaseProperties
+34,Adjust combustion model: equivalence ratio to 1.1 and Su to 0.6 m/s,intermediate,combustion,1,constant/combustionProperties
+35,"Configure output: writeInterval 5e-5, write format binary, and compression on",intermediate,output_control,1,system/controlDict
+36,Setup window failure: pBurst 40 kPa and elasticPlastic material with yield stress 300 MPa,intermediate,structural_mechanics,1,constant/phaseProperties
+37,Change turbulence to kEpsilon and adjust combustion to use Arrhenius kinetics,intermediate,physics_models,2,constant/turbulenceProperties;constant/combustionProperties
+38,Set particle properties: diameter 1.5 mm and use Gidaspow drag model,intermediate,multiphase,1,constant/phaseProperties
+39,Improve numerical accuracy: use MUSCL scheme and reduce maxCo to 0.3,intermediate,numerical_schemes,2,system/fvSchemes;system/controlDict
+40,"Move explosive charge to (0.8, 0.5, 0.5) with radius 0.15 m and set initial pressure to 5 MPa",intermediate,initial_conditions,1,system/setFieldsDict
+41,Switch explosive modeling to use JWL EOS and Arrhenius reaction kinetics,advanced,physics_models,2,constant/phaseProperties;constant/combustionProperties
+42,Configure multiphase drag and heat transfer: Gidaspow drag and RanzMarshall heat transfer,intermediate,multiphase,1,constant/phaseProperties
+43,Change granular flow models: HrenyaSinclair viscosity and SinclairJackson radial distribution,advanced,multiphase,1,constant/turbulenceProperties.particles
+44,Use high-resolution schemes: MUSCL convection with vanLeer limiter,intermediate,numerical_schemes,1,system/fvSchemes
+45,Setup structural response: elasticPlastic material with principal strain fracture at 0.05,advanced,structural_mechanics,1,constant/phaseProperties
+46,What file controls the turbulence model selection?,basic,file_location,1,constant/turbulenceProperties
+47,Where do I change the simulation duration and time step control?,basic,file_location,1,system/controlDict
+48,Which file contains mesh generation parameters?,basic,file_location,1,system/blockMeshDict
+49,Where are material properties like density and EOS defined?,basic,file_location,1,constant/phaseProperties
+50,Which file controls combustion reaction parameters?,basic,file_location,1,constant/combustionProperties
+51,Where do I set initial conditions for the explosive charge?,basic,file_location,1,system/setFieldsDict
+52,Which file contains numerical scheme definitions?,basic,file_location,1,system/fvSchemes
+53,Where are boundary conditions for velocity specified?,basic,file_location,1,0/U
+54,Which file controls adaptive mesh refinement settings?,basic,file_location,1,constant/dynamicMeshDict
+55,Where are particle phase turbulence models configured?,intermediate,file_location,1,constant/turbulenceProperties.particles
+56,I want to simulate a faster deflagration. What should I change?,intermediate,goal_based,1,constant/combustionProperties
+57,Make the simulation run for longer to see more of the blast wave propagation,basic,goal_based,1,system/controlDict
+58,I need more detailed results in space. How can I improve mesh resolution?,intermediate,goal_based,2,system/blockMeshDict;constant/dynamicMeshDict
+59,The simulation is unstable. How can I make it more stable?,intermediate,goal_based,1,system/controlDict
+60,I want to model a different explosive with higher energy content,intermediate,goal_based,1,constant/phaseProperties
+61,Model turbulent flow effects in the explosion,intermediate,goal_based,1,constant/turbulenceProperties
+62,Save results more frequently to capture rapid changes,basic,goal_based,1,system/controlDict
+63,Use a more accurate physics model for the explosive detonation,advanced,goal_based,1,constant/phaseProperties
+64,Simulate breakable windows that shatter under blast pressure,advanced,goal_based,1,constant/phaseProperties
+65,Include dust particles in the explosion simulation,advanced,goal_based,1,constant/phaseProperties
+66,Reduce numerical diffusion to capture shocks more sharply,advanced,goal_based,1,system/fvSchemes
+67,Model chemical reaction rates instead of just flame speed,advanced,goal_based,1,constant/combustionProperties
+68,Account for material plastic deformation under high loads,advanced,goal_based,1,constant/phaseProperties
+69,Use temperature-dependent gas properties for better accuracy,advanced,goal_based,1,constant/phaseProperties
+70,Improve particle-gas interaction modeling for dense suspensions,advanced,goal_based,1,constant/phaseProperties
+71,Modify kOmegaSST turbulence coefficients,advanced,model_tuning,1,constant/turbulenceProperties
+72,Adjust solver tolerances and relaxation factors,advanced,solver_control,1,system/fvSolution
+73,Change pressure and velocity under-relaxation factors to 0.3 and 0.7,intermediate,solver_control,1,system/fvSolution
+74,"Set residual control: pressure 1e-6, velocity 1e-6",intermediate,solver_control,1,system/fvSolution
+75,Change to PISO algorithm instead of PIMPLE,advanced,solver_control,1,system/fvSolution
+76,Setup function objects to calculate force coefficients on surfaces,advanced,post_processing,1,system/controlDict
+77,"Add probe points at locations (0.5, 0, 0), (1.0, 0, 0), (1.5, 0, 0)",intermediate,post_processing,1,system/controlDict
+78,Enable surface sampling on boundary patches,intermediate,post_processing,1,system/controlDict
+79,Calculate Q-criterion for vortex visualization,advanced,post_processing,1,system/controlDict
+80,Add wall boundary for new obstacle at patch 'obstacle1',intermediate,boundary_conditions,3,0/U;0/p;0/T
+81,Set inlet velocity to 100 m/s with 5% turbulence intensity,intermediate,boundary_conditions,3,0/U;0/k;0/omega
+82,Apply symmetry boundary condition on 'left' and 'right' patches,intermediate,boundary_conditions,3,0/U;0/p;0/T
+83,Set wall temperature to 400 K on boundary 'hotWall',basic,boundary_conditions,1,0/T
+84,Use pressure outlet at 101325 Pa on 'outlet' patch,basic,boundary_conditions,1,0/p
+85,Change detonation initiation from point to line,intermediate,initial_conditions,1,system/setFieldsDict
+86,Initialize pressure field with 1 atm everywhere except charge region at 10 GPa,intermediate,initial_conditions,1,system/setFieldsDict
+87,Set initial temperature gradient from 300K to 1500K along x-axis,advanced,initial_conditions,1,system/setFieldsDict
+88,Initialize two explosive charges at different locations,intermediate,initial_conditions,1,system/setFieldsDict
+89,Add spherical charge with radius 0.2m centered at origin,basic,initial_conditions,1,system/setFieldsDict
+90,Configure decomposeParDict for 32 processors using scotch method,intermediate,parallel_computing,1,system/decomposeParDict
+91,Change domain decomposition to simple method with (4 4 2) distribution,intermediate,parallel_computing,1,system/decomposeParDict
+92,Use hierarchical decomposition with order (x y z),advanced,parallel_computing,1,system/decomposeParDict
+93,Setup AMR with field-based refinement using gradient of alpha,advanced,mesh,1,constant/dynamicMeshDict
+94,Set refinement interval to every 5 time steps,intermediate,mesh,1,constant/dynamicMeshDict
+95,Define refinement region box from (0 0 0) to (2 1 1) with level 2,intermediate,mesh,1,constant/dynamicMeshDict
+96,Set unrefine level to 1 below current maximum,advanced,mesh,1,constant/dynamicMeshDict
+97,Use density gradient as refinement criterion with threshold 100,advanced,mesh,1,constant/dynamicMeshDict
+98,Change from ASCII to binary output format,basic,output_control,1,system/controlDict
+99,Enable time precision to 10 digits,basic,output_control,1,system/controlDict
+100,Purge write to keep only latest 5 time directories,intermediate,output_control,1,system/controlDict
+101,"Output only pressure and velocity fields, skip other variables",intermediate,output_control,1,system/controlDict
+102,Change write format to compressed binary,basic,output_control,1,system/controlDict
+103,Set adjustTimeStep on with maxDeltaT of 1e-5,intermediate,time_control,1,system/controlDict
+104,Disable adjustable time stepping and use fixed deltaT of 1e-6,basic,time_control,1,system/controlDict
+105,Set maxAlphaCo to 0.5 for multiphase flow,intermediate,time_control,1,system/controlDict
+106,Add runTimeModifiable option to allow on-the-fly parameter changes,intermediate,solver_control,1,system/controlDict
+107,Change application from blastFoam to rhoCentralFoam,basic,solver_control,1,system/controlDict
+108,"Setup multiple explosives: TNT at (0.5, 0.5, 0.5) and C4 at (1.5, 0.5, 0.5)",advanced,material_properties,2,constant/phaseProperties;system/setFieldsDict
+109,"Define three-phase system: air, explosive products, and solid particles",advanced,multiphase,1,constant/phaseProperties
+110,Add inert gas (nitrogen) phase to the simulation,advanced,multiphase,1,constant/phaseProperties
+111,Change from single to two-step combustion mechanism,advanced,combustion,1,constant/combustionProperties
+112,Add ignition delay time of 1e-6 seconds before combustion starts,advanced,combustion,1,constant/combustionProperties
+113,Setup EDC (Eddy Dissipation Concept) turbulent combustion model,advanced,combustion,2,constant/combustionProperties;constant/turbulenceProperties
+114,Configure radiative heat transfer with P1 model,advanced,physics_models,1,constant/radiationProperties
+115,Enable gravity with g = (0 0 -9.81) m/s²,basic,physics_models,1,constant/g
+116,Add MRF (Multiple Reference Frame) zone rotating at 1000 RPM,advanced,physics_models,1,constant/MRFProperties
+117,Setup FSI (Fluid-Structure Interaction) coupling for window panels,advanced,physics_models,2,constant/phaseProperties;system/controlDict
+118,Change mesh motion to prescribed oscillation with frequency 100 Hz,advanced,mesh,1,constant/dynamicMeshDict
+119,Use limiters on temperature between 250K and 5000K,intermediate,solver_control,1,system/fvOptions
+120,Add source term: constant volumetric heat addition of 1e6 W/m³ in region,advanced,physics_models,1,system/fvOptions

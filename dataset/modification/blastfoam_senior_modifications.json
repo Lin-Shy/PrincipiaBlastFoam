@@ -1,0 +1,551 @@
+[
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_fluxScheme_AUSM",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate a deflagration-to-detonation transition using the AUSM (Advection Upstream Splitting Method) flux scheme.",
+        "modification": "In fvSchemes, change fluxScheme from HLLC to AUSM."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_reactionModel_Arrhenius",
+        "modified_files": [
+            "constant/combustionProperties"
+        ],
+        "description": "Simulate a deflagration-to-detonation transition, but switch the reaction rate model from laminar flame speed (Su) to an Arrhenius-based chemical reaction rate model.",
+        "modification": "In combustionProperties, comment out or remove 'Su' and add a 'reaction' dictionary, setting the 'model' to Arrhenius and providing the necessary A and Ta parameters."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_reactionModel_infinitelyFast",
+        "modified_files": [
+            "constant/combustionProperties"
+        ],
+        "description": "Simulate a deflagration-to-detonation transition, but simplify the chemical reaction model to 'infinitelyFast' to study the controlling effect of mixing on combustion.",
+        "modification": "In the 'reaction' dictionary of combustionProperties, change the 'model' from Arrhenius or other models to infinitelyFast."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_reconstruct_MUSCL",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate a deflagration-to-detonation transition with MUSCL reconstruction for higher accuracy.",
+        "modification": "In fvSchemes interpolationSchemes, change reconstruction limiters from Minmod to MUSCL."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_thermo_eConst",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate a deflagration-to-detonation transition, but simplify the thermodynamic model to eConstThermo (constant specific heat) for comparative analysis.",
+        "modification": "In the 'thermo' dictionary of phaseProperties, change the 'model' to eConst and provide Cv and Hf."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_timeIntegrator_RK2SSP",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate a deflagration-to-detonation transition with second-order Runge-Kutta time integration.",
+        "modification": "In fvSchemes ddtSchemes, change timeIntegrator from Euler to RK2SSP."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_turbulence_kEpsilon",
+        "modified_files": [
+            "constant/turbulenceProperties"
+        ],
+        "description": "Simulate a deflagration-to-detonation transition using the k-epsilon turbulence model.",
+        "modification": "In turbulenceProperties, change RASModel to kEpsilon."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_turbulence_kOmegaSST",
+        "modified_files": [
+            "constant/turbulenceProperties"
+        ],
+        "description": "Simulate a deflagration-to-detonation transition, but change the turbulence model from SpalartAllmaras to kOmegaSST.",
+        "modification": "In the 'RAS' dictionary of turbulenceProperties, change 'RASModel' from SpalartAllmaras to kOmegaSST."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_turbulence_laminar",
+        "modified_files": [
+            "constant/turbulenceProperties"
+        ],
+        "description": "Simulate a deflagration-to-detonation transition without turbulence modeling.",
+        "modification": "In turbulenceProperties, change simulationType from RAS to laminar."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_activation_programmedIgnition",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate a free-field explosion with programmed ignition instead of instantaneous detonation.",
+        "modification": "In phaseProperties, add an activation model with programmed ignition settings."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_eos_BKW",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate a free-field explosion, changing the equation of state (EOS) for the explosive to the BKW (Becker-Kistiakowsky-Wilson) model.",
+        "modification": "In the 'c4' phase of phaseProperties, change the 'equationOfState' model from perfectGas to BKW and provide parameters like a, b, c, k, x, y, z, alpha, beta, kappa, and theta."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_eos_JWL",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate a free-field explosion, but change the equation of state (EOS) for the explosive from the default perfectGas to the more realistic JWL (Jones-Wilkins-Lee) model.",
+        "modification": "In the 'c4' phase within phaseProperties, change the 'equationOfState' model from perfectGas to JWL and provide parameters such as A, B, R1, R2, and omega."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_eos_LSZK",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate a free-field explosion using the LSZK equation of state for the explosive.",
+        "modification": "In the 'c4' phase of phaseProperties, change the equationOfState to LSZK and provide necessary parameters."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_eos_StiffenedGas",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate a free-field explosion, but change the equation of state (EOS) for air from perfectGas to the stiffenedGas model to better capture gas behavior under high pressure.",
+        "modification": "In the 'air' phase within phaseProperties, change the 'equationOfState' model from perfectGas to stiffenedGas and provide gamma0 and p0 parameters."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_eos_rhoConst",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate a free-field explosion, but force the equation of state for air to be rhoConst (constant density) to test the system's handling of an incompressible assumption.",
+        "modification": "In the 'air' phase of phaseProperties, change the 'equationOfState' model from perfectGas to rhoConst and provide a rho value."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_fluxScheme_HLLC",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate a free-field explosion using the HLLC flux scheme instead of Kurganov.",
+        "modification": "In fvSchemes, change fluxScheme from Kurganov to HLLC."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_gradScheme_Gauss_linear",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate a free-field explosion with a simpler gradient scheme.",
+        "modification": "In fvSchemes gradSchemes, change from cellMDLimited leastSquares to Gauss linear."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_reconstruct_QUICK",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate a free-field explosion with QUICK reconstruction scheme.",
+        "modification": "In fvSchemes interpolationSchemes, change reconstruction from vanAlbada to QUICK."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_thermo_janaf",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate a free-field explosion, but change the thermodynamic model for air from perfectGas to a more accurate model based on JANAF tables.",
+        "modification": "In the 'air' phase of phaseProperties, change the 'thermo' model from perfectThermo to janaf and provide specie and thermodynamics data."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_timeIntegrator_RK3SSP",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate a free-field explosion with third-order Runge-Kutta time integration.",
+        "modification": "In fvSchemes ddtSchemes, change timeIntegrator from RK2SSP to RK3SSP."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_damageModel_progressive",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an internal detonation with progressive damage model for the window.",
+        "modification": "In the 'window' boundary properties, add a progressive damage model to simulate gradual material degradation."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_fluxScheme_AUSM",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate an internal detonation using the AUSM flux scheme.",
+        "modification": "In fvSchemes, change fluxScheme to AUSM."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_fractureModel_none",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an internal detonation, but completely disable the window's fracture model, making it an indestructible rigid wall.",
+        "modification": "In the 'window' boundary properties of phaseProperties, set the 'fractureModel' model to 'none' or remove the dictionary entirely."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_fractureModel_principalStrain",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an internal detonation, changing the window's fracture model from the pressure-based pBurst to a principal strain-based model.",
+        "modification": "In the 'window' boundary properties of phaseProperties, remove pBurst and add a 'fractureModel' dictionary, setting the 'model' to principalStrain and providing epsilonMax (maximum strain)."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_fractureModel_principalStress",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an internal detonation, changing the window's fracture criterion from the pressure-based pBurst to a principal stress-based model.",
+        "modification": "In the 'window' boundary properties of phaseProperties, remove pBurst and add a 'fractureModel' dictionary, setting the 'model' to principalStress and providing sigmaMax (maximum stress)."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_material_viscoElastic",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an internal detonation, changing the window's material model to viscoElastic to simulate time-dependent deformation behavior.",
+        "modification": "In the 'window' boundary properties of phaseProperties, change the 'material' model from linearElastic to viscoElastic and provide parameters like E, nu, and eta (viscosity)."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_timeIntegrator_Euler",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate an internal detonation with first-order Euler time integration.",
+        "modification": "In fvSchemes ddtSchemes, change timeIntegrator from RK2SSP to Euler."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_windowMaterial_elasticPlastic",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an internal detonation, but change the window's material model from simple linearElastic to elasticPlastic to simulate plastic deformation.",
+        "modification": "In the 'window' boundary properties within phaseProperties, change the 'material' model from linearElastic to elasticPlastic and provide parameters like sigmaY (yield stress)."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_windowMaterial_orthotropic",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an internal detonation with an orthotropic material model for the window.",
+        "modification": "In the 'window' boundary properties, change material model to orthotropic with directional properties."
+    },
+    {
+        "case_path": "mappedBuilding3D",
+        "case_name": "mappedBuilding3D_fluxScheme_AUSM",
+        "modified_files": [
+            "building3D/system/fvSchemes"
+        ],
+        "description": "Simulate blast wave impact on building using AUSM flux scheme.",
+        "modification": "In building3D fvSchemes, change fluxScheme to AUSM."
+    },
+    {
+        "case_path": "mappedBuilding3D",
+        "case_name": "mappedBuilding3D_timeIntegrator_RK3SSP",
+        "modified_files": [
+            "building3D/system/fvSchemes"
+        ],
+        "description": "Simulate blast wave impact on building with third-order time integration.",
+        "modification": "In building3D fvSchemes, change timeIntegrator to RK3SSP."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_fluxScheme_Kurganov",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate a hypersonic moving cone using the Kurganov flux scheme.",
+        "modification": "In fvSchemes, change fluxScheme to Kurganov."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_motionSolver_velocityLaplacian",
+        "modified_files": [
+            "constant/dynamicMeshDict"
+        ],
+        "description": "Simulate a hypersonic moving cone with velocity Laplacian motion solver.",
+        "modification": "In dynamicMeshDict, change motionSolver to velocityLaplacian."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_nCorrectors_3",
+        "modified_files": [
+            "system/fvSolution"
+        ],
+        "description": "Simulate a hypersonic moving cone with more pressure correctors.",
+        "modification": "In fvSolution PIMPLE, change nCorrectors from 2 to 3."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_schemes_MUSCL",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate a hypersonic moving cone, changing the convection scheme to MUSCL (Monotone Upstream-centered Schemes for Conservation Laws) for higher-order accuracy.",
+        "modification": "In the 'divSchemes' dictionary of the fvSchemes file, change the scheme for terms like div(phi,U) to 'Gauss MUSCL'."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_solver_GAMG",
+        "modified_files": [
+            "system/fvSolution"
+        ],
+        "description": "Simulate a hypersonic moving cone using GAMG solver for pressure.",
+        "modification": "In fvSolution solvers, change the p solver from PBiCGStab to GAMG with appropriate settings."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_turbulence_SpalartAllmaras",
+        "modified_files": [
+            "constant/turbulenceProperties"
+        ],
+        "description": "Simulate a hypersonic moving cone, but change the turbulence model from laminar to the Spalart-Allmaras RANS model.",
+        "modification": "In the turbulenceProperties file, change 'simulationType' from laminar to RAS, and add a 'RAS' dictionary setting 'RASModel' to SpalartAllmaras."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_turbulence_kEpsilon",
+        "modified_files": [
+            "constant/turbulenceProperties"
+        ],
+        "description": "Simulate a hypersonic moving cone, changing the turbulence model from laminar to the classic kEpsilon RANS model.",
+        "modification": "In the turbulenceProperties file, change 'simulationType' from laminar to RAS, and add a 'RAS' dictionary setting 'RASModel' to kEpsilon."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_turbulence_realizableKE",
+        "modified_files": [
+            "constant/turbulenceProperties"
+        ],
+        "description": "Simulate a hypersonic moving cone with realizable k-epsilon turbulence model.",
+        "modification": "In turbulenceProperties, change RASModel to realizableKE."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_conductivity_Gidaspow",
+        "modified_files": [
+            "constant/turbulenceProperties.particles"
+        ],
+        "description": "Simulate an explosion in a dusty environment, explicitly specifying the thermal conductivity model for the particle phase as the Gidaspow model.",
+        "modification": "In the turbulenceProperties.particles file, change the 'conductivityModel' from Syamlal or its default to Gidaspow."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_diameterModel_reacting",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a dusty environment, changing the particle diameter model from 'constant' to 'reactingParticle' to simulate particle size changes due to chemical reactions.",
+        "modification": "In the 'diameter' sub-dictionary of phaseProperties, change the 'model' from constant to reactingParticle."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_dragModel_Ergun",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a dusty environment, changing the drag model to the Ergun model, which is suitable for dense particle flows.",
+        "modification": "In the 'drag' sub-dictionary of phaseProperties, change the 'model' from SchillerNaumann to Ergun."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_dragModel_Gidaspow",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a dusty environment, but change the drag model between gas and particles from SchillerNaumann to the Gidaspow model.",
+        "modification": "In the phaseProperties file, within the 'drag' sub-dictionary, change the 'model' from SchillerNaumann to Gidaspow."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_fluxScheme_HLLC",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate an explosion in a dusty environment using HLLC flux scheme.",
+        "modification": "In fvSchemes, change fluxScheme to HLLC."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_frictionalPressure_Johnson",
+        "modified_files": [
+            "constant/turbulenceProperties.particles"
+        ],
+        "description": "Simulate an explosion in a dusty environment, and introduce the Johnson frictional pressure model to account for contact forces in quasi-static, dense particle states.",
+        "modification": "In the turbulenceProperties.particles file, add a 'frictionalPressureModel' dictionary and set the 'model' to Johnson."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_frictionalViscosity_Schaeffer",
+        "modified_files": [
+            "constant/turbulenceProperties.particles"
+        ],
+        "description": "Simulate an explosion in a dusty environment, and introduce the Schaeffer frictional viscosity model for the particle phase to better describe stresses in dense particle flows.",
+        "modification": "In the turbulenceProperties.particles file, add a 'frictionalViscosityModel' dictionary and set the 'model' to Schaeffer."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_granularPressure_Lun",
+        "modified_files": [
+            "constant/turbulenceProperties.particles"
+        ],
+        "description": "Simulate an explosion in a dusty environment, and change the granular pressure model from Syamlal to the model by Lun et al.",
+        "modification": "In the turbulenceProperties.particles file, change the 'granularPressureModel' from Syamlal to Lun."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_granularViscosity_HrenyaSinclair",
+        "modified_files": [
+            "constant/turbulenceProperties.particles"
+        ],
+        "description": "Simulate an explosion in a dusty environment, changing the viscosity model for the particle phase from Syamlal to the Hrenya-Sinclair model.",
+        "modification": "In the turbulenceProperties.particles file, change the 'viscosityModel' from Syamlal to HrenyaSinclair."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_heatTransfer_Gunn",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a dusty environment, changing the interfacial heat transfer model to the Gunn model.",
+        "modification": "In the 'heatTransfer' sub-dictionary of phaseProperties, set the 'model' to Gunn."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_heatTransfer_RanzMarshall",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a dusty environment, and specify the interfacial heat transfer model as RanzMarshall.",
+        "modification": "In the phaseProperties file, within the 'heatTransfer' sub-dictionary, set the 'model' to RanzMarshall."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_interfacialPressure_volumeFractionAverage",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a dusty environment, changing the calculation method for interfacial pressure to a model based on volume fraction averaging.",
+        "modification": "In the 'interfacialPressure' sub-dictionary of phaseProperties, change the 'model' from specifiedPhase to volumeFractionAverage."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_interfacialVelocity_massAveraged",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a dusty environment, changing the calculation method for interfacial velocity from the default specifiedPhase to mass-weighted averaging (massAveraged).",
+        "modification": "In the 'interfacialVelocity' sub-dictionary of phaseProperties, change the 'model' from specifiedPhase to massAveraged."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_packingLimit_0.65",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a dusty environment with a higher particle packing limit.",
+        "modification": "In phaseProperties, change the particle packing limit from default to 0.65."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_radialDist_SinclairJackson",
+        "modified_files": [
+            "constant/turbulenceProperties.particles"
+        ],
+        "description": "Simulate an explosion in a dusty environment, but change the radial distribution function model used for calculating particle collision probability to SinclairJackson.",
+        "modification": "In the turbulenceProperties.particles file, change the 'radialModel' from Lun or its default to SinclairJackson."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_restitution_0.9",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a dusty environment with a higher coefficient of restitution.",
+        "modification": "In phaseProperties, change the particle-particle restitution coefficient to 0.9."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_solver_smoothSolver",
+        "modified_files": [
+            "system/fvSolution"
+        ],
+        "description": "Simulate an explosion in a dusty environment with smoothSolver for all fields.",
+        "modification": "In fvSolution solvers, change solver type to smoothSolver with GaussSeidel smoother for improved convergence."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_turbulence_kOmega",
+        "modified_files": [
+            "constant/turbulenceProperties.gas"
+        ],
+        "description": "Simulate an explosion in a dusty environment using k-omega turbulence model for gas.",
+        "modification": "In turbulenceProperties.gas, change RASModel from kEpsilon to kOmega."
+    },
+    {
+        "case_path": "triplePointShockInteration",
+        "case_name": "triplePointShockInteration_fluxScheme_AUSM",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate the triple point problem using the AUSM flux scheme.",
+        "modification": "In fvSchemes, change fluxScheme to AUSM."
+    },
+    {
+        "case_path": "triplePointShockInteration",
+        "case_name": "triplePointShockInteration_reconstruct_MUSCL",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate the triple point problem with MUSCL reconstruction.",
+        "modification": "In fvSchemes interpolationSchemes, change reconstruction from vanAlbada to MUSCL."
+    },
+    {
+        "case_path": "triplePointShockInteration",
+        "case_name": "triplePointShockInteration_schemes_LaxFriedrichs",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate the triple point problem, but change the convection scheme to the classic first-order Lax-Friedrichs scheme to observe its high-dissipation effect on shocks.",
+        "modification": "In the 'divSchemes' dictionary of the fvSchemes file, change the scheme for terms like div(phi,U) to 'Gauss Lax-Friedrichs'."
+    },
+    {
+        "case_path": "triplePointShockInteration",
+        "case_name": "triplePointShockInteration_schemes_vanLeer",
+        "modified_files": [
+            "system/fvSchemes"
+        ],
+        "description": "Simulate the triple point problem, but change the flux limiter from the default vanAlbada to vanLeer to test its effect on shock resolution.",
+        "modification": "In the 'divSchemes' dictionary of the fvSchemes file, change the flux limiter for terms like div(phi,U) from vanAlbada to vanLeer."
+    }
+]

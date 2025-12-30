@@ -1,0 +1,623 @@
+[
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_SpalartAllmaras",
+        "modified_files": [
+            "constant/turbulenceProperties"
+        ],
+        "description": "Simulate a deflagration to detonation transition (DDT) process, but use the Spalart-Allmaras turbulence model.",
+        "modification": "Change RASModel from kOmegaSST to Spalart-Allmaras."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_Su_0.35",
+        "modified_files": [
+            "constant/combustionProperties"
+        ],
+        "description": "Simulate a deflagration to detonation transition (DDT) process with a lower laminar flame speed.",
+        "modification": "Change Su from 0.434 to 0.35."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_Su_0.5",
+        "modified_files": [
+            "constant/combustionProperties"
+        ],
+        "description": "Simulate a deflagration to detonation transition (DDT) process, but with a higher laminar flame speed.",
+        "modification": "Change Su from 0.434 to 0.5."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_endTime_15e-3",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate a deflagration to detonation transition (DDT) process for a shorter duration.",
+        "modification": "Change endTime from 20e-3 to 15e-3."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_endTime_30e-3",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate a deflagration to detonation transition (DDT) process, but run the simulation for a longer duration.",
+        "modification": "Change endTime from 20e-3 to 30e-3."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_equivalenceRatio_0.8",
+        "modified_files": [
+            "constant/combustionProperties"
+        ],
+        "description": "Simulate a deflagration to detonation transition (DDT) process, but with a different equivalence ratio.",
+        "modification": "Change equivalenceRatio from 1 to 0.8."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_equivalenceRatio_1.2",
+        "modified_files": [
+            "constant/combustionProperties"
+        ],
+        "description": "Simulate a deflagration to detonation transition (DDT) process with a fuel-rich mixture.",
+        "modification": "Change equivalenceRatio from 1 to 1.2."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_maxCo_0.4",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate a deflagration to detonation transition (DDT) process, but with a different maximum Courant number.",
+        "modification": "Change maxCo from 0.5 to 0.4."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_mesh_x_4000",
+        "modified_files": [
+            "system/blockMeshDict"
+        ],
+        "description": "Simulate a deflagration to detonation transition (DDT) process, but with a finer mesh in the x-direction.",
+        "modification": "Change the number of cells in the x-direction from 3000 to 4000 in the blocks definition."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_mesh_y_40",
+        "modified_files": [
+            "system/blockMeshDict"
+        ],
+        "description": "Simulate a deflagration to detonation transition (DDT) process with finer mesh in y-direction.",
+        "modification": "Change the number of cells in the y-direction from 30 to 40 in the blocks definition."
+    },
+    {
+        "case_path": "deflagrationToDetonationTransition",
+        "case_name": "deflagrationToDetonationTransition_writeInterval_2e-4",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate a deflagration to detonation transition (DDT) process with more frequent output.",
+        "modification": "Change writeInterval to 2e-4."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_charge_100kg",
+        "modified_files": [
+            "system/setFieldsDict"
+        ],
+        "description": "Simulate a free-field explosion, but change the c4 equivalent of the explosive to 100 kg.",
+        "modification": "Change the box dimensions in boxToCell from (0 0 0) (0.5 0.25 0.25) to (0 0 0) (0.63 0.315 0.315) to approximate a larger explosive mass."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_charge_50kg",
+        "modified_files": [
+            "system/setFieldsDict"
+        ],
+        "description": "Simulate a free-field explosion with a smaller charge mass of 50 kg TNT equivalent.",
+        "modification": "Change the box dimensions in boxToCell from (0 0 0) (0.5 0.25 0.25) to (0 0 0) (0.46 0.23 0.23) to approximate a smaller explosive mass."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_endTime_0.0003",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate a free-field explosion for a shorter duration to capture early blast wave.",
+        "modification": "Change endTime from 0.0005 to 0.0003."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_endTime_0.001",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate a free-field explosion, but for a longer duration.",
+        "modification": "Change endTime from 0.0005 to 0.001."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_maxCo_0.6",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate a free-field explosion with a higher Courant number for faster computation.",
+        "modification": "Change maxCo from 0.5 to 0.6."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_maxRefinement_2",
+        "modified_files": [
+            "constant/dynamicMeshDict"
+        ],
+        "description": "Simulate a free-field explosion with lower adaptive mesh refinement level.",
+        "modification": "Change maxRefinement from 3 to 2."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_maxRefinement_4",
+        "modified_files": [
+            "constant/dynamicMeshDict"
+        ],
+        "description": "Simulate a free-field explosion, but with a higher maximum refinement level.",
+        "modification": "Change maxRefinement from 3 to 4."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_mesh_15x15x15",
+        "modified_files": [
+            "system/blockMeshDict"
+        ],
+        "description": "Simulate a free-field explosion with a moderately refined mesh.",
+        "modification": "Change the number of cells from (10 10 10) to (15 15 15) in the blocks definition."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_mesh_20x20x20",
+        "modified_files": [
+            "system/blockMeshDict"
+        ],
+        "description": "Simulate a free-field explosion, but with a finer mesh.",
+        "modification": "Change the number of cells from (10 10 10) to (20 20 20) in the blocks definition."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_rho0_1700",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate a free-field explosion, but with a different explosive density.",
+        "modification": "In the c4 phase properties, change rho0 from 1601 to 1700."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_writeInterval_2e-5",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate a free-field explosion with less frequent output for reduced storage.",
+        "modification": "Change writeInterval from 1e-5 to 2e-5."
+    },
+    {
+        "case_path": "freeField",
+        "case_name": "freeField_writeInterval_5e-6",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate a free-field explosion, but with a more frequent write interval.",
+        "modification": "Change writeInterval from 1e-5 to 5e-6."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_chargeLocation_0.3_0.5_0.5",
+        "modified_files": [
+            "system/setFieldsDict"
+        ],
+        "description": "Simulate an explosion in a closed space with the charge closer to one end.",
+        "modification": "Change the center of the sphereToCell from (0.5 0.5 0.5) to (0.3 0.5 0.5)."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_chargeLocation_1.0_0.5_0.5",
+        "modified_files": [
+            "system/setFieldsDict"
+        ],
+        "description": "Simulate an explosion in a closed space, but change the location of the explosive charge.",
+        "modification": "Change the center of the sphereToCell from (0.5 0.5 0.5) to (1.0 0.5 0.5)."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_endTime_0.003",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate an explosion in a closed space, but for a shorter duration.",
+        "modification": "Change endTime from 0.005 to 0.003."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_endTime_0.007",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate an explosion in a closed space for a longer duration to observe late-time effects.",
+        "modification": "Change endTime from 0.005 to 0.007."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_maxCo_0.25",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate an explosion in a closed space with a lower Courant number for better stability.",
+        "modification": "Change maxCo from 0.3 to 0.25."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_maxCo_0.4",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate an explosion in a closed space, but with a different maximum Courant number.",
+        "modification": "Change maxCo from 0.3 to 0.4."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_mesh_30x15x8",
+        "modified_files": [
+            "system/blockMeshDict"
+        ],
+        "description": "Simulate an explosion in a closed space, but with a finer mesh.",
+        "modification": "Change the mesh resolution from (20 10 5) to (30 15 8)."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_mesh_40x20x10",
+        "modified_files": [
+            "system/blockMeshDict"
+        ],
+        "description": "Simulate an explosion in a closed space with a very fine mesh for detailed resolution.",
+        "modification": "Change the mesh resolution from (20 10 5) to (40 20 10)."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_pBurst_100kPa",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a closed space with a stronger window.",
+        "modification": "Change the pBurst value for the 'window' boundary to 100000."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_pBurst_30kPa",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a closed space with a more fragile window.",
+        "modification": "Change the pBurst value for the 'window' boundary to 30000."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_pBurst_50kPa",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a closed space with obstacles and breakable windows, and set the window's pBurst threshold to 50 kPa.",
+        "modification": "Change the pBurst value for the 'window' boundary to 50000."
+    },
+    {
+        "case_path": "internalDetonation_withObstacleAndGlass",
+        "case_name": "internalDetonation_writeInterval_5e-5",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate an explosion in a closed space with frequent output for detailed time history.",
+        "modification": "Change writeInterval to 5e-5."
+    },
+    {
+        "case_path": "mappedBuilding3D",
+        "case_name": "mappedBuilding3D_endTime_0.002",
+        "modified_files": [
+            "building3D/system/controlDict"
+        ],
+        "description": "Simulate the blast wave impact on a building for a shorter duration.",
+        "modification": "Change endTime from 0.0025 to 0.002."
+    },
+    {
+        "case_path": "mappedBuilding3D",
+        "case_name": "mappedBuilding3D_endTime_0.003",
+        "modified_files": [
+            "building3D/system/controlDict"
+        ],
+        "description": "Simulate the blast wave impact on a building using field mapping, but run the simulation for a longer duration.",
+        "modification": "Change endTime from 0.0025 to 0.003."
+    },
+    {
+        "case_path": "mappedBuilding3D",
+        "case_name": "mappedBuilding3D_maxCo_0.3",
+        "modified_files": [
+            "building3D/system/controlDict"
+        ],
+        "description": "Simulate the blast wave impact on a building with a lower Courant number.",
+        "modification": "Change maxCo from 0.5 to 0.3."
+    },
+    {
+        "case_path": "mappedBuilding3D",
+        "case_name": "mappedBuilding3D_maxCo_0.4",
+        "modified_files": [
+            "building3D/system/controlDict"
+        ],
+        "description": "Simulate the blast wave impact on a building using field mapping, but with a different maximum Courant number.",
+        "modification": "Change maxCo from 0.5 to 0.4."
+    },
+    {
+        "case_path": "mappedBuilding3D",
+        "case_name": "mappedBuilding3D_maxRefinement_3",
+        "modified_files": [
+            "building3D/constant/dynamicMeshDict"
+        ],
+        "description": "Simulate the blast wave impact on a building using field mapping, but with a higher maximum refinement level.",
+        "modification": "Change maxRefinement from 2 to 3."
+    },
+    {
+        "case_path": "mappedBuilding3D",
+        "case_name": "mappedBuilding3D_writeInterval_2.5e-5",
+        "modified_files": [
+            "building3D/system/controlDict"
+        ],
+        "description": "Simulate the blast wave impact on a building using field mapping, but with a more frequent write interval.",
+        "modification": "Change writeInterval from 5e-5 to 2.5e-5."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_endTime_0.0005",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate a high-speed moving cone for a shorter time period.",
+        "modification": "Change endTime from 0.001 to 0.0005."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_endTime_0.002",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate a high-speed moving cone, but for a different duration.",
+        "modification": "Change endTime from 0.001 to 0.002."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_laminar",
+        "modified_files": [
+            "constant/turbulenceProperties"
+        ],
+        "description": "Simulate a high-speed moving cone, but disable turbulence simulation.",
+        "modification": "Change simulationType from RAS to laminar."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_mesh_150x75",
+        "modified_files": [
+            "system/blockMeshDict"
+        ],
+        "description": "Simulate a high-speed moving cone, but with a finer mesh.",
+        "modification": "Change the mesh resolution from (100 50 1) to (150 75 1)."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_mesh_200x100",
+        "modified_files": [
+            "system/blockMeshDict"
+        ],
+        "description": "Simulate a high-speed moving cone with a very fine mesh.",
+        "modification": "Change the mesh resolution from (100 50 1) to (200 100 1)."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_velocity_300",
+        "modified_files": [
+            "0/U"
+        ],
+        "description": "Simulate a moving cone at a lower supersonic speed.",
+        "modification": "Change the velocity in the U file for the cone to (300 0 0)."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_velocity_500",
+        "modified_files": [
+            "0/U"
+        ],
+        "description": "Simulate a high-speed moving cone and its shock wave, with the cone moving at 500 m/s.",
+        "modification": "Change the velocity in the U file for the cone to (500 0 0)."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_velocity_600",
+        "modified_files": [
+            "0/U"
+        ],
+        "description": "Simulate a moving cone at a higher hypersonic speed.",
+        "modification": "Change the velocity in the U file for the cone to (600 0 0)."
+    },
+    {
+        "case_path": "movingCone",
+        "case_name": "movingCone_writeInterval_1e-5",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate a high-speed moving cone with frequent output.",
+        "modification": "Change writeInterval to 1e-5."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_diameter_0.5mm",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a dusty environment with smaller particles.",
+        "modification": "Change the d value for particles from 1e-3 to 0.5e-3."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_diameter_2mm",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a dusty environment and change the diameter of the particles to 2 millimeters.",
+        "modification": "Change the d value for particles from 1e-3 to 2e-3."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_diameter_3mm",
+        "modified_files": [
+            "constant/phaseProperties"
+        ],
+        "description": "Simulate an explosion in a dusty environment with larger particles.",
+        "modification": "Change the d value for particles from 1e-3 to 3e-3."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_endTime_0.0005",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate an explosion in a dusty environment for a shorter time.",
+        "modification": "Change endTime from 0.001 to 0.0005."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_endTime_0.0015",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate an explosion in a dusty environment, but run the simulation for a longer time.",
+        "modification": "Change endTime from 0.001 to 0.0015."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_endTime_0.002",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate an explosion in a dusty environment for a much longer time.",
+        "modification": "Change endTime from 0.001 to 0.002."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_kOmegaSST",
+        "modified_files": [
+            "constant/turbulenceProperties.gas"
+        ],
+        "description": "Simulate an explosion in a dusty environment, but use a different turbulence model for the gas phase.",
+        "modification": "Change RASModel from kEpsilon to kOmegaSST."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_mesh_150x10",
+        "modified_files": [
+            "system/blockMeshDict"
+        ],
+        "description": "Simulate an explosion in a dusty environment with a finer mesh.",
+        "modification": "Change the mesh resolution from (100 1 10) to (150 1 15)."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_particleDistribution_shifted",
+        "modified_files": [
+            "system/setFieldsDict"
+        ],
+        "description": "Simulate an explosion in a dusty environment, but change the initial distribution region of the particles.",
+        "modification": "Change the boxToCell dimensions for alpha.particles from (0.05 -1 -1)(0.2 1 1) to (0.1 -1 -1)(0.3 1 1)."
+    },
+    {
+        "case_path": "reactingParticles",
+        "case_name": "reactingParticles_writeInterval_5e-5",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate an explosion in a dusty environment with frequent output.",
+        "modification": "Change writeInterval to 5e-5."
+    },
+    {
+        "case_path": "triplePointShockInteration",
+        "case_name": "triplePointShockInteration_endTime_1e-4",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate the triple point problem for a longer duration.",
+        "modification": "Change endTime from 7e-5 to 1e-4."
+    },
+    {
+        "case_path": "triplePointShockInteration",
+        "case_name": "triplePointShockInteration_endTime_5e-5",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate the three-point problem, but for a shorter duration.",
+        "modification": "Change endTime from 7e-5 to 5e-5."
+    },
+    {
+        "case_path": "triplePointShockInteration",
+        "case_name": "triplePointShockInteration_mach_1.5",
+        "modified_files": [
+            "0/U.orig"
+        ],
+        "description": "Simulate the triple point problem with a weaker shock wave.",
+        "modification": "Change the U value in the 'shock' region to reflect a Mach 1.5 shock."
+    },
+    {
+        "case_path": "triplePointShockInteration",
+        "case_name": "triplePointShockInteration_mach_2.0",
+        "modified_files": [
+            "0/U.orig"
+        ],
+        "description": "Simulate the three-point problem and set the Mach number of the incident shock wave to 2.0.",
+        "modification": "Change the U value in the 'shock' region to reflect a Mach 2.0 shock."
+    },
+    {
+        "case_path": "triplePointShockInteration",
+        "case_name": "triplePointShockInteration_mach_2.5",
+        "modified_files": [
+            "0/U.orig"
+        ],
+        "description": "Simulate the triple point problem with a stronger shock wave.",
+        "modification": "Change the U value in the 'shock' region to reflect a Mach 2.5 shock."
+    },
+    {
+        "case_path": "triplePointShockInteration",
+        "case_name": "triplePointShockInteration_mesh_250x125",
+        "modified_files": [
+            "system/blockMeshDict"
+        ],
+        "description": "Simulate the triple point problem with a moderately refined mesh.",
+        "modification": "Change the number of cells from (200 100 1) to (250 125 1)."
+    },
+    {
+        "case_path": "triplePointShockInteration",
+        "case_name": "triplePointShockInteration_mesh_300x150",
+        "modified_files": [
+            "system/blockMeshDict"
+        ],
+        "description": "Simulate the three-point problem, but with a different mesh resolution.",
+        "modification": "Change the number of cells from (200 100 1) to (300 150 1)."
+    },
+    {
+        "case_path": "triplePointShockInteration",
+        "case_name": "triplePointShockInteration_pressureRegion_shifted",
+        "modified_files": [
+            "system/setFieldsDict"
+        ],
+        "description": "Simulate the three-point problem, but change the initial position of the high-pressure region.",
+        "modification": "Change the boxToCell dimensions for p from (-1 -1 -1)(0.12 0.6 1) to (-1 -1 -1)(0.15 0.6 1)."
+    },
+    {
+        "case_path": "triplePointShockInteration",
+        "case_name": "triplePointShockInteration_writeInterval_5e-6",
+        "modified_files": [
+            "system/controlDict"
+        ],
+        "description": "Simulate the triple point problem with more frequent output.",
+        "modification": "Change writeInterval to 5e-6."
+    }
+]

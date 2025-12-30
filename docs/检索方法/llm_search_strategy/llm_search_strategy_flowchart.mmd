@@ -1,0 +1,58 @@
+%% 基于LLM生成搜索策略的知识图谱检索方法流程图
+%% 可以在支持Mermaid的工具中直接渲染（如：Typora、VS Code、GitHub、Mermaid Live Editor等）
+
+flowchart TB
+    Start([用户自然语言查询]) --> Parse[查询预处理]
+    
+    Parse --> KG_Summary[知识图谱结构分析]
+    KG_Summary --> |节点类型统计<br/>属性模式分析| KG_Meta[图谱元数据]
+    
+    Parse --> LLM{LLM策略生成器}
+    KG_Meta --> LLM
+    
+    LLM --> Strategy[生成搜索策略JSON]
+    
+    Strategy --> |search_criteria| Criteria[搜索条件<br/>├ node_labels<br/>├ property_filters<br/>└ keyword_search]
+    Strategy --> |ranking_criteria| Ranking[排序准则<br/>├ importance_order<br/>└ prefer_node_types]
+    
+    Criteria --> Execute[本地知识图谱搜索]
+    
+    Execute --> Score1[标签匹配评分<br/>+5.0分]
+    Execute --> Score2[属性匹配评分<br/>+3.0分]
+    Execute --> Score3[关键词匹配评分<br/>+1.0-2.0分]
+    
+    Score1 --> Aggregate[汇总节点得分]
+    Score2 --> Aggregate
+    Score3 --> Aggregate
+    
+    Aggregate --> Sort[基于得分和<br/>排序准则排序]
+    Ranking --> Sort
+    
+    Sort --> TopK[筛选Top-K节点]
+    
+    TopK --> Retrieve[检索节点完整内容]
+    Retrieve --> |包含文件内容| Content1[节点属性]
+    Retrieve --> |关系上下文| Content2[关联节点]
+    Retrieve --> |实际文件| Content3[文件内容<br/>最多100行]
+    
+    Content1 --> Format[格式化结果]
+    Content2 --> Format
+    Content3 --> Format
+    
+    Format --> Result([返回结构化检索结果])
+    
+    style Start fill:#e1f5ff
+    style Result fill:#d4edda
+    style LLM fill:#fff3cd
+    style Strategy fill:#f8d7da
+    style Execute fill:#d1ecf1
+    style Aggregate fill:#d1ecf1
+    style Format fill:#d4edda
+    
+    classDef processBox fill:#e7f3ff,stroke:#2196F3,stroke-width:2px
+    classDef decisionBox fill:#fff9e6,stroke:#FFC107,stroke-width:2px
+    classDef dataBox fill:#f0f0f0,stroke:#666,stroke-width:1px
+    
+    class Parse,KG_Summary,Execute,Sort,Retrieve,Format processBox
+    class LLM decisionBox
+    class Strategy,Criteria,Ranking,KG_Meta,Content1,Content2,Content3 dataBox

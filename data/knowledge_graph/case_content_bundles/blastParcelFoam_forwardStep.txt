@@ -1,0 +1,1139 @@
+--- FILE: blastParcelFoam/forwardStep/0/T ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 300.0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    bottom
+    {
+        type            symmetryPlane;
+    }
+
+    top
+    {
+        type            symmetryPlane;
+    }
+
+    obstacle
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/0/U ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (1041 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           uniform (1041 0 0);
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    bottom
+    {
+        type            symmetryPlane;
+    }
+
+    top
+    {
+        type            symmetryPlane;
+    }
+
+    obstacle
+    {
+        type            slip;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/0/alpha.gas ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      alpha.gas;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 1;
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           uniform 1;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    bottom
+    {
+        type            symmetryPlane;
+    }
+
+    top
+    {
+        type            symmetryPlane;
+    }
+
+    obstacle
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/0/alphat ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      alphat;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -1 0 0 0 0];
+
+internalField   uniform 1e-3;
+
+boundaryField
+{
+    inlet
+    {
+        type            calculated;
+        value           uniform 1e-3;
+    }
+
+    outlet
+    {
+        type            calculated;
+        value           uniform 1e-3;
+    }
+
+    bottom
+    {
+        type            symmetryPlane;
+    }
+
+    top
+    {
+        type            symmetryPlane;
+    }
+
+    obstacle
+    {
+        type            compressible::alphatWallFunction;
+        value           uniform 1e-3;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/0/epsilon ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      epsilon;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -3 0 0 0 0];
+
+internalField   uniform 200;
+
+boundaryField
+{
+    inlet
+    {
+        type            turbulentMixingLengthDissipationRateInlet;
+        mixingLength    0.005;
+        value           uniform 200;
+
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    bottom
+    {
+        type            symmetryPlane;
+    }
+
+    top
+    {
+        type            symmetryPlane;
+    }
+
+    obstacle
+    {
+        type            epsilonWallFunction;
+        value           uniform 200;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/0/k ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      k;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField   uniform 0.001;
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           uniform 0.001;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    bottom
+    {
+        type            symmetryPlane;
+    }
+
+    top
+    {
+        type            symmetryPlane;
+    }
+
+    obstacle
+    {
+        type            kqRWallFunction;
+        value           uniform 0.001;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/0/nut ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      nut;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -1 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    outlet
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    bottom
+    {
+        type            symmetryPlane;
+    }
+
+    top
+    {
+        type            symmetryPlane;
+    }
+
+    obstacle
+    {
+        type            nutkWallFunction;
+        value           uniform 0;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/0/p ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 1e5;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    bottom
+    {
+        type            symmetryPlane;
+    }
+
+    top
+    {
+        type            symmetryPlane;
+    }
+
+    obstacle
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/0/rho.gas ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      rho;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1.4;
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           uniform 1.4;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    bottom
+    {
+        type            symmetryPlane;
+    }
+
+    top
+    {
+        type            symmetryPlane;
+    }
+
+    obstacle
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/constant/cloudProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      reactingCloud1Properties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+type    thermoCloud;
+
+solution
+{
+    active          true;
+    coupled         true;
+    transient       yes;
+    cellValueSourceCorrection on;
+    maxCo           0.3;
+
+    sourceTerms
+    {
+        schemes
+        {
+            rho             explicit 1;
+            U               explicit 1;
+            Yi              explicit 1;
+            h               explicit 1;
+            radiation       explicit 1;
+        }
+    }
+
+    interpolationSchemes
+    {
+        alphaRho            cell;
+        U                   cellPoint;
+        thermo:mu           cell;
+        p                   cell;
+        T                   cell;
+        Cp                  cell;
+        kappa               cell;
+    }
+
+    integrationSchemes
+    {
+        U               Euler;
+        T               analytical;
+    }
+}
+
+
+constantProperties
+{
+    rho0            2500;
+    T0              1000;
+    Cp0             400;
+
+    poissonsRatio 1.0;
+    youngsModulus 7e10;
+}
+
+
+subModels
+{
+    particleForces
+    {
+        sphereDrag;
+        gravity;
+    }
+
+    injectionModels
+    {
+        model1
+        {
+            type            patchInjection;
+            massTotal       10;
+            parcelBasisType mass;
+            SOI             0;
+            patchName       inlet;
+            duration        0.025;
+            parcelsPerSecond 1e5;
+            U0              (1041 0 0);
+            flowRateProfile constant 1;
+            sizeDistribution
+            {
+                type        general;
+                generalDistribution
+                {
+                    distribution
+                    (
+                        (0              0.1272)
+                        (4.16667e-05    6.1634)
+                        (8.33333e-05    9.4778)
+                        (0.000125       9.5806)
+                        (0.000166667    9.4184)
+                        (0.000208333    9.0926)
+                        (0.00025        8.7011)
+                        (0.000291667    8.2239)
+                        (0.000333333    8.0401)
+                        (0.000375       8.8450)
+                        (0.000416667    8.9174)
+                        (0.000458333    8.8688)
+                        (0.0005         8.8882)
+                        (0.000541667    8.6923)
+                        (0.000583333    8.0014)
+                        (0.000625       7.2582)
+                        (0.000666667    7.2757)
+                        (0.000708333    6.9680)
+                        (0.00075        6.7608)
+                        (0.000791667    6.6502)
+                        (0.000833333    6.7695)
+                        (0.000875       5.5774)
+                        (0.000916667    4.8649)
+                        (0.000958333    5.0805)
+                        (0.001          4.9547)
+                        (0.00104167     4.5613)
+                        (0.00108333     4.4536)
+                        (0.001125       5.2651)
+                        (0.00116667     5.2560)
+                        (0.00120833     5.1737)
+                        (0.00125        3.9213)
+                        (0.001251       0.0000)
+                        (1000           0.0000)
+                    );
+                }
+            }
+        }
+    }
+
+    dispersionModel none;
+
+    collisionModel none;
+
+    patchInteractionModel standardWallInteraction;
+
+    heatTransferModel none;
+
+    compositionModel singlePhaseMixture;
+
+    phaseChangeModel none;
+
+    devolatilisationModel none;
+
+    surfaceReactionModel none;
+
+    stochasticCollisionModel none;
+
+    surfaceFilmModel none;
+
+    radiation       off;
+
+    pairCollisionCoeffs
+    {
+        // Maximum possible particle diameter expected at any time
+        maxInteractionDistance  0.006;
+
+        writeReferredParticleCloud no;
+
+        pairModel pairSpringSliderDashpot;
+
+        pairSpringSliderDashpotCoeffs
+        {
+            useEquivalentSize   no;
+            alpha               0.12;
+            b                   1.5;
+            mu                  0.52;
+            cohesionEnergyDensity 0;
+            collisionResolutionSteps 12;
+        };
+
+        wallModel    wallLocalSpringSliderDashpot;
+
+        wallLocalSpringSliderDashpotCoeffs
+        {
+            useEquivalentSize no;
+            collisionResolutionSteps 12;
+            walls
+            {
+                youngsModulus   1e10;
+                poissonsRatio   0.23;
+                alpha           0.12;
+                b               1.5;
+                mu              0.43;
+                cohesionEnergyDensity 0;
+            }
+            frontAndBack
+            {
+                youngsModulus   1e10;
+                poissonsRatio   0.23;
+                alpha           0.12;
+                b               1.5;
+                mu              0.1;
+                cohesionEnergyDensity 0;
+            }
+        }
+    }
+    standardWallInteractionCoeffs
+    {
+        type            rebound;
+    }
+
+    RanzMarshallCoeffs
+    {
+        BirdCorrection  off;
+    }
+
+    singlePhaseMixtureCoeffs
+    {
+        phases
+        (
+            solid
+            {
+                C 1;
+            }
+        );
+//         YGasTot0        0;
+//         YLiquidTot0     1;
+//         YSolidTot0      0;
+    }
+}
+
+
+cloudFunctions
+{
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/constant/dynamicMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh   adaptiveFvMesh;
+
+balance no;
+
+errorEstimator densityGradient;
+
+// How often to refine
+refineInterval  2;
+
+// Refine field in between lower..upper
+lowerRefineLevel 0.01;
+
+// If value < unrefineLevel unrefine
+unrefineLevel   0.01;
+
+// Have slower than 2:1 refinement
+nBufferLayers   1;
+
+// Refine cells only up to maxRefinement levels
+maxRefinement   1;
+
+dumpLevel yes;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/constant/phaseProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      phaseProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phases (gas);
+gas
+{
+    type basic;
+    thermoType
+    {
+        transport   const;
+        thermo      eConst;
+        equationOfState idealGas;
+    }
+    equationOfState
+    {
+        gamma           1.4;            // Heat capactiy ratio
+    }
+    specie
+    {
+        molWeight       28.97;
+    }
+    transport
+    {
+        mu              1.81e-5;
+        Pr              1;
+    }
+    thermodynamics
+    {
+        type        eConst;
+        Cv          718;
+        Hf          0;
+    }
+
+    residualRho     1e-6;
+    residualAlpha   1e-10;
+}
+
+liquids
+{}
+
+solids
+{
+    C
+    {
+    }
+}
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/constant/turbulenceProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      turbulenceProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+simulationType  laminar;
+
+RAS
+{
+    RASModel kEpsilon;
+    turbulence on;
+    printCoeffs on;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/system/blockMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1;
+
+vertices
+(
+    (-0.5 0 -0.05)
+    (0.6 0 -0.05)
+    (-0.5 0.2 -0.05)
+    (0.6 0.2 -0.05)
+    (3 0.2 -0.05)
+    (-0.5 1 -0.05)
+    (0.6 1 -0.05)
+    (3 1 -0.05)
+    (-0.5 0 0.05)
+    (0.6 0 0.05)
+    (-0.5 0.2 0.05)
+    (0.6 0.2 0.05)
+    (3 0.2 0.05)
+    (-0.5 1 0.05)
+    (0.6 1 0.05)
+    (3 1 0.05)
+);
+
+blocks
+(
+    hex (0 1 3 2 8 9 11 10) (55 10 1) simpleGrading (1 1 1)
+    hex (2 3 6 5 10 11 14 13) (55 40 1) simpleGrading (1 1 1)
+    hex (3 4 7 6 11 12 15 14) (120 40 1) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces
+        (
+            (0 8 10 2)
+            (2 10 13 5)
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (4 7 15 12)
+        );
+    }
+    bottom
+    {
+        type symmetryPlane;
+        faces
+        (
+            (0 1 9 8)
+        );
+    }
+    top
+    {
+        type symmetryPlane;
+        faces
+        (
+            (5 13 14 6)
+            (6 14 15 7)
+        );
+    }
+    obstacle
+    {
+        type wall;
+        faces
+        (
+            (1 3 11 9)
+            (3 4 12 11)
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/system/controlDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     blastParcelFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         0.0025;
+
+deltaT          1e-5;
+
+writeControl    adjustableRunTime;
+
+writeInterval   2e-5;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+adjustTimeStep  true;
+
+maxCo   0.5;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/system/decomposeParDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      decomposeParDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+numberOfSubdomains 4;
+
+method          scotch;
+
+simpleCoeffs
+{
+    n               (1 12 1);
+    delta           0.001;
+}
+
+hierarchicalCoeffs
+{
+    n               (1 1 1);
+    delta           0.001;
+    order           xyz;
+}
+
+manualCoeffs
+{
+    dataFile        "";
+}
+
+distributed     no;
+
+roots           ( );
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/system/fvSchemes ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fluxScheme       HLLC;
+
+ddtSchemes
+{
+    default          Euler;
+    timeIntegrator   RK2SSP;
+}
+
+gradSchemes
+{
+    default         cellMDLimited leastSquares 1.0;
+}
+
+divSchemes
+{
+    default         none;
+    div(tauMC)   Gauss linear;
+    div(rhoPhi,epsilon) Gauss upwind;
+    div(rhoPhi,k)      Gauss upwind;
+    div((muEff*dev2(T(grad(U))))) Gauss linear;
+    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss linear;
+    div(((alphaRho*nuEff)*dev2(T(grad(U))))) Gauss linear;
+
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default             linear;
+    reconstruct(alpha)  vanLeer;
+    reconstruct(U)      vanLeerV;
+    reconstruct(e)      vanLeer;
+    reconstruct(p)      vanLeer;
+    reconstruct(rho)    vanLeer;
+    reconstruct(speedOfSound)      vanLeer;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastParcelFoam/forwardStep/system/fvSolution ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(rho|rhoU|rhoE|velocityAbscissae.*)"
+    {
+        solver          diagonal;
+        tolerance       1e-10;
+        relTol          0;
+    }
+
+    "(U|e)"
+    {
+        solver          PBiCGStab;
+        preconditioner  DIC;
+        tolerance       1e-08;
+        relTol          0;
+    }
+
+    "moment.*"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-12;
+        relTol          0;
+    }
+
+    "(k|epsilon)"
+    {
+        solver          PBiCGStab;
+        preconditioner  DILU;
+        tolerance       1e-08;
+        relTol          0;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+

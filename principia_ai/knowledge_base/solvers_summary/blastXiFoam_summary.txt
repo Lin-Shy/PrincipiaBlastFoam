@@ -1,0 +1,39 @@
+# 求解器: blastXiFoam (爆燃/爆轰转变求解器)
+
+## 1. 核心功能
+
+`blastXiFoam` 是一个专门用于模拟爆燃到爆轰转变（Deflagration-to-Detonation Transition, DDT）过程的求解器。它采用一种名为“进度变量”（Progress Variable, Xi）的模型来追踪火焰锋面，相比 `blastReactingFoam`，它在处理这类问题时可能更高效，但物理模型有所简化。
+
+## 2. 适用场景
+
+- **DDT 现象研究**: 在管道或充满障碍物的空间中，研究火焰如何从亚音速的爆燃加速转变为超音速的爆轰。
+- **爆炸安全性分析**: 评估在特定几何约束下，一个小的点火源是否有可能发展成毁灭性的爆轰事件。
+
+## 3. `blastFoam_tutorials` 中的典型案例
+
+- `deflagrationToDetonationTransition`: 在一个有障碍物的管道中模拟了经典的 DDT 过程，可以观察到火焰在绕过障碍物时加速，最终形成爆轰波。
+
+## 4. 关键目录结构与文件
+
+`blastXiFoam` 的模型介于 `blastFoam` 和 `blastReactingFoam` 之间，其文件结构也有自己的特色。
+
+```
+.
+├── 0/
+│   ├── p, T, U
+│   ├── xi                    # **新增**: 进度变量 (Progress Variable) 的初始场。xi=0 代表未燃气体，xi=1 代表已燃产物。
+│   └── ft                    # **新增**: 火焰追踪器 (Flame Tracker) 的初始场，用于标记火焰锋面位置。
+│
+├── constant/
+│   ├── combustionProperties    # **核心文件**: 定义 Xi 模型的参数，如未燃/已燃气体状态、层流火焰速度、湍流火焰模型等。
+│   ├── thermophysicalProperties # 定义未燃混合物和已燃产物的热物理属性。
+│   └── turbulenceProperties    # 湍流模型对此类模拟至关重要，因为它极大地影响火焰加速。
+│
+└── system/
+    ├── controlDict             # 设置求解器为 `application blastXiFoam;`
+    ├── fvSchemes               # 需要为 xi 和 ft 定义离散格式。
+    └── fvSolution              # 需要为 xi 和 ft 定义求解算法。
+```
+
+### 总结:
+`blastXiFoam` 通过引入 `xi` 和 `ft` 两个场来简化复杂的化学反应过程，专注于火焰锋面的传播和加速。其关键在于理解 `combustionProperties` 中 Xi 模型的物理意义和参数设置。它为研究 DDT 提供了一个相对高效的工具，但牺牲了详细的化学反应信息。

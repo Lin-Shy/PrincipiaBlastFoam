@@ -1,0 +1,664 @@
+--- FILE: blastFoam/triplePointShockInteration/0/T.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 288;
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+    
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    
+
+    wedge0
+    {
+        type            wedge;
+    }
+    wedge1
+    {
+        type            wedge;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/triplePointShockInteration/0/U.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+    
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    
+
+    wedge0
+    {
+        type            wedge;
+    }
+    wedge1
+    {
+        type            wedge;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/triplePointShockInteration/0/alpha.gas.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.c4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+    
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    
+
+    wedge0
+    {
+        type            wedge;
+    }
+    wedge1
+    {
+        type            wedge;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/triplePointShockInteration/0/p.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 0.1;
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+    
+    outlet
+    {
+        type            zeroGradient;//pressureWaveTransmissive;
+        //value           $internalField;
+    }
+
+    
+
+    wedge0
+    {
+        type            wedge;
+    }
+    wedge1
+    {
+        type            wedge;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/triplePointShockInteration/0/rho.air.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.air;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1;
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+    
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    
+
+    wedge0
+    {
+        type            wedge;
+    }
+    wedge1
+    {
+        type            wedge;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/triplePointShockInteration/0/rho.gas.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.c4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1;
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+    
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    
+
+    wedge0
+    {
+        type            wedge;
+    }
+    wedge1
+    {
+        type            wedge;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/triplePointShockInteration/constant/dynamicMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh   adaptiveFvMesh;
+errorEstimator densityGradient;      // Model used to estimate error
+
+// How often to refine
+refineInterval 1;
+
+// Refine field in between lower..upper (varies based on errorEstimator)
+lowerRefineLevel 0.05;
+
+// If value < unrefineLevel unrefine
+unrefineLevel   0.05;
+
+// Number of cells refined around high error cells
+nBufferLayers   1;
+
+// Refine cells only up to maxRefinement levels
+maxRefinement   4;
+
+// Write the refinement level as a volScalarField
+dumpLevel       true;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/triplePointShockInteration/constant/phaseProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      phaseProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phases (gas air);   // List of phases
+
+gas
+{
+    type basic;
+    thermoType
+    {
+        transport   const;
+        thermo      eConst;
+        equationOfState idealGas;
+    }
+    equationOfState
+    {
+        gamma           1.5;            // Heat capactiy ratio
+        a               0;
+    }
+    specie
+    {
+        molWeight       28.97;
+    }
+    transport
+    {
+        mu              0;
+        Pr              1;
+    }
+    thermodynamics
+    {
+        Cv          718;
+        Hf          0;
+    }
+
+    residualRho     1e-6;
+    residualAlpha   1e-6;
+}
+
+air
+{
+    type basic;
+    thermoType
+    {
+        transport   const;
+        thermo      eConst;
+        equationOfState idealGas;
+    }
+    equationOfState
+    {
+        gamma           1.4;            // Heat capactiy ratio
+        a               0;
+    }
+    specie
+    {
+        molWeight       28.97;
+    }
+    transport
+    {
+        mu              0;
+        Pr              1;
+    }
+    thermodynamics
+    {
+        Cv          718;
+        Hf          0;
+    }
+
+    residualRho     1e-6;
+    residualAlpha   1e-6;
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/triplePointShockInteration/system/blockMeshDict ---
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1;
+
+H   7.0;
+R   3.0;
+
+cellSize 0.1;
+
+nx  #calc "round($R / $cellSize)";
+ny  #calc "round($H / $cellSize)";
+
+A   1.0;
+
+x #calc "$R * cos($A * Foam::constant::mathematical::pi/180)";
+z #calc "$R * sin($A  * Foam::constant::mathematical::pi/180)";
+nz #calc "-$R * sin($A  * Foam::constant::mathematical::pi/180)";
+vertices
+(
+    (0 0 0)
+    ($x 0 $nz)
+    ($x $H  $nz)
+    (0 $H 0)
+    ($x 0 $z)
+    ($x $H  $z)
+    (0 $H 1)
+);
+
+blocks
+(
+    hex (0 1 2 3 0 4 5 3) ($nx $ny 1) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (0 1 4 0)
+            (1 2 5 4)
+            (3 2 5 3)
+        );
+    }
+    wedge0
+    {
+        type wedge;
+        faces
+        (
+            (0 1 2 3)
+        );
+    }
+    wedge1
+    {
+        type wedge;
+        faces
+        (
+            (0 4 5 3)
+        );
+    }
+ );
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/triplePointShockInteration/system/controlDict ---
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     blastFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         5.0;
+
+writeControl    adjustableRunTime;
+
+writeInterval   0.05;
+
+writeFormat     binary;
+
+writePrecision  12;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+adjustTimeStep  yes;
+
+deltaT          1e-8;
+
+maxCo           0.9;
+
+// ************************************************************************* //
+
+
+functions
+{
+}
+--- END OF FILE ---
+
+--- FILE: blastFoam/triplePointShockInteration/system/decomposeParDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      decomposeParDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+numberOfSubdomains 4; // this is number of proc
+
+
+method         scotch; // automatic
+
+simpleCoeffs // not auto
+{
+    n               ( 2 2 1 );
+    delta           0.001;
+}
+
+distributed     no;
+
+roots           ( );
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/triplePointShockInteration/system/fvSchemes ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fluxScheme      HLLC;
+
+ddtSchemes
+{
+    default         Euler;
+    timeIntegrator  RK2SSP;
+}
+
+gradSchemes
+{
+    default         cellMDLimited Gauss linear 1.0;
+}
+
+divSchemes
+{
+    default         none;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default             linear;
+    reconstruct(rho)    quadraticMUSCL Minmod;
+    reconstruct(U)      quadraticMUSCL Minmod;
+    reconstruct(e)      quadraticMUSCL Minmod;
+    reconstruct(p)      quadraticMUSCL Minmod;
+    reconstruct(speedOfSound)      quadraticMUSCL Minmod;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/triplePointShockInteration/system/fvSolution ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(rho|rhoU|rhoE|alpha).*"
+    {
+        solver          diagonal;
+    }
+
+    "(U|e)"
+    {
+        solver          PBiCGStab;
+        preconditioner  DIC;
+        tolerance       1e-6;
+        relTol          0;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/triplePointShockInteration/system/setFieldsDict ---
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fields (alpha.gas rho.gas);
+nBufferLayers 5;
+
+defaultFieldValues
+(
+    volScalarFieldValue alpha.gas 0
+    volScalarFieldValue rho.air 1
+    volScalarFieldValue rho.gas 1
+    volScalarFieldValue p 0.1
+);
+
+regions
+(
+    boxToCell
+    {
+        level 3;
+        box (-0.1 -0.1 -0.5) (3.1 1 0.5);
+        fieldValues
+        (
+            volScalarFieldValue alpha.gas 1.0
+            volScalarFieldValue p 1.0
+        );
+    }
+
+    boxToCell
+    {
+        level 3;
+        box (1.5 1 -0.5) (3 7 0.5);
+        fieldValues
+        (
+            volScalarFieldValue alpha.gas 1.0
+            volScalarFieldValue rho.gas 0.125
+        );
+    }
+    
+    
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+

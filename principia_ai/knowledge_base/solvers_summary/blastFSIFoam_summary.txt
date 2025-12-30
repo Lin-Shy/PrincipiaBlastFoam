@@ -1,0 +1,66 @@
+# 求解器: blastFSIFoam (流固耦合求解器)
+
+## 1. 核心功能
+
+`blastFSIFoam` 是一个用于流固耦合（Fluid-Structure Interaction, FSI）分析的求解器。它本身只负责计算流体部分，但能通过第三方耦合库（如 `preCICE`）与固体力学求解器（如 `solids4Foam`）交换数据，从而实现对爆炸冲击波与弹性结构物相互作用的模拟。
+
+## 2. 适用场景
+
+- **结构响应分析**: 模拟建筑物、桥梁、车辆等弹性结构在爆炸载荷下的动态响应、变形和振动。
+- **毁伤评估**: 评估结构在爆炸中是否会发生永久性损坏或破坏。
+- **防护设计**: 用于设计和评估防爆墙、吸能结构等的防护性能。
+
+## 3. `blastFoam_tutorials` 中的典型案例
+
+FSI 案例通常由多个子目录构成，分别对应流体、固体和耦合配置。
+
+- `blastFSIFoam/flap` & `solids4Foam/flap` & `preCICE/flap`:
+  - 这是一个经典的 FSI 验证案例，模拟冲击波作用在一块弹性挡板上，导致其弯曲变形。
+  - `blastFSIFoam/flap`: 流体域的 OpenFOAM 案例。
+  - `solids4Foam/flap`: 固体域的 OpenFOAM 案例。
+  - `preCICE/flap`: 包含 `precice-config.xml` 耦合配置文件和运行脚本。
+
+- `blastFSIFoam/building3D`: 一个更复杂的三维建筑 FSI 案例。
+
+## 4. 关键目录结构与文件
+
+FSI 模拟的结构最为复杂，因为它涉及多个案例的协同工作。
+
+**耦合配置文件 (e.g., `preCICE/flap/`)**
+```
+.
+├── Allrun              # **核心脚本**: 负责按正确顺序启动流体和固体求解器。
+└── precice-config.xml  # **核心文件**: 定义流固耦合的接口、交换的数据（力、位移）、时间步长和数据映射算法。
+```
+
+**流体案例 (e.g., `blastFSIFoam/flap/`)**
+```
+.
+├── 0/
+│   └── U, p, T         # 在流固耦合交界面上，边界条件通常设置为 `precice-coupled` 类型。
+│
+├── constant/
+│   └── ...
+│
+└── system/
+    ├── controlDict     # 设置求解器为 `application blastFSIFoam;`
+    └── fvSolution      # 可能会包含与 preCICE 相关的函数库。
+```
+
+**固体案例 (e.g., `solids4Foam/flap/`)**
+```
+.
+├── 0/
+│   └── D               # 位移场，在流固耦合交界面上，边界条件通常设置为 `precice-coupled` 类型。
+│
+├── constant/
+│   ├── mechanicalProperties  # **核心文件**: 定义固体的材料属性，如杨氏模量、泊松比。
+│   └── solidProperties       # 定义固体的本构模型（如线弹性）。
+│
+└── system/
+    ├── controlDict     # 求解器通常是 solids4Foam 中的一种，如 `solids4Foam`。
+    └── ...
+```
+
+### 总结:
+FSI 模拟的难点在于 `precice-config.xml` 的正确配置和 `Allrun` 脚本的编写。用户需要同时理解流体和固体两个案例的设置，并确保它们之间的耦合接口（网格面）是匹配的。这是 blastFoam 中最高级的应用之一。

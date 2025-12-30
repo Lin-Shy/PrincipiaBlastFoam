@@ -1,0 +1,29 @@
+## blastFoam场变量条件（边界+初始等）设置使用规则
+
+
+### 1. 边界识别流程
+- **必须先读取** `system/blockMeshDict` 文件中的 `boundary` 部分
+- 确认所有边界patch的名称和类型 (patch, wall, symmetryPlane等)
+- 常见边界命名: inlet, outlet, walls, atmosphere, ground, axis
+
+### 2. 初始/内部场条件设置
+- 在 `0` 文件夹下设置各个物理量的初始条件
+- 在 `0` 文件夹下的orig文件与原文件的功能一致，比如 `p` 文件和 `p.orig` ，只要存在其中一个即可
+
+### 3. 常见物理量与条件类别
+- 压力类 (p, p_rgh): totalPressure, fixedValue, zeroGradient
+- 速度类 (U): inletOutlet, fixedValue, noSlip, symmetryPlane
+- 密度/能量/温度 (rho, T, e): fixedValue, zeroGradient, calculated
+- 组分/质量分数 (Y*, X*): fixedValue / inletOutlet / zeroGradient
+- 湍流变量 (k, omega, epsilon, nut): appropriateWallFunction, fixedValue, zeroGradient
+
+### 4. 设置步骤建议
+1. 读取 blockMeshDict boundary 获得所有 patch 名称与类型
+2. 根据物理问题分类：流入(inlet)、流出(outlet)、固壁(wall)、对称(symmetryPlane/axis)、远场(farField/atmosphere)
+3. 为每个场变量列出需要定义的边界条件表 (patch × field)
+4. 先给出通用初始内部值 internalField，再细化各 patch 条件
+5. 检查相容性：压力/速度耦合；可压缩时 p 与 ρ 的一致性；湍流变量与所选模型吻合
+
+### 5. 特殊注意事项
+- 对于爆炸问题，远场边界要足够远，避免反射波影响
+- 使用特殊的边界条件时要正确设置参考值

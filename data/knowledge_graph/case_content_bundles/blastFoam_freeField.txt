@@ -1,0 +1,702 @@
+--- FILE: blastFoam/freeField/0/T.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 300;
+
+boundaryField
+{
+    ground
+    {
+        type            zeroGradient;
+    }
+
+    midPlane1
+    {
+        type            symmetry;
+    }
+    midPlane2
+    {
+        type            symmetry;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/freeField/0/U.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    ground
+    {
+        type            slip;
+    }
+
+    midPlane1
+    {
+        type            symmetry;
+    }
+    midPlane2
+    {
+        type            symmetry;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+        inletValue      uniform (0 0 0);
+        value           uniform (0 0 0);
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/freeField/0/alpha.c4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.c4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    ground
+    {
+        type            zeroGradient;
+    }
+
+    midPlane1
+    {
+        type            symmetry;
+    }
+    midPlane2
+    {
+        type            symmetry;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/freeField/0/p.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 101298;
+
+boundaryField
+{
+    ground
+    {
+        type            zeroGradient;
+    }
+
+    midPlane1
+    {
+        type            symmetry;
+    }
+    midPlane2
+    {
+        type            symmetry;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/freeField/0/rho.air.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.air;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1.225;
+
+boundaryField
+{
+    ground
+    {
+        type            zeroGradient;
+    }
+
+    midPlane1
+    {
+        type            symmetry;
+    }
+    midPlane2
+    {
+        type            symmetry;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }         empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/freeField/0/rho.c4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.c4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1601;
+
+boundaryField
+{
+    ground
+    {
+        type            zeroGradient;
+    }
+
+    midPlane1
+    {
+        type            symmetry;
+    }
+    midPlane2
+    {
+        type            symmetry;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/freeField/constant/dynamicMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh   adaptiveFvMesh;
+errorEstimator  densityGradient;
+
+// When can unrefinement start
+beginUnrefine 1e-5;
+
+// How often to refine
+refineInterval  3;
+
+// Refine field in between lower..upper
+lowerRefineLevel 0.1;
+
+// If value < unrefineLevel unrefine
+unrefineLevel   0.1;
+
+// Have slower than 2:1 refinement
+nBufferLayers   3;
+
+// Refine cells only up to maxRefinement levels
+maxRefinement   3;
+
+// Write the refinement level as a volScalarField
+dumpLevel       true;
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/freeField/constant/phaseProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      phaseProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phases (c4 air);
+
+radiationModel none;
+
+c4
+{
+    type detonating;
+    reactants
+    {
+        thermoType
+        {
+            transport   const;
+            thermo      eConst;
+            equationOfState Murnaghan;
+        }
+        equationOfState
+        {
+            Gamma           0.25;
+            pRef            101298;
+            rho0            1601;
+            K0              0.0;
+        }
+        specie
+        {
+            molWeight       55.0;
+        }
+        transport
+        {
+            mu              0;              // Viscosity
+            Pr              1;              // Prandtl number
+        }
+        thermodynamics
+        {
+            Cv              815;           // Heat capacity
+            Hf              0.0;
+        }
+    }
+    products
+    {
+        thermoType
+        {
+            transport   const;
+            thermo      eConst;
+            equationOfState JWL;
+        }
+        equationOfState
+        {
+            rho0      1601;
+            A         609.77e9;
+            B         12.95e9;
+            R1        4.50;
+            R2        1.4;
+            omega     0.25;
+        }
+        specie
+        {
+            molWeight       55.0;
+        }
+        transport
+        {
+            mu              0;              // Viscosity
+            Pr              1;              // Prandtl number
+        }
+        thermodynamics
+        {
+            Cv              1400;           // Heat capacity
+            Hf              0.0;
+        }
+    }
+
+    activationModel linear;
+    initiation
+    {
+        E0          9.0e9;
+        points
+        (
+            (0.125 0.125 0.125)
+            (0.375 0.125 0.125)
+        );
+        vDet       7850;
+    }
+
+    residualRho     1e-6;           // Minimum density of the phase
+    residualAlpha   1e-10;          // Minimum volume fraction used for division
+}
+
+air
+{
+    type basic;
+    thermoType
+    {
+        transport   const;
+        thermo      eConst;
+        equationOfState idealGas;
+    }
+    equationOfState
+    {
+        gamma           1.4;            // Heat capactiy ratio
+    }
+    specie
+    {
+        molWeight       28.97;
+    }
+    transport
+    {
+        mu              0;
+        Pr              1;
+    }
+    thermodynamics
+    {
+        type        eConst;
+        Cv          718;
+        Hf          0;
+    }
+
+    residualRho     1e-6;
+    residualAlpha   1e-10;
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/freeField/system/blockMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 0.3048;
+
+vertices
+(
+    (  0.0  0.0     0.0) // bottom
+    (  10.0 0.0     0.0)
+    (  10.0 10.0    0.0)
+    (  0.0  10.0    0.0)
+    (  0.0  0.0     10.0) // top
+    (  10.0 0.0     10.0)
+    (  10.0 10.0    10.0)
+    (  0.0  10.0    10.0)
+);
+
+blocks
+(
+	 hex (0 1 2 3 4 5 6 7) (10 10 10) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+
+    ground
+    {
+        type wall;
+        faces
+        (
+            (0 1 2 3)
+        );
+    }
+
+    midPlane1
+    {
+        type symmetry;
+        faces
+        (
+            (0 3 7 4)
+        );
+    }
+    midPlane2
+    {
+        type symmetry;
+        faces
+        (
+            (0 1 5 4)
+        );
+    }
+
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (1 2 6 5)
+            (3 2 6 7)
+
+            (4 5 6 7)
+        );
+    }
+
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/freeField/system/controlDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     blastFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         0.0005;
+
+deltaT          1e-7;
+
+writeControl    adjustableRunTime;
+
+writeInterval   1e-5;
+
+cycleWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   12;
+
+runTimeModifiable true;
+
+adjustTimeStep  yes;
+
+maxCo           0.5;
+
+maxDeltaT       1;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/freeField/system/decomposeParDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      decomposeParDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+numberOfSubdomains 4; // 8; // this is number of proc
+
+
+method         scotch; // automatic
+
+simpleCoeffs // not auto
+{
+    n               ( 4 1 1 );
+    delta           0.001;
+}
+
+distributed     no;
+
+roots           ( );
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/freeField/system/fvSchemes ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fluxScheme      Kurganov;
+
+ddtSchemes
+{
+    default         Euler;
+    timeIntegrator  RK2SSP;
+}
+
+gradSchemes
+{
+    default         cellMDLimited leastSquares 1.0;
+}
+
+divSchemes
+{
+    default         none;
+    div(alphaRhoPhi.c4,lambda.c4) Riemann;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default             cubic;
+    reconstruct(alpha)  vanAlbada;
+    reconstruct(rho)    vanAlbada;
+    reconstruct(U)      vanAlbadaV;
+    reconstruct(e)      vanAlbada;
+    reconstruct(p)      vanAlbada;
+    reconstruct(speedOfSound)      vanAlbada;
+
+    reconstruct(lambda.c4) vanAlbada;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/freeField/system/fvSolution ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(rho|rhoU|rhoE|alpha|.*)"
+    {
+        solver          diagonal;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/freeField/system/setFieldsDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fields (alpha.c4);
+nBufferLayers 1;
+
+defaultFieldValues
+(
+    volScalarFieldValue alpha.c4 0
+);
+
+
+regions
+(
+    boxToCell
+    {
+        box (0 0 0) (0.5 0.25 0.25);
+        refineInternal yes;
+        level 4;
+
+        fieldValues
+        (
+            volScalarFieldValue alpha.c4    1
+        );
+    }
+);
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+

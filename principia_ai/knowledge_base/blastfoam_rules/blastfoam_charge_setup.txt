@@ -1,0 +1,115 @@
+## blastFoam爆炸物设置使用规则
+
+
+### 1. 爆炸物初始化流程
+1. 在 `constant/phaseProperties` 中定义爆炸物和介质等所有相的物理性质
+2. 在 `system/setFieldsDict` 中定义爆炸物的空间分布
+3. 在初始场文件 (0/目录) 中对 `system/blockMeshDict` 出现的各个boundary设置合适的初始条件
+
+
+### 2. setFieldsDict文件配置注意事项
+1. 爆炸物的形状默认是球体，爆炸物的radius参数表示爆炸物的半径
+2. 爆炸物半径通过爆炸当量、爆炸物密度计算得到
+3. 爆炸物backup表示Backup region，其半径要求大于或等于爆炸物半径
+
+### 3. setFieldsDict文件配置结构
+
+```
+fields (field_name1 field_name2);   // List of regions
+
+defaultFieldValues
+(
+    volScalarFieldValue field_name1 value1
+    volScalarFieldValue field_name2 value2
+);
+
+regions
+(
+    // region_name1
+    sphereToCell
+    {
+        centre (0 0 0);
+        radius 0.25;
+
+        backup
+        {
+            centre (0 0 0);
+            radius 1;
+        }
+        level 5;
+        refineInternal yes;
+
+        fieldValues
+        (
+            volScalarFieldValue field_name1 value1
+        );
+    }
+    // region_name2
+    cylinderToCell
+    {
+        level 5;
+        refineInternal no;
+
+        p1 (0 0.01 0);
+        p2 (0 0.5 0);
+        radius 0.05;
+
+        backup
+        {
+            p1 (0 0 0);
+            p2 (0 01 0);
+            radius 0.25;
+        }
+
+        fieldValues
+        (
+            volScalarFieldValue field_name1 value1
+            volScalarFieldValue field_name2 value2
+        );
+    }
+);
+
+```
+
+
+### 4. phaseProperties文件配置结构
+
+```
+phases (phase_name1 phase_name2);   // List of phases
+
+phase_name1
+{
+    type basic;
+    thermoType
+    {
+        transport const;
+        thermo eConst;
+        equationOfState idealGas;
+    }
+    specie
+    {
+        molWeight 28.97;
+    }
+    transport
+    {
+        ...
+    }
+    thermodynamics
+    {
+        ...
+    }
+    equationOfState
+    {
+        gamma 1.4;
+        ...
+    }
+}
+
+```
+
+
+### 5. 配置注意事项
+- 确保所有phase的热力学模型一致
+- 状态方程的选择与参数设置必须与具体爆炸物匹配
+- 初始条件要与phase的性质保持一致
+- 检查单位制的统一性

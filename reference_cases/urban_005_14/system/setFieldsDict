@@ -1,0 +1,54 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fields (alpha.tnt);
+nBufferLayers 2;
+
+defaultFieldValues
+(
+    volScalarFieldValue alpha.tnt 0
+    //volVectorFieldValue U (0 0 0)  //设置速度的初值
+);
+
+
+regions
+(
+   sphereListToCell // 球形炸药
+    {
+	centres ((0.478  0.35  0.1)); //球心
+        radius 0.01328; //16gTNT球形炸药计算可得R=0.01328m;
+
+        backup //炸药半径为0.01328m ；背景网格的尺寸约为0.05m；
+        {
+            centres ((0.478  0.35  0.1));
+            radius 0.7;
+        }
+        
+        refineInternal yes;
+        level 5;
+
+        fieldValues
+        (
+            volScalarFieldValue alpha.tnt    1   //tnt炸药
+            //volVectorFieldValue     U (0 0 -684)   //不设置速度
+        );
+    }
+
+);
+
+
+// ************************************************************************* //

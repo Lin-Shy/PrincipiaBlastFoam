@@ -1,0 +1,1436 @@
+--- FILE: blastFSIFoam/building3D/0/building/D ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      D;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 0 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    building_to_air
+    {
+        type            coupledSolidTraction;
+        pName           p;
+        pRef            0.90530979e5;
+        traction        uniform (0 0 0);
+        value           uniform (0 0 0);
+        pressure        uniform 0;
+    }
+    buildingBase
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/0/building/T.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 282.051811;
+
+boundaryField
+{
+    building_to_air
+    {
+        type            zeroGradient;
+    }
+    buildingBase
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/0/building/p.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 1e5;
+
+boundaryField
+{
+    building_to_air
+    {
+        type            zeroGradient;
+    }
+    buildingBase
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/0/air/T.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 282.051811;
+
+boundaryField
+{
+    air_to_building
+    {
+        type            zeroGradient;
+    }
+    ground
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/0/air/U.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    air_to_building
+    {
+        type            movingWallVelocity;
+        value           $internalField;
+    }
+    ground
+    {
+        type            slip;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/0/air/alpha.c4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.c4.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    air_to_building
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    ground
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/0/air/p.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 0.90530979e5;
+
+boundaryField
+{
+    air_to_building
+    {
+        type            zeroGradient;
+    }
+    ground
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            pressureWaveTransmissive;
+        value           $internalField;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/0/air/pointMotionU ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       pointVectorField;
+    object      pointMotionU;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 0 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    air_to_building
+    {
+        type            globalInterpolated;
+        nbrName         U;
+        value           uniform (0 0 0);
+    }
+    ground
+    {
+        type            slip;
+        value           uniform (0 0 0);
+    }
+    outlet
+    {
+        type            slip;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/0/air/rho.air.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.air;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1.225;
+
+boundaryField
+{
+    air_to_building
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    ground
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/0/air/rho.c4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.c4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1601;
+
+boundaryField
+{
+    air_to_building
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    ground
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/constant/regionProperties ---
+ 
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      regionProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+regions
+(
+    fluid       (air)
+    solid       (building)
+);
+
+interfaces
+(
+    air
+    {
+        air_to_building
+        {
+            sampleRegion    building;
+            samplePatch     building_to_air;
+            mappingType     AMI;
+            interpolationMethod faceAreaWeight;
+        }
+    }
+    building
+    {
+        building_to_air
+        {
+            sampleRegion    air;
+            samplePatch     air_to_building;
+            displacementField pointD;
+        }
+    }
+);
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/constant/building/mechanicalProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant/solid";
+    object      mechanicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+planeStress     no;
+thermalStress   no;
+compactNormalStress no;
+
+mechanical
+(
+    building
+    {
+        type    linearElastic;
+        nu      0.3;
+        E       1e9;
+    }
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/constant/building/solidProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      solidProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solidModel linearTotalDisplacement;
+
+linearTotalDisplacementCoeffs
+{
+    // Maximum number of momentum correctors
+    nCorrectors             2000;
+
+    // Solution tolerance for displacement
+    solutionTolerance       1e-06;
+
+    // Alternative solution tolerance for displacement
+    alternativeTolerance    1e-06;
+
+    // Material law solution tolerance
+    materialTolerance       1e-06;
+
+    // Write frequency for the residuals
+    infoFrequency           100;
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/constant/building/thermophysicalProperties ---
+
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant/heater";
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+type basic;
+// Iron
+
+thermoType
+{
+    transport       constIso;
+    thermo          eConst;
+    equationOfState rhoConst;
+}
+
+specie
+{
+    molWeight       60.08;
+}
+equationOfState
+{
+    rho0             1000;
+}
+transport
+{
+    kappa           0.36;
+}
+thermodynamics
+{
+    Hf              0;
+    Cv              800;
+}
+
+C
+{
+    type        uniform;
+    value       434;
+}
+
+k
+{
+    type        uniform;
+    value       60.5;
+}
+
+alpha
+{
+    type        uniform;
+    value       1.1e-05;
+}
+
+thermalStress   no;
+
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/constant/air/dynamicMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh   movingAdaptiveFvMesh;
+
+errorEstimator densityGradient;      // Model used to estimate error
+
+motionSolver      velocityLaplacian;
+diffusivity quadratic inverseDistance (air_to_building);
+
+// beginUnrefine 1e-5;
+
+// How often to refine
+refineInterval  1;
+
+// Refine field in between lower..upper (varies based on errorEstimator)
+lowerRefineLevel 0.01;
+
+// If value < unrefineLevel unrefine
+unrefineLevel   0.01;
+
+// Number of cells refined around high error cells
+nBufferLayers   3;
+
+// Refine cells only up to maxRefinement levels
+maxRefinement   1;
+
+// Write the refinement level as a volScalarField
+dumpLevel       true;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/constant/air/g ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       uniformDimensionedVectorField;
+    location    "constant";
+    object      g;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions [0 1 -2 0 0 0 0];
+value       (0 -9.81 0);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/constant/air/phaseProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      phaseProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phases (c4 air);                // List of phases
+
+c4
+{
+    type detonating;
+    reactants
+    {
+        thermoType
+        {
+            transport   const;
+            thermo      eConst;
+            equationOfState BirchMurnaghan3;
+        }
+        equationOfState
+        {
+            rho0            1601;
+            Gamma           0.25;
+            pRef            101298;
+            K0              8.04e9;
+            K0Prime         7.97;
+        }
+        specie
+        {
+            molWeight       55.0;
+        }
+        transport
+        {
+            mu              0;              // Viscosity
+            Pr              1;              // Prandtl number
+        }
+        thermodynamics
+        {
+            Cv              1400;           // Heat capacity
+            Hf              0.0;
+        }
+    }
+    products
+    {
+        thermoType
+        {
+            transport   const;
+            thermo      ePolynomial;
+            equationOfState JWL;
+        }
+        equationOfState
+        {
+            rho0      1601;
+            A         609.77e9;
+            B         12.95e9;
+            R1        4.50;
+            R2        1.4;
+            omega     0.25;
+        }
+        specie
+        {
+            molWeight       55.0;
+        }
+        transport
+        {
+            mu              0;              // Viscosity
+            Pr              1;              // Prandtl number
+        }
+        thermodynamics
+        {
+            // Heat capacity coefficients
+            CvCoeffs<8> (413.15 2.1538 0 0 0 0 0 0);
+            Sf          0.0;
+            Hf          0.0;
+        }
+    }
+
+    activationModel none;
+    initiation
+    {
+        E0              9.0e9;
+        vDet       7850;            // Detonation velocity [m/s]
+    }
+
+    residualRho     1e-6;           // Minimum density of the phase
+    residualAlpha   1e-6;          // Minimum volume fraction used for division
+}
+
+air
+{
+    type basic;
+    thermoType
+    {
+        transport   const;
+        thermo      eConst;
+        equationOfState idealGas;
+    }
+    equationOfState
+    {
+        gamma           1.4;            // Heat capactiy ratio
+    }
+    specie
+    {
+        molWeight       28.97;
+    }
+    transport
+    {
+        mu              0;
+        Pr              1;
+    }
+    thermodynamics
+    {
+        type        eConst;
+        Cv          718;
+        Hf          0;
+    }
+
+    residualRho     1e-6;
+    residualAlpha   1e-6;
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/constant/air/turbulenceProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      turbulenceProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+simulationType laminar;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/system/blockMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+scale   1.;
+
+x0 -5.0;
+x1 -0.5;
+x2 2.0;
+x3 2.5;
+x4 5.0;
+
+y0 -5.0;
+y1 -0.5;
+y2 2.0;
+y3 2.5;
+y4 5.0;
+
+z0 0.0;
+z1 2.0;
+z2 5.0;
+
+w 0.3;
+
+vertices
+(
+    ($x0 $y0 $z0)
+    ($x1 $y0 $z0)
+    ($x2 $y0 $z0)
+    ($x3 $y0 $z0)
+    ($x4 $y0 $z0)
+
+    ($x0 $y1 $z0)
+    ($x1 $y1 $z0)
+    ($x2 $y1 $z0)
+    ($x3 $y1 $z0)
+    ($x4 $y1 $z0)
+
+    ($x0 $y2 $z0)
+    ($x1 $y2 $z0)
+    ($x2 $y2 $z0)
+    ($x3 $y2 $z0)
+    ($x4 $y2 $z0)
+
+    ($x0 $y3 $z0)
+    ($x1 $y3 $z0)
+    ($x2 $y3 $z0)
+    ($x3 $y3 $z0)
+    ($x4 $y3 $z0)
+
+    ($x0 $y4 $z0)
+    ($x1 $y4 $z0)
+    ($x2 $y4 $z0)
+    ($x3 $y4 $z0)
+    ($x4 $y4 $z0)
+
+    ($x0 $y0 $z1)
+    ($x1 $y0 $z1)
+    ($x2 $y0 $z1)
+    ($x3 $y0 $z1)
+    ($x4 $y0 $z1)
+
+    ($x0 $y1 $z1)
+    ($x1 $y1 $z1)
+    ($x2 $y1 $z1)
+    ($x3 $y1 $z1)
+    ($x4 $y1 $z1)
+
+    ($x0 $y2 $z1)
+    ($x1 $y2 $z1)
+    ($x2 $y2 $z1)
+    ($x3 $y2 $z1)
+    ($x4 $y2 $z1)
+
+    ($x0 $y3 $z1)
+    ($x1 $y3 $z1)
+    ($x2 $y3 $z1)
+    ($x3 $y3 $z1)
+    ($x4 $y3 $z1)
+
+    ($x0 $y4 $z1)
+    ($x1 $y4 $z1)
+    ($x2 $y4 $z1)
+    ($x3 $y4 $z1)
+    ($x4 $y4 $z1)
+
+    ($x0 $y0 $z2)
+    ($x1 $y0 $z2)
+    ($x2 $y0 $z2)
+    ($x3 $y0 $z2)
+    ($x4 $y0 $z2)
+
+    ($x0 $y1 $z2)
+    ($x1 $y1 $z2)
+    ($x2 $y1 $z2)
+    ($x3 $y1 $z2)
+    ($x4 $y1 $z2)
+
+    ($x0 $y2 $z2)
+    ($x1 $y2 $z2)
+    ($x2 $y2 $z2)
+    ($x3 $y2 $z2)
+    ($x4 $y2 $z2)
+
+    ($x0 $y3 $z2)
+    ($x1 $y3 $z2)
+    ($x2 $y3 $z2)
+    ($x3 $y3 $z2)
+    ($x4 $y3 $z2)
+
+    ($x0 $y4 $z2)
+    ($x1 $y4 $z2)
+    ($x2 $y4 $z2)
+    ($x3 $y4 $z2)
+    ($x4 $y4 $z2)
+);
+
+// Grading
+nx1 9;
+nx2 5;
+nx3 2;
+nx4 5;
+
+nz1 4;
+nz2 6;
+
+blocks
+(
+    hex (0 1 6 5 25 26 31 30) air ($nx1 $nx1 $nz1) simpleGrading (1 1 1)
+    hex (1 2 7 6 26 27 32 31) air ($nx2 $nx1 $nz1) simpleGrading (1 1 1)
+    hex (2 3 8 7 27 28 33 32) air ($nx3 $nx1 $nz1) simpleGrading (1 1 1)
+    hex (3 4 9 8 28 29 34 33) air ($nx4 $nx1 $nz1) simpleGrading (1 1 1)
+
+    hex (5 6 11 10 30 31 36 35) air ($nx1 $nx2 $nz1) simpleGrading (1 1 1)
+    hex (6 7 12 11 31 32 37 36) air ($nx2 $nx2 $nz1) simpleGrading (1 1 1)
+    hex (7 8 13 12 32 33 38 37) building ($nx3 $nx2 $nz1) simpleGrading (1 1 1)
+    hex (8 9 14 13 33 34 39 38) air ($nx4 $nx2 $nz1) simpleGrading (1 1 1)
+
+    hex (10 11 16 15 35 36 41 40) air ($nx1 $nx3 $nz1) simpleGrading (1 1 1)
+    hex (11 12 17 16 36 37 42 41) building ($nx2 $nx3 $nz1) simpleGrading (1 1 1)
+    hex (12 13 18 17 37 38 43 42) building ($nx3 $nx3 $nz1) simpleGrading (1 1 1)
+    hex (13 14 19 18 38 39 44 43) air ($nx4 $nx3 $nz1) simpleGrading (1 1 1)
+
+    hex (15 16 21 20 40 41 46 45) air ($nx1 $nx4 $nz1) simpleGrading (1 1 1)
+    hex (16 17 22 21 41 42 47 46) air ($nx2 $nx4 $nz1) simpleGrading (1 1 1)
+    hex (17 18 23 22 42 43 48 47) air ($nx3 $nx4 $nz1) simpleGrading (1 1 1)
+    hex (18 19 24 23 43 44 49 48) air ($nx4 $nx4 $nz1) simpleGrading (1 1 1)
+
+
+    hex (25 26 31 30 50 51 56 55) air ($nx1 $nx1 $nz2) simpleGrading (1 1 1)
+    hex (26 27 32 31 51 52 57 56) air ($nx2 $nx1 $nz2) simpleGrading (1 1 1)
+    hex (27 28 33 32 52 53 58 57) air ($nx3 $nx1 $nz2) simpleGrading (1 1 1)
+    hex (28 29 34 33 53 54 59 58) air ($nx4 $nx1 $nz2) simpleGrading (1 1 1)
+
+    hex (30 31 36 35 55 56 61 60) air ($nx1 $nx2 $nz2) simpleGrading (1 1 1)
+    hex (31 32 37 36 56 57 62 61) air ($nx2 $nx2 $nz2) simpleGrading (1 1 1)
+    hex (32 33 38 37 57 58 63 62) air ($nx3 $nx2 $nz2) simpleGrading (1 1 1)
+    hex (33 34 39 38 58 59 64 63) air ($nx4 $nx2 $nz2) simpleGrading (1 1 1)
+
+    hex (35 36 41 40 60 61 66 65) air ($nx1 $nx3 $nz2) simpleGrading (1 1 1)
+    hex (36 37 42 41 61 62 67 66) air ($nx2 $nx3 $nz2) simpleGrading (1 1 1)
+    hex (37 38 43 42 62 63 68 67) air ($nx3 $nx3 $nz2) simpleGrading (1 1 1)
+    hex (38 39 44 43 63 64 69 68) air ($nx4 $nx3 $nz2) simpleGrading (1 1 1)
+
+    hex (40 41 46 45 65 66 71 70) air ($nx1 $nx4 $nz2) simpleGrading (1 1 1)
+    hex (41 42 47 46 66 67 72 71) air ($nx2 $nx4 $nz2) simpleGrading (1 1 1)
+    hex (42 43 48 47 67 68 73 72) air ($nx3 $nx4 $nz2) simpleGrading (1 1 1)
+    hex (43 44 49 48 68 69 74 73) air ($nx4 $nx4 $nz2) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (50 51 56 55)
+            (51 52 57 56)
+            (52 53 58 57)
+            (53 54 59 58)
+            (55 56 61 60)
+            (56 57 62 61)
+            (58 59 64 63)
+            (60 61 66 65)
+            (63 64 69 68)
+            (65 66 71 70)
+            (66 67 72 71)
+            (67 68 73 72)
+            (68 69 74 73)
+            (57 58 63 62)
+            (62 63 68 67)
+            (61 62 67 66)
+
+            (0 25 26 1)
+            (1 26 27 2)
+            (2 27 28 3)
+            (3 28 29 4)
+
+            (0 25 30 5)
+            (4 29 34 9)
+            (5 30 35 10)
+            (9 34 39 14)
+            (10 35 40 15)
+            (14 39 44 19)
+            (15 40 45 20)
+            (19 44 49 24)
+
+            (20 45 46 21)
+            (21 46 47 22)
+            (22 47 48 23)
+            (23 48 49 24)
+
+            (25 50 51 26)
+            (26 51 52 27)
+            (27 52 53 28)
+            (28 53 54 29)
+
+            (25 50 55 30)
+            (29 54 59 34)
+            (30 55 60 35)
+            (34 59 64 39)
+            (35 60 65 40)
+            (39 64 69 44)
+            (40 65 70 45)
+            (44 69 74 49)
+
+            (45 70 71 46)
+            (46 71 72 47)
+            (47 72 73 48)
+            (48 73 74 49)
+        );
+    }
+    ground
+    {
+        type wall;
+        faces
+        (
+            (0 1 6 5)
+            (1 2 7 6)
+            (2 3 8 7)
+            (3 4 9 8)
+            (5 6 11 10)
+            (6 7 12 11)
+            (8 9 14 13)
+            (10 11 16 15)
+            (13 14 19 18)
+            (15 16 21 20)
+            (16 17 22 21)
+            (17 18 23 22)
+            (18 19 24 23)
+        );
+    }
+    buildingBase
+    {
+        type wall;
+        faces
+        (
+            (7 8 13 12)
+            (12 13 18 17)
+            (11 12 17 16)
+        );
+    }
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/system/controlDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     blastFSIFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         0.0025;
+
+deltaT          1e-7;
+
+writeControl    adjustableRunTime;
+
+writeInterval   5e-5;
+
+runTimeModifiable yes;
+
+purgeWrite      0;
+
+writeFormat     binary;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+maxCo 0.5;
+
+adjustTimeStep yes;
+
+functions
+{}
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/system/decomposeParDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      decomposeParDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+numberOfSubdomains 4; // this is number of proc
+
+// preservePatches (patch0 patch1 patch2);
+
+method         scotch; // automatic
+
+simpleCoeffs // not auto
+{
+    n               (8 4 1);
+    delta           0.001;
+}
+
+hierarchicalCoeffs
+{
+    n               ( 4 3 2 );
+    delta           0.001;
+    order           xyz;
+}
+
+metisCoeffs
+{
+    // processorWeights ( 1 1 1 1 1 1 );
+}
+
+manualCoeffs
+{
+    dataFile        "";
+}
+
+distributed     no;
+
+roots           ( );
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/system/fvSchemes ---
+
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       dictionary;
+    location    "system/ground";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+d2dt2Schemes
+{
+    default         Euler;
+}
+
+ddtSchemes
+{
+    default Euler;
+}
+
+divSchemes
+{
+    default none;
+    div(sigmaD)     Gauss linear;
+}
+
+gradSchemes
+{
+    default         leastSquares;
+    grad(D)         leastSquares;
+    grad(T)         leastSquares;
+}
+
+laplacianSchemes
+{
+    default none;
+    laplacian(DD,D) Gauss linear corrected;
+    laplacian(DT,T) Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default linear;
+}
+
+snGradSchemes
+{
+    default corrected;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/system/fvSolution ---
+
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       dictionary;
+    location    "system/ground";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(D|T)"
+    {
+        solver          PCG;
+        tolerance       1e-09;
+        relTol          0.1;
+        preconditioner  DIC;
+    }
+}
+
+stressAnalysis
+{
+    compactNormalStress yes;
+    nCorrectors     1;
+    D               1e-06;
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/system/building/decomposeParDict ---
+../decomposeParDict
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/system/building/fvSchemes ---
+
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       dictionary;
+    location    "system/ground";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+d2dt2Schemes
+{
+    default         Euler;
+}
+
+ddtSchemes
+{
+    default Euler;
+}
+
+divSchemes
+{
+    default             none;
+    div(sigma)          Gauss linear;
+    div((impK*grad(D))) Gauss linear;
+}
+
+gradSchemes
+{
+    default         extendedLeastSquares 0;
+    grad(T)         Gauss linear;
+}
+
+laplacianSchemes
+{
+    default none;
+    laplacian(DD,D) Gauss linear corrected;
+    laplacian(DT,T) Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default linear;
+}
+
+snGradSchemes
+{
+    default corrected;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/system/building/fvSolution ---
+
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       dictionary;
+    location    "system/ground";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(D|T)"
+    {
+        solver          PCG;
+        tolerance       1e-09;
+        relTol          0.1;
+        preconditioner  DIC;
+    }
+}
+
+stressAnalysis
+{
+    compactNormalStress yes;
+    nCorrectors     1;
+    D               1e-06;
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/system/air/decomposeParDict ---
+../decomposeParDict
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/system/air/fvSchemes ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fluxScheme Kurganov;
+
+ddtSchemes
+{
+    default         Euler;
+    timeIntegrator  RK2SSP 3;
+}
+
+gradSchemes
+{
+    default         cellMDLimited leastSquares 1.0;
+    grad(cellMotionU) Gauss linear;
+}
+
+divSchemes
+{
+    default         none;
+    div(tauMC)      Gauss linear;
+    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss linear;
+    div(devRhoReff) Gauss linear;
+    div(alphaRhoPhi.c4,lambda.c4) Riemann;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+    laplacian(diffusivity,cellMotionU) Gauss linear uncorrected;
+}
+
+interpolationSchemes
+{
+    default         linear;
+    reconstruct(alpha)  upwindMUSCL Minmod;
+    reconstruct(rho)    upwindMUSCL Minmod;
+    reconstruct(U)      upwindMUSCL Minmod;
+    reconstruct(e)      upwindMUSCL Minmod;
+    reconstruct(p)      upwindMUSCL Minmod;
+    reconstruct(speedOfSound) upwindMUSCL Minmod;
+
+    "reconstruct(.*)"   upwindMUSCL Minmod;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/system/air/fvSolution ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(rho|rhoE|rhoU)"
+    {
+        solver diagonal;
+    }
+
+    "(U|cellDisplacement|cellMotionU|e)"
+    {
+        solver          PBiCGStab;
+        preconditioner  DIC ;
+        tolerance       1e-6;
+        relTol          0;
+        minIter         1;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFSIFoam/building3D/system/air/setFieldsDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fields (alpha.c4);
+nBufferLayers 5;
+
+defaultFieldValues
+(
+    volScalarFieldValue alpha.c4 0
+    volVectorFieldValue U (0 0 0)
+);
+
+
+regions
+(
+    cylinderToCell // Use cylinder for 3D
+    {
+        p1 (0 0 0.25);
+        p2 (0 0 0.75);
+        radius 0.1;
+        backup
+        {
+            p1 (0 0 0.0);
+            p2 (0 0 1.0);
+            radius 0.75;
+        }
+        refineInternal yes;
+        level 5;
+
+        fieldValues
+        (
+            volScalarFieldValue alpha.c4    1
+        );
+    }
+);
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+

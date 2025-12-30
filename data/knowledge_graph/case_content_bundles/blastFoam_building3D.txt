@@ -1,0 +1,1003 @@
+--- FILE: blastFoam/building3D/0/T.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      e;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 300;
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+
+    walls
+    {
+        type            zeroGradient;
+    }
+    cylinder
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    ground
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/0/U.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+
+    walls
+    {
+        type            slip;
+    }
+    cylinder
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    ground
+    {
+        type            slip;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/0/alpha.c4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.c4.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+
+    walls
+    {
+        type            zeroGradient;
+    }
+    cylinder
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    ground
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/0/p.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 101298;
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+
+    walls
+    {
+        type            zeroGradient;
+    }
+    cylinder
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    ground
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/0/rho.air.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.air;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1.225;
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+
+    walls
+    {
+        type            zeroGradient;
+    }
+    cylinder
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    ground
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/0/rho.c4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.c4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1601;
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+
+    walls
+    {
+        type            zeroGradient;
+    }
+    cylinder
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    ground
+    {
+        type            zeroGradient;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/constant/dynamicMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh   adaptiveFvMesh;
+errorEstimator  densityGradient;
+
+// How often to refine
+refineInterval  3;
+
+// Refine field in between lower..upper
+lowerRefineLevel 0.1;
+
+// If value < unrefineLevel unrefine
+unrefineLevel   0.1;
+
+// Have slower than 2:1 refinement
+nBufferLayers   2;
+
+// Refine cells only up to maxRefinement levels
+maxRefinement   1;
+
+// Write the refinement level as a volScalarField
+dumpLevel       true;
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/constant/phaseProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      phaseProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phases (c4 air);                // List of phases
+
+c4
+{
+    type detonating;
+    reactants
+    {
+        thermoType
+        {
+            transport   const;
+            thermo      eConst;
+            equationOfState BirchMurnaghan3;
+        }
+        equationOfState
+        {
+            rho0            1601;
+            Gamma           0.25;
+            pRef            101298;
+            K0              8.04e9;
+            K0Prime         7.97;
+        }
+        specie
+        {
+            molWeight       55.0;
+        }
+        transport
+        {
+            mu              0;              // Viscosity
+            Pr              1;              // Prandtl number
+        }
+        thermodynamics
+        {
+            Cv              1400;           // Heat capacity
+            Hf              0.0;
+        }
+    }
+    products
+    {
+        thermoType
+        {
+            transport   const;
+            thermo      ePolynomial;
+            equationOfState JWL;
+        }
+        equationOfState
+        {
+            rho0      1601;
+            A         609.77e9;
+            B         12.95e9;
+            R1        4.50;
+            R2        1.4;
+            omega     0.25;
+        }
+        specie
+        {
+            molWeight       55.0;
+        }
+        transport
+        {
+            mu              0;              // Viscosity
+            Pr              1;              // Prandtl number
+        }
+        thermodynamics
+        {
+            // Heat capacity coefficients
+            CvCoeffs<8> (413.15 2.1538 0 0 0 0 0 0);
+            Sf          0.0;
+            Hf          0.0;
+        }
+    }
+
+    activationModel pressureBased;
+    initiation
+    {
+        E0              9.0e9;
+
+        I               4.0e6;
+        a               0.0367;
+        b               0.667;
+        x               7.0;
+        maxLambdaI      0.022;
+
+        G1              1.4997e-7;
+        c               0.667;
+        d               0.33;
+        y               2.0;
+        minLambda1      0.022;
+
+        G2              0.0;
+        e               0.667;
+        f               0.667;
+        z               3.0;
+        minLambda2      0.022;
+
+        pMin            101300;  // Above this pressure activation is                                    // "turned on" [Pa]
+
+        useCOM      yes;            // Use the center of mass
+        radius      0.05;           // Set cell with in 0.05 m of
+                                    // COM
+
+        vDet       7850;            // Detonation velocity [m/s]
+    }
+
+    residualRho     1e-6;           // Minimum density of the phase
+    residualAlpha   1e-6;          // Minimum volume fraction used for division
+}
+
+air
+{
+    type basic;
+    thermoType
+    {
+        transport   const;
+        thermo      eConst;
+        equationOfState idealGas;
+    }
+    equationOfState
+    {
+        gamma           1.4;            // Heat capactiy ratio
+    }
+    specie
+    {
+        molWeight       28.97;
+    }
+    transport
+    {
+        mu              0;
+        Pr              1;
+    }
+    thermodynamics
+    {
+        type        eConst;
+        Cv          718;
+        Hf          0;
+    }
+
+    residualRho     1e-6;
+    residualAlpha   1e-6;
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/system/blockMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1;
+
+vertices
+(
+    ( -5.0 -5.0     0.0) // bottom
+    (  5.0 -5.0     0.0)
+    (  5.0  5.0     0.0)
+    ( -5.0  5.0     0.0)
+    ( -5.0 -5.0     5.0) // top
+    (  5.0 -5.0     5.0)
+    (  5.0  5.0     5.0)
+    ( -5.0  5.0     5.0)
+);
+
+blocks
+(
+	 hex (0 1 2 3 4 5 6 7) (20 20 10) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    ground
+    {
+        type patch;
+        faces
+        (
+            (0 1 2 3)
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (0 1 5 4)
+            (1 2 6 5)
+            (3 2 6 7)
+            (0 3 7 4)
+            (4 5 6 7)
+        );
+    }
+
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/system/controlDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     blastFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         0.0025;
+
+deltaT          1e-7;
+
+writeControl    adjustableRunTime;
+
+writeInterval   5e-5;
+
+cycleWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   12;
+
+runTimeModifiable true;
+
+adjustTimeStep  yes;
+
+maxCo           0.5;
+
+maxDeltaT       1;
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+functions
+{
+    impulse
+    {
+        type            impulse;
+        writeControl    writeTime;
+        pRef            101298;
+    }
+    overpressure
+    {
+        type            overpressure;
+        writeControl    writeTime;
+        store           yes;
+        pRef            101298;
+    }
+    maxPImpulse
+    {
+        type            fieldMinMax;
+        writeControl    writeTime;
+        fields
+        (
+            overpressure
+            impulse
+        );
+    }
+};
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/system/decomposeParDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      decomposeParDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+numberOfSubdomains 4; // this is number of proc
+
+method         scotch; // automatic
+
+simpleCoeffs // not auto
+{
+    n               ( 2 2 1 );
+    delta           0.001;
+}
+
+distributed     no;
+
+roots           ( );
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/system/fvSchemes ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fluxScheme      Kurganov;
+
+ddtSchemes
+{
+    default         Euler;
+    timeIntegrator  RK2SSP 3;
+}
+
+gradSchemes
+{
+    default         cellMDLimited leastSquares 1.0;
+}
+
+divSchemes
+{
+    default         none;
+    div(alphaRhoPhi.c4,lambda.c4) Riemann;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default             linear;
+    reconstruct(alpha)  quadraticMUSCL Minmod;
+    reconstruct(rho)    quadraticMUSCL Minmod;
+    reconstruct(U)      quadraticMUSCL Minmod;
+    reconstruct(e)      quadraticMUSCL Minmod;
+    reconstruct(p)      quadraticMUSCL Minmod;
+    reconstruct(speedOfSound)   quadraticMUSCL Minmod;
+
+    reconstruct(lambda.c4) quadraticMUSCL Minmod;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/system/fvSolution ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(rho|rhoU|rhoE|alpha|.*)"
+    {
+        solver          diagonal;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/system/setFieldsDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fields (alpha.c4);
+nBufferLayers 5;
+
+defaultFieldValues
+(
+    volScalarFieldValue alpha.c4 0
+);
+
+
+regions
+(
+    cylindericalMassToCell // Use cylinder for 3D
+    {
+        rho 1601;
+        mass 25;
+        centre (0 0 0.5);
+        direction (0 0 1);
+        LbyD    2.5;
+
+        backup
+        {
+            centre (0 0 0.5);
+            L (0 0 0.5);
+            radius 1;
+        }
+        refineInternal yes;
+        level 5;
+
+        fieldValues
+        (
+            volScalarFieldValue alpha.c4    1
+        );
+    }
+);
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/system/snappyHexMeshDict ---
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+castellatedMesh on;
+snap            on;
+addLayers       off;
+
+geometry
+{
+    walls
+    {
+        type triSurfaceMesh;
+        file "L_Wall.stl";
+        scale 0.001;
+    }
+    cylinder
+    {
+        type searchableCylinder;
+        point1 (-1 -1 0);
+        point2 (-1 -1 1);
+        radius 0.5;
+    }
+};
+
+castellatedMeshControls
+{
+    // Refinement parameters
+    // ~~~~~~~~~~~~~~~~~~~~~
+
+    // If local number of cells is >= maxLocalCells on any processor
+    // switches from from refinement followed by balancing
+    // (current method) to (weighted) balancing before refinement.
+    maxLocalCells 10000000;
+
+    // Overall cell limit (approximately). Refinement will stop immediately
+    // upon reaching this number so a refinement level might not complete.
+    // Note that this is the number of cells before removing the part which
+    // is not 'visible' from the keepPoint. The final number of cells might
+    // actually be a lot less.
+    maxGlobalCells 200000000;
+
+    // The surface refinement loop might spend lots of iterations refining just a
+    // few cells. This setting will cause refinement to stop if <= minimumRefine
+    // are selected for refinement. Note: it will at least do one iteration
+    // (unless the number of cells to refine is 0)
+    minRefinementCells 2;
+
+    maxLoadUnBalance 0.1;
+
+    // Number of buffer layers between different levels.
+    // 1 means normal 2:1 refinement restriction, larger means slower
+    // refinement.
+    nCellsBetweenLevels 2;
+
+    resolveFeatureAngle 30;
+    allowFreeStandingZoneFaces false;
+
+    features
+    (
+        {
+            file  "L_Wall.extendedFeatureEdgeMesh";
+            level 0;
+        }
+    );
+
+    refinementSurfaces
+    {
+        walls
+        {
+            level (1 1);
+            patchInfo { type wall; }
+        }
+        cylinder
+        {
+            level (2 2);
+            patchInfo
+            {
+                type patch;
+            }
+        }
+    }
+
+
+    refinementRegions
+    {
+    }
+
+    locationInMesh (0 0 0.5);
+}
+
+snapControls
+{
+
+    nSmoothPatch    3;
+    tolerance       1.0;
+    nSolveIter      100;
+    nRelaxIter      10;
+
+    nFeatureSnapIter 15;
+
+    explicitFeatureSnap    false;
+    multiRegionFeatureSnap false;
+    implicitFeatureSnap    true;
+}
+
+addLayersControls
+{
+    featureAngle              100;
+    slipFeatureAngle          30;
+
+    nLayerIter                50;
+    nRelaxedIter              20;
+    nRelaxIter                5;
+
+    nGrow                     0;
+
+    nSmoothSurfaceNormals     1;
+    nSmoothNormals            3;
+    nSmoothThickness          10;
+    maxFaceThicknessRatio     0.5;
+    maxThicknessToMedialRatio 0.3;
+
+    minMedialAxisAngle        90;
+    nMedialAxisIter           10;
+
+    nBufferCellsNoExtrude     0;
+    additionalReporting       false;
+//    nSmoothDisplacement       0;
+//    detectExtrusionIsland     false;
+
+    layers
+    {
+    }
+
+    relativeSizes       true;
+    expansionRatio      1.2;
+    finalLayerThickness 0.5;
+    minThickness        1e-3;
+}
+
+meshQualityControls
+{
+    maxNonOrtho 65;
+
+    maxBoundarySkewness 20;
+
+    maxInternalSkewness 4;
+
+    maxConcave 80;
+
+    // Minimum cell pyramid volume; case dependent
+    minVol 1e-13;
+
+    //  1e-15 (small positive) to enable tracking
+    // -1e+30 (large negative) for best layer insertion
+    minTetQuality 1e-15;
+
+    // if >0 : preserve single cells with all points on the surface if the
+    // resulting volume after snapping (by approximation) is larger than
+    // minVolCollapseRatio times old volume (i.e. not collapsed to flat cell).
+    //  If <0 : delete always.
+    //minVolCollapseRatio 0.5;
+
+    minArea          -1;
+
+    minTwist          0.02;
+
+    minDeterminant    0.001;
+
+    minFaceWeight     0.05;
+
+    minVolRatio       0.01;
+
+    minTriangleTwist -1;
+
+    nSmoothScale   4;
+
+    errorReduction 0.75;
+
+    relaxed
+    {
+        maxNonOrtho   75;
+    }
+}
+
+writeFlags
+(
+    scalarLevels
+    layerSets
+    layerFields
+//     mesh
+//     noRefinement
+);
+// debugFlags
+// (
+//     layerInfo
+// );
+// outputFlags
+// (
+//     layerInfo
+// );
+// debug 1;
+mergeTolerance 1e-6;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastFoam/building3D/system/surfaceFeaturesDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      surfaceFeatureExtractDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+surfaces
+(
+    "L_Wall.stl"
+);
+
+// Identify a feature when angle between faces < includedAngle
+includedAngle   120;
+
+subsetFeatures
+{
+    // Keep nonManifold edges (edges with >2 connected faces)
+    nonManifoldEdges       yes;
+
+    // Keep open edges (edges with 1 connected face)
+    openEdges       yes;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+

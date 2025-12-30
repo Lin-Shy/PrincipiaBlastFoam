@@ -1,0 +1,48 @@
+%% 传统嵌入检索 vs LLM驱动的知识图谱检索对比
+
+flowchart TB
+    subgraph Traditional["🔍 传统嵌入检索方法"]
+        T1["用户查询"]
+        T2["文本向量化<br/>Embedding"]
+        T3["向量相似度计算<br/>Cosine/L2距离"]
+        T4["返回相似文档<br/>Hit@5: 33.3%"]
+        
+        T1 --> T2
+        T2 --> T3
+        T3 --> T4
+        
+        T_Limit["❌ 局限性:<br/>• 无法理解结构化关系<br/>• 仅基于文本相似度<br/>• 忽略知识层次<br/>• 黑盒，不可解释"]
+    end
+    
+    subgraph Proposed["🕸️ LLM驱动的知识图谱检索"]
+        P1["用户查询"]
+        P2["LLM理解意图<br/>生成搜索策略"]
+        P3["结构化图谱搜索<br/>节点+关系+属性"]
+        P4["多维度评分排序"]
+        P5["返回精准结果<br/>Hit@5: 60.8%"]
+        
+        P1 --> P2
+        P2 --> P3
+        P3 --> P4
+        P4 --> P5
+        
+        P_Advantage["✅ 优势:<br/>• 理解查询意图<br/>• 利用结构化知识<br/>• 考虑关系和层次<br/>• 策略可解释<br/>• 精度提升82.5%"]
+    end
+    
+    T_Limit -.vs.-> P_Advantage
+    
+    style Traditional fill:#ffebee,stroke:#c62828,stroke-width:3px
+    style Proposed fill:#e8f5e9,stroke:#2e7d32,stroke-width:3px
+    style T_Limit fill:#ffcdd2,stroke:#b71c1c,stroke-width:2px
+    style P_Advantage fill:#c8e6c9,stroke:#1b5e20,stroke-width:2px
+    
+    style T1 fill:#fff,stroke:#666
+    style T2 fill:#fff,stroke:#666
+    style T3 fill:#fff,stroke:#666
+    style T4 fill:#ffcdd2,stroke:#c62828,stroke-width:2px
+    
+    style P1 fill:#fff,stroke:#666
+    style P2 fill:#fff9c4,stroke:#f57c00,stroke-width:2px
+    style P3 fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    style P4 fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px
+    style P5 fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px

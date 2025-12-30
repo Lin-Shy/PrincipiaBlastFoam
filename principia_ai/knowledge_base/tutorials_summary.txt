@@ -1,0 +1,345 @@
+# BlastFoam Tutorials Summary
+# Generated on 2025年9月12日
+
+================================================================================
+BLASTFOAM TUTORIALS OVERVIEW
+================================================================================
+
+This document contains a comprehensive summary of all tutorial cases in the 
+blastFoam tutorials collection, including their relative paths and descriptions.
+
+================================================================================
+TUTORIAL CASES
+================================================================================
+
+## 1. blastEquation
+
+### 1.1 blastEquation/equation
+**Path:** blastEquation/equation
+**Description:** 
+Basic blast equation solver tutorial demonstrating the fundamental blast equation 
+implementation. This case provides the core blast equation solving capabilities 
+without complex geometry or boundary conditions.
+
+### 1.2 blastEquation/planarWall
+**Path:** blastEquation/planarWall
+**Description:**
+Planar wall blast equation case with diffusion properties. This tutorial 
+demonstrates blast wave interaction with a planar wall geometry, including 
+diffusion effects and proper boundary condition setup.
+
+### 1.3 blastEquation/univariateEquation
+**Path:** blastEquation/univariateEquation
+**Description:**
+Univariate blast equation solving tutorial. This case focuses on solving 
+one-dimensional blast equations, useful for understanding fundamental blast 
+physics in simplified geometries.
+
+## 2. blastEulerFoam
+
+### 2.1 blastEulerFoam/reactingParticles
+**Path:** blastEulerFoam/reactingParticles
+**Description:**
+Reacting particles simulation using blastEulerFoam solver. This tutorial 
+demonstrates multi-phase flow with chemical reactions, including particle 
+interactions and combustion processes.
+
+### 2.2 blastEulerFoam/shockTube_polydisperse
+**Path:** blastEulerFoam/shockTube_polydisperse
+**README Content:** 
+Polydisperse shock tube simulation demonstrating particle size distribution effects 
+on shock wave propagation. This case includes validation data for comparison with 
+experimental results.
+**Description:**
+Polydisperse shock tube simulation with validation data. This case demonstrates 
+shock wave propagation in a tube with particles of different sizes, including 
+comparison with experimental or analytical data.
+
+## 3. blastFoam
+
+### 3.1 blastFoam/axisymmetricCharge
+**Path:** blastFoam/axisymmetricCharge
+**README Content:** 
+This is a simple case designed to show an axisymmetric geometry with adaptive-mesh-refinement.
+The case takes approximately 20 min to run on a single core desktop.
+**Description:**
+Axisymmetric explosive charge detonation simulation. This tutorial demonstrates 
+cylindrical symmetry blast simulations with proper initial conditions and 
+boundary setup for explosive charges.
+
+### 3.2 blastFoam/building3D
+**Path:** blastFoam/building3D
+**README Content:** 
+Three-dimensional building blast simulation case demonstrating complex geometry 
+interaction with blast waves. Includes structural loading analysis and pressure 
+distribution calculations.
+**Description:**
+Three-dimensional building blast simulation. This case shows blast wave 
+interaction with complex 3D building geometry, including structural response 
+and pressure loading calculations.
+
+### 3.3 blastFoam/building3DWorkshop
+**Path:** blastFoam/building3DWorkshop
+**README Content:** 
+Educational version of the 3D building blast simulation with detailed explanations 
+and step-by-step instructions for learning blast simulation techniques. Designed 
+for workshop and training purposes.
+**Description:**
+Workshop version of 3D building blast simulation. This tutorial is designed 
+for educational purposes with simplified setup and detailed explanations for 
+learning blast simulation techniques.
+
+### 3.4 blastFoam/burstingWindow_workshop
+**Path:** blastFoam/burstingWindow_workshop
+**README Content:** 
+Workshop tutorial demonstrating blast-induced window failure mechanisms. Shows 
+pressure wave interaction with glazing systems and structural failure modeling 
+under blast loading conditions.
+**Description:**
+Workshop tutorial for window bursting under blast loading. This case demonstrates 
+blast wave interaction with windows and glazing systems, including failure 
+mechanisms and pressure relief effects.
+
+### 3.5 blastFoam/delayedDetonation
+**Path:** blastFoam/delayedDetonation
+**README Content:** 
+Demonstrates time-controlled explosive initiation with multiple detonation points. 
+Shows how to configure delayed ignition sequences and study blast wave interference 
+patterns from sequential explosive events.
+**Description:**
+Delayed detonation simulation with time-controlled explosive initiation. This 
+tutorial shows how to set up time-delayed explosive charges and study the 
+resulting blast wave interactions.
+
+### 3.6 blastFoam/freeField
+**Path:** blastFoam/freeField
+**README Content:** 
+This is a quarter symmetry case of a square charge with multiple detonation points 
+in an open field. The charge is a 50 kg box of c-4. The case uses adaptive mesh 
+refinement, and took approximately 10 min to complete on a four core desktop.
+**Description:**
+Free field blast simulation without obstacles or confinement. This fundamental 
+case demonstrates spherical blast wave propagation in open space, useful for 
+validation and understanding basic blast physics.
+
+### 3.7 blastFoam/internalDetonation/internalDetonation
+**Path:** blastFoam/internalDetonation/internalDetonation
+**Description:**
+Internal detonation simulation within confined space. This case demonstrates 
+blast effects inside enclosed volumes with proper pressure buildup and wave 
+reflection modeling.
+
+### 3.8 blastFoam/internalDetonation/internalDetonation_withObstacle
+**Path:** blastFoam/internalDetonation/internalDetonation_withObstacle
+**Description:**
+Internal detonation with obstacle interactions. This tutorial adds complexity 
+by including internal obstacles that affect blast wave propagation and create 
+complex flow patterns.
+
+### 3.9 blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass
+**Path:** blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass
+**Description:**
+Advanced internal detonation case with both obstacles and glass components. 
+This simulation includes blast-structure interaction with brittle materials 
+and failure modeling.
+
+### 3.10 blastFoam/mappedBuilding3D
+**Path:** blastFoam/mappedBuilding3D
+**README Content:** 
+Advanced building simulation demonstrating mesh mapping techniques for complex 
+3D geometries. Includes multiple geometric configurations (building3D, sector, 
+and wedge) showing different approaches to building blast analysis.
+**Description:**
+Mapped 3D building simulation with multiple geometric configurations. This 
+case demonstrates advanced mesh mapping techniques for complex building 
+geometries with sector and wedge configurations.
+
+### 3.11 blastFoam/movingCone
+**Path:** blastFoam/movingCone
+**README Content:** 
+Demonstrates dynamic mesh capabilities with moving boundaries under blast loading. 
+Shows proper treatment of moving objects in blast simulations and dynamic mesh 
+adaptation techniques for complex moving geometries.
+**Description:**
+Moving cone simulation under blast loading. This tutorial demonstrates dynamic 
+mesh capabilities and blast interaction with moving objects, including proper 
+treatment of moving boundaries.
+
+### 3.12 blastFoam/reacting
+**Path:** blastFoam/reacting
+**README Content:** 
+Demonstrates chemical reaction modeling within blast simulation framework. 
+Includes combustion kinetics, heat release, and species transport in high-temperature, 
+high-pressure blast environments.
+**Description:**
+Reacting blast simulation with chemical kinetics. This case includes combustion 
+and chemical reaction modeling within the blast simulation framework.
+
+### 3.13 blastFoam/shockTube_tabulated
+**Path:** blastFoam/shockTube_tabulated
+**README Content:** 
+Shock tube simulation using pre-computed thermodynamic tables for accurate 
+high-pressure simulations. Includes validation data and demonstrates tabulated 
+equation of state implementation for improved computational efficiency.
+**Description:**
+Shock tube simulation using tabulated equation of state data. This tutorial 
+demonstrates the use of pre-computed thermodynamic tables for accurate 
+high-pressure simulations with validation data.
+
+### 3.14 blastFoam/triplePointShockInteration
+**Path:** blastFoam/triplePointShockInteration
+**README Content:** 
+Advanced shock wave interaction case demonstrating complex physics at triple points. 
+Shows shock reflection, refraction, and interference phenomena with detailed 
+analysis of wave interaction patterns.
+**Description:**
+Triple point shock interaction simulation. This case demonstrates complex 
+shock wave interactions at triple points, including shock reflection and 
+refraction phenomena.
+
+### 3.15 blastFoam/twoChargeDetonation
+**Path:** blastFoam/twoChargeDetonation
+**README Content:** 
+Demonstrates simultaneous or sequential detonation of multiple explosive charges. 
+Shows blast wave interference patterns, pressure amplification effects, and 
+timing considerations for multi-charge scenarios.
+**Description:**
+Dual explosive charge detonation simulation. This tutorial shows simultaneous 
+or sequential detonation of multiple charges and their interference patterns.
+
+## 4. blastFSIFoam
+
+### 4.1 blastFSIFoam/building3D
+**Path:** blastFSIFoam/building3D
+**README Content:** 
+Coupled fluid-structure interaction simulation for building response to blast loading. 
+Demonstrates two-way coupling between blast wave propagation and structural 
+deformation, including material failure and damage assessment.
+**Description:**
+Fluid-Structure Interaction (FSI) simulation for 3D building under blast loading. 
+This case couples fluid dynamics with structural mechanics to simulate building 
+response to blast waves.
+
+### 4.2 blastFSIFoam/flap
+**Path:** blastFSIFoam/flap
+**README Content:** 
+FSI simulation of flexible structure under blast loading with large deformations. 
+Demonstrates fluid-structure coupling for flexible materials, showing dynamic 
+response and deformation patterns under blast wave impact.
+**Description:**
+FSI simulation of a flexible flap under blast loading. This tutorial demonstrates 
+fluid-structure coupling for flexible structures with large deformations.
+
+## 5. blastParcelFoam
+
+### 5.1 blastParcelFoam/forwardStep
+**Path:** blastParcelFoam/forwardStep
+**README Content:** 
+Lagrangian particle tracking simulation in blast-induced flows over complex geometry. 
+Demonstrates particle-blast interaction, particle trajectory analysis, and 
+multi-phase flow behavior in complex geometries.
+**Description:**
+Particle tracking simulation over a forward-facing step with blast flow. This 
+case demonstrates Lagrangian particle tracking in blast-induced flows with 
+complex geometry.
+
+## 6. blastReactingFoam
+
+### 6.1 blastReactingFoam/obliqueShock
+**Path:** blastReactingFoam/obliqueShock
+**README Content:** 
+Oblique shock simulation with detailed chemical kinetics modeling. Demonstrates 
+shock-induced combustion, ignition delay effects, and chemical species transport 
+in oblique shock configurations with reactive gas mixtures.
+**Description:**
+Oblique shock simulation with chemical reactions. This case demonstrates 
+shock-induced combustion and chemical kinetics in oblique shock configurations.
+
+### 6.2 blastReactingFoam/reacting
+**Path:** blastReactingFoam/reacting
+**Description:**
+Basic reacting flow simulation with blast conditions. This tutorial focuses 
+on chemical reaction modeling in high-temperature, high-pressure blast 
+environments.
+
+## 7. blastXiFoam
+
+### 7.1 blastXiFoam/deflagrationToDetonationTransition
+**Path:** blastXiFoam/deflagrationToDetonationTransition
+**Description:**
+Deflagration to Detonation Transition (DDT) simulation. This case demonstrates 
+the transition from slow burning (deflagration) to fast detonation, including 
+flame acceleration mechanisms.
+
+## 8. Utility and Setup Cases
+
+### 8.1 initializeAtmosphere
+**Path:** initializeAtmosphere
+**README Content:** 
+Atmospheric initialization utility for setting up realistic atmospheric conditions 
+in blast simulations. Provides proper stratification, pressure gradients, and 
+temperature profiles for accurate blast propagation modeling.
+**Description:**
+Atmospheric initialization utility for blast simulations. This case sets up 
+proper atmospheric conditions and stratification for realistic blast simulations.
+
+### 8.2 preCICE/flap
+**Path:** preCICE/flap
+**Description:**
+PreCICE coupling example for flexible flap simulation. This case demonstrates 
+multi-physics coupling using the preCICE library for advanced FSI simulations.
+
+### 8.3 setRefinedFields/internalDetonation_withObstacleAndGlass
+**Path:** setRefinedFields/internalDetonation_withObstacleAndGlass
+**Description:**
+Field refinement utility for complex internal detonation cases. This utility 
+helps set up refined initial and boundary conditions for advanced simulations.
+
+### 8.4 setRefinedFields/setRefinedFields
+**Path:** setRefinedFields/setRefinedFields
+**Description:**
+General field refinement utility for blast simulations. This tool provides 
+advanced field initialization capabilities for complex blast scenarios.
+
+### 8.5 solids4Foam/flap
+**Path:** solids4Foam/flap
+**Description:**
+Solids4Foam coupling example for structural analysis. This case demonstrates 
+integration with the solids4Foam library for advanced structural mechanics 
+in blast scenarios.
+
+================================================================================
+SUMMARY STATISTICS
+================================================================================
+
+Total Tutorial Cases: 25+
+Main Solver Categories:
+- blastEquation: 3 cases
+- blastEulerFoam: 2 cases  
+- blastFoam: 15 cases
+- blastFSIFoam: 2 cases
+- blastParcelFoam: 1 case
+- blastReactingFoam: 2 cases
+- blastXiFoam: 1 case
+- Utilities: 5 cases
+
+Common Features:
+- All cases include Allclean and Allrun scripts
+- Most cases have 0/, constant/, and system/ directories
+- Many cases include README.md files with detailed descriptions
+- Validation data provided for selected cases
+- Workshop versions available for educational purposes
+
+================================================================================
+USAGE INSTRUCTIONS
+================================================================================
+
+1. Navigate to desired tutorial directory
+2. Run ./Allclean to clean previous results
+3. Run ./Allrun to execute the simulation
+4. Check results in postProcessing/ or using ParaView
+5. Refer to README.md files for case-specific instructions
+
+================================================================================
+END OF SUMMARY
+================================================================================

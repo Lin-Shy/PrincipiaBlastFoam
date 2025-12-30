@@ -1,0 +1,36 @@
+# 工具: 辅助工具 (Utilities)
+
+除了核心的求解器 (Solvers) 之外，blastFoam 套件还提供了一系列辅助工具，用于算例的初始化、前处理和后处理。
+
+## 1. `initializeAtmosphere`
+
+- **功能**: 用于创建一个符合标准大气模型的初始场，即温度、压力和密度随高度变化的初始条件。这对于模拟高空爆炸或远场传播非常重要，因为大气分层会影响冲击波的传播路径和速度。
+- **典型案例**: `initializeAtmosphere/`
+- **使用方法**:
+  1. 在 `system/controlDict` 中设置 `application initializeAtmosphere;`。
+  2. 在 `constant/atmProperties` 文件中定义大气模型参数，如海平面温度、地面高度等。
+  3. 运行该工具，它会在 `0` 目录下生成或覆盖 `p` 和 `T` 文件，使其符合设定的分层大气。
+  4. 将 `controlDict` 中的 `application` 改回主求解器（如 `blastFoam`）后，即可开始计算。
+
+## 2. `setRefinedFields`
+
+- **功能**: 这是一个场映射工具，可以将一个案例（通常是粗网格或不同几何）的结果场数据，映射到当前案例的网格上，作为其初始条件。这常用于多步模拟或网格加密的场景。
+- **典型案例**: `setRefinedFields/`
+- **使用方法**:
+  1. 在 `system/controlDict` 中设置 `application setRefinedFields;`。
+  2. 在 `system/setRefinedFieldsDict` 文件中设置源案例的路径、时间以及要映射的场。
+  3. 运行该工具，它会读取源案例的数据并插值到当前案例的 `0` 目录中。
+  4. `blastFoam/mappedBuilding3D` 案例就是该工具的一个典型应用。
+
+## 3. `blastEquation`
+
+- **功能**: 这是一个简单的教学工具，用于求解一维的常微分方程（ODE）或偏微分方程（PDE），如扩散方程。它本身不用于爆炸模拟，而是作为一个模板，帮助用户学习如何在 OpenFOAM 框架下编写自己的求解器。
+- **典型案例**: `blastEquation/`
+- **目录结构**:
+  - `equation/`: 求解一个简单的 ODE。
+  - `planarWall/`: 求解一维热扩散方程。
+  - `univariateEquation/`: 求解一个非线性 ODE。
+- **学习价值**: 通过分析这些简单的案例，开发者可以理解 OpenFOAM 中如何定义一个新方程、如何进行时间步进以及如何实现离散和求解。
+
+### 总结:
+这些辅助工具是 blastFoam 工作流的重要组成部分。`initializeAtmosphere` 和 `setRefinedFields` 是实用的前处理工具，可以帮助建立更真实、更高效的模拟。`blastEquation` 则是面向开发者的学习资源，展示了 OpenFOAM 框架的灵活性和可扩展性。

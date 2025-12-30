@@ -1,0 +1,1050 @@
+--- FILE: blastEulerFoam/reactingParticles/0/T.gas.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T.gas.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 300;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/0/T.particles.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T.particles.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 300;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/0/Theta.particles.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      Theta.particles.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/0/U.gas.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U.gas.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    walls
+    {
+        type            slip;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/0/U.particles.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U.particles.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    walls
+    {
+        type            slip;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/0/Ydefault.gas.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      Ydefault.gas.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/0/air.gas.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      air.gas.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 1;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/0/alpha.particles.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.particles.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/0/d.particles.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      d.particles.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 0 0 0 0 0];
+
+internalField   uniform 1e-3;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/0/ignitor.gas.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      ignitor.gas.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/0/p.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 101298;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/0/rho.gas.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       volScalarField;
+    location    "0";
+    object      rho.gas.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1.13875;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/constant/dynamicMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh   adaptiveFvMesh;
+errorEstimator densityGradient;
+
+// How often to refine
+refineInterval  1;
+
+// Refine field in between lower..upper
+lowerRefineLevel 0.05;
+
+// If value < unrefineLevel unrefine
+unrefineLevel   0.05;
+
+// Have slower than 2:1 refinement
+nBufferLayers   3;
+
+// Refine cells only up to maxRefinement levels
+maxRefinement   1;
+
+// Write the refinement level as a volScalarField
+dumpLevel       true;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/constant/g ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       uniformDimensionedVectorField;
+    location    "constant";
+    object      g;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+dimensions [0 1 -2 0 0 0 0];
+value   (0 0 0);
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/constant/phaseProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      MieGruneisenEOSProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phases (particles gas);
+
+particles
+{
+    phaseType       granular;
+    diameterModel   reacting;
+    reactingDiameterCoeffs
+    {
+        d 1e-3;
+        reactionRate pressureBased;
+        offset 1;
+        pScale      1e-6;
+        pExponent   0.9;
+        pCoeff      0.009;
+    }
+
+    alphaMax    0.63;
+    alphaMinFriction 0.5;
+
+    type basic;
+    thermoType
+    {
+        equationOfState rhoConst;
+        thermo eConst;
+        transport constIso;
+    }
+    specie
+    {
+        molWeight  100.0;
+    }
+    equationOfState
+    {
+        rho0         1600;
+    }
+    transport
+    {
+        kappa       0.36;
+    }
+    thermodynamics
+    {
+        type        eConst;
+        Cv          745;           // Heat capacity
+        Hf          0;
+    }
+
+    kineticTheoryCoeffs
+    {
+        e           0.999;
+    }
+    residualAlpha 1e-6;
+    residualRho 0;
+
+
+}
+
+gas
+{
+    phaseType       fluid;
+
+    diameterModel constant;
+    constantDiameterCoeffs
+    {
+        d           0;
+    }
+
+    type            multicomponent;
+    species         (ignitor air products);
+    defaultSpecie   air;
+    calculateDensity yes;
+    thermoType
+    {
+        transport   const;
+        thermo      eConst;
+        equationOfState AbelNobel;
+    }
+
+    ignitor
+    {
+        equationOfState
+        {
+            b               0.99e-3;
+        }
+        specie
+        {
+            molWeight       22.935;
+        }
+        transport
+        {
+            mu              1.81e-5;
+            Pr              0.7;
+        }
+        thermodynamics
+        {
+            Cv          1450;
+            Hf          0;
+        }
+    }
+    products
+    {
+        equationOfState
+        {
+            b           0.99e-3;            // Heat capactiy ratio
+        }
+        specie
+        {
+            molWeight       21.0;
+        }
+        transport
+        {
+            mu              1.81e-5;
+            Pr              0.7;
+        }
+        thermodynamics
+        {
+            Cv          2100;
+            Hf          1.5e6;
+        }
+    }
+    air
+    {
+        equationOfState
+        {
+            b           1.02e-3;            // Heat capactiy ratio
+        }
+        specie
+        {
+            molWeight       28.6689;
+        }
+        transport
+        {
+            mu              1.81e-5;
+            Pr              0.7;
+        }
+        thermodynamics
+        {
+            Cv          1450;
+            Hf          0;
+        }
+    }
+    residualRho     1e-6;
+    residualAlpha   1e-6;
+}
+
+blending
+{
+    default
+    {
+        type none;
+        continuousPhase gas;
+    }
+}
+
+interfacialPressure
+(
+    (gas and particles)
+    {
+        type single;
+        phase gas;
+    }
+);
+
+interfacialVelocity
+(
+    (gas and particles)
+    {
+        type single;
+        phase particles;
+    }
+);
+
+massTransfer
+(
+    (particles in gas)
+    {
+        type reactingParticle;
+        productSpecies
+        (
+            (products 1.0)
+        );
+    }
+);
+
+aspectRatio
+(
+);
+
+solveDragODE off;
+dragODECoeffs
+{
+    solver seulex;
+    relTol 1e-3;
+}
+
+drag
+(
+    (particles in gas)
+    {
+        type GidaspowErgunWenYu;
+        residualRe 1e-3;
+        swarmCorrection
+        {
+            type none;
+        }
+    }
+);
+
+virtualMass
+(
+);
+
+heatTransfer
+(
+    (particles in gas)
+    {
+        type RanzMarshall;
+        NuModel Gunn;
+    }
+);
+
+lift
+(
+);
+
+wallLubrication
+(
+);
+
+turbulentDispersion
+(
+);
+
+kineticTheory
+{
+    alphaMax 0.63;
+    residualAlpha 1e-8;
+    alphaMinFriction 0.5;
+
+    radialModel SinclairJackson;
+    viscosityModel none;
+    conductivityModel Syamlal;
+    granularPressureModel Lun;
+    frictionalStressModel JohnsonJackson;
+
+    JohnsonJacksonCoeffs
+    {
+        alphaMinFriction        0.5;
+        Fr                      0.05;
+        eta                     2;
+        p                       5;
+        phi                     28.5;
+        alphaDeltaMin           0.05;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/constant/turbulenceProperties.gas ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      turbulenceProperties.gas;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+simulationType laminar;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/constant/turbulenceProperties.particles ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      turbulenceProperties.particles;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+simulationType laminar;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/system/blockMeshDict ---
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1; // feet to meters
+
+vertices
+(
+    (0 0 0)
+    (1 0 0)
+    (1 1 0)
+    (0 1 0)
+    (0 0 .1)
+    (1 0 .1)
+    (1 1 .1)
+    (0 1 .1)
+);
+
+blocks
+(
+ hex (0 1 2 3 4 5 6 7) (50 50 1) simpleGrading (1 1 1) // only multiply by 2
+ );
+
+edges
+(
+);
+
+boundary
+(
+    walls
+    {
+        type wall;
+        faces
+        (
+            (0 3 7 4)
+            (1 2 6 5)
+            (0 1 5 4)
+            (2 3 7 6)
+        );
+    }
+ );
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/system/controlDict ---
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     blastEulerFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         .0025;
+
+writeControl    adjustableRunTime;
+
+writeInterval   1e-4;
+
+writeFormat     binary;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   12;
+
+runTimeModifiable true;
+
+adjustTimeStep  yes;
+
+deltaT          1e-7;
+
+maxCo           0.5;
+
+// ************************************************************************* //
+
+
+functions
+{
+}
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/system/decomposeParDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      decomposeParDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+numberOfSubdomains 36; // this is number of proc
+
+// preservePatches (patch0 patch1 patch2);
+
+method         scotch; // automatic
+
+simpleCoeffs // not auto
+{
+    n               ( 2 2 1 );
+    delta           0.001;
+}
+
+hierarchicalCoeffs
+{
+    n               ( 4 3 2 );
+    delta           0.001;
+    order           xyz;
+}
+
+metisCoeffs
+{
+    // processorWeights ( 1 1 1 1 1 1 );
+}
+
+manualCoeffs
+{
+    dataFile        "";
+}
+
+distributed     no;
+
+roots           ( );
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/system/fvSchemes ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fluxSchemes
+{
+    gas
+    {
+        fluxScheme  HLLC;
+    }
+    particles
+    {
+        fluxScheme          AUSM+Up;
+        alphaMinFriction    0.5;
+        alphaMax            0.63;
+    }
+}
+
+ddtSchemes
+{
+    default         Euler;
+    timeIntegrator  RK2SSP;
+}
+
+gradSchemes
+{
+    default         cellMDLimited leastSquares 1.0;
+}
+
+divSchemes
+{
+    default         none;
+    div(alphaRhoPhi.gas,Yi)         Riemann;
+    div(phi.particles,d.particles) Riemann particles;
+    div(alphaRhoPhi.particles,d.particles) Riemann particles;
+    div((((alpha.gas*rho.gas)*nuEff.gas)*dev2(T(grad(U.gas))))) Gauss linear;
+    div(sigma.particles) Gauss linear;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default             cubic;
+    reconstruct(alpha)  quadraticMUSCL vanAlbada;
+    reconstruct(rho)    quadraticMUSCL vanAlbada;
+    reconstruct(U)      quadraticMUSCL vanAlbada;
+    reconstruct(e)      quadraticMUSCL vanAlbada;
+    reconstruct(p)      quadraticMUSCL vanAlbada;
+    reconstruct(speedOfSound) quadraticMUSCL vanAlbada;
+    "reconstruct\(Y.*\)" quadraticMUSCL vanAlbada;
+    reconstruct(Theta)  quadraticMUSCL vanAlbada;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/system/fvSolution ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(rho|alpahRhoU|alphaRhoE|alpha).*"
+    {
+        solver          diagonal;
+    }
+
+    "(U|e|Yi).*"
+    {
+        solver          PBiCGStab;
+        preconditioner  DIC;
+        minIter         1;
+        tolerance       1e-09;
+        relTol          0;
+    }
+
+    "Theta.*"
+    {
+        $U;
+        tolerance       1e-10;
+        relTol          0;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/reactingParticles/system/setFieldsDict ---
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+fields (alpha.particles p);
+
+defaultFieldValues
+(
+    volScalarFieldValue p               101000
+    volScalarFieldValue T.gas           300
+    volScalarFieldValue alpha.particles 0
+    volScalarFieldValue ignitor.gas     0
+    volScalarFieldValue air.gas         1
+);
+
+regions
+(
+    cylinderToCell
+    {
+        p1 (0.5 0 -1);
+        p2 (0.5 0 1);
+        radius 0.1;
+        level 2;
+
+        fieldValues
+        (
+            volScalarFieldValue alpha.particles 0.6
+        );
+    }
+    cylinderToCell
+    {
+        p1 (0.5 0.1 -1);
+        p2 (0.5 0.1 1);
+        radius 0.01;
+        level 3;
+
+        fieldValues
+        (
+            volScalarFieldValue p               1e7
+            volScalarFieldValue T.gas           2000
+            volScalarFieldValue ignitor.gas     1.0
+            volScalarFieldValue air.gas         0
+        );
+    }
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+

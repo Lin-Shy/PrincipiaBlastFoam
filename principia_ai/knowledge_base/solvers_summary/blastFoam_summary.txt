@@ -1,0 +1,56 @@
+# 求解器: blastFoam (标准可压缩流体求解器)
+
+## 1. 核心功能
+
+`blastFoam` 是 blastFoam 套件中最基础也是最核心的求解器。它用于模拟可压缩、非反应性的流体动力学问题，特别擅长处理爆炸冲击波在气体介质中的传播，以及冲击波与刚性结构的相互作用。
+
+## 2. 适用场景
+
+- **自由场爆炸**: 评估炸药在开放空间中的威力，是进行更复杂模拟的基础。
+- **冲击波与刚性结构相互作用**: 模拟冲击波加载在建筑物、墙体、车辆等不会发生显著变形的物体上。
+- **内部爆炸**: 研究在密闭或半密闭空间（如房间、隧道）内爆炸时，冲击波的反射、叠加和汇聚效应。
+- **激波管问题**: 用于代码验证和基础物理现象研究。
+- **移动边界问题**: 模拟物体在爆炸场中按预设轨迹移动的场景。
+
+## 3. `blastFoam_tutorials` 中的典型案例
+
+- `freeField`: 最简单的自由场爆炸。
+- `twoChargeDetonation`: 两个炸药包同时起爆的自由场爆炸。
+- `building3D`, `building3DWorkshop`: 冲击波与三维建筑物的相互作用。
+- `internalDetonation`: 在带障碍物的密闭空间内爆炸。
+- `burstingWindow_workshop`: 内部爆炸导致窗户（被模拟为压力出口）破裂。
+- `shockTube_tabulated`: 使用表格化状态方程的一维激波管。
+- `movingCone`: 一个圆锥体在流场中按指定速度移动。
+- `axisymmetricCharge`: 轴对称模型，可节省计算资源。
+- `mappedBuilding3D`: 将一个简单案例的结果映射到一个更复杂的案例作为初始条件。
+
+## 4. 关键目录结构与文件
+
+这是最标准的案例结构，是理解其他求解器的基础。
+
+```
+.
+├── 0/
+│   ├── p           # 压力场
+│   ├── T           # 温度场
+│   ├── U           # 速度场
+│   └── alpha.air   # (可选) 用于初始化炸药区域
+│
+├── Allclean        # 清理脚本
+├── Allrun          # 运行脚本
+│
+├── constant/
+│   ├── thermophysicalProperties  # **核心文件**: 定义气体模型 (如 idealGas) 和炸药模型 (如 jwl)。
+│   ├── turbulenceProperties      # 定义湍流模型 (如 kEpsilon, laminar)。
+│   └── polyMesh/                 # 网格目录
+│
+└── system/
+    ├── controlDict             # **核心文件**: 设置求解器为 `application blastFoam;`，并控制时间、写出等。
+    ├── fvSchemes               # 定义离散格式，对于冲击波问题非常重要。
+    ├── fvSolution              # 定义线性方程组求解器和算法。
+    ├── blockMeshDict           # (可选) 用于生成简单的矩形背景网格。
+    └── snappyHexMeshDict       # (可选) 用于生成复杂的贴体网格。
+```
+
+### 总结:
+`blastFoam` 是学习和使用 blastFoam 套件的起点。它的文件结构相对简单，重点在于理解 `thermophysicalProperties` 中如何定义材料，以及 `system` 目录下各项参数如何控制求解过程。

@@ -1,0 +1,124 @@
+graph LR
+    subgraph Input Documents
+        direction TB
+        subgraph blastFoam tutorials
+            direction LR
+            T1[freeField]
+            T2[building3D]
+            T3[...]
+            T4[movingCone]
+        end
+        subgraph blastFoam user guide
+            direction LR
+            G1[Governing<br>equations]
+            G2[Drag<br>models]
+            G3[...]
+            G4[Equation<br>of states]
+        end
+    end
+
+    subgraph Information Extraction
+        direction TB
+        
+        %% Top Part: From Tutorials
+        subgraph Extraction from Tutorials
+            direction LR
+            freeField_dir[freeField] --> files{files}
+            files --> phase[phaseProperties]
+            files --> control[controlDict]
+            files --> etc_files[...]
+            files --> setFields[setFieldsDict]
+            
+            subgraph Instances Graph
+                direction LR
+                inst_air((air))
+                inst_c4((c4))
+                
+                phase --o inst_idealGas((idealGas))
+                setFields --o inst_c4
+                
+                inst_air --> inst_idealGas
+                inst_air --> inst_const((const))
+                
+                inst_c4 --> inst_sphere((sphereToCell))
+                inst_c4 --> inst_jwl((JWL))
+                
+                some_node(( )) --o inst_air
+                some_node --o inst_c4
+            end
+        end
+
+        %% Bottom Part: From User Guide
+        subgraph Extraction from User Guide
+            direction LR
+            EOS_doc[EOS] --> JWL_text[JWL]
+            EOS_doc --> Tait_text[Tait]
+            EOS_doc --> etc_text[...]
+            EOS_doc --> idealGas_text[idealGas]
+            
+            JWL_text --o concept_internal[Internal energy<br>based]
+            Tait_text --o concept_internal
+            idealGas_text --o concept_temp[temperature-based]
+        end
+    end
+
+    subgraph Knowledge Alignment
+        direction TB
+        
+        %% Top Part: Re-displaying Instances
+        subgraph Aligned Instances
+             direction LR
+             A_inst_air((air))
+             A_inst_c4((c4))
+             A_inst_idealGas((idealGas))
+             A_inst_const((const))
+             A_inst_sphere((sphereToCell))
+             A_inst_jwl((JWL))
+             
+             A_inst_air --> A_inst_idealGas
+             A_inst_air --> A_inst_const
+             A_inst_c4 --> A_inst_sphere
+             A_inst_c4 --> A_inst_jwl
+             A_some_node(( )) --> A_inst_air
+             A_some_node --> A_inst_c4
+        end
+        
+        %% Bottom Part: Re-displaying Concepts
+        subgraph Aligned Concepts
+            direction LR
+            A_JWL[JWL] --> A_internal[Internal energy<br>based]
+            A_Tait[Tait] --> A_internal
+            A_idealGas[idealGas] --> A_temp[temperature-based]
+        end
+    end
+
+    subgraph Knowledge Graph
+        KG[(Knowledge Graph)]
+    end
+
+    %% Main Flow Arrows
+    Input_Documents --> Information_Extraction
+    Information_Extraction --> Knowledge_Alignment
+    Knowledge_Alignment --> Knowledge_Graph
+    
+    %% Connections for the flow logic
+    T1 --> freeField_dir
+    G4 --> EOS_doc
+
+    %% Alignment Links
+    A_JWL -.-> A_inst_jwl
+    A_idealGas -.-> A_inst_idealGas
+
+    %% Styling to match the original image
+    classDef yellow fill:#f9e79f,stroke:#333,stroke-width:2px
+    classDef blue fill:#aed6f1,stroke:#333,stroke-width:2px
+    classDef red fill:#f5b7b1,stroke:#333,stroke-width:2px
+    classDef instance fill:#cccccc,stroke:#333,stroke-width:2px
+    classDef concept fill:#cccccc,stroke:#333,stroke-width:2px
+
+    class T1,T2,T3,T4,freeField_dir yellow
+    class phase,control,etc_files,setFields,files blue
+    class G1,G2,G3,G4,EOS_doc,JWL_text,Tait_text,etc_text,idealGas_text,A_JWL,A_Tait,A_idealGas red
+    class inst_air,inst_c4,inst_idealGas,inst_const,inst_sphere,inst_jwl,some_node instance
+    class A_inst_air,A_inst_c4,A_inst_idealGas,A_inst_const,A_inst_sphere,A_inst_jwl,A_some_node instance
+    class concept_internal,concept_temp,A_internal,A_temp concept

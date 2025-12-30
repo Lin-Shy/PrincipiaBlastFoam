@@ -1,0 +1,41 @@
+# 求解器: blastReactingFoam (含化学反应的求解器)
+
+## 1. 核心功能
+
+`blastReactingFoam` 用于模拟包含详细化学反应机理的爆炸和燃烧问题。与 `blastFoam` 中简化的 `jwl` 模型不同，`blastReactingFoam` 能够求解多组分输运方程和化学反应源项，从而精确模拟反应过程中的组分变化和能量释放。
+
+## 2. 适用场景
+
+- **爆轰物理**: 研究爆轰波的详细结构、传播速度（如爆速）和起爆过程。
+- **可燃气体云爆炸**: 模拟氢气、甲烷等可燃气体泄漏后与空气混合，被点燃后发生的爆炸。
+- **斜激波诱导燃烧**: 在超燃冲压发动机等领域，研究高速来流通过斜激波后被压缩点燃的现象。
+
+## 3. `blastFoam_tutorials` 中的典型案例
+
+- `reacting`: 在一个封闭管道中模拟预混可燃气体的点火和燃烧过程。
+- `obliqueShock`: 模拟超音速可燃气体流过一个楔形物，产生斜激波并诱导燃烧。
+
+## 4. 关键目录结构与文件
+
+`blastReactingFoam` 的案例结构在 `blastFoam` 的基础上，增加了大量与化学反应和多组分相关的设置。
+
+```
+.
+├── 0/
+│   ├── p, T, U
+│   └── Y.CH4, Y.O2, ...    # **新增**: 每种化学组分 (Species) 的质量分数 (Mass Fraction) 的初始场。'Y' 代表质量分数。
+│
+├── constant/
+│   ├── chemistryProperties     # **核心文件**: 定义化学反应机理，包括所有组分列表、反应方程式、反应速率常数（如阿伦尼乌斯公式参数）等。
+│   ├── combustionProperties    # **核心文件**: 定义燃烧模型，控制化学反应源项如何计算和求解。
+│   ├── thermophysicalProperties # **核心文件**: 定义每一种化学组分的热力学和输运属性（如粘度、热导率）。模型通常设置为 `janaf`，并需要提供一个包含 JANAF 热力学数据的文件。
+│   └── ...
+│
+└── system/
+    ├── controlDict             # 设置求解器为 `application blastReactingFoam;`
+    ├── fvSchemes               # 需要为每个组分 (Y.CH4, Y.O2, ...) 定义离散格式。
+    └── fvSolution              # 需要为每个组分 (Y.CH4, Y.O2, ...) 定义求解算法。
+```
+
+### 总结:
+`blastReactingFoam` 的复杂性主要来自于化学反应的设置。用户需要有化学动力学背景知识，能够正确编写 `chemistryProperties` 文件，并为所有涉及的化学组分提供准确的 `thermophysicalProperties` 数据。由于求解的方程数量远多于 `blastFoam`，其计算成本也更高。

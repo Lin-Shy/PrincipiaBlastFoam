@@ -1,0 +1,1235 @@
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/Su ---
+
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      Su;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform 0.434;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/T.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 293;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/Tu.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 293;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/U.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            noSlip;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    walls
+    {
+        type            noSlip;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/Xi ---
+
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      Xi;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 1;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/alphat ---
+
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      alphat;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -1 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    walls
+    {
+        type            compressible::alphatWallFunction;
+        value           uniform 0;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/b.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      b;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 1;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    walls
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/epsilon ---
+
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      epsilon;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -3 0 0 0 0];
+
+internalField   uniform 5.3;
+
+boundaryField
+{
+    walls
+    {
+        type            epsilonWallFunction;
+        value           uniform 5.3;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/ft.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      ft.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0.03;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    walls
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/fu ---
+
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      fu;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/k ---
+
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      k;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField   uniform 0.1;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/nut ---
+
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      nut;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -1 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    walls
+    {
+        type            nutkWallFunction;
+        value           uniform 0;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/omega ---
+
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      omega;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 -1 0 0 0 0];
+
+internalField   uniform 53;
+
+boundaryField
+{
+    walls
+    {
+        type            omegaWallFunction;
+        value           uniform 53;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/p.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 101298;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    walls
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/0/tau ---
+
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      tau;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    walls
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/constant/combustionProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      combustionProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+laminarFlameSpeedCorrelation RaviPetersen;
+
+fuel            HydrogenInAir;
+
+Su              Su [0 1 -1 0 0 0 0] 0.434;
+
+SuModel         unstrained;
+
+equivalenceRatio equivalenceRatio [0 0 0 0 0 0 0] 1;
+
+sigmaExt        sigmaExt [0 0 -1 0 0 0 0] 100000;
+
+XiModel         algebraic;
+
+XiCoef          XiCoef [0 0 0 0 0 0 0] 0.62;
+
+XiShapeCoef     XiShapeCoef [0 0 0 0 0 0 0] 1;
+
+uPrimeCoef      uPrimeCoef [0 0 0 0 0 0 0] 1;
+
+pRef            pRef    [1 -1 -2 0 0 0 0] 101298;
+
+TRef            TRef    [0 0 0 1 0 0 0] 293;
+
+RaviPetersenCoeffs
+{
+    HydrogenInAir
+    {
+        TRef            320;
+        pPoints         (1e5 5e5 1e6 2e6 3e6);
+        EqRPoints       (0.5 2 5);
+        alpha           ((( -0.03   -2.347   9.984   -6.734    1.361)
+                          (  1.61   -9.708  19.026  -11.117    2.098)
+                          (  2.329 -12.287  21.317  -11.973    2.207)
+                          (  2.593 -12.813  20.815  -11.471    2.095)
+                          (  2.728 -13.164  20.794  -11.418    2.086))
+                         ((  3.558   0.162  -0.247    0.0253   0    )
+                          (  4.818  -0.872  -0.053    0.0138   0    )
+                          (  3.789  -0.312  -0.208    0.028    0    )
+                          (  4.925  -1.841   0.211   -0.0059   0    )
+                          (  4.505  -1.906   0.259   -0.0105   0    )));
+        beta            (((  5.07   -6.42    3.87    -0.767)
+                          (  5.52   -6.73    3.88    -0.728)
+                          (  5.76   -6.92    3.92    -0.715)
+                          (  6.02   -7.44    4.37    -0.825)
+                          (  7.84  -11.55    7.14    -1.399))
+                         ((  1.405   0.053   0.022    0    )
+                          (  1.091   0.317   0        0    )
+                          (  1.64   -0.03    0.07     0    )
+                          (  0.84    0.56    0        0    )
+                          (  0.81    0.64    0        0    )));
+    }
+}
+
+ignite          yes;
+
+ignitionSites
+(
+    {
+        location        (0 0 0);
+        diameter        0.02451;
+        start           0;
+        duration        0.003;
+        strength        1;
+    }
+);
+
+ignitionSphereFraction 1;
+
+ignitionThickness ignitionThickness [0 1 0 0 0 0 0] 0.001;
+
+ignitionCircleFraction 0.5;
+
+ignitionKernelArea ignitionKernelArea [0 2 0 0 0 0 0] 0.001;
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/constant/g ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       uniformDimensionedVectorField;
+    location    "constant";
+    object      g;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions [0 1 -2 0 0 0 0];
+
+value (0 -9.81 0);
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/constant/thermophysicalProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+thermoType
+{
+    type            heheuPsiThermo;
+    mixture         inhomogeneousMixture;
+    transport       sutherland;
+    thermo          janaf;
+    energy          absoluteInternalEnergy;
+    equationOfState perfectGas;
+    specie          specie;
+}
+
+
+stoichiometricAirFuelMassRatio stoichiometricAirFuelMassRatio [0 0 0 0 0 0 0] 34.074;
+
+fuel
+{
+    specie
+    {
+        molWeight       2.01594;
+    }
+    thermodynamics
+    {
+        Tlow            -100;
+        Thigh           3500;
+        Tcommon         1000;
+        highCpCoeffs    ( 3.3372792 -4.94024731e-05 4.99456778e-07 -1.79566394e-10 2.00255376e-14 -950.158922 -3.20502331 );
+        lowCpCoeffs     ( 2.34433112 0.00798052075 -1.9478151e-05 2.01572094e-08 -7.37611761e-12 -917.935173 0.683010238 );
+    }
+    transport
+    {
+        As              6.362e-07;
+        Ts              72;
+    }
+}
+
+oxidant
+{
+    specie
+    {
+        molWeight       28.8504;
+    }
+    thermodynamics
+    {
+        Tlow            100;
+        Thigh           6000;
+        Tcommon         1000;
+        highCpCoeffs    ( 3.10205 0.00123963 -4.17512e-07 6.60292e-11 -3.87448e-15 -985.517 5.35187 );
+        lowCpCoeffs     ( 3.58378 -0.0007269 1.66985e-06 -1.08452e-10 -4.31951e-13 -1050.53 3.11223 );
+    }
+    transport
+    {
+        As              1.67212e-06;
+        Ts              170.672;
+    }
+}
+
+
+burntProducts
+{
+    specie
+    {
+        molWeight       23.1817;
+    }
+    thermodynamics
+    {
+        Tlow            100;
+        Thigh           5000;
+        Tcommon         1000;
+        highCpCoeffs
+        (
+            2.705897282100000e+00
+            1.522256454100000e-03
+            -4.271079929850000e-07
+            4.918003947500001e-11
+            -1.205001328500001e-15
+            -8.118581664050000e+03
+            5.139615398850000e+00
+        );
+        lowCpCoeffs
+        (
+            3.249985925900000e+00
+            1.304861916000001e-04
+            -7.803387685000010e-08
+            1.341320801650000e-09
+            -7.947391084499999e-13
+            -8.247471197150000e+03
+            2.366086280450000e+00
+        );
+    }
+    transport
+    {
+        As              1.67212e-06;
+        Ts              170.672;
+    }
+}
+
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/constant/turbulenceProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      turbulenceProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+simulationType  RAS;
+
+RAS
+{
+    RASModel        kOmegaSST;
+    turbulence      on;
+    printCoeffs     on;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/system/blockMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+convertToMeters .001;
+
+L   6000;
+W   300;
+H   30;
+nH  -30;
+
+vertices
+(
+    (0  $nH 0)
+    ($L $nH 0)
+    ($L $H  0)
+    (0  $H  0)
+    (0  $nH $W)
+    ($L $nH $W)
+    ($L $H  $W)
+    (0  $H  $W)
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (3000 30 1) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    walls
+    {
+        type wall;
+        faces
+        (
+            (0 3 4 7)
+            (1 2 6 5)
+            (0 1 5 4)
+            (3 2 6 7)
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/system/controlDict ---
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     blastXiFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         20e-3;
+
+writeControl    adjustableRunTime;
+
+writeInterval   1e-4;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   12;
+
+runTimeModifiable true;
+
+adjustTimeStep  yes;
+
+deltaT          1e-5;
+
+maxCo           0.5;
+
+
+// ************************************************************************* //
+
+
+functions
+{
+}
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/system/decomposeParDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      decomposeParDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+numberOfSubdomains 8; // this is number of proc
+
+// preservePatches (patch0 patch1 patch2);
+
+method         scotch; // automatic
+
+simpleCoeffs // not auto
+{
+    n               ( 17 4 2 );
+    delta           0.001;
+}
+
+hierarchicalCoeffs
+{
+    n               ( 4 3 2 );
+    delta           0.001;
+    order           xyz;
+}
+
+metisCoeffs
+{
+    // processorWeights ( 1 1 1 1 1 1 );
+}
+
+manualCoeffs
+{
+    dataFile        "";
+}
+
+distributed     no;
+
+roots           ( );
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/system/fvSchemes ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fluxScheme      HLLC;
+
+ddtSchemes
+{
+    default         Euler;
+    timeIntegrator  Euler;
+}
+
+gradSchemes
+{
+    default         cellMDLimited leastSquares 1.0;
+}
+
+divSchemes
+{
+    default             none;
+    div(rhoPhi,epsilon) Gauss upwind;
+    div(rhoPhi,k)       Gauss upwind;
+    div(rhoPhi,omega)   Gauss upwind;
+    div(rhoPhi,ft)      Gauss upwind;
+    div(rhoPhi,b)       Gauss upwind;
+    "div\(rhoPhi,tau.*\)" Gauss upwind;
+    div(rhoPhi,Su)      Gauss upwind;
+
+    div(phiXi,Xi)   Gauss limitedLinear 1;
+    div(phiXi,Su)   Gauss limitedLinear 1;
+    div(phiSt,b)    Gauss limitedLinear01 1;
+
+    div(U)          Gauss linear;
+    div((Su*n)) Gauss linear;
+    div((U+((Su*Xi)*n))) Gauss linear;
+
+    div(((rho*nuEff)*dev2(T(grad(U)))))          Gauss linear;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default             linear;
+    reconstruct(alpha)  Minmod;
+    reconstruct(rho)    Minmod;
+    reconstruct(U)      MinmodV;
+    reconstruct(e)      Minmod;
+    reconstruct(p)      Minmod;
+    reconstruct(speedOfSound)      Minmod;
+
+    reconstruct(ft)     limitedLinear01 1;
+    reconstruct(b)      limitedLinear01 1;
+
+    "reconstruct(.*)"   Minmod;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+wallDist
+{
+    method meshWave;
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/system/fvSolution ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(U|ea|eau)"
+    {
+        solver          PBiCGStab;
+        preconditioner  DIC;
+        tolerance       1e-08;
+        relTol          0;
+    }
+
+    "(Su|Xi|b|ft|b|k|omega|epsilon)"
+    {
+        solver          PBiCGStab;
+        preconditioner  DILU;
+        tolerance       1e-08;
+        relTol          0;
+    }
+}
+
+PIMPLE
+{
+    nOuterCorrectors 3;
+    nCorrectors     1;
+    nNonOrthogonalCorrectors 0;
+    outerCorrectorResidualControl
+    {
+        p
+        {
+            tolerance   1e-4;
+            relTol      0;
+        }
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/system/setFieldsDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+defaultFieldValues
+(
+    volScalarFieldValue T 293
+    volScalarFieldValue Tu 293
+    volScalarFieldValue b 1
+    volScalarFieldFunction ft
+    {
+        type coded;
+
+        code
+        #{
+            const scalar H2molf = 0.25;
+
+            const scalar MH2 = 1.00784*2.0;
+            const scalar MN2 = 14.0067*2.0;
+            const scalar MO2 = 15.9988*2.0;
+
+            scalar yRel = y - 0.03;
+            scalar _10H2 =
+              - 3.50957e+04*pow5(yRel)
+              - 3.26065e+04*pow4(yRel)
+              - 5.25765e+03*pow3(yRel)
+              - 2.62149e+02*sqr(yRel)
+              - 3.84660e-01*yRel
+              + 1.99094e-01;
+
+            scalar _20H2 =
+                1.84717e+05*pow5(yRel)
+              - 1.40719e+04*pow4(yRel)
+              - 6.78365e+03*pow3(yRel)
+              - 4.17966e+02*sqr(yRel)
+              - 6.09813e-01*yRel
+              + 3.77362e-01;
+
+            scalar _30H2 =
+                3.70457e+05*pow5(yRel)
+              + 1.89256e+04*pow4(yRel)
+              - 5.74215e+03*pow3(yRel)
+              - 4.60436e+02*sqr(yRel)
+              - 4.98623e-01*yRel
+              + 5.26445e-01;
+
+            scalar _40H2 =
+                5.69961e+05*pow5(yRel)
+              + 6.66643e+04*pow4(yRel)
+              - 2.62118e+03*pow3(yRel)
+              - 4.11878e+02*sqr(yRel)
+              - 1.79756e-01*yRel
+              + 6.48390e-01;
+
+            scalar xH2;
+            if(H2molf < 0.10)
+            {
+                xH2 = H2molf/0.10*_10H2;
+            }
+            else if (H2molf < 0.20)
+            {
+                xH2 = _10H2 + (H2molf - 0.10)/0.10*(_20H2 - _10H2);
+            }
+            else if (H2molf < 0.30)
+            {
+                xH2 = _20H2 + (H2molf - 0.20)/0.10*(_30H2-_20H2);
+            }
+            else if (H2molf <= 0.40)
+            {
+                xH2 = _30H2 + (H2molf - 0.30)/0.10*(_40H2 - _30H2);
+            }
+            else
+            {
+                Info<<"\n Error: molar H2 fraction above 0.40 \n";
+            }
+
+            scalar xO2 = (1.0 - xH2)*0.21;
+            scalar xN2 = 1.0 - xH2 - xO2;
+
+            return xH2*MH2/(xN2*MN2 + xH2*MH2 + xO2*MO2);
+        #};
+    }
+);
+
+regions
+(
+    cylinderToCell
+    {
+        p1       (0.0 0.0 -1); // start point on cylinder axis
+        p2       (0.0 0.0  1);  // end point on cylinder axis
+        radius   0.02451;
+        fieldValues
+        (
+            volScalarFieldValue ft  0.0217406435288288
+            volScalarFieldValue b   0
+            volScalarFieldValue T   2448.5
+        );
+    }
+);
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastXiFoam/deflagrationToDetonationTransition/system/topoSetDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+    {
+        name    c0;
+        type    cellSet;
+        action  clear;
+    }
+    {
+        name    c0;
+        type    cellSet;
+        action  invert;
+    }
+    {
+        name    c0;
+        type    cellSet;
+        action  delete;
+        source  boxToCell;
+        sourceInfo
+        {
+            boxes
+            (
+                (0.194 -0.03 0) (0.206 -0.02 0.30)
+                (0.494 -0.03 0) (0.506 -0.02 0.30)
+                (0.794 -0.03 0) (0.806 -0.02 0.30)
+                (1.094 -0.03 0) (1.106 -0.02 0.30)
+                (1.394 -0.03 0) (1.406 -0.02 0.30)
+                (1.694 -0.03 0) (1.706 -0.02 0.30)
+                (1.994 -0.03 0) (2.006 -0.02 0.30)
+
+                (0.194 0.02 0) (0.206 0.03 0.30)
+                (0.494 0.02 0) (0.506 0.03 0.30)
+                (0.794 0.02 0) (0.806 0.03 0.30)
+                (1.094 0.02 0) (1.106 0.03 0.30)
+                (1.394 0.02 0) (1.406 0.03 0.30)
+                (1.694 0.02 0) (1.706 0.03 0.30)
+                (1.994 0.02 0) (2.006 0.03 0.30)
+            );
+        }
+    }
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+

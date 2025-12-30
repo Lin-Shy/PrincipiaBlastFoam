@@ -1,0 +1,1046 @@
+--- FILE: preCICE/flap/Fluid/0/T.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 288;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    flap
+    {
+        type            zeroGradient;
+    }
+
+    upperWall
+    {
+        type            zeroGradient;
+    }
+
+    lowerWall
+    {
+        type            zeroGradient;
+    }
+
+    frontAndBack
+    {
+        type            empty;
+    }
+
+    processor
+    {
+        type            processor;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/0/U.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    flap
+    {
+        type            slip;
+    }
+
+    upperWall
+    {
+        type            zeroGradient;
+    }
+
+    lowerWall
+    {
+        type            slip;
+    }
+
+    frontAndBack
+    {
+        type            empty;
+    }
+
+    processor
+    {
+        type            processor;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/0/alpha.c4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.c4.orig;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    flap
+    {
+        type            zeroGradient;
+    }
+
+    upperWall
+    {
+        type            zeroGradient;
+    }
+
+    lowerWall
+    {
+        type            zeroGradient;
+    }
+
+    frontAndBack
+    {
+        type            empty;
+    }
+
+    processor
+    {
+        type            processor;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/0/p.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 101298;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    flap
+    {
+        type            zeroGradient;
+    }
+
+    upperWall
+    {
+        type            zeroGradient;
+    }
+
+    lowerWall
+    {
+        type            zeroGradient;
+    }
+
+    frontAndBack
+    {
+        type            empty;
+    }
+
+    processor
+    {
+        type            processor;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/0/pointDisplacement ---
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       pointVectorField;
+    object      pointDisplacement;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 0 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+
+    outlet
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+
+    flap
+    {
+        type            fixedValue;
+        value           $internalField;
+    }
+
+    upperWall
+    {
+        type            slip;
+        value           uniform (0 0 0);
+    }
+
+    lowerWall
+    {
+        type            slip;
+        value           uniform (0 0 0);
+    }
+
+    frontAndBack
+    {
+        type            empty;
+    }
+
+    processor
+    {
+        type            processor;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/0/rho.air.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.air;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1.225;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    flap
+    {
+        type            zeroGradient;
+    }
+
+    upperWall
+    {
+        type            zeroGradient;
+    }
+
+    lowerWall
+    {
+        type            zeroGradient;
+    }
+
+    frontAndBack
+    {
+        type            empty;
+    }
+
+    processor
+    {
+        type            processor;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/0/rho.c4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.c4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 1601;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    flap
+    {
+        type            zeroGradient;
+    }
+
+    upperWall
+    {
+        type            zeroGradient;
+    }
+
+    lowerWall
+    {
+        type            zeroGradient;
+    }
+
+    frontAndBack
+    {
+        type            empty;
+    }
+
+    processor
+    {
+        type            processor;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/constant/dynamicMeshDict ---
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      dynamicMeshDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh dynamicMotionSolverFvMesh;
+
+
+protectedPatches (flap);
+
+motionSolver      displacementLaplacian;
+
+displacementLaplacianCoeffs
+{
+    diffusivity quadratic inverseDistance (flap);
+}
+errorEstimator delta;      // Model used to estimate error
+deltaField p;               // Field used to estimate error
+epsilon 0.5;                // Error coefficient
+
+beginUnrefine 1e-6;         // At what time does unrefinement start (default is 0)
+
+
+balance no;
+
+// How often to refine
+refineInterval  2;
+
+// Field to be refinement on
+field           error;
+
+// Refine field in between lower..upper (varies based on errorEstimator)
+lowerRefineLevel 0.1;
+
+// If value < unrefineLevel unrefine
+unrefineLevel   0.1;
+
+// Number of cells refined around high error cells
+nBufferLayers   1;
+
+// Refine cells only up to maxRefinement levels
+maxRefinement   1;
+
+// Stop refinement if maxCells reached
+maxCells        100000000;
+
+// Write the refinement level as a volScalarField
+dumpLevel       true;
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/constant/phaseProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      phaseProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phases (c4 air);   // List of phases
+
+c4
+{
+    type detonating;
+    reactants
+    {
+        thermoType
+        {
+            transport   const;
+            thermo      eConst;
+            equationOfState Murnaghan;
+        }
+        equationOfState
+        {
+            rho0            1601;
+            n               7.4;
+            kappa           3.9e11;
+            Gamma           0.35;
+            pRef            101298;
+        }
+        specie
+        {
+            molWeight       222.12;
+        }
+        transport
+        {
+            mu              1.81e-5;              // Viscosity
+            Pr              1;              // Prandtl number
+        }
+        thermodynamics
+        {
+            Cv              1000;           // Heat capacity
+            Hf              0.0;
+        }
+    }
+    products
+    {
+        thermoType
+        {
+            transport   const;
+            thermo      eConst;
+            equationOfState JWL;
+        }
+        equationOfState
+        {
+            rho0      1601;
+            A         609.77e9;
+            B         12.95e9;
+            R1        4.50;
+            R2        1.4;
+            omega     0.25;
+        }
+        specie
+        {
+            molWeight       55.0;
+        }
+        transport
+        {
+            mu              1.81e-5;              // Viscosity
+            Pr              1;              // Prandtl number
+        }
+        thermodynamics
+        {
+            Cv              850;           // Heat capacity
+            Hf              0.0;
+        }
+    }
+
+    activationModel linear;
+    initiation
+    {
+        E0              9.0e9;
+
+        I               4.0e6;
+        a               0.0367;
+        b               0.667;
+        x               7.0;
+        maxLambdaI      0.022;
+
+        G1              1.4997e-9;
+        c               0.667;
+        d               0.33;
+        y               2.0;
+        minLambda1      0.022;
+
+        G2              0.0;
+        e               0.667;
+        f               0.667;
+        z               3.0;
+        minLambda2      0.022;
+
+        pMin            101360;  // Above this pressure activation is                                    // "turned on" [Pa]
+
+        points     ((-1 0.5 0.5));     // Detonation points
+        vDet       7850;            // Detonation velocity [m/s]
+
+        ALow        6.25e10;
+        TaLow       7216;
+        Ts          2000;
+        AHigh       1e-2;
+        TaHigh      2742;
+        dp          1e-6;
+    }
+
+    residualRho     1e-6;           // Minimum density of the phase
+    residualAlpha   1e-6;          // Minimum volume fraction used for division
+}
+
+air
+{
+    type basic;
+    thermoType
+    {
+        transport   const;
+        thermo      eConst;
+        equationOfState idealGas;
+    }
+    equationOfState
+    {
+        gamma           1.4;            // Heat capactiy ratio
+        a               0;
+    }
+    specie
+    {
+        molWeight       28.97;
+    }
+    transport
+    {
+        mu              1.81e-5;
+        Pr              1;
+    }
+    thermodynamics
+    {
+        Cv          718;
+        Hf          0;
+    }
+
+    residualRho     1e-6;
+    residualAlpha   1e-6;
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/constant/turbulenceProperties ---
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      turbulenceProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+simulationType laminar;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/system/blockMeshDict ---
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+scale   1.;
+
+x0 -3.;
+x1 -0.05;
+x2 0.05;
+x3 3.;
+
+y0 0.;
+y1 1.;
+y2 4.;
+
+z0 0;
+z1 1;
+
+vertices
+(
+    ($x0 $y0 $z0 )         // 0
+    ($x1 $y0 $z0 )         // 1
+    ($x2 $y0 $z0 )         // 2
+    ($x3 $y0 $z0 )         // 3
+    ($x0 $y1 $z0 )         // 4
+    ($x1 $y1 $z0 )         // 5
+    ($x2 $y1 $z0 )         // 6
+    ($x3 $y1 $z0 )         // 7
+    ($x0 $y2 $z0 )         // 8
+    ($x1 $y2 $z0 )         // 9
+    ($x2 $y2 $z0 )         // 10
+    ($x3 $y2 $z0 )         // 11
+
+    ($x0 $y0 $z1 )         // 12
+    ($x1 $y0 $z1 )         // 13
+    ($x2 $y0 $z1 )         // 14
+    ($x3 $y0 $z1 )         // 15
+    ($x0 $y1 $z1 )         // 16
+    ($x1 $y1 $z1 )         // 17
+    ($x2 $y1 $z1 )         // 18
+    ($x3 $y1 $z1 )         // 19
+    ($x0 $y2 $z1 )         // 20
+    ($x1 $y2 $z1 )         // 21
+    ($x2 $y2 $z1 )         // 22
+    ($x3 $y2 $z1 )         // 23
+);
+
+// Grading
+h1 30;
+h2 3;
+v1 15;
+v2 30;
+
+blocks
+(
+    hex (   0   1   5   4   12  13  17  16  )
+    ($h1 $v1 1 )
+    simpleGrading (0.5 1 1)
+
+    hex (   2   3   7   6   14  15  19  18  )
+    ($h1 $v1 1)
+    simpleGrading (2 1 1)
+
+    hex (   4   5   9   8   16  17  21  20  )
+    ($h1 $v2 1)
+    simpleGrading (0.5 2 1)
+
+    hex (   5   6   10  9   17  18  22  21  )
+    ($h2 $v2 1)
+    simpleGrading (1 2 1)
+
+    hex (   6   7   11  10  18  19  23  22  )
+    ($h1 $v2 1 )
+    simpleGrading (2 2 1)
+);
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces
+        (
+            (  0   4   16  12  )
+            (  4   8   20  16  )
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (   3   7   19  15  )
+            (   7   11  23  19  )
+        );
+    }
+    flap
+    {
+        type wall;
+        faces
+        (
+            (   1   5   17  13  )
+            (   5   6   18  17  )
+            (   6   2   14  18  )
+        );
+    }
+    upperWall
+    {
+        type wall;
+        faces
+        (
+            (   8   9   21  20  )
+            (   9   10  22  21  )
+            (   10  11  23  22  )
+        );
+    }
+    lowerWall
+    {
+        type wall;
+        faces
+        (
+            (   0   1   13  12  )
+            (   2   3   15  14  )
+        );
+    }
+    frontAndBack
+    {
+        type empty;
+        faces
+        (
+            (   0   1   5   4   )
+            (   2   3   7   6   )
+            (   4   5   9   8   )
+            (   5   6   10  9   )
+            (   6   7   11  10  )
+            (   12  13  17  16  )
+            (   14  15  19  18  )
+            (   16  17  21  20  )
+            (   17  18  22  21  )
+            (   18  19  23  22  )
+        );
+    }
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/system/controlDict ---
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     blastFoam;    // OpenFOAM v1806, OpenFOAM 6, or newer
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         5e-3;
+
+deltaT          1e-7;
+
+writeControl    adjustableRunTime;
+
+writeInterval   1e-4;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+maxCo 0.5;
+
+adjustTimeStep yes;
+
+functions
+{
+    preCICE_Adapter
+    {
+        type preciceAdapterFunctionObject;
+        libs ("libpreciceAdapterFunctionObject.so");
+    }
+}
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/system/decomposeParDict ---
+FoamFile
+{
+    version 2.0;
+    format ascii;
+    class dictionary;
+    location system;
+    object decomposeParDict;
+}
+
+    numberOfSubdomains 4;
+
+    method scotch;
+
+    distributed false;
+    roots
+    (
+    );
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/system/fvSchemes ---
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fluxScheme AUSM+;
+
+ddtSchemes
+{
+    default         Euler;
+    timeIntegrator  RK2SSP;
+}
+
+gradSchemes
+{
+    default         cellMDLimited leastSquares 1.0;
+}
+
+divSchemes
+{
+    default         none;
+    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss linear;
+    div(alphaRhoPhi.c4,lambda.c4) Riemann;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default         cubic;
+    reconstruct(alpha)  vanLeer;
+    reconstruct(rho)    vanLeer;
+    reconstruct(U)      vanLeerV;
+    reconstruct(e)      vanLeer;
+    reconstruct(p)      vanLeer;
+    reconstruct(speedOfSound)      vanLeer;
+
+    "reconstruct(.*)"   vanLeer;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/system/fvSolution ---
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(rho|rhoE|rhoU)"
+    {
+        solver diagonal;
+    }
+
+    "(U|cellDisplacement|e)"
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-6;
+        relTol          1e-4;
+        minIter         2;
+    }
+
+    "(U|cellDisplacement|e)Final"
+    {
+        $U;
+        relTol          0;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/system/preciceDict ---
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      preciceDict;
+}
+
+preciceConfig "../precice-config.xml";
+
+participant Fluid;
+
+modules (FSI);
+
+interfaces
+{
+  Interface1
+  {
+    mesh              Fluid-Mesh;
+    patches           (flap);
+    locations         faceCenters;
+
+    readData
+    (
+        Displacement
+    );
+
+    writeData
+    (
+      Force
+    );
+  };
+};
+
+FSI
+{
+    solverType compressible;
+}
+--- END OF FILE ---
+
+--- FILE: preCICE/flap/Fluid/system/setFieldsDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fields (alpha.c4);
+nBufferLayers 2;
+
+defaultFieldValues
+(
+    volScalarFieldValue alpha.c4    0
+    volVectorFieldValue U (0 0 0)
+);
+
+
+regions
+(
+    cylinderToCell
+    {
+        points ((-1 0.15 0.5));
+        p1 (-1 0.5 -1);
+        p2 (-1 0.5 1);
+        radius 0.025;
+        backup
+        {
+            p1 (-1 0.5 -1);
+            p2 (-1 0.5 1);
+            radius 0.25;
+        }
+        refineInternal yes;
+        level 4;
+
+        fieldValues
+        (
+            volScalarFieldValue alpha.c4    1
+        );
+    }
+    patchToFace
+    {
+        name flap;
+        level 3;
+        refineFaces yes;
+    }
+);
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+

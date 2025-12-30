@@ -1,0 +1,2086 @@
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/T.coal.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T.particles4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 270;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/T.gas.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T.gas;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 295;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+        value           uniform 370.13;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/T.particles0.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T.particles0;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 270;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/T.particles1.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T.particles1;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 270;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/T.particles2.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T.particles2;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 270;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/T.particles3.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T.particles3;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 270;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/T.particles4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T.particles4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 270;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/Theta.coal.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      Theta.particles4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/Theta.particles0.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      Theta.particles0;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/Theta.particles1.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      Theta.particles1;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/Theta.particles2.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      Theta.particles2;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/Theta.particles3.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      Theta.particles3;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/Theta.particles4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      Theta.particles4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/U.coal.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U.particles4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/U.gas.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U.gas;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+        value           uniform (198.9 0 0);
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/U.particles0.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U.particles0;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/U.particles1.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U.particles1;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/U.particles2.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U.particles2;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/U.particles3.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U.particles3;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/U.particles4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U.particles4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/alpha.coal.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.particles4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/alpha.gas.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.gas;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 1;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/alpha.particles0.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.particles0;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/alpha.particles1.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.particles1;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/alpha.particles2.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.particles2;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/alpha.particles3.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.particles3;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/alpha.particles4.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha.particles4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/p.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 67e3;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+        value           uniform 142040;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/0/rho.gas.orig ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      rho.gas;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -3 0 0 0 0 0];
+
+internalField   uniform 0.7914;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+        value           uniform 1.337;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/constant/g ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       uniformDimensionedVectorField;
+    location    "constant";
+    object      g;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+dimensions [0 1 -2 0 0 0 0];
+value   (0 0 0);
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/constant/phaseProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      MieGruneisenEOSProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phases (coal particles0 particles1 particles2 particles3 particles4 gas);
+pRef 67e3;
+coal
+{
+    phaseType        granular;
+    diameterModel constant;
+    constantDiameterCoeffs
+    {
+        d           10e-6;
+    }
+    alphaMax    0.65;
+
+
+    type basic;
+    thermoType
+    {
+        equationOfState rhoConst;
+        thermo          eConst;
+        transport       constIso;
+    }
+    specie
+    {
+        molWeight   100.0;
+    }
+    equationOfState
+    {
+        rho0         1300;
+    }
+    transport
+    {
+        kappa       0.36;
+    }
+    thermodynamics
+    {
+        type        eConst;
+        Cv          987;           // Heat capacity
+        Hf          0.0;
+    }
+
+    kineticTheoryCoeffs
+    {
+        e       0.9;
+    }
+    residualRho 0;
+    residualAlpha 1e-10;
+}
+
+particles0
+{
+    phaseType        granular;
+
+    diameterModel constant;
+    constantDiameterCoeffs
+    {
+        d           1.685e-6;
+    }
+
+    alphaMax    0.65;
+
+    type basic;
+    thermoType
+    {
+        equationOfState rhoConst;
+        thermo          eConst;
+        transport       constIso;
+    }
+    specie
+    {
+        molWeight   100.0;
+    }
+    equationOfState
+    {
+        rho0         2700;
+    }
+    transport
+    {
+        kappa       0.36;
+    }
+    thermodynamics
+    {
+        type        eConst;
+        Cv          987;           // Heat capacity
+        Hf          0.0;
+    }
+
+    kineticTheoryCoeffs
+    {
+        e       0.9;
+    }
+    residualRho 0;
+    residualAlpha 1e-10;
+}
+particles1
+{
+    phaseType        granular;
+
+    diameterModel constant;
+    constantDiameterCoeffs
+    {
+        d           8.931e-6;
+    }
+    alphaMax    0.65;
+
+    type basic;
+    thermoType
+    {
+        equationOfState rhoConst;
+        thermo          eConst;
+        transport       constIso;
+    }
+    specie
+    {
+        molWeight   100.0;
+    }
+    equationOfState
+    {
+        rho0         2700;
+    }
+    transport
+    {
+        kappa       0.36;
+    }
+    thermodynamics
+    {
+        type        eConst;
+        Cv          987;           // Heat capacity
+        Hf          0.0;
+    }
+
+    kineticTheoryCoeffs
+    {
+        e       0.9;
+    }
+    residualRho 0;
+    residualAlpha 1e-10;
+}
+
+particles2
+{
+    phaseType        granular;
+
+    diameterModel constant;
+    constantDiameterCoeffs
+    {
+        d           26.201e-6;
+    }
+
+    alphaMax    0.65;
+
+    type basic;
+    thermoType
+    {
+        equationOfState rhoConst;
+        thermo          eConst;
+        transport       constIso;
+    }
+    specie
+    {
+        molWeight   100.0;
+    }
+    equationOfState
+    {
+        rho0         2700;
+    }
+    transport
+    {
+        kappa       0.36;
+    }
+    thermodynamics
+    {
+        type        eConst;
+        Cv          987;           // Heat capacity
+        Hf          0.0;
+    }
+
+    kineticTheoryCoeffs
+    {
+        e       0.9;
+    }
+    residualRho 0;
+    residualAlpha 1e-10;
+}
+
+particles3
+{
+    phaseType        granular;
+
+    diameterModel constant;
+    constantDiameterCoeffs
+    {
+        d           81.633e-6;
+    }
+    alphaMax    0.65;
+
+    type basic;
+    thermoType
+    {
+        equationOfState rhoConst;
+        thermo          eConst;
+        transport       constIso;
+    }
+    specie
+    {
+        molWeight   100.0;
+    }
+    equationOfState
+    {
+        rho0         2700;
+    }
+    transport
+    {
+        kappa       0.36;
+    }
+    thermodynamics
+    {
+        type        eConst;
+        Cv          987;           // Heat capacity
+        Hf          0.0;
+    }
+
+    kineticTheoryCoeffs
+    {
+        e       0.9;
+    }
+    residualRho 0;
+    residualAlpha 1e-10;
+}
+
+particles4
+{
+    phaseType        granular;
+
+    diameterModel constant;
+    constantDiameterCoeffs
+    {
+        d           171.239e-6;
+    }
+
+    alphaMax    0.65;
+
+    type basic;
+    thermoType
+    {
+        equationOfState rhoConst;
+        thermo          eConst;
+        transport       constIso;
+    }
+    specie
+    {
+        molWeight   100.0;
+    }
+    equationOfState
+    {
+        rho0         2700;
+    }
+    transport
+    {
+        kappa       0.36;
+    }
+    thermodynamics
+    {
+        type        eConst;
+        Cv          987;           // Heat capacity
+        Hf          0.0;
+    }
+
+    kineticTheoryCoeffs
+    {
+        e       0.9;
+    }
+    residualRho 0;
+    residualAlpha 1e-10;
+}
+
+gas
+{
+    phaseType            fluid;
+
+    diameterModel constant;
+    constantDiameterCoeffs
+    {
+        d           0;
+    }
+
+    type basic;
+    thermoType
+    {
+        transport   const;
+        thermo      eConst;
+        equationOfState idealGas;
+    }
+    equationOfState
+    {
+        gamma           1.4;            // Heat capactiy ratio
+    }
+    specie
+    {
+        molWeight       28.97;
+    }
+    transport
+    {
+        mu              1.81e-5;
+        Pr              1;
+    }
+    thermodynamics
+    {
+        type        eConst;
+        Cv          718;
+        Hf          0;
+    }
+
+    residualRho     1e-6;
+    residualAlpha   1e-10;
+}
+
+blending
+{
+    default
+    {
+        type none;
+        continuousPhase gas;
+    }
+}
+
+interfacialPressure
+(
+    (gas and particles0)
+    {
+        type single;
+        phase gas;
+    }
+    (gas and particles1)
+    {
+        type single;
+        phase gas;
+    }
+    (gas and particles2)
+    {
+        type single;
+        phase gas;
+    }
+    (gas and particles3)
+    {
+        type single;
+        phase gas;
+    }
+    (gas and particles4)
+    {
+        type single;
+        phase gas;
+    }
+    (gas and coal)
+    {
+        type single;
+        phase gas;
+    }
+);
+
+interfacialVelocity
+(
+    (gas and particles0)
+    {
+        type single;
+        phase particles0;
+    }
+    (gas and particles1)
+    {
+        type single;
+        phase particles1;
+    }
+    (gas and particles2)
+    {
+        type single;
+        phase particles2;
+    }
+    (gas and particles3)
+    {
+        type single;
+        phase particles3;
+    }
+    (gas and particles4)
+    {
+        type single;
+        phase particles4;
+    }
+    (gas and coal)
+    {
+        type single;
+        phase coal;
+    }
+);
+
+aspectRatio
+(
+);
+
+solveDragODE off;
+dragODECoeffs
+{
+    solver seulex;
+    relTol 1e-3;
+
+}
+
+drag
+(
+    (coal in gas)
+    {
+        type GidaspowErgunWenYu;
+        residualRe 1e-3;
+        swarmCorrection
+        {
+            type none;
+        }
+    }
+    (particles0 in gas)
+    {
+        type GidaspowErgunWenYu;
+        residualRe 1e-3;
+        swarmCorrection
+        {
+            type none;
+        }
+    }
+    (particles1 in gas)
+    {
+        type GidaspowErgunWenYu;
+        residualRe 1e-3;
+        swarmCorrection
+        {
+            type none;
+        }
+    }
+    (particles2 in gas)
+    {
+        type GidaspowErgunWenYu;
+        residualRe 1e-3;
+        swarmCorrection
+        {
+            type none;
+        }
+    }
+    (particles3 in gas)
+    {
+        type GidaspowErgunWenYu;
+        residualRe 1e-3;
+        swarmCorrection
+        {
+            type none;
+        }
+    }
+    (particles4 in gas)
+    {
+        type GidaspowErgunWenYu;
+        residualRe 1e-3;
+        swarmCorrection
+        {
+            type none;
+        }
+    }
+);
+
+virtualMass
+(
+);
+
+heatTransfer
+(
+    (coal in gas)
+    {
+        type RanzMarshall;
+        NuModel Gunn;
+    }
+    (particles0 in gas)
+    {
+        type RanzMarshall;
+        NuModel Gunn;
+    }
+    (particles1 in gas)
+    {
+        type RanzMarshall;
+        NuModel Gunn;
+    }
+    (particles2 in gas)
+    {
+        type RanzMarshall;
+        NuModel Gunn;
+    }
+    (particles3 in gas)
+    {
+        type RanzMarshall;
+        NuModel Gunn;
+    }
+    (particles4 in gas)
+    {
+        type RanzMarshall;
+        NuModel Gunn;
+    }
+);
+
+lift
+(
+    (coal in gas)
+    {
+        type constant;
+        Cl 0.5;
+    }
+    (particles0 in gas)
+    {
+        type constant;
+        Cl 0.5;
+    }
+    (particles1 in gas)
+    {
+        type constant;
+        Cl 0.5;
+    }
+    (particles2 in gas)
+    {
+        type constant;
+        Cl 0.5;
+    }
+    (particles3 in gas)
+    {
+        type constant;
+        Cl 0.5;
+    }
+    (particles4 in gas)
+    {
+        type constant;
+        Cl 0.5;
+    }
+);
+
+wallLubrication
+(
+);
+
+turbulentDispersion
+(
+);
+
+kineticTheory
+{
+    packingLimitModel YuStandish;
+    writeTotal yes;
+    residualAlpha 1e-10;
+
+    radialModel Lebowitz;
+    viscosityModel none;
+    conductivityModel Syamlal;
+    granularPressureModel Huilin;
+    frictionalStressModel JohnsonJackson;
+
+    JohnsonJacksonCoeffs
+    {
+        alphaMinFriction        0.5;
+        Fr                      0.05;
+        eta                     2;
+        p                       5;
+        phi                     28.5;
+        alphaDeltaMin           1e-6;
+    }
+}
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/constant/turbulenceProperties.coal ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      turbulenceProperties.coal;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+simulationType laminar;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/constant/turbulenceProperties.gas ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      turbulenceProperties.gas;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+simulationType laminar;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/constant/turbulenceProperties.particles0 ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      turbulenceProperties.particles0;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+simulationType laminar;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/constant/turbulenceProperties.particles1 ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      turbulenceProperties.particles1;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+simulationType laminar;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/constant/turbulenceProperties.particles2 ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      turbulenceProperties.particles2;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+simulationType laminar;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/constant/turbulenceProperties.particles3 ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      turbulenceProperties.particles3;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+simulationType laminar;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/constant/turbulenceProperties.particles4 ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      turbulenceProperties.particles4;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+simulationType laminar;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/system/blockMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1;
+
+vertices
+(
+    (0      0       0   )
+    (0.1    0       0   )
+    (0.1    0.05    0   )
+    (0      0.05    0   )
+    (0      0       0.05)
+    (0.1    0       0.05)
+    (0.1    0.05    0.05)
+    (0      0.05    0.05)
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (500 1 1) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces
+        (
+            (0 3 4 7)
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (1 2 6 5)
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/system/controlDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     blastEulerFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         200e-6;
+
+deltaT          1e-6;
+
+writeControl    adjustableRunTime;
+
+writeInterval   10e-6;
+
+purgeWrite      0;
+
+writeFormat     binary;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+adjustTimeStep  true;
+
+maxCo   0.5;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/system/fvSchemes ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fluxSchemes
+{
+    gas
+    {
+        fluxScheme  HLLC;
+    }
+    "particles.*"
+    {
+        fluxScheme          AUSM+Up;
+    }
+    "coal.*"
+    {
+        fluxScheme          AUSM+Up;
+    }
+}
+
+ddtSchemes
+{
+    default         Euler;
+    timeIntegrator  RK4SSP;
+}
+
+gradSchemes
+{
+    default         leastSquares;
+}
+
+divSchemes
+{
+    default         none;
+    div((((alpha.gas*rho.gas)*nuEff.gas)*dev2(T(grad(U.gas))))) Gauss linear;
+    "div\(sigma.particles.*\)" Gauss linear;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default             cubic;
+    reconstruct(alpha)  Minmod;
+    reconstruct(rho)    Minmod;
+    reconstruct(U)      MinmodV;
+    reconstruct(e)      Minmod;
+    reconstruct(p)      Minmod;
+    reconstruct(speedOfSound) Minmod;
+    reconstruct(Theta)  Minmod;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/system/fvSolution ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(rho|alphaRhoU|alphaRhoE|alpha).*"
+    {
+        solver          diagonal;
+    }
+
+    "(U|e).*"
+    {
+        solver          PBiCGStab;
+        preconditioner  DIC;
+        minIter         1;
+        tolerance       1e-09;
+        relTol          0;
+    }
+
+    "Theta.*"
+    {
+        $U;
+        tolerance       1e-10;
+        relTol          0;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/system/sampleDict ---
+
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+    class           dictionary;
+    location        system;
+    object          sampleDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+type sets;
+libs ("libsampling.so");
+
+setFormat raw;
+
+surfaceFormat vtk;
+
+interpolationScheme cell;
+
+// Fields to sample.
+fields
+(
+    alpha.coal
+    alpha.particles0
+    alpha.particles1
+    alpha.particles2
+    alpha.particles3
+    alpha.particles4
+    U.coal      //2
+    U.particles0//5
+    U.particles1//8
+    U.particles2//11
+    U.particles3//14
+    U.particles4//17
+    U.gas//20
+);
+
+
+sets
+(
+    Centerline
+    {
+        type        lineCell;
+        axis        x;
+
+        start       (0 0.025 0.025);
+        end         (0.06 0.025 0.025);
+    }
+);
+
+
+surfaces ();
+
+// *********************************************************************** //
+--- END OF FILE ---
+
+--- FILE: blastEulerFoam/shockTube_polydisperse/system/setFieldsDict ---
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system";
+  object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// p1  142040;
+// T1  370.13;
+// rho1 1.337;
+// U1  195.73;
+
+p2  67.0e3;
+T2  295;
+rho2 #calc "$p2 / (718.0 * $T2 * 0.4)";
+
+M2 1.4;
+M1 0.73970927;
+
+p1byp20 2.11999999;
+rho2byrho1 1.68965517;
+T2byT1 1.25469387;
+
+p1 #calc "$p2 * $p1byp20";
+rho1 #calc "$rho2 * $rho2byrho1";
+T1 #calc "$T2 * $T2byT1";
+
+c1 #calc "sqrt(1.4 * $p1 / $rho1)";
+c2 #calc "sqrt(1.4 * $p2 / $rho2)";
+
+U1 #calc "$M2 * $c2 - $M1 * $c1";
+
+defaultFieldValues
+(
+    volScalarFieldValue rho.gas $rho2
+    volScalarFieldValue p $p2
+    volScalarFieldValue T.gas $T2
+    volVectorFieldValue U.gas (0 0 0)
+    volScalarFieldValue alpha.coal 0
+    volScalarFieldValue alpha.particles0 0
+    volScalarFieldValue alpha.particles1 0
+    volScalarFieldValue alpha.particles2 0
+    volScalarFieldValue alpha.particles3 0
+    volScalarFieldValue alpha.particles4 0
+    volScalarFieldValue alpha.gas        1
+);
+
+regions
+(
+    boxToCell
+    {
+        box (0 -1 -1) (0.01 1 1);
+        fieldValues
+        (
+            volScalarFieldValue rho.gas $rho1
+            volScalarFieldValue p $p1
+            volScalarFieldValue T.gas $T1
+            volVectorFieldValue U.gas ($U1 0 0)
+        );
+    }
+    boxToCell
+    {
+        box (0.015 0 0) (0.019 0.05 0.05);
+        fieldValues
+        (
+            volScalarFieldValue alpha.coal 0.00026
+            volScalarFieldValue alpha.particles0 0.0000511
+            volScalarFieldValue alpha.particles1 0.0000546
+            volScalarFieldValue alpha.particles2 0.0000510
+            volScalarFieldValue alpha.particles3 0.0000555
+            volScalarFieldValue alpha.particles4 0.0000478
+            volScalarFieldValue alpha.gas        0.99948
+        );
+    }
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+

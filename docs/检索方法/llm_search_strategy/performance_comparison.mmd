@@ -1,0 +1,63 @@
+%% 性能对比图表 - 嵌入检索 vs 知识图谱检索
+
+flowchart TD
+    subgraph Methods["检索方法对比"]
+        direction LR
+        M1["🔍 嵌入检索<br/>Embedding-based"]
+        M2["🕸️ 知识图谱检索<br/>LLM-Generated Strategy"]
+    end
+    
+    Methods --> Compare
+    
+    subgraph Compare["📊 性能指标对比"]
+        direction TB
+        
+        subgraph MRR["Mean Reciprocal Rank"]
+            E1["0.2294"] 
+            K1["0.5292<br/>⬆️ +130.7%"]
+        end
+        
+        subgraph Hit1["Hit@1"]
+            E2["16.67%"]
+            K2["45.00%<br/>⬆️ +169.9%"]
+        end
+        
+        subgraph Hit5["Hit@5"]
+            E3["33.33%"]
+            K3["60.83%<br/>⬆️ +82.5%"]
+        end
+        
+        subgraph Precision["Precision@5"]
+            E4["14.33%"]
+            K4["45.83%<br/>⬆️ +219.8%"]
+        end
+        
+        subgraph Recall["Recall@5"]
+            E5["32.08%"]
+            K5["59.58%<br/>⬆️ +85.7%"]
+        end
+    end
+    
+    Compare --> Conclusion["🏆 结论:<br/>知识图谱检索在所有指标上<br/>均显著优于嵌入检索<br/>平均提升: 137.6%"]
+    
+    style Methods fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style Compare fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px
+    style Conclusion fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px
+    
+    style MRR fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style Hit1 fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    style Hit5 fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+    style Precision fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    style Recall fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    
+    style E1 fill:#ffebee,stroke:#c62828,stroke-width:1px
+    style E2 fill:#ffebee,stroke:#c62828,stroke-width:1px
+    style E3 fill:#ffebee,stroke:#c62828,stroke-width:1px
+    style E4 fill:#ffebee,stroke:#c62828,stroke-width:1px
+    style E5 fill:#ffebee,stroke:#c62828,stroke-width:1px
+    
+    style K1 fill:#c8e6c9,stroke:#1b5e20,stroke-width:2px
+    style K2 fill:#c8e6c9,stroke:#1b5e20,stroke-width:2px
+    style K3 fill:#c8e6c9,stroke:#1b5e20,stroke-width:2px
+    style K4 fill:#c8e6c9,stroke:#1b5e20,stroke-width:2px
+    style K5 fill:#c8e6c9,stroke:#1b5e20,stroke-width:2px

@@ -1,0 +1,696 @@
+--- FILE: initializeAtmosphere/constant/g ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      uniformDimensionedVectorField;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions [0 1 -2 0 0 0 0];
+
+value (0 -9.81 0);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: initializeAtmosphere/constant/phaseProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      phaseProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phases (air water);
+
+air
+{
+    type basic;
+    thermoType
+    {
+        transport   const;
+        thermo      eConst;
+        equationOfState stiffenedGas;
+    }
+    equationOfState
+    {
+        gamma           1.4;
+        a               0;
+    }
+    specie
+    {
+        molWeight       28.97;
+    }
+    transport
+    {
+        mu              0;
+        Pr              1;
+    }
+    thermodynamics
+    {
+        Cv          718;
+        Hf          0.0;
+    }
+
+    residualRho     1e-6;
+    residualAlpha   1e-6;
+}
+
+
+
+water
+{
+    type basic;
+    thermoType
+    {
+        transport   const;
+        thermo      eConst;
+        equationOfState stiffenedGas;
+    }
+    equationOfState
+    {
+        gamma           7.15;
+        a               3.0e8;
+    }
+    specie
+    {
+        molWeight       18.30;
+    }
+    transport
+    {
+        mu              0;
+        Pr              1;
+    }
+    thermodynamics
+    {
+        Cv          4186;
+        Esref       4.2e4;
+        Hf          0.0;
+    }
+
+    residualRho     1e-6;
+    residualAlpha   1e-6;
+}
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: initializeAtmosphere/system/atmosphereProperties ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      atmosphereProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+type hydrostatic;
+
+hydrostaticCoeffs
+{
+    hRef            -10;        // Minimum point where h = 0
+    pRef            101298;     // Reference pressure
+    nHydrostaticCorrectors 10;  // Number of iterations
+}
+
+
+tableCoeffs
+{
+    hRef            -10;        // Minimum point where h = 0
+    correct         false;      // Use hydrostatic initialization after
+                                // setting table values
+    pTable
+    {
+        p           (1.1e5 1e5); // Pressure values
+        h           (-10 10);    // Heights
+    }
+    TTable
+    {
+        T           (400 300);   // Temperature values
+        h           (-10 10);    // Heights
+    }
+}
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: initializeAtmosphere/system/blockMeshDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1;
+
+vertices
+(
+    ( -1  -10  0  )
+    (  1  -10  0  )
+    (  1   10  0  )
+    ( -1   10  0  )
+    ( -1  -10  0.1)
+    (  1  -10  0.1)
+    (  1   10  0.1)
+    ( -1   10  0.1)
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (20 200 1) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (3 2 6 7)
+        );
+    }
+    walls
+    {
+        type wall;
+        faces
+        (
+            (0 1 5 4)
+            (1 2 6 5)
+            (3 0 7 4)
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: initializeAtmosphere/system/controlDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     initializeAtmosphere;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         0;
+
+deltaT          1e-7;
+
+writeControl    adjustableRunTime;
+
+writeInterval   1e-5;
+
+cycleWrite      0;
+
+writeFormat     binary;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   12;
+
+runTimeModifiable true;
+
+adjustTimeStep  yes;
+
+maxCo           0.5;
+
+maxDeltaT       1e-5;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: initializeAtmosphere/system/createPatchDict ---
+
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      createPatchDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+pointSync true;
+// Patches to create.
+patches
+(
+    {
+        // Name of new patch
+        name walls;
+
+        // How to construct: either from 'patches' or 'set'
+        constructFrom patches;
+
+        // If constructFrom = patches : names of patches. Wildcards allowed.
+        patches
+        (
+            walls_top_0
+            walls_centreTop_1
+            walls_centreBottom_2
+            walls_bottom_3
+        );
+    }
+);
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: initializeAtmosphere/system/fvSchemes ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fluxScheme      HLLC;
+
+ddtSchemes
+{
+    default         Euler;
+    timeIntegrator  RK2SSP 3;
+}
+
+gradSchemes
+{
+    default         cellMDLimited Gauss linear 1;
+}
+
+divSchemes
+{
+    default         none;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default             linear;
+    reconstruct(alpha)  quadraticMUSCL vanLeer;
+    reconstruct(rho)    quadraticMUSCL vanLeer;
+    reconstruct(U)      quadraticMUSCL vanLeer;
+    reconstruct(e)      quadraticMUSCL vanLeer;
+    reconstruct(p)      quadraticMUSCL vanLeer;
+    reconstruct(speedOfSound) quadraticMUSCL vanLeer;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: initializeAtmosphere/system/fvSolution ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(rho|rhoU|rhoE|alpha|.*)"
+    {
+        solver          diagonal;
+    }
+}
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: initializeAtmosphere/system/setFieldsDict ---
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fields (alpha.air);
+nBufferLayers 0;
+
+defaultFieldValues
+(
+    volScalarFieldInitialValue      p
+    volScalarFieldValue alpha.air   0
+);
+
+
+regions
+(
+    boxToCell
+    {
+        box (-1 -10 0) (0 10 1);
+
+        fieldValues
+        (
+            volScalarFieldValue alpha.air   1
+            volScalarFieldValue p           101298
+        );
+
+        cellZones
+        (
+            {
+                name airRegion;
+                action new;
+            }
+            {
+                name waterRegion;
+                action new;
+            }
+            {
+                name waterRegion;
+                action invert;
+            }
+        );
+    }
+);
+
+
+// ************************************************************************* //
+--- END OF FILE ---
+
+--- FILE: initializeAtmosphere/system/snappyHexMeshDict ---
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+castellatedMesh on;
+snap            off;
+addLayers       off;
+
+geometry
+{
+    box
+    {
+        type searchableBox;
+        min (0 0 0);
+        max (1 1 1);
+    }
+
+    walls
+    {
+        type searchableSurfaceCollection;
+        mergeSubRegions true;
+
+        top
+        {
+            surface box;
+            scale (0.5 10.0 1.0);
+            transform
+            {
+                coordinateSystem
+                {
+                    type    cartesian;
+                    origin  (-1.0 5.0 0);
+                    coordinateRotation
+                    {
+                        type    axesRotation;
+                        e1      (1 0 0);
+                        e3      (0 0 1);
+                    }
+                }
+            }
+        }
+        centreTop
+        {
+            surface box;
+            scale (0.5 10.0 1.0);
+            transform
+            {
+                coordinateSystem
+                {
+                    type    cartesian;
+                    origin  (-0.5 0.5 0);
+                    coordinateRotation
+                    {
+                        type    axesRotation;
+                        e1      (1 0 0);
+                        e3      (0 0 1);
+                    }
+                }
+            }
+        }
+        centreBottom
+        {
+            surface box;
+            scale (0.5 -10.0 1.0);
+            transform
+            {
+                coordinateSystem
+                {
+                    type    cartesian;
+                    origin  (-0.5 -0.5 0);
+                    coordinateRotation
+                    {
+                        type    axesRotation;
+                        e1      (1 0 0);
+                        e3      (0 0 1);
+                    }
+                }
+            }
+        }
+        bottom
+        {
+            surface box;
+            scale (0.5 -5.0 1.0);
+            transform
+            {
+                coordinateSystem
+                {
+                    type    cartesian;
+                    origin  (-1.0 -5.0 0);
+                    coordinateRotation
+                    {
+                        type    axesRotation;
+                        e1      (1 0 0);
+                        e3      (0 0 1);
+                    }
+                }
+            }
+        }
+    }
+};
+
+castellatedMeshControls
+{
+    // Refinement parameters
+    // ~~~~~~~~~~~~~~~~~~~~~
+
+    // If local number of cells is >= maxLocalCells on any processor
+    // switches from from refinement followed by balancing
+    // (current method) to (weighted) balancing before refinement.
+    maxLocalCells 10000000;
+
+    // Overall cell limit (approximately). Refinement will stop immediately
+    // upon reaching this number so a refinement level might not complete.
+    // Note that this is the number of cells before removing the part which
+    // is not 'visible' from the keepPoint. The final number of cells might
+    // actually be a lot less.
+    maxGlobalCells 200000000;
+
+    // The surface refinement loop might spend lots of iterations refining just a
+    // few cells. This setting will cause refinement to stop if <= minimumRefine
+    // are selected for refinement. Note: it will at least do one iteration
+    // (unless the number of cells to refine is 0)
+    minRefinementCells 2;
+
+    maxLoadUnBalance 0.1;
+
+    // Number of buffer layers between different levels.
+    // 1 means normal 2:1 refinement restriction, larger means slower
+    // refinement.
+    nCellsBetweenLevels 2;
+
+    resolveFeatureAngle 30;
+    allowFreeStandingZoneFaces false;
+
+    features
+    (
+    );
+
+    refinementSurfaces
+    {
+        walls
+        {
+            level (0 0);
+            patchInfo
+            {
+                inGroups ("walls");
+                type wall;
+            }
+        }
+    }
+
+
+    refinementRegions
+    {
+    }
+
+    locationInMesh (0.75 1.0 0.001);
+}
+
+snapControls
+{
+
+    nSmoothPatch    3;
+    tolerance       2.0;
+    nSolveIter      100;
+    nRelaxIter      5;
+
+    nFeatureSnapIter 10;
+
+    explicitFeatureSnap    true;
+    multiRegionFeatureSnap false;
+    implicitFeatureSnap    false;
+}
+
+addLayersControls
+{
+    featureAngle              100;
+    slipFeatureAngle          30;
+
+    nLayerIter                50;
+    nRelaxedIter              20;
+    nRelaxIter                5;
+
+    nGrow                     0;
+
+    nSmoothSurfaceNormals     1;
+    nSmoothNormals            3;
+    nSmoothThickness          10;
+    maxFaceThicknessRatio     0.5;
+    maxThicknessToMedialRatio 0.3;
+
+    minMedialAxisAngle        90;
+    nMedialAxisIter           10;
+
+    nBufferCellsNoExtrude     0;
+    additionalReporting       false;
+//    nSmoothDisplacement       0;
+//    detectExtrusionIsland     false;
+
+    layers
+    {
+    }
+
+    relativeSizes       true;
+    expansionRatio      1.2;
+    finalLayerThickness 0.5;
+    minThickness        1e-3;
+}
+
+meshQualityControls
+{
+    maxNonOrtho 65;
+
+    maxBoundarySkewness 20;
+
+    maxInternalSkewness 4;
+
+    maxConcave 80;
+
+    // Minimum cell pyramid volume; case dependent
+    minVol 1e-13;
+
+    //  1e-15 (small positive) to enable tracking
+    // -1e+30 (large negative) for best layer insertion
+    minTetQuality 1e-15;
+
+    // if >0 : preserve single cells with all points on the surface if the
+    // resulting volume after snapping (by approximation) is larger than
+    // minVolCollapseRatio times old volume (i.e. not collapsed to flat cell).
+    //  If <0 : delete always.
+    //minVolCollapseRatio 0.5;
+
+    minArea          -1;
+
+    minTwist          0.02;
+
+    minDeterminant    0.001;
+
+    minFaceWeight     0.05;
+
+    minVolRatio       0.01;
+
+    minTriangleTwist -1;
+
+    nSmoothScale   4;
+
+    errorReduction 0.75;
+
+    relaxed
+    {
+        maxNonOrtho   75;
+    }
+}
+
+mergeTolerance 1e-6;
+
+// ************************************************************************* //
+--- END OF FILE ---
+
