@@ -2,7 +2,7 @@ import os
 import json
 import ast
 from typing import Dict, Any, List
-from langchain.schema import HumanMessage, SystemMessage
+from langchain.schema import HumanMessage, SystemMessage, AIMessage
 from langchain.tools import StructuredTool
 
 import glob
@@ -10,7 +10,9 @@ import glob
 from principia_ai.graph.graph_state import GraphState
 from principia_ai.prompts import PromptManager
 from principia_ai.metrics.decorators import track_agent_execution, track_llm_call
-from ..tools.physics_inspection import read_physics_report_file
+from ..tools.physics_inspection import read_physics_report_file, get_physics_report_tool
+from ..tools.execution_inspection import get_execution_report_tool
+from ..tools.review_inspection import get_review_report_tool
 
 # New imports
 from .base_agent import BaseAgent
@@ -26,7 +28,8 @@ class OrchestratorAgent:
         self.prompt_manager = PromptManager()
         
         # Initialize Tools - Orchestrator mainly needs to read state/files to plan
-        self.agent_tools = get_read_tools() + get_search_tools()
+        # self.agent_tools = get_read_tools() + get_search_tools() + [get_physics_report_tool()]
+        self.agent_tools = [get_physics_report_tool(), get_execution_report_tool(), get_review_report_tool()]
 
         # Load System Prompt
         self.system_prompt = self.prompt_manager.load_prompt("orchestrator", "react_system")
@@ -130,24 +133,22 @@ class OrchestratorAgent:
             # We don't return immediately, we let the reasoning below decide to call case_setup_agent
             plan = action_plan
 
-        # 1. Construct rich execution history
-        history_str = ""
+        # 1. Construct rich execution history as Messages
+        chat_history = []
         if completed_tasks:
-            history_str = "=== EXECUTION HISTORY (Context) ===\n"
-            for i, task in enumerate(completed_tasks):
-                history_str += f"Step {i+1} [{task.get('assigned_agent', 'unknown')}]:\n"
-                history_str += f"  - Task: {task.get('description')}\n"
-                history_str += f"  - Result: {task.get('result_summary')}\n"
-                history_str += f"  - Generated Context: {task.get('context_data')}\n\n"
-        else:
-            history_str = "=== EXECUTION HISTORY ===\n(No steps executed yet)\n"
+            for task in completed_tasks:
+                # Add task description as Human Message (what was asked)
+                chat_history.append(HumanMessage(content=f"Task: {task.get('description')}"))
+                
+                # Add result as AI Message (what was done)
+                result_content = f"Result: {task.get('result_summary')}\nContext: {task.get('context_data')}"
+                chat_history.append(AIMessage(content=result_content))
 
         # 2. Construct Reasoning Prompt
         input_text = (
             f"=== GOAL ===\n{user_query}\n\n"
             f"=== CASE PATH ===\n{case_path}\n\n"
             f"=== ORIGINAL PLAN ===\n{plan}\n\n"
-            f"{history_str}"
             f"=== DECISION ===\n"
             f"Determine the NEXT immediate step and agent based on the History and Plan.\n"
             f"Note: If 'physics_report.md' exists, assume physics analysis is COMPLETED.\n"
@@ -155,7 +156,7 @@ class OrchestratorAgent:
             f"\nOutput Format JSON: {{'next_agent': '...', 'task_instructions': '...'}}"
         )
         
-        result = self.agent.invoke({"input": input_text})
+        result = self.agent.invoke({"chat_history": chat_history, "input": input_text})
         output_content = result.get("output", "")
         
         try:
@@ -219,7 +220,7 @@ class OrchestratorAgent:
         context_data = ""
         
         if last_agent == "physics_analyst_agent":
-            context_data = read_physics_report_file(case_path)
+            context_data = "Physics report contents have been saved to physics_report.md file."
             result_summary = "Physics analysis completed."
         elif last_agent == "execution_agent":
             context_data = state.get("execution_output", "")
@@ -255,15 +256,25 @@ class OrchestratorAgent:
         
         # If last agent was not physics_updater or physics_analyst_agent (prevent loops), check for diffs
         if last_agent != 'physics_updater' and last_agent != 'physics_analyst_agent':
-            changed_files = []
+            current_changed_files = []
             for f_path, signature in new_map.items():
                 if f_path not in old_map or old_map[f_path] != signature:
-                    changed_files.append(f_path)
+                    current_changed_files.append(f_path)
             
-            if changed_files:
-                print(f"Orchestrator: Detected changes in: {changed_files}")
-                updates['needs_physics_update'] = True
-                updates['changed_files'] = changed_files
+            # Accumulate changes
+            existing_changed_files = state.get('changed_files', [])
+            # Use set to avoid duplicates
+            all_changed_files = list(set(existing_changed_files + current_changed_files))
+            
+            if all_changed_files:
+                updates['changed_files'] = all_changed_files
+                
+                # Only trigger update if ExecutionAgent has finished
+                if last_agent == 'execution_agent' or last_agent == 'case_setup_agent':
+                    print(f"Orchestrator: Execution finished. Triggering physics update for: {all_changed_files}")
+                    updates['needs_physics_update'] = True
+                else:
+                    print(f"Orchestrator: Changes detected {current_changed_files}, but waiting for ExecutionAgent to trigger update.")
         
         updates['config_state_map'] = new_map
         # === End Incremental Detection ===

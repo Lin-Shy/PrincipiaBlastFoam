@@ -89,52 +89,27 @@ class ExecutionAgent:
         input_text = (
             f"Task: Execute the simulation in {case_path}.\n"
             f"Follow your defined workflow to manage scripts, run the simulation, and handle errors.\n"
-            f"IMPORTANT: Return the final result as a JSON string:\n"
-            f"```json\n"
-            f"{{\n"
-            f"  \"status\": \"completed\" or \"failed\",\n"
-            f"  \"summary\": \"Brief summary of what happened and any errors found.\"\n"
-            f"}}\n"
-            f"```"
+            f"Report the final status and a summary of the execution."
         )
         
         result = self.agent.invoke({"input": input_text})
         output = result.get("output", "")
         
-        # Parse JSON output
-        status = "completed"
-        summary = "Execution finished."
-        
+        # Save the report to a file for other agents to use
+        report_path = os.path.join(case_path, "execution_report.md")
         try:
-            # Extract JSON from output
-            json_str = output
-            if "```json" in output:
-                json_str = output.split("```json")[1].split("```")[0].strip()
-            elif "```" in output:
-                # Try to find the block that looks like JSON
-                parts = output.split("```")
-                for part in parts:
-                    if "{" in part and "}" in part:
-                        json_str = part.strip()
-                        break
-            
-            start = json_str.find("{")
-            end = json_str.rfind("}")
-            if start != -1 and end != -1:
-                json_data = json.loads(json_str[start:end+1])
-                status = json_data.get("status", "completed")
-                summary = json_data.get("summary", summary)
-            else:
-                 # Fallback heuristic
-                 if "fail" in output.lower() or "error" in output.lower():
-                     status = "failed"
-                     summary = "Execution failed (JSON parsing failed, heuristic used)."
-
+            with open(report_path, "w") as f:
+                f.write(output)
+            print(f"Execution Agent: Report saved to {report_path}")
         except Exception as e:
-            print(f"ExecutionAgent: Error parsing JSON output: {e}")
-            if "fail" in output.lower() or "error" in output.lower():
-                status = "failed"
-                summary = "Execution failed (Exception during parsing)."
+            print(f"Execution Agent: Warning - could not save report file: {e}")
+        
+        # Determine status based on output content (simple heuristic)
+        status = "completed"
+        if "fail" in output.lower() or "error" in output.lower():
+             status = "failed"
+
+        summary = output
 
         current_task['status'] = status
         current_task['result_summary'] = summary

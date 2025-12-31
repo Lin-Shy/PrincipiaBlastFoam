@@ -20,6 +20,12 @@ def read_file(path: str, start_line: int = 1, end_line: int = -1):
         if end_line == -1:
             end_line = len(lines)
             
+        # Check for large log files
+        file_name = os.path.basename(path)
+        if file_name.startswith('log.') and (end_line - start_line + 1) > 500:
+            return (f"Warning: The log file '{file_name}' is too large ({len(lines)} lines). "
+                    f"Please specify a smaller range using 'start_line' and 'end_line' (limit 500 lines).")
+
         # Adjust for 0-based indexing
         start_index = max(0, start_line - 1)
         end_index = min(len(lines), end_line)

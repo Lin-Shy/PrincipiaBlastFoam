@@ -49,6 +49,7 @@ class BaseAgent:
         """
         prompt = ChatPromptTemplate.from_messages([
             ("system", self.system_prompt),
+            MessagesPlaceholder(variable_name="chat_history", optional=True),
             ("user", "{input}"),
             MessagesPlaceholder(variable_name="agent_scratchpad"),
         ])

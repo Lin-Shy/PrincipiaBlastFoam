@@ -5,6 +5,8 @@ from .tutorial_initializer import TutorialInitializer
 from .user_guide_knowledge_graph_tool import UserGuideKnowledgeGraphRetriever
 from .case_content_knowledge_graph_tool import CaseContentKnowledgeGraphRetriever
 from .physics_inspection import get_physics_report_tool
+from .execution_inspection import get_execution_report_tool
+from .review_inspection import get_review_report_tool
 
 # Import new tools
 from .edit.create_directory import create_directory
@@ -24,6 +26,8 @@ __all__ = [
     "UserGuideKnowledgeGraphRetriever",
     "CaseContentKnowledgeGraphRetriever",
     "get_physics_report_tool",
+    "get_execution_report_tool",
+    "get_review_report_tool",
     "create_directory",
     "create_file",
     "edit_files",

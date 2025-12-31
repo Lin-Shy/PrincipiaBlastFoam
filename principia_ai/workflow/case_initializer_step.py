@@ -3,6 +3,10 @@ from typing import Dict, Any
 
 from principia_ai.graph.graph_state import GraphState
 from principia_ai.tools.tutorial_initializer import TutorialInitializer
+from principia_ai.agents.base_agent import BaseAgent
+from principia_ai.tools.standard_tools import get_read_tools
+from principia_ai.tools.search.list_directory import list_directory
+from principia_ai.prompts.prompt_manager import PromptManager
 
 
 class CaseInitializationStep:
@@ -18,6 +22,27 @@ class CaseInitializationStep:
         except Exception as exc:
             self.tutorial_initializer = None
             print(f"Warning: Could not initialize TutorialInitializer: {exc}")
+
+        # Initialize Agent
+        self.prompt_manager = PromptManager()
+        try:
+            self.system_prompt = self.prompt_manager.load_prompt("case_initializer", "react_system")
+        except Exception as e:
+            print(f"Warning: Could not load case_initializer prompt: {e}. Using default.")
+            self.system_prompt = (
+                "You are the Case Initializer Agent. Check if the case directory needs initialization. "
+                "If empty or irrelevant to user request, decide INITIALIZE. Otherwise SKIP. "
+                "End with DECISION: INITIALIZE or DECISION: SKIP."
+            )
+            
+        self.agent_tools = get_read_tools() + [list_directory]
+        self.agent = BaseAgent(
+            llm=self.llm,
+            tools=self.agent_tools,
+            system_prompt=self.system_prompt,
+            agent_name="CaseInitializerAgent",
+            max_iterations=10
+        )
 
     def _is_directory_empty(self, directory: str) -> bool:
         """Checks whether directory has visible files."""
@@ -64,8 +89,35 @@ class CaseInitializationStep:
             return {}
 
         os.makedirs(case_path, exist_ok=True)
-        if not self._is_directory_empty(case_path):
+        
+        user_request = state.get("user_request", "")
+        
+        # Invoke Agent to decide
+        input_text = (
+            f"User Request: {user_request}\n"
+            f"Case Directory: {case_path}\n"
+            "Please check the directory and decide if we need to initialize the case."
+        )
+        
+        print("Case Initializer Agent: Checking if initialization is needed...")
+        result = self.agent.invoke({"input": input_text})
+        output = result.get("output", "")
+        
+        should_initialize = False
+        if "DECISION: INITIALIZE" in output:
+            should_initialize = True
+        elif "DECISION: SKIP" in output:
+            should_initialize = False
+        else:
+            # Fallback if agent fails to decide clearly, use old logic (empty check)
+            print("Case Initializer Agent: Ambiguous decision, falling back to empty check.")
+            should_initialize = self._is_directory_empty(case_path)
+
+        if not should_initialize:
+            print("Case Initializer Agent: Skipping initialization.")
             return {}
+
+        print("Case Initializer Agent: Proceeding with initialization.")
 
         if not self.tutorial_initializer:
             return {"initialization_message": "Tutorial initializer unavailable."}
@@ -82,7 +134,6 @@ class CaseInitializationStep:
         if not cases:
             return {"initialization_message": "Error: No tutorial cases found."}
 
-        user_request = state.get("user_request", "") or state.get("user_query", "")
         relevant_cases = self.tutorial_initializer.find_relevant_tutorial_cases(user_request, cases, top_k=1)
         if not relevant_cases:
             return {"initialization_message": "Error: Could not find relevant tutorial case."}

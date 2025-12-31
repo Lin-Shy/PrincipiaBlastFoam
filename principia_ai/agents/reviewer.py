@@ -87,16 +87,19 @@ class ReviewerAgent:
         result = self.agent.invoke({"input": input_text})
         output = result.get("output", "")
         
+        # Save the report to a file for other agents to use
+        report_path = os.path.join(case_path, "review_report.md")
+        try:
+            with open(report_path, "w") as f:
+                f.write(output)
+            print(f"Reviewer Agent: Report saved to {report_path}")
+        except Exception as e:
+            print(f"Reviewer Agent: Warning - could not save report file: {e}")
+        
         # Parse status from output (heuristic)
         status = "passed"
-        if "Status: Failed" in output:
-            status = "failed"
-        elif "fail" in output.lower() or "error" in output.lower() or "not satisfied" in output.lower():
-             # Fallback if strict format isn't followed but negative words are present
-             # But be careful not to flag "no errors found" as error.
-             # Let's rely on the explicit "Validation Status" if present, otherwise fallback.
-             if "Validation Status: Passed" not in output:
-                 status = "failed"
+        if "fail" in output.lower() or "error" in output.lower() or "not satisfied" in output.lower():
+             status = "failed"
             
         print(f"Reviewer Agent: Review complete. Status: {status}")
         

@@ -72,12 +72,12 @@ def test_orchestrator_flow():
 
     # 3. Construct Initial State
     # Scenario: User wants to modify the case to increase refinement.
-    # user_query = "Please check the refinement levels and increase them if necessary to ensure shock capturing."
+    # user_request = "Please check the refinement levels and increase them if necessary to ensure shock capturing."
     
-    user_query = "通过修改炸弹的体积来使其当量修改成100kg，其他不做修改。"
+    user_request = "通过修改炸弹的体积来使其当量修改成100kg，其他不做修改。"
     # Initialize state as a dict (GraphState is a TypedDict)
     state = {
-        "user_query": user_query,
+        "user_request": user_request,
         "case_path": case_path,
         "current_agent": "physics_analyst_agent",
         "completed_tasks": [],

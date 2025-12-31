@@ -25,11 +25,15 @@ LLM_MODEL_NAME = os.getenv("LLM_MODEL")
 # CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/surfaceburst_scaledd3"
 # user_request = "模拟一个触地爆场景，并修改爆炸场景的最远比例距离接近3。"
 
+CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/urban_blast"
+# user_request = "基于我在case 文件夹中提供的STL文件( urban2.stl )作为地形，模拟一个空爆场景。并设置爆源的坐标为(0.478  0.35  0.1)，爆炸当量为16gTNT球形炸药。"
+user_request = "基于我在case 文件夹中提供的STL文件( urban2.stl )作为地形，模拟一个空爆场景。并设置爆源的坐标和爆炸当量为适当的球形炸药。"
+# user_request = "这个算例运行不成功，检查并解决相关问题。"
 # CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/airburst_scaledh3"
 # user_request = "通过修改爆源的高度来设定爆炸的比例爆高为3.0或者接近3.0，设定爆炸场景的实际大小为实际爆高的3倍，其他不做修改。"
 
-CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/BuildingDiffraction"
-user_request = "Simulate a simple scenario of an exterior blast diffraction, including only the ground, an explosive source, and a rectangular building. The explosive source is at the same height as the center of the rectangular building and is located at a certain distance from it."
+# CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/BuildingDiffraction"
+# user_request = "Simulate a simple scenario of an exterior blast diffraction, including only the ground, an explosive source, and a rectangular building. The explosive source is at the same height as the center of the rectangular building and is located at a certain distance from it."
 
 # CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/building3D"
 # user_request = "Set the charge closer to the building to observe the effects on the structure."

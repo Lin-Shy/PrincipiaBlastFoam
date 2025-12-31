@@ -83,14 +83,17 @@ class PhysicsAnalystAgent:
         """
         print("Physics Analyst Agent: Starting Reconnaissance Phase...")
         
-        user_query = state.get("user_query", "") or state.get("user_request", "")
+        user_query = state.get("user_request", "")
         case_path = state.get("case_path", "")
-        
+        current_task = state.get("current_task", {})
+        task_description = current_task.get("description", "Analyze the current case configuration against the User Query.")
+
+
         # Construct input for the agent
         input_text = (
             f"User Query: {user_query}\n"
             f"Case Path: {case_path}\n"
-            f"Task: Analyze the current case configuration against the User Query.\n"
+            f"Task: {task_description}\n"
             f"Output a comprehensive 'Physics Report' detailing the current configuration and discrepancies.\n"
             f"Focus on analyzing the CURRENT state. Do NOT generate a fix plan yet."
         )
@@ -156,23 +159,16 @@ class PhysicsAnalystAgent:
         prompt = (
             f"You are a CFD Physics Analyst. A configuration change has occurred.\n"
             f"=== TASK ===\n"
-            f"Update the existing Physics Report to reflect the changes in the modified files.\n"
-            f"Do NOT rewrite the whole report. Only modify the sections affected by the file changes.\n\n"
-            f"=== EXISTING REPORT ===\n{old_report}\n\n"
-            f"=== MODIFIED FILES ===\n{file_contents}\n\n"
-            f"=== OUTPUT FORMAT ===\n"
-            f"Return the COMPLETE updated Markdown content of the report."
+            f"Update the existing Physics Report ({report_path}) to reflect the changes in the modified files.\n"
+            f"Use the tools to overwrite the report with the updated content.\n"
+            f"Do NOT output the report content in your response. Just confirm the update.\n\n"
+            f"=== MODIFIED FILES ===\n{file_contents}\n"
         )
 
         # 4. Invoke LLM
         result = self.agent.invoke({"input": prompt})
-        updated_content = result.get("output", "")
         
-        # 5. Save updated report
-        if updated_content:
-            with open(report_path, "w") as f:
-                f.write(updated_content)
-            print(f"Physics Updater: Report successfully patched for {len(changed_files)} files.")
+        print(f"Physics Updater: Agent invoked for update on {len(changed_files)} files.")
         
         # Clear changed files list
         return {"changed_files": []}
