@@ -41,7 +41,7 @@ class OrchestratorAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="OrchestratorAgent",
-            max_iterations=50
+            max_iterations=100
         )
 
     def _scan_config_state(self, case_path: str) -> Dict[str, str]:
@@ -269,7 +269,7 @@ class OrchestratorAgent:
             if all_changed_files:
                 updates['changed_files'] = all_changed_files
                 
-                # Only trigger update if ExecutionAgent has finished
+                # Only trigger update if ExecutionAgent or CaseSetupAgent has finished
                 if last_agent == 'execution_agent' or last_agent == 'case_setup_agent':
                     print(f"Orchestrator: Execution finished. Triggering physics update for: {all_changed_files}")
                     updates['needs_physics_update'] = True

@@ -73,7 +73,7 @@ class ExecutionAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="ExecutionAgent",
-            max_iterations=50
+            max_iterations=100
         )
 
     @track_agent_execution("execution_agent")

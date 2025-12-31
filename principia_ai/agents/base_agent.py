@@ -33,7 +33,7 @@ class BaseAgent:
         tools: List[BaseTool], 
         system_prompt: str,
         agent_name: str = "Agent",
-        max_iterations: int = 30
+        max_iterations: int = 50
     ):
         self.llm = llm
         self.tools = tools

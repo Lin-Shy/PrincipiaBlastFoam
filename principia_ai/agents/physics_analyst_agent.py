@@ -71,7 +71,7 @@ class PhysicsAnalystAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="physics_analyst_agent",
-            max_iterations=50
+            max_iterations=100
         )
 
     @track_agent_execution("physics_analyst_agent")
@@ -124,7 +124,7 @@ class PhysicsAnalystAgent:
         print("Physics Updater: Starting incremental report update...")
 
         # Check environment variable to see if we should update the report
-        if os.getenv("UPDATE_PHYSICS_REPORT", "false"):
+        if os.getenv("UPDATE_PHYSICS_REPORT", "false").lower() != "true":
             print("Physics Updater: UPDATE_PHYSICS_REPORT is not set to true. Skipping update.")
             return {}
         

@@ -68,7 +68,7 @@ class PostProcessingAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="PostProcessingAgent",
-            max_iterations=50
+            max_iterations=100
         )
 
     @track_agent_execution("post_processing_agent")
