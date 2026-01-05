@@ -11,6 +11,7 @@ import json
 from typing import Dict, List, Optional, Any, Tuple
 from pathlib import Path
 from langchain.schema import HumanMessage, SystemMessage
+from principia_ai.metrics.tracker import MetricsTracker
 
 
 class TutorialInitializer:
@@ -245,6 +246,17 @@ Which {top_k} case indices are most relevant for this user request? Return as a 
             ]
             
             response = self.llm.invoke(messages)
+            
+            # Track tokens
+            tracker = MetricsTracker()
+            usage = response.usage_metadata if hasattr(response, 'usage_metadata') else {}
+            agent_name = tracker.current_agent or "TutorialInitializer"
+            tracker.record_llm_call(
+                agent_name=agent_name,
+                input_tokens=usage.get('input_tokens', 0),
+                output_tokens=usage.get('output_tokens', 0),
+                model=self.llm.model_name if hasattr(self.llm, 'model_name') else 'unknown'
+            )
             
             # 解析响应获取索引列表
             try:

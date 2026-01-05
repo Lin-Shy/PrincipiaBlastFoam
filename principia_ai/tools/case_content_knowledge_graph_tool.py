@@ -7,6 +7,7 @@ from pathlib import Path
 from collections import defaultdict
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
+from principia_ai.metrics.tracker import MetricsTracker
 
 # Add project root to path for module imports
 project_root = Path(__file__).parent.parent.parent
@@ -544,6 +545,17 @@ Please provide ONLY the JSON object, no additional text.
 """
         
         response = self.llm.invoke(prompt)
+        
+        # Track tokens
+        tracker = MetricsTracker()
+        usage = response.usage_metadata if hasattr(response, 'usage_metadata') else {}
+        agent_name = tracker.current_agent or "CaseContentTool"
+        tracker.record_llm_call(
+            agent_name=agent_name,
+            input_tokens=usage.get('input_tokens', 0),
+            output_tokens=usage.get('output_tokens', 0),
+            model=self.llm.model_name if hasattr(self.llm, 'model_name') else 'unknown'
+        )
         
         try:
             content = response.content.strip()

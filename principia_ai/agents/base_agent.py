@@ -8,6 +8,7 @@ from langchain.agents.output_parsers.openai_tools import OpenAIToolsAgentOutputP
 from langchain.agents import create_tool_calling_agent
 from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.agents import AgentAction
+from principia_ai.metrics.callbacks import TokenTrackingCallbackHandler
 
 class SelectiveLogCallbackHandler(BaseCallbackHandler):
     def __init__(self):
@@ -63,7 +64,7 @@ class BaseAgent:
             agent=agent, 
             tools=self.tools, 
             verbose=False, 
-            callbacks=[SelectiveLogCallbackHandler()],
+            callbacks=[SelectiveLogCallbackHandler(), TokenTrackingCallbackHandler(self.agent_name)],
             handle_parsing_errors=True,
             max_iterations=self.max_iterations # Prevent infinite loops
         )

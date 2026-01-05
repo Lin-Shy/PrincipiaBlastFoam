@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 from langchain_openai import ChatOpenAI
+from principia_ai.metrics.tracker import MetricsTracker
 
 
 class UserGuideKnowledgeGraphRetriever:
@@ -106,6 +107,17 @@ Example:
                 response_format={"type": "json_object"}
             )
             
+            # Track tokens
+            tracker = MetricsTracker()
+            usage = response.usage_metadata if hasattr(response, 'usage_metadata') else {}
+            agent_name = tracker.current_agent or "UserGuideTool"
+            tracker.record_llm_call(
+                agent_name=agent_name,
+                input_tokens=usage.get('input_tokens', 0),
+                output_tokens=usage.get('output_tokens', 0),
+                model=self.llm.model_name if hasattr(self.llm, 'model_name') else 'unknown'
+            )
+            
             # Parse the response
             result = json.loads(response.content)
             relevant_chapters = result.get("chapters", [])
@@ -171,6 +183,17 @@ Example:
             response = self.llm.invoke(
                 [{"role": "user", "content": prompt}],
                 response_format={"type": "json_object"}
+            )
+            
+            # Track tokens
+            tracker = MetricsTracker()
+            usage = response.usage_metadata if hasattr(response, 'usage_metadata') else {}
+            agent_name = tracker.current_agent or "UserGuideTool"
+            tracker.record_llm_call(
+                agent_name=agent_name,
+                input_tokens=usage.get('input_tokens', 0),
+                output_tokens=usage.get('output_tokens', 0),
+                model=self.llm.model_name if hasattr(self.llm, 'model_name') else 'unknown'
             )
             
             # Parse the response
@@ -274,6 +297,17 @@ Example:
             response = self.llm.invoke(
                 [{"role": "user", "content": prompt}],
                 response_format={"type": "json_object"}
+            )
+            
+            # Track tokens
+            tracker = MetricsTracker()
+            usage = response.usage_metadata if hasattr(response, 'usage_metadata') else {}
+            agent_name = tracker.current_agent or "UserGuideTool"
+            tracker.record_llm_call(
+                agent_name=agent_name,
+                input_tokens=usage.get('input_tokens', 0),
+                output_tokens=usage.get('output_tokens', 0),
+                model=self.llm.model_name if hasattr(self.llm, 'model_name') else 'unknown'
             )
             
             # Parse the response

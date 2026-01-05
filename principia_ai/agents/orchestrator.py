@@ -10,6 +10,7 @@ import glob
 from principia_ai.graph.graph_state import GraphState
 from principia_ai.prompts import PromptManager
 from principia_ai.metrics.decorators import track_agent_execution, track_llm_call
+from principia_ai.metrics.tracker import MetricsTracker
 from ..tools.physics_inspection import read_physics_report_file, get_physics_report_tool
 from ..tools.execution_inspection import get_execution_report_tool
 from ..tools.review_inspection import get_review_report_tool
@@ -92,6 +93,17 @@ class OrchestratorAgent:
             f"Return the plan as a numbered list."
         )
         response = self.llm.invoke(planning_prompt)
+        
+        # Track tokens
+        tracker = MetricsTracker()
+        usage = response.usage_metadata if hasattr(response, 'usage_metadata') else {}
+        tracker.record_llm_call(
+            agent_name="orchestrator",
+            input_tokens=usage.get('input_tokens', 0),
+            output_tokens=usage.get('output_tokens', 0),
+            model=self.llm.model_name if hasattr(self.llm, 'model_name') else 'unknown'
+        )
+        
         return response.content
 
     @track_agent_execution("orchestrator")
