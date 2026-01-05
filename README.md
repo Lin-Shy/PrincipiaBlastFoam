@@ -1,97 +1,97 @@
 # PrincipiaBlastFoam
 
-PrincipiaBlastFoam 是一个基于 **OASiS (Open Agent System for Simulation)** 架构的多智能体协作系统，专为自动化 **OpenFOAM**（特别是 **blastFoam**）仿真任务而设计。
+PrincipiaBlastFoam is a multi-agent collaboration system based on the **ReAct (Reasoning + Acting) paradigm** and the **OASiS (Open Agent System for Simulation)** architecture, designed to automate **OpenFOAM** (specifically **blastFoam**) simulation tasks.
 
-该系统利用大语言模型（LLM）和知识图谱技术，通过协调多个专业智能体，实现从用户自然语言需求到物理仿真结果的全流程自动化。
+By leveraging Large Language Models (LLMs) and Knowledge Graph technology, the system coordinates multiple specialized agents to achieve full-process automation from user natural language requirements to physical simulation results.
 
-## 🌟 核心特性
+## 🌟 Core Features
 
-*   **多智能体协作**: 采用图结构工作流，由协调智能体（Orchestrator）动态调度物理分析、算例设置、执行、后处理和审查等专业智能体。
-*   **知识增强检索**: 集成 User Guide 和 Case Content 知识图谱，采用层次化检索和上下文增强策略，确保智能体获取准确的物理知识和算例配置信息。
-*   **自动化工作流**: 支持从零开始初始化算例、修改参数、运行仿真、监控日志到结果分析的全过程。
-*   **BlastFoam 深度支持**: 针对爆炸力学仿真（blastFoam）进行了专门的优化和知识库构建。
+*   **Multi-Agent Collaboration based on ReAct Paradigm**: Deeply integrates the **ReAct (Reasoning + Acting)** philosophy, endowing agents with a "Think-Act-Observe" loop capability. An Orchestrator agent dynamically reasons based on the current state and schedules expert agents (Physics Analyst, Case Setup, Execution, etc.) to achieve adaptive problem-solving for complex tasks.
+*   **Knowledge-Enhanced Retrieval**: Integrates User Guide and Case Content Knowledge Graphs, employing hierarchical retrieval and context-enhanced strategies to ensure agents obtain accurate physical knowledge and case configuration information.
+*   **Automated Workflow**: Supports the entire process from scratch: case initialization, parameter modification, simulation execution, log monitoring, to result analysis.
+*   **Deep BlastFoam Support**: Specifically optimized and knowledge-base constructed for explosion mechanics simulation (blastFoam).
 
-## 🏗️ 系统架构
+## 🏗️ System Architecture
 
-系统基于 LangGraph 构建，包含以下核心智能体：
+The system is built on LangGraph and includes the following core agents:
 
-*   **OrchestratorAgent (协调者)**: 任务的总指挥，负责规划任务、调度其他智能体并处理反馈。
-*   **PhysicsAnalystAgent (物理分析师)**: 分析用户需求，结合物理知识制定仿真方案。
-*   **CaseSetupAgent (设置专家)**: 负责 OpenFOAM 算例文件的生成和配置（0/, constant/, system/）。
-*   **ExecutionAgent (执行员)**: 编写运行脚本（Allrun），执行仿真并监控日志。
-*   **PostProcessingAgent (分析师)**: 提取关键数据，生成图表和报告。
-*   **ReviewerAgent (审查员)**: 负责质量保证，检查各阶段输出并诊断错误。
+*   **OrchestratorAgent**: The commander of tasks, responsible for planning, scheduling other agents, and handling feedback.
+*   **PhysicsAnalystAgent**: Analyzes user requirements and formulates simulation plans combining physical knowledge.
+*   **CaseSetupAgent**: Responsible for generating and configuring OpenFOAM case files (0/, constant/, system/).
+*   **ExecutionAgent**: Writes run scripts (Allrun), executes simulations, and monitors logs.
+*   **PostProcessingAgent**: Extracts key data and generates charts and reports.
+*   **ReviewerAgent**: Responsible for quality assurance, checking outputs at each stage, and diagnosing errors.
 
-详细架构说明请参考 [docs/workflow_and_agents_description.md](docs/workflow_and_agents_description.md)。
+For detailed architecture description, please refer to [docs/MULTI_AGENT_DESIGN.md](docs/MULTI_AGENT_DESIGN.md).
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 环境要求
+### Requirements
 
-*   Linux (推荐)
+*   Linux (Recommended)
 *   Python 3.10+
-*   OpenFOAM / blastFoam 环境
-*   Neo4j (用于知识图谱存储)
+*   OpenFOAM / blastFoam environment
+*   Neo4j (for Knowledge Graph storage)
 
-### 安装依赖
+### Installation
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 配置
+### Configuration
 
-1.  复制示例环境变量文件：
+1.  Copy the example environment variable file:
     ```bash
     cp example.env .env
     ```
-2.  编辑 `.env` 文件，配置 LLM API 和 Neo4j 连接信息。
+2.  Edit the `.env` file to configure LLM API and Neo4j connection information.
 
-### 运行示例
+### Running Examples
 
-**1. 知识图谱检索演示**
+**1. Knowledge Graph Retrieval Demo**
 
-运行以下命令查看改进后的检索策略效果：
+Run the following command to see the effect of the improved retrieval strategy:
 
 ```bash
 python example_improved_retrieval.py
 ```
 
-**2. 运行完整工作流**
+**2. Run Full Workflow**
 
-编辑 `run_workflow.py` 中的 `CASE_PATH` 和 `user_request` 变量，定义你的仿真任务，然后运行：
+Edit the `CASE_PATH` and `user_request` variables in `run_workflow.py` to define your simulation task, then run:
 
 ```bash
 python run_workflow.py
 ```
 
-## 📂 项目结构
+## 📂 Project Structure
 
 ```
 PrincipiaBlastFoam/
-├── principia_ai/           # 核心代码包
-│   ├── agents/             # 智能体实现
-│   ├── graph/              # 工作流图定义
-│   ├── tools/              # 工具集 (检索、文件操作等)
+├── principia_ai/           # Core code package
+│   ├── agents/             # Agent implementations
+│   ├── graph/              # Workflow graph definition
+│   ├── tools/              # Toolset (Retrieval, File operations, etc.)
 │   └── ...
-├── data/                   # 数据文件
-│   ├── knowledge_graph/    # 知识图谱数据
+├── data/                   # Data files
+│   ├── knowledge_graph/    # Knowledge Graph data
 │   └── ...
-├── docs/                   # 项目文档
-├── experiments/            # 实验与评估脚本
-├── scripts/                # 辅助脚本
-├── tests/                  # 测试用例
-├── run_workflow.py         # 主运行脚本
-├── QUICKSTART.md           # 快速入门指南
-└── requirements.txt        # 项目依赖
+├── docs/                   # Project documentation
+├── experiments/            # Experiments and evaluation scripts
+├── scripts/                # Helper scripts
+├── tests/                  # Test cases
+├── run_workflow.py         # Main run script
+├── QUICKSTART.md           # Quick start guide
+└── requirements.txt        # Project dependencies
 ```
 
-## 📚 文档
+## 📚 Documentation
 
-*   [快速开始指南](QUICKSTART.md)
-*   [工作流与智能体说明](docs/workflow_and_agents_description.md)
-*   [量化指标实现方案](docs/量化指标实现方案.md)
+*   [Quick Start Guide](QUICKSTART.md)
+*   [Multi-Agent System Design (ReAct Architecture)](docs/MULTI_AGENT_DESIGN.md)
+*   [Quantitative Metrics Implementation](docs/量化指标实现方案.md)
 
-## 🤝 贡献
+## 🤝 Contribution
 
-欢迎提交 Issue 和 Pull Request 来改进本项目。
+Issues and Pull Requests are welcome to improve this project.

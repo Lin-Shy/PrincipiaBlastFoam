@@ -1,236 +1,113 @@
-# 🚀 快速开始指南
+# 🚀 Quick Start Guide
 
-## Case Content 知识图谱检索改进已完成！
+This guide will help you set up the **PrincipiaBlastFoam** environment and run your first automated simulation task.
 
-本次改进实现了两种互补的智能检索策略，显著提升了检索准确性。
+## 📋 Prerequisites
 
----
+Before you begin, ensure you have the following installed:
 
-## ✅ 已完成的工作
+*   **Operating System**: Linux (Recommended for OpenFOAM compatibility)
+*   **Python**: Version 3.10 or higher
+*   **OpenFOAM**: A working installation of OpenFOAM (specifically **blastFoam** if running explosion simulations)
+*   **Database**: Neo4j (Required for Knowledge Graph storage)
 
-### 1. 核心功能实现
-- ✅ **User Guide 上下文增强检索**: 从理论知识中提取概念，映射到实际案例
-- ✅ **层次化检索**: Case → File/Variable 两阶段搜索
-- ✅ **智能策略选择**: 自动选择最优检索方法
-- ✅ **向后兼容**: 原有代码无需修改
+## 🛠️ Installation
 
-### 2. 修改的文件
-- ✅ `principia_ai/tools/case_content_knowledge_graph_tool.py` (~350 行新增)
-- ✅ `principia_ai/agents/case_setup_agent.py` (~20 行修改)
+### 1. Clone the Repository
 
-### 3. 新增的文件
-- ✅ `test_improved_case_content_kg.py` - 完整测试脚本
-- ✅ `example_improved_retrieval.py` - 快速示例
-- ✅ `docs/case_content_kg_retrieval_improvement.md` - 技术文档
-- ✅ `IMPLEMENTATION_SUMMARY.md` - 实施总结
-
-### 4. 代码质量
-- ✅ 语法检查通过
-- ✅ 类型提示完整
-- ✅ 文档字符串规范
-- ✅ 错误处理健全
-
----
-
-## 🎯 立即测试
-
-### 选项 1: 运行快速示例（推荐）
 ```bash
-cd /media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam
+git clone <repository_url>
+cd PrincipiaBlastFoam
+```
+
+### 2. Set up Python Environment
+
+It is recommended to use Conda or venv to manage dependencies.
+
+```bash
+# Using Conda
+conda create -n principia python=3.10
+conda activate principia
+
+# OR using venv
+python -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+## ⚙️ Configuration
+
+### 1. Environment Variables
+
+The system uses a `.env` file for configuration. Start by copying the example file:
+
+```bash
+cp example.env .env
+```
+
+### 2. Edit Configuration
+
+Open `.env` and configure the following critical settings:
+
+*   **LLM Configuration**:
+    *   `LLM_API_KEY`: Your API key (e.g., OpenAI, DashScope).
+    *   `LLM_MODEL`: The model name to use (e.g., `gpt-4`, `qwen-plus`).
+    *   `LLM_API_BASE_URL`: The API base URL.
+
+*   **Neo4j Configuration**:
+    *   `NEO4J_URI`: URI for your Neo4j instance (default: `bolt://localhost:7687`).
+    *   `NEO4J_USERNAME`: Database username.
+    *   `NEO4J_PASSWORD`: Database password.
+
+*   **OpenFOAM Configuration**:
+    *   `BLASTFOAM_TUTORIALS`: Path to your blastFoam tutorials directory (used for reference).
+
+## 🏃‍♂️ Running the System
+
+### 1. Verify Knowledge Graph Retrieval
+
+To ensure the Knowledge Graph and retrieval tools are working correctly, run the example script:
+
+```bash
 python example_improved_retrieval.py
 ```
-**耗时**: ~2-3 分钟  
-**展示**: 3 个实际使用场景
 
-### 选项 2: 运行完整测试
+This script demonstrates the system's ability to retrieve relevant OpenFOAM case information using the improved hierarchical retrieval strategy.
+
+### 2. Run the Main Workflow
+
+The core of the system is the multi-agent workflow.
+
+1.  Open `run_workflow.py`.
+2.  Modify the `user_request` variable to describe your simulation task.
+    *   *Example*: "Set up a 2D explosion simulation with a charge mass of 5kg located at (0 0 0)."
+3.  Set the `CASE_PATH` to your target working directory.
+4.  Run the workflow:
+
 ```bash
-python test_improved_case_content_kg.py
-```
-**耗时**: ~5-10 分钟  
-**展示**: 详细的测试结果和对比分析
-
-### 选项 3: 评估性能提升
-```bash
-python experiments/retrieval_method/evaluate_knowledge_graph_retriever.py
-```
-**耗时**: ~20-30 分钟  
-**输出**: 完整的性能指标报告
-
----
-
-## 📖 使用方法
-
-### 在现有代码中（自动使用）
-
-改进已自动集成到 `CaseSetupAgent`，无需修改代码：
-
-```python
-# 您的现有代码保持不变
-from principia_ai.agents.case_setup_agent import CaseSetupAgent
-
-agent = CaseSetupAgent(llm)
-result = agent.run_setup(state)
-
-# 内部会自动：
-# 1. 先获取 User Guide 上下文
-# 2. 传递给 Case Content 检索器
-# 3. 使用改进的双策略检索
+python run_workflow.py
 ```
 
-### 直接调用检索器
+### 3. Monitor Progress
 
-```python
-from principia_ai.tools.case_content_knowledge_graph_tool import CaseContentKnowledgeGraphRetriever
-from principia_ai.tools.user_guide_knowledge_graph_tool import UserGuideKnowledgeGraphRetriever
+The system will output logs to the console, showing the interaction between agents:
+*   **Orchestrator**: Planning and delegating tasks.
+*   **PhysicsAnalyst**: Analyzing requirements.
+*   **CaseSetup**: Modifying files.
+*   **Execution**: Running the solver.
 
-# 初始化
-ug_retriever = UserGuideKnowledgeGraphRetriever()
-cc_retriever = CaseContentKnowledgeGraphRetriever()
+## 🔍 Troubleshooting
 
-# 方法 1: User Guide 增强（推荐）
-query = "Change explosive density to 1700 kg/m³"
-ug_context = ug_retriever.search(query)
-results = cc_retriever.search(
-    query, 
-    top_k=5, 
-    user_guide_context=ug_context  # 传递上下文
-)
+*   **Neo4j Connection Error**: Ensure the Neo4j service is running and the credentials in `.env` are correct.
+*   **OpenFOAM Command Not Found**: Make sure you have sourced the OpenFOAM environment variables (e.g., `source /opt/openfoam/etc/bashrc`) before running the Python scripts.
+*   **LLM API Error**: Check your API key and network connection.
 
-# 方法 2: 纯层次化检索
-results = cc_retriever.search(
-    query, 
-    top_k=5, 
-    user_guide_context=None  # 不传递，使用层次化
-)
-```
+## 📚 Next Steps
 
----
-
-## 📊 预期效果
-
-### 性能提升
-| 指标 | 改进前 | 预期改进后 | 提升 |
-|------|--------|-----------|------|
-| Hit@1 | 45% | **60-65%** | +15-20% |
-| Hit@3 | 60.8% | **75-80%** | +14-19% |
-| MRR | 0.529 | **0.65-0.70** | +12-17% |
-
-### 失败类别改善
-| 类别 | 原始表现 | 预期改进 |
-|------|---------|---------|
-| material_properties | 0% → **50-60%** |
-| initial_conditions | 28.6% → **50-60%** |
-| boundary_conditions | 42.9% → **60-70%** |
-
----
-
-## 🔍 核心改进
-
-### 策略 1: User Guide 上下文增强
-```
-查询: "Change explosive density to 1700 kg/m³"
-  ↓
-User Guide: 获取关于密度参数的理论知识
-  ↓
-提取概念: {
-  "parameter_names": ["rho", "density"],
-  "file_names": ["phaseProperties"]
-}
-  ↓
-Case Content: 搜索包含 "rho" 的 phaseProperties 文件
-  ↓
-结果: ✓ constant/phaseProperties
-```
-
-### 策略 2: 层次化检索
-```
-查询: "Show PIMPLE settings in building3D"
-  ↓
-阶段 1: 找到 blastFoam_building3D 案例
-  ↓
-阶段 2: 在该案例内搜索 PIMPLE 相关文件
-  ↓
-结果: ✓ system/fvSolution
-```
-
----
-
-## 📚 文档资源
-
-### 技术文档
-- **详细说明**: `docs/case_content_kg_retrieval_improvement.md`
-- **实施总结**: `IMPLEMENTATION_SUMMARY.md`
-- **改进建议**: 本文档顶部的分析报告
-
-### 代码示例
-- **快速示例**: `example_improved_retrieval.py`
-- **完整测试**: `test_improved_case_content_kg.py`
-- **评估脚本**: `experiments/retrieval_method/evaluate_knowledge_graph_retriever.py`
-
----
-
-## 🎉 核心优势
-
-1. **智能**: 自动选择最优检索策略
-2. **准确**: 理论知识指导实例检索
-3. **高效**: 层次化搜索减少噪声
-4. **兼容**: 无缝集成到现有系统
-5. **可靠**: 多重后备机制
-
----
-
-## 🚀 下一步
-
-### 立即行动（必做）
-1. ✅ 运行快速示例验证功能
-   ```bash
-   python example_improved_retrieval.py
-   ```
-
-2. ✅ 在验证数据集上评估
-   ```bash
-   python experiments/retrieval_method/evaluate_knowledge_graph_retriever.py
-   ```
-
-3. ✅ 对比改进前后的性能指标
-
-### 可选优化（推荐）
-1. 根据评估结果微调参数
-2. 添加缓存机制提升速度
-3. 针对特定失败类别专项优化
-4. 考虑实施混合检索（结合嵌入式检索）
-
----
-
-## 💡 提示
-
-- **第一次使用**: 先运行 `example_improved_retrieval.py` 了解效果
-- **性能评估**: 使用评估脚本获取量化指标
-- **遇到问题**: 查看 `docs/case_content_kg_retrieval_improvement.md`
-- **深入理解**: 阅读 `IMPLEMENTATION_SUMMARY.md`
-
----
-
-## ✨ 成功标志
-
-当您看到以下现象时，说明改进生效：
-
-- ✅ 日志显示 "Case Content KG: Attempting to extract concepts from User Guide context..."
-- ✅ 日志显示 "Hierarchical Search Stage 1: Finding relevant cases..."
-- ✅ 检索结果包含正确的文件路径（如 constant/phaseProperties）
-- ✅ 之前失败的查询现在能返回正确结果
-
----
-
-## 🎊 恭喜！
-
-您已成功实施了 Case Content 知识图谱的智能检索改进！
-
-**问题？** 查看文档或运行示例脚本
-**反馈？** 欢迎分享改进建议
-
----
-
-*实施日期: 2025-10-30*  
-*版本: v2.0*  
-*状态: ✅ 已完成实施，待测试验证*
+*   Explore the [Multi-Agent Design](docs/MULTI_AGENT_DESIGN.md) to understand how the agents collaborate.
+*   Check `experiments/` for more advanced usage and evaluation scripts.
