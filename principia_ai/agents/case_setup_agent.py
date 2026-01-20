@@ -72,7 +72,7 @@ class CaseSetupAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="CaseSetupAgent",
-            max_iterations=100
+            max_iterations=int(os.getenv("MAX_ITERATIONS"))
         )
 
     @track_agent_execution("case_setup_agent")

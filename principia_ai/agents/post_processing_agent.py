@@ -1,3 +1,4 @@
+import os
 from typing import Dict, Any
 from langchain.schema import HumanMessage, SystemMessage
 from langchain.tools import StructuredTool
@@ -68,7 +69,7 @@ class PostProcessingAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="PostProcessingAgent",
-            max_iterations=100
+            max_iterations=int(os.getenv("MAX_ITERATIONS"))
         )
 
     @track_agent_execution("post_processing_agent")

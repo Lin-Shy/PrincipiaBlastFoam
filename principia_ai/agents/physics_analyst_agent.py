@@ -71,7 +71,7 @@ class PhysicsAnalystAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="physics_analyst_agent",
-            max_iterations=100
+            max_iterations=int(os.getenv("MAX_ITERATIONS"))
         )
 
     @track_agent_execution("physics_analyst_agent")

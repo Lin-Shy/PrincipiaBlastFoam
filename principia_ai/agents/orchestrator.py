@@ -42,7 +42,7 @@ class OrchestratorAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="OrchestratorAgent",
-            max_iterations=100
+            max_iterations=int(os.getenv("MAX_ITERATIONS"))
         )
 
     def _scan_config_state(self, case_path: str) -> Dict[str, str]:

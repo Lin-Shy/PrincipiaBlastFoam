@@ -62,7 +62,7 @@ class ReviewerAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="ReviewerAgent",
-            max_iterations=100
+            max_iterations=int(os.getenv("MAX_ITERATIONS"))
         )
 
     @track_agent_execution("reviewer")
