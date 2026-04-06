@@ -1,157 +1,181 @@
+import argparse
 import os
 import uuid
+
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
+
 from principia_ai.agents import create_workflow
 from principia_ai.graph.graph_state import GraphState
-from principia_ai.metrics import MetricsTracker, MetricsReporter
-
-# Load environment variables
-load_dotenv(override=True)
-LLM_API_BASE_URL = os.getenv("LLM_API_BASE_URL")
-LLM_API_KEY = os.getenv("LLM_API_KEY")
-LLM_MODEL_NAME = os.getenv("LLM_MODEL")
-
-# CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/urban_005_14"
-# user_request = "只修改运行的并行度为16，其他不做修改。"
+from principia_ai.metrics import MetricsReporter, MetricsTracker
+from principia_ai.tools.retrieval_llm_config import resolve_retrieval_llm_config
 
 
-# CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/building3D"
-# user_request = "通过修改炸弹的体积来使其当量修改成100kg，其他不做修改。"
-
-# CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/airburst_scaledh3"
-# user_request = "模拟一个自由场空爆场景，并通过修改爆源的高度来设定爆炸的比例爆高为3.0或者接近3.0，设定爆炸场景的实际大小为实际爆高的3倍。"
-
-# CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/surfaceburst_scaledd3"
-# user_request = "模拟一个触地爆场景，并修改爆炸场景的最远比例距离接近3。"
-
-# CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/urban_blast"
-# user_request = "基于我在case 文件夹中提供的STL文件( urban2.stl )作为地形，模拟一个空爆场景。并设置爆源的坐标为(0.478  0.35  0.1)，爆炸当量为16gTNT球形炸药。"
-# user_request = "基于我在case 文件夹中提供的STL文件( urban2.stl )作为地形，模拟一个空爆场景。并设置爆源的坐标和爆炸当量为适当的球形炸药。"
-# user_request = "这个算例运行不成功，检查并解决相关问题。"
-# CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/airburst_scaledh3"
-# user_request = "通过修改爆源的高度来设定爆炸的比例爆高为3.0或者接近3.0，设定爆炸场景的实际大小为实际爆高的3倍，其他不做修改。"
-
-CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/BuildingDiffraction"
-user_request = "Simulate a simple scenario of an exterior blast diffraction, including only the ground, an explosive source, and a rectangular building. The explosive source is at the same height as the center of the rectangular building and is located at a certain distance from it."
-
-# CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/building3D"
-# user_request = "Set the charge closer to the building to observe the effects on the structure."
+DEFAULT_CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/surfaceburst_scaledd3"
+DEFAULT_USER_REQUEST = "模拟一个触地爆场景，并修改爆炸场景的最远比例距离接近3。"
+DEFAULT_TUTORIAL_PATH = "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials"
 
 
-tutorial_path = "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials"
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Run the PrincipiaBlastFoam multi-agent workflow.")
+    parser.add_argument("--case-path", default=DEFAULT_CASE_PATH, help="Target case directory.")
+    parser.add_argument("--user-request", default=DEFAULT_USER_REQUEST, help="User task description.")
+    parser.add_argument(
+        "--tutorial-path",
+        default=os.getenv("BLASTFOAM_TUTORIALS", DEFAULT_TUTORIAL_PATH),
+        help="BlastFoam tutorial root directory.",
+    )
+    parser.add_argument(
+        "--llm-api-base-url",
+        default=os.getenv("LLM_API_BASE_URL"),
+        help="Main agent LLM base URL. Defaults to LLM_API_BASE_URL.",
+    )
+    parser.add_argument(
+        "--llm-api-key",
+        default=os.getenv("LLM_API_KEY"),
+        help="Main agent LLM API key. Defaults to LLM_API_KEY.",
+    )
+    parser.add_argument(
+        "--llm-model",
+        default=os.getenv("LLM_MODEL"),
+        help="Main agent LLM model. Defaults to LLM_MODEL.",
+    )
+    parser.add_argument(
+        "--retrieval-llm-api-key",
+        default=os.getenv("RETRIEVAL_LLM_API_KEY"),
+        help="Retrieval-only LLM API key. Falls back to RETRIEVAL_LLM_API_KEY/LLM_API_KEY.",
+    )
+    parser.add_argument(
+        "--retrieval-llm-base-url",
+        default=os.getenv("RETRIEVAL_LLM_API_BASE_URL"),
+        help="Retrieval-only LLM base URL. Falls back to RETRIEVAL_LLM_API_BASE_URL/LLM_API_BASE_URL.",
+    )
+    parser.add_argument(
+        "--retrieval-llm-model",
+        default=os.getenv("RETRIEVAL_LLM_MODEL"),
+        help="Retrieval-only LLM model. Falls back to RETRIEVAL_LLM_MODEL/LLM_MODEL.",
+    )
+    parser.add_argument(
+        "--recursion-limit",
+        type=int,
+        default=200,
+        help="LangGraph recursion limit.",
+    )
+    return parser.parse_args()
 
 
-def llm():
-    """Provides a ChatOpenAI instance for the test module."""
+def build_main_llm(args: argparse.Namespace) -> ChatOpenAI:
     return ChatOpenAI(
-        base_url=LLM_API_BASE_URL,
-        model=LLM_MODEL_NAME,
-        api_key=LLM_API_KEY,
+        base_url=args.llm_api_base_url,
+        model=args.llm_model,
+        api_key=args.llm_api_key,
         temperature=0.1,
     )
 
 
-def workflow_app(llm):
-    """Creates the full LangGraph application for testing."""
-    return create_workflow(llm)
+def build_workflow_app(llm: ChatOpenAI, args: argparse.Namespace):
+    retrieval_config = resolve_retrieval_llm_config(
+        api_key=args.retrieval_llm_api_key,
+        base_url=args.retrieval_llm_base_url,
+        model=args.retrieval_llm_model,
+    )
+    print(
+        "Retrieval LLM config: "
+        f"model={retrieval_config['model']}, "
+        f"base_url={retrieval_config['base_url']}, "
+        f"api_key={'set' if retrieval_config['api_key'] else 'missing'}"
+    )
+    return create_workflow(
+        llm,
+        retrieval_llm_api_key=retrieval_config["api_key"],
+        retrieval_llm_base_url=retrieval_config["base_url"],
+        retrieval_llm_model=retrieval_config["model"],
+    )
 
 
-def test_full_workflow_run(workflow_app):
+def test_full_workflow_run(workflow_app, args: argparse.Namespace) -> None:
     """
     Tests a full run of the OASiS workflow from user request to final state.
     """
     print("\n=== Testing Full OASiS Workflow Run ===")
 
-    # 生成任务ID
     task_id = str(uuid.uuid4())
-    
-    # 初始化指标追踪器
+
     tracker = MetricsTracker()
-    tracker.start_task(task_id, user_request)
+    tracker.start_task(task_id, args.user_request)
 
     initial_state = GraphState(
-        user_request=user_request,
-        case_path=CASE_PATH,  # For Physics Analyst to analyze existing case
-        tutorial_path=tutorial_path,
-        task_id=task_id
+        user_request=args.user_request,
+        case_path=args.case_path,
+        tutorial_path=args.tutorial_path,
+        task_id=task_id,
     )
 
     try:
-        # Invoke the workflow
-        final_state = workflow_app.invoke(initial_state, {"recursion_limit": 200})
+        final_state = workflow_app.invoke(initial_state, {"recursion_limit": args.recursion_limit})
 
-        # 记录计划任务数
-        if final_state.get('plan'):
-            tracker.record_task_event('planned', len(final_state['plan']))
-        
-        # 记录完成任务数
-        completed_tasks = final_state.get('completed_tasks', [])
+        if final_state.get("plan"):
+            tracker.record_task_event("planned", len(final_state["plan"]))
+
+        completed_tasks = final_state.get("completed_tasks", [])
         if completed_tasks:
-            tracker.record_task_event('completed', len(completed_tasks))
-        
-        # 记录验证结果
-        if final_state.get('validation_status') == 'passed':
+            tracker.record_task_event("completed", len(completed_tasks))
+
+        if final_state.get("validation_status") == "passed":
             tracker.record_validation(True)
-        elif final_state.get('validation_status') == 'failed':
+        elif final_state.get("validation_status") == "failed":
             tracker.record_validation(False)
 
-        # --- Assertions to validate the final state ---
         print("\n--- Validating Final State ---")
 
-        # 1. Check physics specs (optional in current workflow)
         case_specs = final_state.get("current_case_specs")
         if case_specs:
             print("✅ Physics specifications were generated successfully.")
         else:
             print("⚠️ Physics specifications were not produced; continuing with available state.")
 
-        # 3. Check completed tasks
         if "completed_tasks" in final_state:
             print(f"✅ Workflow completed {len(final_state['completed_tasks'])} tasks.")
-        
-        # 4. Check execution results (if execution was performed)
+
         if final_state.get("execution_output"):
             print("✅ Execution output was generated.")
-        
-        # 5. Check run status (if execution was performed)
+
         if "run_status" in final_state:
             print(f"✅ Run status: {final_state['run_status']}")
-        
-        # 6. Check that case files were analyzed or created
+
         if final_state.get("case_files"):
             print("✅ Case files were analyzed/created.")
 
-        # 9. Check workflow completion
         if final_state.get("current_agent") == "end" or len(final_state.get("completed_tasks", [])) > 0:
             print("✅ Workflow reached completion state.")
 
         print("\n--- Workflow Run Test Passed ---")
-    
+
     except Exception as e:
         print(f"\n❌ Workflow failed with error: {e}")
         tracker.record_error("workflow", str(e))
         raise
     finally:
-        # 结束追踪并生成报告
         tracker.end_task()
-        
-        # 保存报告到文件
-        metrics_dir = os.path.join(os.path.dirname(CASE_PATH), "metrics_reports")
+
+        metrics_dir = os.path.join(os.path.dirname(args.case_path), "metrics_reports")
         MetricsReporter.save_report(metrics_dir, task_id)
-        
-        # 打印摘要到控制台
-        print("\n" + "="*80)
+
+        print("\n" + "=" * 80)
         MetricsReporter.print_summary()
-        print("="*80)
+        print("=" * 80)
 
 
+def main() -> None:
+    load_dotenv(override=True)
+    args = parse_args()
 
-if __name__ == '__main__':
-    # Initialize components
-    llm = llm()
-    os.makedirs(CASE_PATH, exist_ok=True)
+    os.makedirs(args.case_path, exist_ok=True)
 
-    workflow_app = workflow_app(llm)
-    test_full_workflow_run(workflow_app)
-    
+    llm = build_main_llm(args)
+    workflow_app = build_workflow_app(llm, args)
+    test_full_workflow_run(workflow_app, args)
+
+
+if __name__ == "__main__":
+    main()

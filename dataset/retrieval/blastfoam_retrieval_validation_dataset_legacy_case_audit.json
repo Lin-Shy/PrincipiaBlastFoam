@@ -1,0 +1,2268 @@
+{
+  "summary": {
+    "total_entries": 120,
+    "unique": 6,
+    "ambiguous": 108,
+    "missing": 6
+  },
+  "entries": [
+    {
+      "id": 1,
+      "query": "Change the turbulence model from Spalart-Allmaras to kOmegaSST",
+      "target_files": [
+        "constant/turbulenceProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 4,
+      "matched_cases_preview": [
+        "blastFoam/movingCone",
+        "blastParcelFoam/forwardStep",
+        "blastReactingFoam/obliqueShock",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 2,
+      "query": "Increase the simulation end time to 0.005 seconds",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 3,
+      "query": "Adjust the mesh resolution to have 100 cells in x-direction, 50 in y, and 25 in z",
+      "target_files": [
+        "system/blockMeshDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 27,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField"
+      ]
+    },
+    {
+      "id": 4,
+      "query": "Set the maximum Courant number to 0.3",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 5,
+      "query": "Change the explosive density to 1700 kg/m³",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 6,
+      "query": "Modify the equivalence ratio to 0.9",
+      "target_files": [
+        "constant/combustionProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 2,
+      "matched_cases_preview": [
+        "blastReactingFoam/reacting",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 7,
+      "query": "Increase the write interval to output results every 1e-4 seconds",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 8,
+      "query": "Set the laminar flame speed (Su) to 0.5 m/s",
+      "target_files": [
+        "constant/combustionProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 2,
+      "matched_cases_preview": [
+        "blastReactingFoam/reacting",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 9,
+      "query": "Change the maximum refinement level to 4 for adaptive mesh refinement",
+      "target_files": [
+        "constant/dynamicMeshDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 16,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass"
+      ]
+    },
+    {
+      "id": 10,
+      "query": "Modify the explosive charge location to center at (1.0, 0.5, 0.5)",
+      "target_files": [
+        "system/setFieldsDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 22,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 11,
+      "query": "Switch from kOmegaSST to kEpsilon turbulence model",
+      "target_files": [
+        "constant/turbulenceProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 4,
+      "matched_cases_preview": [
+        "blastFoam/movingCone",
+        "blastParcelFoam/forwardStep",
+        "blastReactingFoam/obliqueShock",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 12,
+      "query": "Set the window burst pressure threshold to 50 kPa",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 13,
+      "query": "Change particle diameter to 2 millimeters in the particle phase",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 14,
+      "query": "Set initial velocity field to 500 m/s in x-direction for the moving cone",
+      "target_files": [
+        "0/U"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 3,
+      "matched_cases_preview": [
+        "blastFoam/movingCone",
+        "blastParcelFoam/forwardStep",
+        "blastReactingFoam/obliqueShock"
+      ]
+    },
+    {
+      "id": 15,
+      "query": "Disable turbulence modeling and use laminar flow",
+      "target_files": [
+        "constant/turbulenceProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 4,
+      "matched_cases_preview": [
+        "blastFoam/movingCone",
+        "blastParcelFoam/forwardStep",
+        "blastReactingFoam/obliqueShock",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 16,
+      "query": "Change the equation of state for the explosive from perfectGas to JWL",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 17,
+      "query": "Use stiffenedGas EOS for air instead of perfectGas",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 18,
+      "query": "Switch combustion reaction model from laminar flame speed to Arrhenius kinetics",
+      "target_files": [
+        "constant/combustionProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 2,
+      "matched_cases_preview": [
+        "blastReactingFoam/reacting",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 19,
+      "query": "Change thermodynamic model from perfectThermo to eConst",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 20,
+      "query": "Use JANAF tables for more accurate air thermodynamic properties",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 21,
+      "query": "Change window material model from linearElastic to elasticPlastic",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 22,
+      "query": "Switch window fracture criterion from pressure-based to principal strain",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 23,
+      "query": "Change convection scheme from vanAlbada to MUSCL for higher accuracy",
+      "target_files": [
+        "system/fvSchemes"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 24,
+      "query": "Switch flux limiter from vanAlbada to vanLeer",
+      "target_files": [
+        "system/fvSchemes"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 25,
+      "query": "Use Gidaspow drag model instead of SchillerNaumann for particle-gas interaction",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 26,
+      "query": "Set interfacial heat transfer model to RanzMarshall",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 27,
+      "query": "Change granular viscosity model from Syamlal to HrenyaSinclair",
+      "target_files": [
+        "constant/turbulenceProperties.particles"
+      ],
+      "status": "unique",
+      "matched_case_count": 1,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles"
+      ]
+    },
+    {
+      "id": 28,
+      "query": "Use SinclairJackson radial distribution function for particle collisions",
+      "target_files": [
+        "constant/turbulenceProperties.particles"
+      ],
+      "status": "unique",
+      "matched_case_count": 1,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles"
+      ]
+    },
+    {
+      "id": 29,
+      "query": "Change the explosive EOS to BKW (Becker-Kistiakowsky-Wilson)",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 30,
+      "query": "Apply viscoElastic material model to window structures",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 31,
+      "query": "Increase simulation time and reduce time step by setting maxCo to 0.2 and endTime to 0.01",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 32,
+      "query": "Refine mesh to 200x100x50 cells and increase maxRefinement to 3",
+      "target_files": [
+        "system/blockMeshDict",
+        "constant/dynamicMeshDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 16,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass"
+      ]
+    },
+    {
+      "id": 33,
+      "query": "Change explosive properties: density to 1650 kg/m³ and use JWL equation of state",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 34,
+      "query": "Adjust combustion model: equivalence ratio to 1.1 and Su to 0.6 m/s",
+      "target_files": [
+        "constant/combustionProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 2,
+      "matched_cases_preview": [
+        "blastReactingFoam/reacting",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 35,
+      "query": "Configure output: writeInterval 5e-5, write format binary, and compression on",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 36,
+      "query": "Setup window failure: pBurst 40 kPa and elasticPlastic material with yield stress 300 MPa",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 37,
+      "query": "Change turbulence to kEpsilon and adjust combustion to use Arrhenius kinetics",
+      "target_files": [
+        "constant/turbulenceProperties",
+        "constant/combustionProperties"
+      ],
+      "status": "unique",
+      "matched_case_count": 1,
+      "matched_cases_preview": [
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 38,
+      "query": "Set particle properties: diameter 1.5 mm and use Gidaspow drag model",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 39,
+      "query": "Improve numerical accuracy: use MUSCL scheme and reduce maxCo to 0.3",
+      "target_files": [
+        "system/fvSchemes",
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 40,
+      "query": "Move explosive charge to (0.8, 0.5, 0.5) with radius 0.15 m and set initial pressure to 5 MPa",
+      "target_files": [
+        "system/setFieldsDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 22,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 41,
+      "query": "Switch explosive modeling to use JWL EOS and Arrhenius reaction kinetics",
+      "target_files": [
+        "constant/phaseProperties",
+        "constant/combustionProperties"
+      ],
+      "status": "missing",
+      "matched_case_count": 0,
+      "matched_cases_preview": []
+    },
+    {
+      "id": 42,
+      "query": "Configure multiphase drag and heat transfer: Gidaspow drag and RanzMarshall heat transfer",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 43,
+      "query": "Change granular flow models: HrenyaSinclair viscosity and SinclairJackson radial distribution",
+      "target_files": [
+        "constant/turbulenceProperties.particles"
+      ],
+      "status": "unique",
+      "matched_case_count": 1,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles"
+      ]
+    },
+    {
+      "id": 44,
+      "query": "Use high-resolution schemes: MUSCL convection with vanLeer limiter",
+      "target_files": [
+        "system/fvSchemes"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 45,
+      "query": "Setup structural response: elasticPlastic material with principal strain fracture at 0.05",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 46,
+      "query": "What file controls the turbulence model selection?",
+      "target_files": [
+        "constant/turbulenceProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 4,
+      "matched_cases_preview": [
+        "blastFoam/movingCone",
+        "blastParcelFoam/forwardStep",
+        "blastReactingFoam/obliqueShock",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 47,
+      "query": "Where do I change the simulation duration and time step control?",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 48,
+      "query": "Which file contains mesh generation parameters?",
+      "target_files": [
+        "system/blockMeshDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 27,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField"
+      ]
+    },
+    {
+      "id": 49,
+      "query": "Where are material properties like density and EOS defined?",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 50,
+      "query": "Which file controls combustion reaction parameters?",
+      "target_files": [
+        "constant/combustionProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 2,
+      "matched_cases_preview": [
+        "blastReactingFoam/reacting",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 51,
+      "query": "Where do I set initial conditions for the explosive charge?",
+      "target_files": [
+        "system/setFieldsDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 22,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 52,
+      "query": "Which file contains numerical scheme definitions?",
+      "target_files": [
+        "system/fvSchemes"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 53,
+      "query": "Where are boundary conditions for velocity specified?",
+      "target_files": [
+        "0/U"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 3,
+      "matched_cases_preview": [
+        "blastFoam/movingCone",
+        "blastParcelFoam/forwardStep",
+        "blastReactingFoam/obliqueShock"
+      ]
+    },
+    {
+      "id": 54,
+      "query": "Which file controls adaptive mesh refinement settings?",
+      "target_files": [
+        "constant/dynamicMeshDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 16,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass"
+      ]
+    },
+    {
+      "id": 55,
+      "query": "Where are particle phase turbulence models configured?",
+      "target_files": [
+        "constant/turbulenceProperties.particles"
+      ],
+      "status": "unique",
+      "matched_case_count": 1,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles"
+      ]
+    },
+    {
+      "id": 56,
+      "query": "I want to simulate a faster deflagration. What should I change?",
+      "target_files": [
+        "constant/combustionProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 2,
+      "matched_cases_preview": [
+        "blastReactingFoam/reacting",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 57,
+      "query": "Make the simulation run for longer to see more of the blast wave propagation",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 58,
+      "query": "I need more detailed results in space. How can I improve mesh resolution?",
+      "target_files": [
+        "system/blockMeshDict",
+        "constant/dynamicMeshDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 16,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass"
+      ]
+    },
+    {
+      "id": 59,
+      "query": "The simulation is unstable. How can I make it more stable?",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 60,
+      "query": "I want to model a different explosive with higher energy content",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 61,
+      "query": "Model turbulent flow effects in the explosion",
+      "target_files": [
+        "constant/turbulenceProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 4,
+      "matched_cases_preview": [
+        "blastFoam/movingCone",
+        "blastParcelFoam/forwardStep",
+        "blastReactingFoam/obliqueShock",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 62,
+      "query": "Save results more frequently to capture rapid changes",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 63,
+      "query": "Use a more accurate physics model for the explosive detonation",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 64,
+      "query": "Simulate breakable windows that shatter under blast pressure",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 65,
+      "query": "Include dust particles in the explosion simulation",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 66,
+      "query": "Reduce numerical diffusion to capture shocks more sharply",
+      "target_files": [
+        "system/fvSchemes"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 67,
+      "query": "Model chemical reaction rates instead of just flame speed",
+      "target_files": [
+        "constant/combustionProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 2,
+      "matched_cases_preview": [
+        "blastReactingFoam/reacting",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 68,
+      "query": "Account for material plastic deformation under high loads",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 69,
+      "query": "Use temperature-dependent gas properties for better accuracy",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 70,
+      "query": "Improve particle-gas interaction modeling for dense suspensions",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 71,
+      "query": "Modify kOmegaSST turbulence coefficients",
+      "target_files": [
+        "constant/turbulenceProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 4,
+      "matched_cases_preview": [
+        "blastFoam/movingCone",
+        "blastParcelFoam/forwardStep",
+        "blastReactingFoam/obliqueShock",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 72,
+      "query": "Adjust solver tolerances and relaxation factors",
+      "target_files": [
+        "system/fvSolution"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 73,
+      "query": "Change pressure and velocity under-relaxation factors to 0.3 and 0.7",
+      "target_files": [
+        "system/fvSolution"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 74,
+      "query": "Set residual control: pressure 1e-6, velocity 1e-6",
+      "target_files": [
+        "system/fvSolution"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 75,
+      "query": "Change to PISO algorithm instead of PIMPLE",
+      "target_files": [
+        "system/fvSolution"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 76,
+      "query": "Setup function objects to calculate force coefficients on surfaces",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 77,
+      "query": "Add probe points at locations (0.5, 0, 0), (1.0, 0, 0), (1.5, 0, 0)",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 78,
+      "query": "Enable surface sampling on boundary patches",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 79,
+      "query": "Calculate Q-criterion for vortex visualization",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 80,
+      "query": "Add wall boundary for new obstacle at patch 'obstacle1'",
+      "target_files": [
+        "0/U",
+        "0/p",
+        "0/T"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 3,
+      "matched_cases_preview": [
+        "blastFoam/movingCone",
+        "blastParcelFoam/forwardStep",
+        "blastReactingFoam/obliqueShock"
+      ]
+    },
+    {
+      "id": 81,
+      "query": "Set inlet velocity to 100 m/s with 5% turbulence intensity",
+      "target_files": [
+        "0/U",
+        "0/k",
+        "0/omega"
+      ],
+      "status": "missing",
+      "matched_case_count": 0,
+      "matched_cases_preview": []
+    },
+    {
+      "id": 82,
+      "query": "Apply symmetry boundary condition on 'left' and 'right' patches",
+      "target_files": [
+        "0/U",
+        "0/p",
+        "0/T"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 3,
+      "matched_cases_preview": [
+        "blastFoam/movingCone",
+        "blastParcelFoam/forwardStep",
+        "blastReactingFoam/obliqueShock"
+      ]
+    },
+    {
+      "id": 83,
+      "query": "Set wall temperature to 400 K on boundary 'hotWall'",
+      "target_files": [
+        "0/T"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 3,
+      "matched_cases_preview": [
+        "blastFoam/movingCone",
+        "blastParcelFoam/forwardStep",
+        "blastReactingFoam/obliqueShock"
+      ]
+    },
+    {
+      "id": 84,
+      "query": "Use pressure outlet at 101325 Pa on 'outlet' patch",
+      "target_files": [
+        "0/p"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 3,
+      "matched_cases_preview": [
+        "blastFoam/movingCone",
+        "blastParcelFoam/forwardStep",
+        "blastReactingFoam/obliqueShock"
+      ]
+    },
+    {
+      "id": 85,
+      "query": "Change detonation initiation from point to line",
+      "target_files": [
+        "system/setFieldsDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 22,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 86,
+      "query": "Initialize pressure field with 1 atm everywhere except charge region at 10 GPa",
+      "target_files": [
+        "system/setFieldsDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 22,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 87,
+      "query": "Set initial temperature gradient from 300K to 1500K along x-axis",
+      "target_files": [
+        "system/setFieldsDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 22,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 88,
+      "query": "Initialize two explosive charges at different locations",
+      "target_files": [
+        "system/setFieldsDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 22,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 89,
+      "query": "Add spherical charge with radius 0.2m centered at origin",
+      "target_files": [
+        "system/setFieldsDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 22,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 90,
+      "query": "Configure decomposeParDict for 32 processors using scotch method",
+      "target_files": [
+        "system/decomposeParDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 15,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/freeField",
+        "blastFoam/mappedBuilding3D/building3D",
+        "blastFoam/mappedBuilding3D/wedge",
+        "blastFoam/movingCone"
+      ]
+    },
+    {
+      "id": 91,
+      "query": "Change domain decomposition to simple method with (4 4 2) distribution",
+      "target_files": [
+        "system/decomposeParDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 15,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/freeField",
+        "blastFoam/mappedBuilding3D/building3D",
+        "blastFoam/mappedBuilding3D/wedge",
+        "blastFoam/movingCone"
+      ]
+    },
+    {
+      "id": 92,
+      "query": "Use hierarchical decomposition with order (x y z)",
+      "target_files": [
+        "system/decomposeParDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 15,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/freeField",
+        "blastFoam/mappedBuilding3D/building3D",
+        "blastFoam/mappedBuilding3D/wedge",
+        "blastFoam/movingCone"
+      ]
+    },
+    {
+      "id": 93,
+      "query": "Setup AMR with field-based refinement using gradient of alpha",
+      "target_files": [
+        "constant/dynamicMeshDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 16,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass"
+      ]
+    },
+    {
+      "id": 94,
+      "query": "Set refinement interval to every 5 time steps",
+      "target_files": [
+        "constant/dynamicMeshDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 16,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass"
+      ]
+    },
+    {
+      "id": 95,
+      "query": "Define refinement region box from (0 0 0) to (2 1 1) with level 2",
+      "target_files": [
+        "constant/dynamicMeshDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 16,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass"
+      ]
+    },
+    {
+      "id": 96,
+      "query": "Set unrefine level to 1 below current maximum",
+      "target_files": [
+        "constant/dynamicMeshDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 16,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass"
+      ]
+    },
+    {
+      "id": 97,
+      "query": "Use density gradient as refinement criterion with threshold 100",
+      "target_files": [
+        "constant/dynamicMeshDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 16,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass"
+      ]
+    },
+    {
+      "id": 98,
+      "query": "Change from ASCII to binary output format",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 99,
+      "query": "Enable time precision to 10 digits",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 100,
+      "query": "Purge write to keep only latest 5 time directories",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 101,
+      "query": "Output only pressure and velocity fields, skip other variables",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 102,
+      "query": "Change write format to compressed binary",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 103,
+      "query": "Set adjustTimeStep on with maxDeltaT of 1e-5",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 104,
+      "query": "Disable adjustable time stepping and use fixed deltaT of 1e-6",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 105,
+      "query": "Set maxAlphaCo to 0.5 for multiphase flow",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 106,
+      "query": "Add runTimeModifiable option to allow on-the-fly parameter changes",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 107,
+      "query": "Change application from blastFoam to rhoCentralFoam",
+      "target_files": [
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 29,
+      "matched_cases_preview": [
+        "blastEquation/planarWall",
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFSIFoam/building3D",
+        "blastFSIFoam/flap",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation"
+      ]
+    },
+    {
+      "id": 108,
+      "query": "Setup multiple explosives: TNT at (0.5, 0.5, 0.5) and C4 at (1.5, 0.5, 0.5)",
+      "target_files": [
+        "constant/phaseProperties",
+        "system/setFieldsDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 19,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 109,
+      "query": "Define three-phase system: air, explosive products, and solid particles",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 110,
+      "query": "Add inert gas (nitrogen) phase to the simulation",
+      "target_files": [
+        "constant/phaseProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 111,
+      "query": "Change from single to two-step combustion mechanism",
+      "target_files": [
+        "constant/combustionProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 2,
+      "matched_cases_preview": [
+        "blastReactingFoam/reacting",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 112,
+      "query": "Add ignition delay time of 1e-6 seconds before combustion starts",
+      "target_files": [
+        "constant/combustionProperties"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 2,
+      "matched_cases_preview": [
+        "blastReactingFoam/reacting",
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 113,
+      "query": "Setup EDC (Eddy Dissipation Concept) turbulent combustion model",
+      "target_files": [
+        "constant/combustionProperties",
+        "constant/turbulenceProperties"
+      ],
+      "status": "unique",
+      "matched_case_count": 1,
+      "matched_cases_preview": [
+        "blastXiFoam/deflagrationToDetonationTransition"
+      ]
+    },
+    {
+      "id": 114,
+      "query": "Configure radiative heat transfer with P1 model",
+      "target_files": [
+        "constant/radiationProperties"
+      ],
+      "status": "missing",
+      "matched_case_count": 0,
+      "matched_cases_preview": []
+    },
+    {
+      "id": 115,
+      "query": "Enable gravity with g = (0 0 -9.81) m/s²",
+      "target_files": [
+        "constant/g"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 4,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastXiFoam/deflagrationToDetonationTransition",
+        "initializeAtmosphere"
+      ]
+    },
+    {
+      "id": 116,
+      "query": "Add MRF (Multiple Reference Frame) zone rotating at 1000 RPM",
+      "target_files": [
+        "constant/MRFProperties"
+      ],
+      "status": "missing",
+      "matched_case_count": 0,
+      "matched_cases_preview": []
+    },
+    {
+      "id": 117,
+      "query": "Setup FSI (Fluid-Structure Interaction) coupling for window panels",
+      "target_files": [
+        "constant/phaseProperties",
+        "system/controlDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 21,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastEulerFoam/shockTube_polydisperse",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle"
+      ]
+    },
+    {
+      "id": 118,
+      "query": "Change mesh motion to prescribed oscillation with frequency 100 Hz",
+      "target_files": [
+        "constant/dynamicMeshDict"
+      ],
+      "status": "ambiguous",
+      "matched_case_count": 16,
+      "matched_cases_preview": [
+        "blastEulerFoam/reactingParticles",
+        "blastFoam/axisymmetricCharge",
+        "blastFoam/building3D",
+        "blastFoam/building3DWorkshop",
+        "blastFoam/burstingWindow_workshop",
+        "blastFoam/delayedDetonation",
+        "blastFoam/freeField",
+        "blastFoam/internalDetonation/internalDetonation",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass"
+      ]
+    },
+    {
+      "id": 119,
+      "query": "Use limiters on temperature between 250K and 5000K",
+      "target_files": [
+        "system/fvOptions"
+      ],
+      "status": "missing",
+      "matched_case_count": 0,
+      "matched_cases_preview": []
+    },
+    {
+      "id": 120,
+      "query": "Add source term: constant volumetric heat addition of 1e6 W/m³ in region",
+      "target_files": [
+        "system/fvOptions"
+      ],
+      "status": "missing",
+      "matched_case_count": 0,
+      "matched_cases_preview": []
+    }
+  ]
+}

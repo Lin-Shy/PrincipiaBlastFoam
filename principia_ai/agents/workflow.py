@@ -6,7 +6,12 @@ from principia_ai.agents import (OrchestratorAgent, PhysicsAnalystAgent,
 from principia_ai.workflow.case_initializer_step import CaseInitializationStep
 
 
-def create_workflow(llm):
+def create_workflow(
+    llm,
+    retrieval_llm_api_key=None,
+    retrieval_llm_base_url=None,
+    retrieval_llm_model=None,
+):
     """
     创建并配置基于OASiS模型的多智能体协作工作流。
     (Creates and configures the multi-agent collaboration workflow based on the OASiS model.)
@@ -17,14 +22,45 @@ def create_workflow(llm):
     use_user_guide_retriever = os.getenv("USE_USER_GUIDE_RETRIEVER", "true").lower() == "true"
     use_tutorial_retriever = os.getenv("USE_TUTORIAL_RETRIEVER", "true").lower() == "true"
     use_knowledge_manager = os.getenv("USE_KNOWLEDGE_MANAGER", "true").lower() == "true"
+
+    retrieval_kwargs = {
+        "retrieval_llm_api_key": retrieval_llm_api_key,
+        "retrieval_llm_base_url": retrieval_llm_base_url,
+        "retrieval_llm_model": retrieval_llm_model,
+    }
     
     case_initializer = CaseInitializationStep(llm)
     orchestrator = OrchestratorAgent(llm, use_knowledge_manager, use_tutorial_retriever)
-    physics_analyst_agent = PhysicsAnalystAgent(llm, use_knowledge_manager, use_tutorial_retriever)
-    case_setup_agent = CaseSetupAgent(llm, use_knowledge_manager, use_tutorial_retriever)
-    execution_agent = ExecutionAgent(llm, use_knowledge_manager, use_tutorial_retriever)
-    post_processing_agent = PostProcessingAgent(llm, use_knowledge_manager, use_tutorial_retriever)
-    reviewer_agent = ReviewerAgent(llm, use_knowledge_manager=use_knowledge_manager, use_tutorial_retriever=use_tutorial_retriever)
+    physics_analyst_agent = PhysicsAnalystAgent(
+        llm,
+        use_knowledge_manager,
+        use_tutorial_retriever,
+        **retrieval_kwargs,
+    )
+    case_setup_agent = CaseSetupAgent(
+        llm,
+        use_knowledge_manager,
+        use_tutorial_retriever,
+        **retrieval_kwargs,
+    )
+    execution_agent = ExecutionAgent(
+        llm,
+        use_knowledge_manager,
+        use_tutorial_retriever,
+        **retrieval_kwargs,
+    )
+    post_processing_agent = PostProcessingAgent(
+        llm,
+        use_knowledge_manager,
+        use_tutorial_retriever,
+        **retrieval_kwargs,
+    )
+    reviewer_agent = ReviewerAgent(
+        llm,
+        use_knowledge_manager=use_knowledge_manager,
+        use_tutorial_retriever=use_tutorial_retriever,
+        **retrieval_kwargs,
+    )
 
     # 2. 定义工作流图 (Define the workflow graph)
     workflow = StateGraph(GraphState)

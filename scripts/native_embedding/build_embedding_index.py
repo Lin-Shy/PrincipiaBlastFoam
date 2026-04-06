@@ -3,7 +3,11 @@ import hashlib
 import requests
 from pathlib import Path
 from typing import List
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except ModuleNotFoundError:
+    def load_dotenv(*_args, **_kwargs):  # type: ignore[no-redef]
+        return False
 from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
@@ -293,6 +297,26 @@ class EmbeddingIndexBuilder:
                         vector_store.merge_from(batch_store)
                 except Exception as batch_error:
                     print(f"Error processing batch {i//batch_size + 1}: {batch_error}")
+                    print("Retrying this batch one document at a time to isolate bad inputs...")
+
+                    recovered_docs = 0
+                    for doc in batch:
+                        source = doc.metadata.get("source", "unknown")
+                        try:
+                            if vector_store is None:
+                                vector_store = FAISS.from_documents([doc], self.embeddings)
+                            else:
+                                single_store = FAISS.from_documents([doc], self.embeddings)
+                                vector_store.merge_from(single_store)
+                            recovered_docs += 1
+                        except Exception as single_error:
+                            print(f"Skipping document after single-document retry failed: {source}")
+                            print(f"  Error: {single_error}")
+
+                    print(
+                        f"Recovered {recovered_docs}/{len(batch)} documents "
+                        f"from batch {i//batch_size + 1} after fallback retry."
+                    )
                     continue
             
             if vector_store is None:

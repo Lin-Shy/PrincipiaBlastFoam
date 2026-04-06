@@ -34,7 +34,7 @@ class RetrieverComparator:
             results_dir: Directory containing evaluation result JSON files
         """
         if results_dir is None:
-            results_dir = project_root / 'experiments' / 'results'
+            results_dir = Path(__file__).parent / 'results'
         
         self.results_dir = Path(results_dir)
         self.results = {}
@@ -487,7 +487,7 @@ def main():
     
     # Generate visualizations
     print("\nGenerating comparison plots...")
-    plot_path = project_root / 'experiments' / 'results' / f'comparison_plot_{datetime.now().strftime("%Y%m%d_%H%M%S")}.png'
+    plot_path = Path(__file__).parent / 'results' / f'comparison_plot_{datetime.now().strftime("%Y%m%d_%H%M%S")}.png'
     try:
         comparator.plot_comparison(save_path=str(plot_path))
     except Exception as e:
@@ -495,7 +495,7 @@ def main():
         print("Note: matplotlib may not be installed or display may not be available")
     
     # Generate report
-    report_path = project_root / 'experiments' / 'results' / f'comparison_report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.md'
+    report_path = Path(__file__).parent / 'results' / f'comparison_report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.md'
     comparator.generate_report(output_file=str(report_path))
 
 

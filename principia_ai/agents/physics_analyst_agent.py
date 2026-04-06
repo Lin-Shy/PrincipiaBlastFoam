@@ -25,7 +25,15 @@ class PhysicsAnalystAgent:
     - Outputs physical specifications.
     """
 
-    def __init__(self, llm, use_knowledge_manager=True, use_tutorial_retriever=True):
+    def __init__(
+        self,
+        llm,
+        use_knowledge_manager=True,
+        use_tutorial_retriever=True,
+        retrieval_llm_api_key=None,
+        retrieval_llm_base_url=None,
+        retrieval_llm_model=None,
+    ):
         self.llm = llm
         self.prompt_manager = PromptManager()
         
@@ -35,7 +43,11 @@ class PhysicsAnalystAgent:
         # Add Knowledge Tools if enabled
         if use_knowledge_manager:
             try:
-                self.user_guide_retriever = UserGuideKnowledgeGraphRetriever()
+                self.user_guide_retriever = UserGuideKnowledgeGraphRetriever(
+                    llm_api_key=retrieval_llm_api_key,
+                    llm_base_url=retrieval_llm_base_url,
+                    llm_model=retrieval_llm_model,
+                )
                 # Wrap knowledge search as a tool
                 self.agent_tools.append(
                     StructuredTool.from_function(
@@ -49,7 +61,11 @@ class PhysicsAnalystAgent:
             
         if use_tutorial_retriever:
             try:
-                self.case_content_retriever = CaseContentKnowledgeGraphRetriever()
+                self.case_content_retriever = CaseContentKnowledgeGraphRetriever(
+                    llm_api_key=retrieval_llm_api_key,
+                    llm_base_url=retrieval_llm_base_url,
+                    llm_model=retrieval_llm_model,
+                )
                  # Wrap tutorial search as a tool
                 self.agent_tools.append(
                     StructuredTool.from_function(

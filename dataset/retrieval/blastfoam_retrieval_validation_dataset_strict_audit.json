@@ -1,0 +1,2284 @@
+{
+  "summary": {
+    "total_entries": 130,
+    "pass": 122,
+    "warn": 8,
+    "fail": 0
+  },
+  "entries": [
+    {
+      "id": 1,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration to detonation transition (DDT) process, but use the Spalart-Allmaras turbulence model.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties",
+          "exists": true,
+          "identifier_hits": [
+            "RASModel",
+            "kOmegaSST"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration to detonation transition (DDT) process with a lower laminar flame speed.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/combustionProperties",
+          "exists": true,
+          "identifier_hits": [
+            "Su"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration to detonation transition (DDT) process, but with a higher laminar flame speed.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/combustionProperties",
+          "exists": true,
+          "identifier_hits": [
+            "Su"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration to detonation transition (DDT) process for a shorter duration.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration to detonation transition (DDT) process, but run the simulation for a longer duration.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration to detonation transition (DDT) process, but with a different equivalence ratio.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/combustionProperties",
+          "exists": true,
+          "identifier_hits": [
+            "equivalenceRatio"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration to detonation transition (DDT) process with a fuel-rich mixture.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/combustionProperties",
+          "exists": true,
+          "identifier_hits": [
+            "equivalenceRatio"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration to detonation transition (DDT) process, but with a different maximum Courant number.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "maxCo"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration to detonation transition (DDT) process, but with a finer mesh in the x-direction.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/blockMeshDict",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration to detonation transition (DDT) process with finer mesh in y-direction.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/blockMeshDict",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration to detonation transition (DDT) process with more frequent output.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "writeInterval"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion, but change the c4 equivalent of the explosive to 100 kg.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/setFieldsDict",
+          "exists": true,
+          "identifier_hits": [
+            "boxToCell"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion with a smaller charge mass of 50 kg TNT equivalent.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/setFieldsDict",
+          "exists": true,
+          "identifier_hits": [
+            "boxToCell"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion for a shorter duration to capture early blast wave.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion, but for a longer duration.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion with a higher Courant number for faster computation.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "maxCo"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion with lower adaptive mesh refinement level.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/dynamicMeshDict",
+          "exists": true,
+          "identifier_hits": [
+            "maxRefinement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion, but with a higher maximum refinement level.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/dynamicMeshDict",
+          "exists": true,
+          "identifier_hits": [
+            "maxRefinement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion with a moderately refined mesh.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/blockMeshDict",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion, but with a finer mesh.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/blockMeshDict",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion, but with a different explosive density.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "rho0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion with less frequent output for reduced storage.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "writeInterval"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion, but with a more frequent write interval.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "writeInterval"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an explosion in a closed space with the charge closer to one end.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/setFieldsDict",
+          "exists": true,
+          "identifier_hits": [
+            "sphereToCell"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an explosion in a closed space, but change the location of the explosive charge.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/setFieldsDict",
+          "exists": true,
+          "identifier_hits": [
+            "sphereToCell"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an explosion in a closed space, but for a shorter duration.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an explosion in a closed space for a longer duration to observe late-time effects.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an explosion in a closed space with a lower Courant number for better stability.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "maxCo"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an explosion in a closed space, but with a different maximum Courant number.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "maxCo"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an explosion in a closed space, but with a finer mesh.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/blockMeshDict",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an explosion in a closed space with a very fine mesh for detailed resolution.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/blockMeshDict",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an explosion in a closed space with a stronger window.",
+      "status": "warn",
+      "issues": [],
+      "warnings": [
+        "No identifier candidates from query/description were found in constant/phaseProperties."
+      ],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an explosion in a closed space with a more fragile window.",
+      "status": "warn",
+      "issues": [],
+      "warnings": [
+        "No identifier candidates from query/description were found in constant/phaseProperties."
+      ],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an explosion in a closed space with obstacles and breakable windows, and set the window's pBurst threshold to 50 kPa.",
+      "status": "warn",
+      "issues": [],
+      "warnings": [
+        "No identifier candidates from query/description were found in constant/phaseProperties."
+      ],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an explosion in a closed space with frequent output for detailed time history.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "writeInterval"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "case_path": "blastFoam/mappedBuilding3D",
+      "query": "Simulate the blast wave impact on a building for a shorter duration.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "building3D/system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "case_path": "blastFoam/mappedBuilding3D",
+      "query": "Simulate the blast wave impact on a building using field mapping, but run the simulation for a longer duration.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "building3D/system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "case_path": "blastFoam/mappedBuilding3D",
+      "query": "Simulate the blast wave impact on a building with a lower Courant number.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "building3D/system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "maxCo"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "case_path": "blastFoam/mappedBuilding3D",
+      "query": "Simulate the blast wave impact on a building using field mapping, but with a different maximum Courant number.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "building3D/system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "maxCo"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "case_path": "blastFoam/mappedBuilding3D",
+      "query": "Simulate the blast wave impact on a building using field mapping, but with a higher maximum refinement level.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "building3D/constant/dynamicMeshDict",
+          "exists": true,
+          "identifier_hits": [
+            "maxRefinement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "case_path": "blastFoam/mappedBuilding3D",
+      "query": "Simulate the blast wave impact on a building using field mapping, but with a more frequent write interval.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "building3D/system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "writeInterval"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a high-speed moving cone for a shorter time period.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a high-speed moving cone, but for a different duration.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a high-speed moving cone, but disable turbulence simulation.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties",
+          "exists": true,
+          "identifier_hits": [
+            "simulationType"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a high-speed moving cone, but with a finer mesh.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/blockMeshDict",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a high-speed moving cone with a very fine mesh.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/blockMeshDict",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a moving cone at a lower supersonic speed.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "0/U",
+          "exists": true,
+          "identifier_hits": [
+            "U"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a high-speed moving cone and its shock wave, with the cone moving at 500 m/s.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "0/U",
+          "exists": true,
+          "identifier_hits": [
+            "U"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a moving cone at a higher hypersonic speed.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "0/U",
+          "exists": true,
+          "identifier_hits": [
+            "U"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a high-speed moving cone with frequent output.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "writeInterval"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment with smaller particles.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment and change the diameter of the particles to 2 millimeters.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment with larger particles.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment for a shorter time.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, but run the simulation for a longer time.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment for a much longer time.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, but use a different turbulence model for the gas phase.",
+      "status": "warn",
+      "issues": [],
+      "warnings": [
+        "No identifier candidates from query/description were found in constant/turbulenceProperties.gas."
+      ],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties.gas",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment with a finer mesh.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/blockMeshDict",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, but change the initial distribution region of the particles.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/setFieldsDict",
+          "exists": true,
+          "identifier_hits": [
+            "alpha.particles"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment with frequent output.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "writeInterval"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "case_path": "blastFoam/triplePointShockInteration",
+      "query": "Simulate the triple point problem for a longer duration.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "case_path": "blastFoam/triplePointShockInteration",
+      "query": "Simulate the three-point problem, but for a shorter duration.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "endTime"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "case_path": "blastFoam/triplePointShockInteration",
+      "query": "Simulate the triple point problem with a weaker shock wave.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "0/U.orig",
+          "exists": true,
+          "identifier_hits": [
+            "U"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "case_path": "blastFoam/triplePointShockInteration",
+      "query": "Simulate the three-point problem and set the Mach number of the incident shock wave to 2.0.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "0/U.orig",
+          "exists": true,
+          "identifier_hits": [
+            "U"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "case_path": "blastFoam/triplePointShockInteration",
+      "query": "Simulate the triple point problem with a stronger shock wave.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "0/U.orig",
+          "exists": true,
+          "identifier_hits": [
+            "U"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "case_path": "blastFoam/triplePointShockInteration",
+      "query": "Simulate the triple point problem with a moderately refined mesh.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/blockMeshDict",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "case_path": "blastFoam/triplePointShockInteration",
+      "query": "Simulate the three-point problem, but with a different mesh resolution.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/blockMeshDict",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "case_path": "blastFoam/triplePointShockInteration",
+      "query": "Simulate the three-point problem, but change the initial position of the high-pressure region.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/setFieldsDict",
+          "exists": true,
+          "identifier_hits": [
+            "boxToCell"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "case_path": "blastFoam/triplePointShockInteration",
+      "query": "Simulate the triple point problem with more frequent output.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/controlDict",
+          "exists": true,
+          "identifier_hits": [
+            "writeInterval"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration-to-detonation transition using the AUSM (Advection Upstream Splitting Method) flux scheme.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "Method",
+            "fvSchemes",
+            "fluxScheme",
+            "HLLC"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration-to-detonation transition, but switch the reaction rate model from laminar flame speed (Su) to an Arrhenius-based chemical reaction rate model.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/combustionProperties",
+          "exists": true,
+          "identifier_hits": [
+            "Su",
+            "model",
+            "combustionProperties",
+            "Ta"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration-to-detonation transition, but simplify the chemical reaction model to 'infinitelyFast' to study the controlling effect of mixing on combustion.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/combustionProperties",
+          "exists": true,
+          "identifier_hits": [
+            "model",
+            "combustionProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration-to-detonation transition with MUSCL reconstruction for higher accuracy.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "fvSchemes",
+            "interpolationSchemes",
+            "Minmod"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration-to-detonation transition, but simplify the thermodynamic model to eConstThermo (constant specific heat) for comparative analysis.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/thermophysicalProperties",
+          "exists": true,
+          "identifier_hits": [
+            "thermo"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration-to-detonation transition with second-order Runge-Kutta time integration.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "fvSchemes",
+            "ddtSchemes",
+            "timeIntegrator",
+            "Euler"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration-to-detonation transition using the k-epsilon turbulence model.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties",
+          "exists": true,
+          "identifier_hits": [
+            "turbulenceProperties",
+            "RASModel"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration-to-detonation transition, but change the turbulence model from SpalartAllmaras to kOmegaSST.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties",
+          "exists": true,
+          "identifier_hits": [
+            "RAS",
+            "RASModel",
+            "kOmegaSST",
+            "turbulenceProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "query": "Simulate a deflagration-to-detonation transition without turbulence modeling.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties",
+          "exists": true,
+          "identifier_hits": [
+            "turbulenceProperties",
+            "simulationType",
+            "RAS"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion with programmed ignition instead of instantaneous detonation.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "phaseProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion, changing the equation of state (EOS) for the explosive to the BKW (Becker-Kistiakowsky-Wilson) model.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "c4",
+            "equationOfState",
+            "phaseProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion, but change the equation of state (EOS) for the explosive from the default perfectGas to the more realistic JWL (Jones-Wilkins-Lee) model.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "c4",
+            "equationOfState",
+            "JWL",
+            "phaseProperties",
+            "B",
+            "R1",
+            "R2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion using the LSZK equation of state for the explosive.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "c4",
+            "phaseProperties",
+            "equationOfState"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion, but change the equation of state (EOS) for air from perfectGas to the stiffenedGas model to better capture gas behavior under high pressure.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "air",
+            "equationOfState",
+            "phaseProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion, but force the equation of state for air to be rhoConst (constant density) to test the system's handling of an incompressible assumption.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "air",
+            "equationOfState",
+            "phaseProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion using the HLLC flux scheme instead of Kurganov.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "Kurganov",
+            "fvSchemes",
+            "fluxScheme"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion with a simpler gradient scheme.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "fvSchemes",
+            "gradSchemes",
+            "cellMDLimited",
+            "leastSquares",
+            "Gauss"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion with QUICK reconstruction scheme.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "fvSchemes",
+            "interpolationSchemes",
+            "vanAlbada"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion, but change the thermodynamic model for air from perfectGas to a more accurate model based on JANAF tables.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "air",
+            "thermo",
+            "phaseProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "case_path": "blastFoam/freeField",
+      "query": "Simulate a free-field explosion with third-order Runge-Kutta time integration.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "fvSchemes",
+            "ddtSchemes",
+            "timeIntegrator",
+            "RK2SSP"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 90,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an internal detonation with progressive damage model for the window.",
+      "status": "warn",
+      "issues": [],
+      "warnings": [
+        "No identifier candidates from query/description were found in constant/phaseProperties."
+      ],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an internal detonation using the AUSM flux scheme.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "fvSchemes",
+            "fluxScheme"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an internal detonation, but completely disable the window's fracture model, making it an indestructible rigid wall.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "none",
+            "phaseProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an internal detonation, changing the window's fracture model from the pressure-based pBurst to a principal strain-based model.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "model",
+            "phaseProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 94,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an internal detonation, changing the window's fracture criterion from the pressure-based pBurst to a principal stress-based model.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "model",
+            "phaseProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an internal detonation, changing the window's material model to viscoElastic to simulate time-dependent deformation behavior.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "phaseProperties",
+            "E"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an internal detonation with first-order Euler time integration.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "Euler",
+            "fvSchemes",
+            "ddtSchemes",
+            "timeIntegrator",
+            "RK2SSP"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an internal detonation, but change the window's material model from simple linearElastic to elasticPlastic to simulate plastic deformation.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "phaseProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass",
+      "query": "Simulate an internal detonation with an orthotropic material model for the window.",
+      "status": "warn",
+      "issues": [],
+      "warnings": [
+        "No identifier candidates from query/description were found in constant/phaseProperties."
+      ],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "case_path": "blastFoam/mappedBuilding3D",
+      "query": "Simulate blast wave impact on building using AUSM flux scheme.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "building3D/system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "fvSchemes",
+            "fluxScheme"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 100,
+      "case_path": "blastFoam/mappedBuilding3D",
+      "query": "Simulate blast wave impact on building with third-order time integration.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "building3D/system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "fvSchemes",
+            "timeIntegrator"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a hypersonic moving cone using the Kurganov flux scheme.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "fvSchemes",
+            "fluxScheme"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a hypersonic moving cone with velocity Laplacian motion solver.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/dynamicMeshDict",
+          "exists": true,
+          "identifier_hits": [
+            "Laplacian",
+            "dynamicMeshDict",
+            "motionSolver"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a hypersonic moving cone with more pressure correctors.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSolution",
+          "exists": true,
+          "identifier_hits": [
+            "fvSolution",
+            "PIMPLE",
+            "nCorrectors"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a hypersonic moving cone, changing the convection scheme to MUSCL (Monotone Upstream-centered Schemes for Conservation Laws) for higher-order accuracy.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "divSchemes",
+            "Schemes",
+            "fvSchemes",
+            "U",
+            "Gauss"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a hypersonic moving cone using GAMG solver for pressure.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSolution",
+          "exists": true,
+          "identifier_hits": [
+            "fvSolution",
+            "PBiCGStab"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a hypersonic moving cone, but change the turbulence model from laminar to the Spalart-Allmaras RANS model.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties",
+          "exists": true,
+          "identifier_hits": [
+            "simulationType",
+            "turbulenceProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a hypersonic moving cone, changing the turbulence model from laminar to the classic kEpsilon RANS model.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties",
+          "exists": true,
+          "identifier_hits": [
+            "simulationType",
+            "turbulenceProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "case_path": "blastFoam/movingCone",
+      "query": "Simulate a hypersonic moving cone with realizable k-epsilon turbulence model.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties",
+          "exists": true,
+          "identifier_hits": [
+            "turbulenceProperties"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, explicitly specifying the thermal conductivity model for the particle phase as the Gidaspow model.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties.particles",
+          "exists": true,
+          "identifier_hits": [
+            "turbulenceProperties.particles"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 110,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, changing the particle diameter model from 'constant' to 'reactingParticle' to simulate particle size changes due to chemical reactions.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "constant",
+            "reactingParticle",
+            "diameter",
+            "model"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, changing the drag model to the Ergun model, which is suitable for dense particle flows.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "drag",
+            "model",
+            "Ergun"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, but change the drag model between gas and particles from SchillerNaumann to the Gidaspow model.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "drag",
+            "model",
+            "Gidaspow"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 113,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment using HLLC flux scheme.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "HLLC",
+            "fvSchemes",
+            "fluxScheme"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 114,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, and introduce the Johnson frictional pressure model to account for contact forces in quasi-static, dense particle states.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties.particles",
+          "exists": true,
+          "identifier_hits": [
+            "turbulenceProperties.particles"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 115,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, and introduce the Schaeffer frictional viscosity model for the particle phase to better describe stresses in dense particle flows.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties.particles",
+          "exists": true,
+          "identifier_hits": [
+            "turbulenceProperties.particles"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, and change the granular pressure model from Syamlal to the model by Lun et al.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties.particles",
+          "exists": true,
+          "identifier_hits": [
+            "turbulenceProperties.particles"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, changing the viscosity model for the particle phase from Syamlal to the Hrenya-Sinclair model.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties.particles",
+          "exists": true,
+          "identifier_hits": [
+            "turbulenceProperties.particles"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 118,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, changing the interfacial heat transfer model to the Gunn model.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "heatTransfer",
+            "model",
+            "Gunn"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, and specify the interfacial heat transfer model as RanzMarshall.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "heatTransfer",
+            "model",
+            "RanzMarshall"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, changing the calculation method for interfacial pressure to a model based on volume fraction averaging.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "interfacialPressure",
+            "model"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, changing the calculation method for interfacial velocity from the default specifiedPhase to mass-weighted averaging (massAveraged).",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": [
+            "interfacialVelocity",
+            "model"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment with a higher particle packing limit.",
+      "status": "warn",
+      "issues": [],
+      "warnings": [
+        "No identifier candidates from query/description were found in constant/phaseProperties."
+      ],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment, but change the radial distribution function model used for calculating particle collision probability to SinclairJackson.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties.particles",
+          "exists": true,
+          "identifier_hits": [
+            "turbulenceProperties.particles"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 124,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment with a higher coefficient of restitution.",
+      "status": "warn",
+      "issues": [],
+      "warnings": [
+        "No identifier candidates from query/description were found in constant/phaseProperties."
+      ],
+      "file_audits": [
+        {
+          "file_path": "constant/phaseProperties",
+          "exists": true,
+          "identifier_hits": []
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment with smoothSolver for all fields.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSolution",
+          "exists": true,
+          "identifier_hits": [
+            "fvSolution"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 126,
+      "case_path": "blastEulerFoam/reactingParticles",
+      "query": "Simulate an explosion in a dusty environment using k-omega turbulence model for gas.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "constant/turbulenceProperties.gas",
+          "exists": true,
+          "identifier_hits": [
+            "turbulenceProperties.gas"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "case_path": "blastFoam/triplePointShockInteration",
+      "query": "Simulate the triple point problem using the AUSM flux scheme.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "fvSchemes",
+            "fluxScheme"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 128,
+      "case_path": "blastFoam/triplePointShockInteration",
+      "query": "Simulate the triple point problem with MUSCL reconstruction.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "MUSCL",
+            "fvSchemes",
+            "interpolationSchemes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 129,
+      "case_path": "blastFoam/triplePointShockInteration",
+      "query": "Simulate the triple point problem, but change the convection scheme to the classic first-order Lax-Friedrichs scheme to observe its high-dissipation effect on shocks.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "divSchemes",
+            "fvSchemes",
+            "U",
+            "Gauss"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 130,
+      "case_path": "blastFoam/triplePointShockInteration",
+      "query": "Simulate the triple point problem, but change the flux limiter from the default vanAlbada to vanLeer to test its effect on shock resolution.",
+      "status": "pass",
+      "issues": [],
+      "warnings": [],
+      "file_audits": [
+        {
+          "file_path": "system/fvSchemes",
+          "exists": true,
+          "identifier_hits": [
+            "divSchemes",
+            "fvSchemes",
+            "U"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -29,6 +29,10 @@ The evaluation framework tests two main retrieval approaches:
    EMBEDDING_MODEL=text-embedding-v3
    LLM_API_KEY=your_llm_api_key
    LLM_API_BASE_URL=your_llm_base_url
+   LLM_MODEL=your_agent_model
+   RETRIEVAL_LLM_API_KEY=optional_retrieval_api_key
+   RETRIEVAL_LLM_API_BASE_URL=optional_retrieval_base_url
+   RETRIEVAL_LLM_MODEL=optional_retrieval_model
    ```
 
 2. **Validation Dataset**: The evaluation uses the BlastFOAM retrieval validation dataset located at:
@@ -75,6 +79,15 @@ This script will:
 ```bash
 # Evaluate knowledge graph-based retrieval
 python experiments/evaluate_knowledge_graph_retriever.py
+```
+
+If you want retrieval to use a different LLM from the main agent, you can either
+set `RETRIEVAL_LLM_*` in `.env` or pass them explicitly:
+
+```bash
+python experiments/evaluate_knowledge_graph_retriever.py \
+  --retrieval-llm-base-url https://dashscope.aliyuncs.com/compatible-mode/v1 \
+  --retrieval-llm-model qwen-plus
 ```
 
 This script will:

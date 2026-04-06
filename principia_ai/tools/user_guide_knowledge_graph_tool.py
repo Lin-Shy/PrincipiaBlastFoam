@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 from langchain_openai import ChatOpenAI
 from principia_ai.metrics.tracker import MetricsTracker
+from principia_ai.tools.retrieval_llm_config import resolve_retrieval_llm_config
 
 
 class UserGuideKnowledgeGraphRetriever:
@@ -13,23 +14,25 @@ class UserGuideKnowledgeGraphRetriever:
     2. Then, it retrieves more specific sections within those chapters
     3. Finally, it returns the full content of the identified target nodes
     """
-    def __init__(self, llm_api_key=None, llm_base_url=None):
+    def __init__(self, llm_api_key=None, llm_base_url=None, llm_model=None):
         """
         Initialize the KnowledgeGraphRetriever.
         
         Args:
-            llm_api_key: LLM API Key (if None, uses LLM_API_KEY env variable)
-            llm_base_url: LLM API base URL (if None, uses LLM_API_BASE_URL env variable)
+            llm_api_key: Retrieval LLM API Key.
+            llm_base_url: Retrieval LLM API base URL.
+            llm_model: Retrieval LLM model name.
         """
-        # Initialize LLM
-        LLM_API_BASE_URL = llm_base_url or os.getenv("LLM_API_BASE_URL")
-        LLM_API_KEY = llm_api_key or os.getenv("LLM_API_KEY")
-        LLM_MODEL_NAME = os.getenv("LLM_MODEL", "gpt-4")
+        llm_config = resolve_retrieval_llm_config(
+            api_key=llm_api_key,
+            base_url=llm_base_url,
+            model=llm_model,
+        )
         
         self.llm = ChatOpenAI(
-            base_url=LLM_API_BASE_URL,
-            model=LLM_MODEL_NAME,
-            api_key=LLM_API_KEY,
+            base_url=llm_config["base_url"],
+            model=llm_config["model"],
+            api_key=llm_config["api_key"],
             temperature=0.1,
         )
         

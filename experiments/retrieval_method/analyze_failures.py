@@ -258,7 +258,7 @@ class FailureAnalyzer:
 def main():
     """Main function to run failure analysis."""
     
-    results_dir = project_root / 'experiments' / 'results'
+    results_dir = Path(__file__).parent / 'results'
     
     if not results_dir.exists():
         print(f"Results directory not found: {results_dir}")

@@ -3,7 +3,11 @@ import hashlib
 import requests
 from pathlib import Path
 from typing import List
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except ModuleNotFoundError:
+    def load_dotenv(*_args, **_kwargs):  # type: ignore[no-redef]
+        return False
 from langchain_community.vectorstores import FAISS
 from langchain.embeddings.base import Embeddings
 
