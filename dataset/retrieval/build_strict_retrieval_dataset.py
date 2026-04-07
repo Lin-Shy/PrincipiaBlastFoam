@@ -1,16 +1,9 @@
 """
 Build and audit a strict retrieval validation dataset.
 
-The legacy retrieval dataset in this repository only labels relative file paths
-such as ``system/controlDict``. That works for single-case retrieval, but it is
-not suitable for evaluating retrieval across all tutorials because many cases
-contain files with the same relative path.
-
-This script addresses that gap in three ways:
+This script performs strict dataset maintenance in three steps:
 1. Builds a tutorial-case manifest from the tutorial root.
-2. Audits the legacy dataset to show how many entries are ambiguous or invalid
-   under strict ``case_path + file_path`` evaluation.
-3. Builds a strict retrieval dataset from the case-specific modification
+2. Builds a strict retrieval dataset from the case-specific modification
    datasets and audits each generated entry against real tutorial files.
 """
 
@@ -32,17 +25,14 @@ MODIFICATION_DATASETS: Sequence[Tuple[str, Path]] = (
     ("basic", PROJECT_ROOT / "dataset" / "modification" / "blastfoam_basic_modifications.json"),
     ("advanced", PROJECT_ROOT / "dataset" / "modification" / "blastfoam_senior_modifications.json"),
 )
-LEGACY_DATASET_PATH = RETRIEVAL_DIR / "blastfoam_retrieval_validation_dataset.json"
-
 STRICT_DATASET_PATH = RETRIEVAL_DIR / "blastfoam_retrieval_validation_dataset_strict.json"
 STRICT_AUDIT_PATH = RETRIEVAL_DIR / "blastfoam_retrieval_validation_dataset_strict_audit.json"
-LEGACY_AUDIT_PATH = RETRIEVAL_DIR / "blastfoam_retrieval_validation_dataset_legacy_case_audit.json"
 CASE_MANIFEST_PATH = RETRIEVAL_DIR / "tutorial_case_manifest.json"
 SUMMARY_PATH = RETRIEVAL_DIR / "STRICT_RETRIEVAL_AUDIT_SUMMARY.md"
 
 # The current strict dataset is intentionally rooted in the seven case-specific
 # modification sources, because those are already tied to concrete tutorial
-# cases and are much easier to validate than the generic legacy retrieval set.
+# cases and are much easier to validate than generic cross-case path matching.
 EXPLICIT_CASE_MAP = {
     "deflagrationToDetonationTransition": "blastXiFoam/deflagrationToDetonationTransition",
     "freeField": "blastFoam/freeField",
@@ -307,48 +297,6 @@ def build_case_manifest(cases: Dict[str, TutorialCase]) -> Dict[str, object]:
     }
 
 
-def audit_legacy_dataset(legacy_dataset: Sequence[Dict[str, object]], cases: Dict[str, TutorialCase]) -> Dict[str, object]:
-    results = []
-    status_counter: Counter[str] = Counter()
-
-    for entry in legacy_dataset:
-        target_files = list(entry["target_files"])
-        matched_cases = [
-            case.case_path
-            for case in cases.values()
-            if case.has_files(target_files)
-        ]
-
-        if not matched_cases:
-            status = "missing"
-        elif len(matched_cases) == 1:
-            status = "unique"
-        else:
-            status = "ambiguous"
-
-        status_counter[status] += 1
-        results.append(
-            {
-                "id": entry["id"],
-                "query": entry["query"],
-                "target_files": target_files,
-                "status": status,
-                "matched_case_count": len(matched_cases),
-                "matched_cases_preview": matched_cases[:10],
-            }
-        )
-
-    return {
-        "summary": {
-            "total_entries": len(results),
-            "unique": status_counter["unique"],
-            "ambiguous": status_counter["ambiguous"],
-            "missing": status_counter["missing"],
-        },
-        "entries": results,
-    }
-
-
 def build_strict_dataset(cases: Dict[str, TutorialCase]) -> List[Dict[str, object]]:
     strict_entries: List[Dict[str, object]] = []
     entry_id = 1
@@ -472,11 +420,9 @@ def write_json(path: Path, payload: object) -> None:
 def build_summary_markdown(
     tutorials_dir: Path,
     case_manifest: Dict[str, object],
-    legacy_audit: Dict[str, object],
     strict_entries: Sequence[Dict[str, object]],
     strict_audit: Dict[str, object],
 ) -> str:
-    legacy_summary = legacy_audit["summary"]
     strict_summary = strict_audit["summary"]
     strict_case_counter = Counter(entry["case_path"] for entry in strict_entries if entry["case_path"])
 
@@ -486,12 +432,6 @@ def build_summary_markdown(
         f"- Tutorials root: `{tutorials_dir}`",
         f"- Tutorial case count: `{case_manifest['tutorial_case_count']}`",
         f"- Strict dataset size: `{len(strict_entries)}`",
-        "",
-        "## Legacy Dataset Audit",
-        "",
-        f"- Unique case-resolvable entries: `{legacy_summary['unique']}`",
-        f"- Ambiguous entries: `{legacy_summary['ambiguous']}`",
-        f"- Missing entries: `{legacy_summary['missing']}`",
         "",
         "## Strict Dataset Audit",
         "",
@@ -505,26 +445,6 @@ def build_summary_markdown(
 
     for case_path, count in sorted(strict_case_counter.items()):
         lines.append(f"- `{case_path}`: `{count}` entries")
-
-    lines.extend(
-        [
-            "",
-            "## Legacy Dataset Examples",
-            "",
-        ]
-    )
-
-    ambiguous_examples = [entry for entry in legacy_audit["entries"] if entry["status"] == "ambiguous"][:5]
-    missing_examples = [entry for entry in legacy_audit["entries"] if entry["status"] == "missing"][:5]
-
-    for entry in ambiguous_examples:
-        lines.append(
-            f"- Ambiguous `{entry['id']}`: `{entry['query']}` -> {entry['matched_case_count']} candidate cases"
-        )
-    for entry in missing_examples:
-        lines.append(
-            f"- Missing `{entry['id']}`: `{entry['query']}` -> target files {entry['target_files']}"
-        )
 
     return "\n".join(lines) + "\n"
 
@@ -549,24 +469,20 @@ def main() -> None:
         raise SystemExit(f"Tutorial directory does not exist: {tutorials_dir}")
 
     cases = discover_tutorial_cases(tutorials_dir)
-    legacy_dataset = json.loads(LEGACY_DATASET_PATH.read_text(encoding="utf-8"))
 
     case_manifest = build_case_manifest(cases)
-    legacy_audit = audit_legacy_dataset(legacy_dataset, cases)
     strict_entries = build_strict_dataset(cases)
     strict_audit = audit_strict_dataset(strict_entries, cases)
 
     write_json(CASE_MANIFEST_PATH, case_manifest)
-    write_json(LEGACY_AUDIT_PATH, legacy_audit)
     write_json(STRICT_DATASET_PATH, strict_entries)
     write_json(STRICT_AUDIT_PATH, strict_audit)
     SUMMARY_PATH.write_text(
-        build_summary_markdown(tutorials_dir, case_manifest, legacy_audit, strict_entries, strict_audit),
+        build_summary_markdown(tutorials_dir, case_manifest, strict_entries, strict_audit),
         encoding="utf-8",
     )
 
     print(f"Wrote tutorial case manifest to: {CASE_MANIFEST_PATH}")
-    print(f"Wrote legacy strictness audit to: {LEGACY_AUDIT_PATH}")
     print(f"Wrote strict retrieval dataset to: {STRICT_DATASET_PATH}")
     print(f"Wrote strict dataset audit to: {STRICT_AUDIT_PATH}")
     print(f"Wrote summary to: {SUMMARY_PATH}")

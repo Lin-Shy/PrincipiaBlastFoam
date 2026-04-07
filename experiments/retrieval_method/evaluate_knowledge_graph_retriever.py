@@ -30,6 +30,17 @@ from experiments.retrieval_method.evaluation_common import (
     save_results,
 )
 
+
+KG_RETRIEVAL_MAX_ITERATIONS_ENV = "KG_RETRIEVAL_MAX_ITERATIONS"
+
+
+def default_kg_max_iterations() -> int:
+    raw_value = os.getenv(KG_RETRIEVAL_MAX_ITERATIONS_ENV, "3")
+    try:
+        return max(1, int(raw_value))
+    except ValueError:
+        return 3
+
 def load_knowledge_graph_retriever_class():
     module_path = PROJECT_ROOT / "principia_ai" / "tools" / "case_content_knowledge_graph_tool.py"
     spec = importlib.util.spec_from_file_location("strict_kg_eval_module", module_path)
@@ -48,7 +59,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--k-values", default="1,3,5,10", help="Comma-separated K values, e.g. 1,3,5,10")
     parser.add_argument("--limit", type=int, default=None, help="Evaluate only the first N queries.")
     parser.add_argument("--results-dir", default=str(DEFAULT_RESULTS_DIR), help="Directory for result JSON files.")
-    parser.add_argument("--max-iterations", type=int, default=5, help="Maximum ReAct iterations in KG retrieval.")
+    parser.add_argument(
+        "--max-iterations",
+        type=int,
+        default=default_kg_max_iterations(),
+        help="Maximum ReAct iterations in KG retrieval (env: KG_RETRIEVAL_MAX_ITERATIONS, default: 3).",
+    )
     parser.add_argument(
         "--include-file-content",
         action="store_true",

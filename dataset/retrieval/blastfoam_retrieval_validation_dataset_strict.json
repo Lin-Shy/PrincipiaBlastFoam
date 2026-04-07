@@ -2988,5 +2988,2110 @@
         "canonical_id": "blastFoam/triplePointShockInteration::system/fvSchemes"
       }
     ]
+  },
+  {
+    "id": 131,
+    "query": "Run the axisymmetric charge case with a smaller time step and stricter Courant control for stability.",
+    "description": "Run the axisymmetric charge case with a smaller time step and stricter Courant control for stability.",
+    "modification": "Tune deltaT and maxCo settings in controlDict.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "axisymmetricCharge",
+    "case_name": "axisymmetricCharge_control_runtime_stability",
+    "case_path": "blastFoam/axisymmetricCharge",
+    "case_resolution_candidates": [
+      "blastFoam/axisymmetricCharge"
+    ],
+    "category": "time_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/axisymmetricCharge",
+        "file_path": "system/controlDict",
+        "canonical_id": "blastFoam/axisymmetricCharge::system/controlDict"
+      }
+    ]
+  },
+  {
+    "id": 132,
+    "query": "Use a finer mesh for the axisymmetric charge blast wave propagation study.",
+    "description": "Use a finer mesh for the axisymmetric charge blast wave propagation study.",
+    "modification": "Refine cell counts in blockMeshDict.",
+    "difficulty": "basic",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "axisymmetricCharge",
+    "case_name": "axisymmetricCharge_mesh_refinement",
+    "case_path": "blastFoam/axisymmetricCharge",
+    "case_resolution_candidates": [
+      "blastFoam/axisymmetricCharge"
+    ],
+    "category": "mesh",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/axisymmetricCharge",
+        "file_path": "system/blockMeshDict",
+        "canonical_id": "blastFoam/axisymmetricCharge::system/blockMeshDict"
+      }
+    ]
+  },
+  {
+    "id": 133,
+    "query": "Switch the explosive material setup in the axisymmetric charge case to another EOS parameter set.",
+    "description": "Switch the explosive material setup in the axisymmetric charge case to another EOS parameter set.",
+    "modification": "Adjust equation-of-state coefficients in phaseProperties.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "axisymmetricCharge",
+    "case_name": "axisymmetricCharge_phaseProperties_eos_variant",
+    "case_path": "blastFoam/axisymmetricCharge",
+    "case_resolution_candidates": [
+      "blastFoam/axisymmetricCharge"
+    ],
+    "category": "equation_of_state",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/axisymmetricCharge",
+        "file_path": "constant/phaseProperties",
+        "canonical_id": "blastFoam/axisymmetricCharge::constant/phaseProperties"
+      }
+    ]
+  },
+  {
+    "id": 134,
+    "query": "Move the initial explosive region in the axisymmetric charge setup and keep phase fraction initialization consistent.",
+    "description": "Move the initial explosive region in the axisymmetric charge setup and keep phase fraction initialization consistent.",
+    "modification": "Update region definition in setFieldsDict and corresponding alpha initial field.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "axisymmetricCharge",
+    "case_name": "axisymmetricCharge_initial_region_and_alpha",
+    "case_path": "blastFoam/axisymmetricCharge",
+    "case_resolution_candidates": [
+      "blastFoam/axisymmetricCharge"
+    ],
+    "category": "initial_conditions",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/axisymmetricCharge",
+        "file_path": "system/setFieldsDict",
+        "canonical_id": "blastFoam/axisymmetricCharge::system/setFieldsDict"
+      },
+      {
+        "case_path": "blastFoam/axisymmetricCharge",
+        "file_path": "0/alpha.c4.orig",
+        "canonical_id": "blastFoam/axisymmetricCharge::0/alpha.c4.orig"
+      }
+    ]
+  },
+  {
+    "id": 135,
+    "query": "Improve near-wall geometry resolution in the 3D building blast case using snappy hex meshing controls.",
+    "description": "Improve near-wall geometry resolution in the 3D building blast case using snappy hex meshing controls.",
+    "modification": "Refine castellated and snapping controls in snappyHexMeshDict.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "building3D",
+    "case_name": "building3D_snappy_mesh_refinement",
+    "case_path": "blastFoam/building3D",
+    "case_resolution_candidates": [
+      "blastFoam/building3D"
+    ],
+    "category": "mesh",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/building3D",
+        "file_path": "system/snappyHexMeshDict",
+        "canonical_id": "blastFoam/building3D::system/snappyHexMeshDict"
+      }
+    ]
+  },
+  {
+    "id": 136,
+    "query": "Adjust feature-edge extraction sensitivity for the building geometry before meshing.",
+    "description": "Adjust feature-edge extraction sensitivity for the building geometry before meshing.",
+    "modification": "Tune extraction parameters in surfaceFeaturesDict.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "building3D",
+    "case_name": "building3D_surface_features_tuning",
+    "case_path": "blastFoam/building3D",
+    "case_resolution_candidates": [
+      "blastFoam/building3D"
+    ],
+    "category": "mesh",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/building3D",
+        "file_path": "system/surfaceFeaturesDict",
+        "canonical_id": "blastFoam/building3D::system/surfaceFeaturesDict"
+      }
+    ]
+  },
+  {
+    "id": 137,
+    "query": "Run the building3D case for a longer window and reduce output frequency to save storage.",
+    "description": "Run the building3D case for a longer window and reduce output frequency to save storage.",
+    "modification": "Modify endTime and writeInterval in controlDict.",
+    "difficulty": "basic",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "building3D",
+    "case_name": "building3D_control_time_and_output",
+    "case_path": "blastFoam/building3D",
+    "case_resolution_candidates": [
+      "blastFoam/building3D"
+    ],
+    "category": "output_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/building3D",
+        "file_path": "system/controlDict",
+        "canonical_id": "blastFoam/building3D::system/controlDict"
+      }
+    ]
+  },
+  {
+    "id": 138,
+    "query": "Stabilize the building3D numerical setup by tuning both discretization schemes and linear solver settings together.",
+    "description": "Stabilize the building3D numerical setup by tuning both discretization schemes and linear solver settings together.",
+    "modification": "Co-tune fvSchemes and fvSolution for robustness.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "building3D",
+    "case_name": "building3D_numerics_schemes_and_solution",
+    "case_path": "blastFoam/building3D",
+    "case_resolution_candidates": [
+      "blastFoam/building3D"
+    ],
+    "category": "solver_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/building3D",
+        "file_path": "system/fvSchemes",
+        "canonical_id": "blastFoam/building3D::system/fvSchemes"
+      },
+      {
+        "case_path": "blastFoam/building3D",
+        "file_path": "system/fvSolution",
+        "canonical_id": "blastFoam/building3D::system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 139,
+    "query": "Reposition the delayed detonation ignition region for a shifted initiation scenario.",
+    "description": "Reposition the delayed detonation ignition region for a shifted initiation scenario.",
+    "modification": "Adjust source-region coordinates in setFieldsDict.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "delayedDetonation",
+    "case_name": "delayedDetonation_setFields_reposition",
+    "case_path": "blastFoam/delayedDetonation",
+    "case_resolution_candidates": [
+      "blastFoam/delayedDetonation"
+    ],
+    "category": "initial_conditions",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/delayedDetonation",
+        "file_path": "system/setFieldsDict",
+        "canonical_id": "blastFoam/delayedDetonation::system/setFieldsDict"
+      }
+    ]
+  },
+  {
+    "id": 140,
+    "query": "Shorten the delayed detonation runtime for a faster parametric sweep.",
+    "description": "Shorten the delayed detonation runtime for a faster parametric sweep.",
+    "modification": "Reduce endTime and adjust write cadence in controlDict.",
+    "difficulty": "basic",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "delayedDetonation",
+    "case_name": "delayedDetonation_runtime_short",
+    "case_path": "blastFoam/delayedDetonation",
+    "case_resolution_candidates": [
+      "blastFoam/delayedDetonation"
+    ],
+    "category": "time_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/delayedDetonation",
+        "file_path": "system/controlDict",
+        "canonical_id": "blastFoam/delayedDetonation::system/controlDict"
+      }
+    ]
+  },
+  {
+    "id": 141,
+    "query": "Test another energetic material parameterization in the delayed detonation case.",
+    "description": "Test another energetic material parameterization in the delayed detonation case.",
+    "modification": "Change material model constants in phaseProperties.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "delayedDetonation",
+    "case_name": "delayedDetonation_phase_material_variant",
+    "case_path": "blastFoam/delayedDetonation",
+    "case_resolution_candidates": [
+      "blastFoam/delayedDetonation"
+    ],
+    "category": "material_properties",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/delayedDetonation",
+        "file_path": "constant/phaseProperties",
+        "canonical_id": "blastFoam/delayedDetonation::constant/phaseProperties"
+      }
+    ]
+  },
+  {
+    "id": 142,
+    "query": "Increase numerical robustness in delayed detonation by updating both schemes and solver controls.",
+    "description": "Increase numerical robustness in delayed detonation by updating both schemes and solver controls.",
+    "modification": "Apply coordinated changes in fvSchemes and fvSolution.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "delayedDetonation",
+    "case_name": "delayedDetonation_schemes_solver_pair",
+    "case_path": "blastFoam/delayedDetonation",
+    "case_resolution_candidates": [
+      "blastFoam/delayedDetonation"
+    ],
+    "category": "numerical_schemes",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/delayedDetonation",
+        "file_path": "system/fvSchemes",
+        "canonical_id": "blastFoam/delayedDetonation::system/fvSchemes"
+      },
+      {
+        "case_path": "blastFoam/delayedDetonation",
+        "file_path": "system/fvSolution",
+        "canonical_id": "blastFoam/delayedDetonation::system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 143,
+    "query": "Regenerate obstacle interfaces in internal detonation with obstacle by updating baffle definitions.",
+    "description": "Regenerate obstacle interfaces in internal detonation with obstacle by updating baffle definitions.",
+    "modification": "Modify face selection and patch creation settings in createBafflesDict.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "internalDetonation_withObstacle",
+    "case_name": "internalDetonationObstacle_baffles_update",
+    "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacle",
+    "case_resolution_candidates": [
+      "blastFoam/internalDetonation/internalDetonation_withObstacle"
+    ],
+    "category": "mesh",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "file_path": "system/createBafflesDict",
+        "canonical_id": "blastFoam/internalDetonation/internalDetonation_withObstacle::system/createBafflesDict"
+      }
+    ]
+  },
+  {
+    "id": 144,
+    "query": "Change obstacle patch naming and grouping rules for the internal detonation obstacle case.",
+    "description": "Change obstacle patch naming and grouping rules for the internal detonation obstacle case.",
+    "modification": "Adjust patch creation rules in createPatchDict.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "internalDetonation_withObstacle",
+    "case_name": "internalDetonationObstacle_patch_rules",
+    "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacle",
+    "case_resolution_candidates": [
+      "blastFoam/internalDetonation/internalDetonation_withObstacle"
+    ],
+    "category": "boundary_conditions",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "file_path": "system/createPatchDict",
+        "canonical_id": "blastFoam/internalDetonation/internalDetonation_withObstacle::system/createPatchDict"
+      }
+    ]
+  },
+  {
+    "id": 145,
+    "query": "Modify obstacle initialization masks in the obstacle mesh specific setFields dictionary.",
+    "description": "Modify obstacle initialization masks in the obstacle mesh specific setFields dictionary.",
+    "modification": "Update setFieldsDict_mesh region definitions.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "internalDetonation_withObstacle",
+    "case_name": "internalDetonationObstacle_setFields_mesh_masks",
+    "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacle",
+    "case_resolution_candidates": [
+      "blastFoam/internalDetonation/internalDetonation_withObstacle"
+    ],
+    "category": "initial_conditions",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "file_path": "system/setFieldsDict_mesh",
+        "canonical_id": "blastFoam/internalDetonation/internalDetonation_withObstacle::system/setFieldsDict_mesh"
+      }
+    ]
+  },
+  {
+    "id": 146,
+    "query": "Refine obstacle-grid initialization by co-updating base mesh and obstacle field masks.",
+    "description": "Refine obstacle-grid initialization by co-updating base mesh and obstacle field masks.",
+    "modification": "Adjust blockMeshDict and setFieldsDict_mesh together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "internalDetonation_withObstacle",
+    "case_name": "internalDetonationObstacle_mesh_and_init_pair",
+    "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacle",
+    "case_resolution_candidates": [
+      "blastFoam/internalDetonation/internalDetonation_withObstacle"
+    ],
+    "category": "mesh",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "file_path": "system/blockMeshDict",
+        "canonical_id": "blastFoam/internalDetonation/internalDetonation_withObstacle::system/blockMeshDict"
+      },
+      {
+        "case_path": "blastFoam/internalDetonation/internalDetonation_withObstacle",
+        "file_path": "system/setFieldsDict_mesh",
+        "canonical_id": "blastFoam/internalDetonation/internalDetonation_withObstacle::system/setFieldsDict_mesh"
+      }
+    ]
+  },
+  {
+    "id": 147,
+    "query": "Move both explosive charges in the two-charge detonation setup to new initial locations.",
+    "description": "Move both explosive charges in the two-charge detonation setup to new initial locations.",
+    "modification": "Update source regions in setFieldsDict.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "twoChargeDetonation",
+    "case_name": "twoChargeDetonation_setFields_relocate_charges",
+    "case_path": "blastFoam/twoChargeDetonation",
+    "case_resolution_candidates": [
+      "blastFoam/twoChargeDetonation"
+    ],
+    "category": "initial_conditions",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/twoChargeDetonation",
+        "file_path": "system/setFieldsDict",
+        "canonical_id": "blastFoam/twoChargeDetonation::system/setFieldsDict"
+      }
+    ]
+  },
+  {
+    "id": 148,
+    "query": "Run the two-charge detonation simulation longer to capture later interaction between blast fronts.",
+    "description": "Run the two-charge detonation simulation longer to capture later interaction between blast fronts.",
+    "modification": "Increase endTime in controlDict.",
+    "difficulty": "basic",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "twoChargeDetonation",
+    "case_name": "twoChargeDetonation_longer_runtime",
+    "case_path": "blastFoam/twoChargeDetonation",
+    "case_resolution_candidates": [
+      "blastFoam/twoChargeDetonation"
+    ],
+    "category": "time_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/twoChargeDetonation",
+        "file_path": "system/controlDict",
+        "canonical_id": "blastFoam/twoChargeDetonation::system/controlDict"
+      }
+    ]
+  },
+  {
+    "id": 149,
+    "query": "Retune initial volume fractions for both RDX and TNT phases in the two-charge case.",
+    "description": "Retune initial volume fractions for both RDX and TNT phases in the two-charge case.",
+    "modification": "Adjust alpha field initial values for RDX and TNT.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "twoChargeDetonation",
+    "case_name": "twoChargeDetonation_alpha_fields_pair",
+    "case_path": "blastFoam/twoChargeDetonation",
+    "case_resolution_candidates": [
+      "blastFoam/twoChargeDetonation"
+    ],
+    "category": "boundary_conditions",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/twoChargeDetonation",
+        "file_path": "0/alpha.RDX.orig",
+        "canonical_id": "blastFoam/twoChargeDetonation::0/alpha.RDX.orig"
+      },
+      {
+        "case_path": "blastFoam/twoChargeDetonation",
+        "file_path": "0/alpha.tnt.orig",
+        "canonical_id": "blastFoam/twoChargeDetonation::0/alpha.tnt.orig"
+      }
+    ]
+  },
+  {
+    "id": 150,
+    "query": "Update initial density fields for both RDX and TNT materials in the two-charge setup.",
+    "description": "Update initial density fields for both RDX and TNT materials in the two-charge setup.",
+    "modification": "Adjust rho field initialization for RDX and TNT.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "twoChargeDetonation",
+    "case_name": "twoChargeDetonation_density_fields_pair",
+    "case_path": "blastFoam/twoChargeDetonation",
+    "case_resolution_candidates": [
+      "blastFoam/twoChargeDetonation"
+    ],
+    "category": "boundary_conditions",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/twoChargeDetonation",
+        "file_path": "0/rho.RDX.orig",
+        "canonical_id": "blastFoam/twoChargeDetonation::0/rho.RDX.orig"
+      },
+      {
+        "case_path": "blastFoam/twoChargeDetonation",
+        "file_path": "0/rho.tnt.orig",
+        "canonical_id": "blastFoam/twoChargeDetonation::0/rho.tnt.orig"
+      }
+    ]
+  },
+  {
+    "id": 151,
+    "query": "Modify tabulated temperature curve inputs in the shock tube tabulated case.",
+    "description": "Modify tabulated temperature curve inputs in the shock tube tabulated case.",
+    "modification": "Update lookup values in T.csv.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "shockTube_tabulated",
+    "case_name": "shockTubeTabulated_temperature_table_update",
+    "case_path": "blastFoam/shockTube_tabulated",
+    "case_resolution_candidates": [
+      "blastFoam/shockTube_tabulated"
+    ],
+    "category": "thermodynamics",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/shockTube_tabulated",
+        "file_path": "constant/T.csv",
+        "canonical_id": "blastFoam/shockTube_tabulated::constant/T.csv"
+      }
+    ]
+  },
+  {
+    "id": 152,
+    "query": "Adjust pressure table data for the tabulated shock tube thermodynamic mapping.",
+    "description": "Adjust pressure table data for the tabulated shock tube thermodynamic mapping.",
+    "modification": "Update lookup values in p.csv.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "shockTube_tabulated",
+    "case_name": "shockTubeTabulated_pressure_table_update",
+    "case_path": "blastFoam/shockTube_tabulated",
+    "case_resolution_candidates": [
+      "blastFoam/shockTube_tabulated"
+    ],
+    "category": "thermodynamics",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/shockTube_tabulated",
+        "file_path": "constant/p.csv",
+        "canonical_id": "blastFoam/shockTube_tabulated::constant/p.csv"
+      }
+    ]
+  },
+  {
+    "id": 153,
+    "query": "Add additional probe locations for post-processing in the shock tube tabulated case.",
+    "description": "Add additional probe locations for post-processing in the shock tube tabulated case.",
+    "modification": "Modify sampling set definitions in sampleDict.",
+    "difficulty": "basic",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "shockTube_tabulated",
+    "case_name": "shockTubeTabulated_sampling_layout",
+    "case_path": "blastFoam/shockTube_tabulated",
+    "case_resolution_candidates": [
+      "blastFoam/shockTube_tabulated"
+    ],
+    "category": "output_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/shockTube_tabulated",
+        "file_path": "system/sampleDict",
+        "canonical_id": "blastFoam/shockTube_tabulated::system/sampleDict"
+      }
+    ]
+  },
+  {
+    "id": 154,
+    "query": "Synchronize run duration and sampling cadence in the tabulated shock tube benchmark.",
+    "description": "Synchronize run duration and sampling cadence in the tabulated shock tube benchmark.",
+    "modification": "Co-update controlDict and sampleDict.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "shockTube_tabulated",
+    "case_name": "shockTubeTabulated_control_and_sampling_pair",
+    "case_path": "blastFoam/shockTube_tabulated",
+    "case_resolution_candidates": [
+      "blastFoam/shockTube_tabulated"
+    ],
+    "category": "output_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/shockTube_tabulated",
+        "file_path": "system/controlDict",
+        "canonical_id": "blastFoam/shockTube_tabulated::system/controlDict"
+      },
+      {
+        "case_path": "blastFoam/shockTube_tabulated",
+        "file_path": "system/sampleDict",
+        "canonical_id": "blastFoam/shockTube_tabulated::system/sampleDict"
+      }
+    ]
+  },
+  {
+    "id": 155,
+    "query": "Switch to a different reaction mechanism definition in the blastReactingFoam reacting tutorial.",
+    "description": "Switch to a different reaction mechanism definition in the blastReactingFoam reacting tutorial.",
+    "modification": "Edit species reactions in reactions file.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "reacting",
+    "case_name": "blastReacting_reacting_reaction_mechanism",
+    "case_path": "blastReactingFoam/reacting",
+    "case_resolution_candidates": [
+      "blastReactingFoam/reacting"
+    ],
+    "category": "combustion",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastReactingFoam/reacting",
+        "file_path": "constant/reactions",
+        "canonical_id": "blastReactingFoam/reacting::constant/reactions"
+      }
+    ]
+  },
+  {
+    "id": 156,
+    "query": "Tune chemistry integration options for better stability in blastReactingFoam reacting.",
+    "description": "Tune chemistry integration options for better stability in blastReactingFoam reacting.",
+    "modification": "Adjust chemistryProperties settings.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "reacting",
+    "case_name": "blastReacting_reacting_chemistry_controls",
+    "case_path": "blastReactingFoam/reacting",
+    "case_resolution_candidates": [
+      "blastReactingFoam/reacting"
+    ],
+    "category": "combustion",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastReactingFoam/reacting",
+        "file_path": "constant/chemistryProperties",
+        "canonical_id": "blastReactingFoam/reacting::constant/chemistryProperties"
+      }
+    ]
+  },
+  {
+    "id": 157,
+    "query": "Use an alternative thermophysical model in blastReactingFoam reacting for sensitivity analysis.",
+    "description": "Use an alternative thermophysical model in blastReactingFoam reacting for sensitivity analysis.",
+    "modification": "Adjust thermo model entries in thermophysicalProperties.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "reacting",
+    "case_name": "blastReacting_reacting_thermo_variant",
+    "case_path": "blastReactingFoam/reacting",
+    "case_resolution_candidates": [
+      "blastReactingFoam/reacting"
+    ],
+    "category": "thermodynamics",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastReactingFoam/reacting",
+        "file_path": "constant/thermophysicalProperties",
+        "canonical_id": "blastReactingFoam/reacting::constant/thermophysicalProperties"
+      }
+    ]
+  },
+  {
+    "id": 158,
+    "query": "Update numerical schemes and solver controls together for the blastReactingFoam reacting case.",
+    "description": "Update numerical schemes and solver controls together for the blastReactingFoam reacting case.",
+    "modification": "Co-adjust fvSchemes and fvSolution for stable combustion calculation.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "reacting",
+    "case_name": "blastReacting_reacting_schemes_solver_pair",
+    "case_path": "blastReactingFoam/reacting",
+    "case_resolution_candidates": [
+      "blastReactingFoam/reacting"
+    ],
+    "category": "solver_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastReactingFoam/reacting",
+        "file_path": "system/fvSchemes",
+        "canonical_id": "blastReactingFoam/reacting::system/fvSchemes"
+      },
+      {
+        "case_path": "blastReactingFoam/reacting",
+        "file_path": "system/fvSolution",
+        "canonical_id": "blastReactingFoam/reacting::system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 159,
+    "query": "Run the oblique shock case with a different turbulence closure assumption.",
+    "description": "Run the oblique shock case with a different turbulence closure assumption.",
+    "modification": "Switch turbulence model parameters in turbulenceProperties.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "obliqueShock",
+    "case_name": "obliqueShock_turbulence_variant",
+    "case_path": "blastReactingFoam/obliqueShock",
+    "case_resolution_candidates": [
+      "blastReactingFoam/obliqueShock"
+    ],
+    "category": "turbulence_model",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastReactingFoam/obliqueShock",
+        "file_path": "constant/turbulenceProperties",
+        "canonical_id": "blastReactingFoam/obliqueShock::constant/turbulenceProperties"
+      }
+    ]
+  },
+  {
+    "id": 160,
+    "query": "Change thermodynamic setup in the oblique shock tutorial to compare state predictions.",
+    "description": "Change thermodynamic setup in the oblique shock tutorial to compare state predictions.",
+    "modification": "Adjust entries in thermophysicalProperties.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "obliqueShock",
+    "case_name": "obliqueShock_thermo_configuration",
+    "case_path": "blastReactingFoam/obliqueShock",
+    "case_resolution_candidates": [
+      "blastReactingFoam/obliqueShock"
+    ],
+    "category": "thermodynamics",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastReactingFoam/obliqueShock",
+        "file_path": "constant/thermophysicalProperties",
+        "canonical_id": "blastReactingFoam/obliqueShock::constant/thermophysicalProperties"
+      }
+    ]
+  },
+  {
+    "id": 161,
+    "query": "Extend the oblique shock simulation time horizon and adjust output frequency.",
+    "description": "Extend the oblique shock simulation time horizon and adjust output frequency.",
+    "modification": "Change endTime and writeInterval in controlDict.",
+    "difficulty": "basic",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "obliqueShock",
+    "case_name": "obliqueShock_time_and_output",
+    "case_path": "blastReactingFoam/obliqueShock",
+    "case_resolution_candidates": [
+      "blastReactingFoam/obliqueShock"
+    ],
+    "category": "time_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastReactingFoam/obliqueShock",
+        "file_path": "system/controlDict",
+        "canonical_id": "blastReactingFoam/obliqueShock::system/controlDict"
+      }
+    ]
+  },
+  {
+    "id": 162,
+    "query": "Increase shock-capturing robustness in oblique shock by tuning schemes and solver settings together.",
+    "description": "Increase shock-capturing robustness in oblique shock by tuning schemes and solver settings together.",
+    "modification": "Co-tune fvSchemes and fvSolution.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "obliqueShock",
+    "case_name": "obliqueShock_schemes_solver_pair",
+    "case_path": "blastReactingFoam/obliqueShock",
+    "case_resolution_candidates": [
+      "blastReactingFoam/obliqueShock"
+    ],
+    "category": "numerical_schemes",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastReactingFoam/obliqueShock",
+        "file_path": "system/fvSchemes",
+        "canonical_id": "blastReactingFoam/obliqueShock::system/fvSchemes"
+      },
+      {
+        "case_path": "blastReactingFoam/obliqueShock",
+        "file_path": "system/fvSolution",
+        "canonical_id": "blastReactingFoam/obliqueShock::system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 163,
+    "query": "Adjust particle injection behavior in the forward step parcel case.",
+    "description": "Adjust particle injection behavior in the forward step parcel case.",
+    "modification": "Update cloud model controls in cloudProperties.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "forwardStep",
+    "case_name": "forwardStep_cloud_properties_tuning",
+    "case_path": "blastParcelFoam/forwardStep",
+    "case_resolution_candidates": [
+      "blastParcelFoam/forwardStep"
+    ],
+    "category": "multiphase",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastParcelFoam/forwardStep",
+        "file_path": "constant/cloudProperties",
+        "canonical_id": "blastParcelFoam/forwardStep::constant/cloudProperties"
+      }
+    ]
+  },
+  {
+    "id": 164,
+    "query": "Modify gas-particle coupling material properties in the forward step parcel benchmark.",
+    "description": "Modify gas-particle coupling material properties in the forward step parcel benchmark.",
+    "modification": "Adjust material interaction parameters in phaseProperties.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "forwardStep",
+    "case_name": "forwardStep_phase_coupling_variant",
+    "case_path": "blastParcelFoam/forwardStep",
+    "case_resolution_candidates": [
+      "blastParcelFoam/forwardStep"
+    ],
+    "category": "multiphase",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastParcelFoam/forwardStep",
+        "file_path": "constant/phaseProperties",
+        "canonical_id": "blastParcelFoam/forwardStep::constant/phaseProperties"
+      }
+    ]
+  },
+  {
+    "id": 165,
+    "query": "Switch turbulence setup in forward step parcel flow for sensitivity testing.",
+    "description": "Switch turbulence setup in forward step parcel flow for sensitivity testing.",
+    "modification": "Change turbulence model settings in turbulenceProperties.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "forwardStep",
+    "case_name": "forwardStep_turbulence_model_variant",
+    "case_path": "blastParcelFoam/forwardStep",
+    "case_resolution_candidates": [
+      "blastParcelFoam/forwardStep"
+    ],
+    "category": "turbulence_model",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastParcelFoam/forwardStep",
+        "file_path": "constant/turbulenceProperties",
+        "canonical_id": "blastParcelFoam/forwardStep::constant/turbulenceProperties"
+      }
+    ]
+  },
+  {
+    "id": 166,
+    "query": "Tune discretization and linear solver parameters together for the forward step parcel case.",
+    "description": "Tune discretization and linear solver parameters together for the forward step parcel case.",
+    "modification": "Co-adjust fvSchemes and fvSolution.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "forwardStep",
+    "case_name": "forwardStep_schemes_solver_pair",
+    "case_path": "blastParcelFoam/forwardStep",
+    "case_resolution_candidates": [
+      "blastParcelFoam/forwardStep"
+    ],
+    "category": "solver_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastParcelFoam/forwardStep",
+        "file_path": "system/fvSchemes",
+        "canonical_id": "blastParcelFoam/forwardStep::system/fvSchemes"
+      },
+      {
+        "case_path": "blastParcelFoam/forwardStep",
+        "file_path": "system/fvSolution",
+        "canonical_id": "blastParcelFoam/forwardStep::system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 167,
+    "query": "Modify preCICE coupling settings for the fluid region in the flap benchmark.",
+    "description": "Modify preCICE coupling settings for the fluid region in the flap benchmark.",
+    "modification": "Update coupling participant and mapping options in preciceDict.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "preCICE_flap",
+    "case_name": "preCICE_flap_precice_dict_update",
+    "case_path": "preCICE/flap",
+    "case_resolution_candidates": [
+      "preCICE/flap"
+    ],
+    "category": "physics_models",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "preCICE/flap",
+        "file_path": "Fluid/system/preciceDict",
+        "canonical_id": "preCICE/flap::Fluid/system/preciceDict"
+      }
+    ]
+  },
+  {
+    "id": 168,
+    "query": "Refine dynamic mesh behavior in the preCICE flap fluid region.",
+    "description": "Refine dynamic mesh behavior in the preCICE flap fluid region.",
+    "modification": "Adjust mesh motion refinement settings in dynamicMeshDict.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "preCICE_flap",
+    "case_name": "preCICE_flap_dynamic_mesh_refinement",
+    "case_path": "preCICE/flap",
+    "case_resolution_candidates": [
+      "preCICE/flap"
+    ],
+    "category": "mesh",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "preCICE/flap",
+        "file_path": "Fluid/constant/dynamicMeshDict",
+        "canonical_id": "preCICE/flap::Fluid/constant/dynamicMeshDict"
+      }
+    ]
+  },
+  {
+    "id": 169,
+    "query": "Run preCICE flap fluid simulation for a shorter wall-clock experiment with adjusted write settings.",
+    "description": "Run preCICE flap fluid simulation for a shorter wall-clock experiment with adjusted write settings.",
+    "modification": "Modify endTime and writeInterval in fluid controlDict.",
+    "difficulty": "basic",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "preCICE_flap",
+    "case_name": "preCICE_flap_fluid_control_runtime",
+    "case_path": "preCICE/flap",
+    "case_resolution_candidates": [
+      "preCICE/flap"
+    ],
+    "category": "time_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "preCICE/flap",
+        "file_path": "Fluid/system/controlDict",
+        "canonical_id": "preCICE/flap::Fluid/system/controlDict"
+      }
+    ]
+  },
+  {
+    "id": 170,
+    "query": "Tune both discretization and solver settings for the preCICE flap fluid region.",
+    "description": "Tune both discretization and solver settings for the preCICE flap fluid region.",
+    "modification": "Co-update fluid fvSchemes and fvSolution files.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "preCICE_flap",
+    "case_name": "preCICE_flap_fluid_schemes_solver_pair",
+    "case_path": "preCICE/flap",
+    "case_resolution_candidates": [
+      "preCICE/flap"
+    ],
+    "category": "numerical_schemes",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "preCICE/flap",
+        "file_path": "Fluid/system/fvSchemes",
+        "canonical_id": "preCICE/flap::Fluid/system/fvSchemes"
+      },
+      {
+        "case_path": "preCICE/flap",
+        "file_path": "Fluid/system/fvSolution",
+        "canonical_id": "preCICE/flap::Fluid/system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 171,
+    "query": "Adjust concentration initial condition profile in the planar wall equation case.",
+    "description": "Adjust concentration initial condition profile in the planar wall equation case.",
+    "modification": "Edit initial scalar field values in c.orig.",
+    "difficulty": "basic",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "planarWall",
+    "case_name": "planarWall_initial_concentration_profile",
+    "case_path": "blastEquation/planarWall",
+    "case_resolution_candidates": [
+      "blastEquation/planarWall"
+    ],
+    "category": "boundary_conditions",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastEquation/planarWall",
+        "file_path": "0/c.orig",
+        "canonical_id": "blastEquation/planarWall::0/c.orig"
+      }
+    ]
+  },
+  {
+    "id": 172,
+    "query": "Improve planar wall equation solver stability by jointly tuning schemes and solvers.",
+    "description": "Improve planar wall equation solver stability by jointly tuning schemes and solvers.",
+    "modification": "Apply consistent updates to fvSchemes and fvSolution.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "planarWall",
+    "case_name": "planarWall_schemes_solver_pair",
+    "case_path": "blastEquation/planarWall",
+    "case_resolution_candidates": [
+      "blastEquation/planarWall"
+    ],
+    "category": "solver_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastEquation/planarWall",
+        "file_path": "system/fvSchemes",
+        "canonical_id": "blastEquation/planarWall::system/fvSchemes"
+      },
+      {
+        "case_path": "blastEquation/planarWall",
+        "file_path": "system/fvSolution",
+        "canonical_id": "blastEquation/planarWall::system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 173,
+    "query": "Adjust the control settings for the sector subcase in mappedBuilding3D.",
+    "description": "Adjust the control settings for the sector subcase in mappedBuilding3D.",
+    "modification": "Update runtime and output settings in sector controlDict.",
+    "difficulty": "intermediate",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "mappedBuilding3D",
+    "case_name": "mappedBuilding3D_sector_control_runtime",
+    "case_path": "blastFoam/mappedBuilding3D",
+    "case_resolution_candidates": [
+      "blastFoam/mappedBuilding3D"
+    ],
+    "category": "time_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/mappedBuilding3D",
+        "file_path": "sector/system/controlDict",
+        "canonical_id": "blastFoam/mappedBuilding3D::sector/system/controlDict"
+      }
+    ]
+  },
+  {
+    "id": 174,
+    "query": "Keep numerical discretization strategy consistent across mappedBuilding3D sector, wedge, and building3D subcases.",
+    "description": "Keep numerical discretization strategy consistent across mappedBuilding3D sector, wedge, and building3D subcases.",
+    "modification": "Co-update fvSchemes in sector, wedge, and building3D branches.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_20260407.json",
+    "source_case_alias": "mappedBuilding3D",
+    "case_name": "mappedBuilding3D_cross_subcase_schemes_alignment",
+    "case_path": "blastFoam/mappedBuilding3D",
+    "case_resolution_candidates": [
+      "blastFoam/mappedBuilding3D"
+    ],
+    "category": "numerical_schemes",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/mappedBuilding3D",
+        "file_path": "sector/system/fvSchemes",
+        "canonical_id": "blastFoam/mappedBuilding3D::sector/system/fvSchemes"
+      },
+      {
+        "case_path": "blastFoam/mappedBuilding3D",
+        "file_path": "wedge/system/fvSchemes",
+        "canonical_id": "blastFoam/mappedBuilding3D::wedge/system/fvSchemes"
+      },
+      {
+        "case_path": "blastFoam/mappedBuilding3D",
+        "file_path": "building3D/system/fvSchemes",
+        "canonical_id": "blastFoam/mappedBuilding3D::building3D/system/fvSchemes"
+      }
+    ]
+  },
+  {
+    "id": 175,
+    "query": "For the polydisperse shock tube, co-tune time stepping and linear solver controls for stiff multiphase transients.",
+    "description": "For the polydisperse shock tube, co-tune time stepping and linear solver controls for stiff multiphase transients.",
+    "modification": "Adjust controlDict and fvSolution together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "shockTube_polydisperse",
+    "case_name": "r2_shockTubePoly_control_and_solution",
+    "case_path": "blastEulerFoam/shockTube_polydisperse",
+    "case_resolution_candidates": [
+      "blastEulerFoam/shockTube_polydisperse"
+    ],
+    "category": "solver_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastEulerFoam/shockTube_polydisperse",
+        "file_path": "system/controlDict",
+        "canonical_id": "blastEulerFoam/shockTube_polydisperse::system/controlDict"
+      },
+      {
+        "case_path": "blastEulerFoam/shockTube_polydisperse",
+        "file_path": "system/fvSolution",
+        "canonical_id": "blastEulerFoam/shockTube_polydisperse::system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 176,
+    "query": "In shockTube_polydisperse, align discretization and linear solver strategy for better shock robustness.",
+    "description": "In shockTube_polydisperse, align discretization and linear solver strategy for better shock robustness.",
+    "modification": "Co-update fvSchemes and fvSolution.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "shockTube_polydisperse",
+    "case_name": "r2_shockTubePoly_schemes_and_solution",
+    "case_path": "blastEulerFoam/shockTube_polydisperse",
+    "case_resolution_candidates": [
+      "blastEulerFoam/shockTube_polydisperse"
+    ],
+    "category": "numerical_schemes",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastEulerFoam/shockTube_polydisperse",
+        "file_path": "system/fvSchemes",
+        "canonical_id": "blastEulerFoam/shockTube_polydisperse::system/fvSchemes"
+      },
+      {
+        "case_path": "blastEulerFoam/shockTube_polydisperse",
+        "file_path": "system/fvSolution",
+        "canonical_id": "blastEulerFoam/shockTube_polydisperse::system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 177,
+    "query": "Synchronize initial particle-region definition with mesh resolution changes in shockTube_polydisperse.",
+    "description": "Synchronize initial particle-region definition with mesh resolution changes in shockTube_polydisperse.",
+    "modification": "Adjust setFieldsDict and blockMeshDict together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "shockTube_polydisperse",
+    "case_name": "r2_shockTubePoly_setFields_and_mesh",
+    "case_path": "blastEulerFoam/shockTube_polydisperse",
+    "case_resolution_candidates": [
+      "blastEulerFoam/shockTube_polydisperse"
+    ],
+    "category": "mesh",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastEulerFoam/shockTube_polydisperse",
+        "file_path": "system/setFieldsDict",
+        "canonical_id": "blastEulerFoam/shockTube_polydisperse::system/setFieldsDict"
+      },
+      {
+        "case_path": "blastEulerFoam/shockTube_polydisperse",
+        "file_path": "system/blockMeshDict",
+        "canonical_id": "blastEulerFoam/shockTube_polydisperse::system/blockMeshDict"
+      }
+    ]
+  },
+  {
+    "id": 178,
+    "query": "Retune gas-phase and coal-phase turbulence closures together in the polydisperse shock tube case.",
+    "description": "Retune gas-phase and coal-phase turbulence closures together in the polydisperse shock tube case.",
+    "modification": "Update turbulenceProperties.gas and turbulenceProperties.coal.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "shockTube_polydisperse",
+    "case_name": "r2_shockTubePoly_gas_coal_turbulence_pair",
+    "case_path": "blastEulerFoam/shockTube_polydisperse",
+    "case_resolution_candidates": [
+      "blastEulerFoam/shockTube_polydisperse"
+    ],
+    "category": "multiphase",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastEulerFoam/shockTube_polydisperse",
+        "file_path": "constant/turbulenceProperties.gas",
+        "canonical_id": "blastEulerFoam/shockTube_polydisperse::constant/turbulenceProperties.gas"
+      },
+      {
+        "case_path": "blastEulerFoam/shockTube_polydisperse",
+        "file_path": "constant/turbulenceProperties.coal",
+        "canonical_id": "blastEulerFoam/shockTube_polydisperse::constant/turbulenceProperties.coal"
+      }
+    ]
+  },
+  {
+    "id": 179,
+    "query": "Apply coordinated turbulence-model updates for the smallest and largest particle classes in shockTube_polydisperse.",
+    "description": "Apply coordinated turbulence-model updates for the smallest and largest particle classes in shockTube_polydisperse.",
+    "modification": "Update turbulenceProperties.particles0 and turbulenceProperties.particles4.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "shockTube_polydisperse",
+    "case_name": "r2_shockTubePoly_particle_class_turbulence_pair",
+    "case_path": "blastEulerFoam/shockTube_polydisperse",
+    "case_resolution_candidates": [
+      "blastEulerFoam/shockTube_polydisperse"
+    ],
+    "category": "multiphase",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastEulerFoam/shockTube_polydisperse",
+        "file_path": "constant/turbulenceProperties.particles0",
+        "canonical_id": "blastEulerFoam/shockTube_polydisperse::constant/turbulenceProperties.particles0"
+      },
+      {
+        "case_path": "blastEulerFoam/shockTube_polydisperse",
+        "file_path": "constant/turbulenceProperties.particles4",
+        "canonical_id": "blastEulerFoam/shockTube_polydisperse::constant/turbulenceProperties.particles4"
+      }
+    ]
+  },
+  {
+    "id": 180,
+    "query": "Synchronize sampling cadence with runtime horizon in shockTube_polydisperse for consistent diagnostics.",
+    "description": "Synchronize sampling cadence with runtime horizon in shockTube_polydisperse for consistent diagnostics.",
+    "modification": "Co-update sampleDict and controlDict.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "shockTube_polydisperse",
+    "case_name": "r2_shockTubePoly_sampling_and_runtime_pair",
+    "case_path": "blastEulerFoam/shockTube_polydisperse",
+    "case_resolution_candidates": [
+      "blastEulerFoam/shockTube_polydisperse"
+    ],
+    "category": "output_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastEulerFoam/shockTube_polydisperse",
+        "file_path": "system/sampleDict",
+        "canonical_id": "blastEulerFoam/shockTube_polydisperse::system/sampleDict"
+      },
+      {
+        "case_path": "blastEulerFoam/shockTube_polydisperse",
+        "file_path": "system/controlDict",
+        "canonical_id": "blastEulerFoam/shockTube_polydisperse::system/controlDict"
+      }
+    ]
+  },
+  {
+    "id": 181,
+    "query": "For blastFSIFoam building3D, co-tune fluid-region discretization and solver controls.",
+    "description": "For blastFSIFoam building3D, co-tune fluid-region discretization and solver controls.",
+    "modification": "Update system/air/fvSchemes and system/air/fvSolution together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFSIFoam_building3D",
+    "case_name": "r2_fsiBuilding3D_air_schemes_solution",
+    "case_path": "blastFSIFoam/building3D",
+    "case_resolution_candidates": [
+      "blastFSIFoam/building3D"
+    ],
+    "category": "solver_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFSIFoam/building3D",
+        "file_path": "system/air/fvSchemes",
+        "canonical_id": "blastFSIFoam/building3D::system/air/fvSchemes"
+      },
+      {
+        "case_path": "blastFSIFoam/building3D",
+        "file_path": "system/air/fvSolution",
+        "canonical_id": "blastFSIFoam/building3D::system/air/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 182,
+    "query": "For blastFSIFoam building3D, co-tune solid-region discretization and linear-solver settings.",
+    "description": "For blastFSIFoam building3D, co-tune solid-region discretization and linear-solver settings.",
+    "modification": "Update system/building/fvSchemes and system/building/fvSolution together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFSIFoam_building3D",
+    "case_name": "r2_fsiBuilding3D_solid_schemes_solution",
+    "case_path": "blastFSIFoam/building3D",
+    "case_resolution_candidates": [
+      "blastFSIFoam/building3D"
+    ],
+    "category": "solver_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFSIFoam/building3D",
+        "file_path": "system/building/fvSchemes",
+        "canonical_id": "blastFSIFoam/building3D::system/building/fvSchemes"
+      },
+      {
+        "case_path": "blastFSIFoam/building3D",
+        "file_path": "system/building/fvSolution",
+        "canonical_id": "blastFSIFoam/building3D::system/building/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 183,
+    "query": "Align global runtime control and top-level numerics for the coupled building3D FSI setup.",
+    "description": "Align global runtime control and top-level numerics for the coupled building3D FSI setup.",
+    "modification": "Co-update system/controlDict, system/fvSchemes, and system/fvSolution.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFSIFoam_building3D",
+    "case_name": "r2_fsiBuilding3D_global_control_numerics_triplet",
+    "case_path": "blastFSIFoam/building3D",
+    "case_resolution_candidates": [
+      "blastFSIFoam/building3D"
+    ],
+    "category": "time_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFSIFoam/building3D",
+        "file_path": "system/controlDict",
+        "canonical_id": "blastFSIFoam/building3D::system/controlDict"
+      },
+      {
+        "case_path": "blastFSIFoam/building3D",
+        "file_path": "system/fvSchemes",
+        "canonical_id": "blastFSIFoam/building3D::system/fvSchemes"
+      },
+      {
+        "case_path": "blastFSIFoam/building3D",
+        "file_path": "system/fvSolution",
+        "canonical_id": "blastFSIFoam/building3D::system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 184,
+    "query": "Refine fluid initialization and base mesh together for the building3D FSI case.",
+    "description": "Refine fluid initialization and base mesh together for the building3D FSI case.",
+    "modification": "Update system/blockMeshDict and system/air/setFieldsDict together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFSIFoam_building3D",
+    "case_name": "r2_fsiBuilding3D_mesh_and_air_init_pair",
+    "case_path": "blastFSIFoam/building3D",
+    "case_resolution_candidates": [
+      "blastFSIFoam/building3D"
+    ],
+    "category": "mesh",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFSIFoam/building3D",
+        "file_path": "system/blockMeshDict",
+        "canonical_id": "blastFSIFoam/building3D::system/blockMeshDict"
+      },
+      {
+        "case_path": "blastFSIFoam/building3D",
+        "file_path": "system/air/setFieldsDict",
+        "canonical_id": "blastFSIFoam/building3D::system/air/setFieldsDict"
+      }
+    ]
+  },
+  {
+    "id": 185,
+    "query": "Retune structural constitutive behavior together with solid thermophysical settings in building3D FSI.",
+    "description": "Retune structural constitutive behavior together with solid thermophysical settings in building3D FSI.",
+    "modification": "Update constant/building/mechanicalProperties and constant/building/thermophysicalProperties.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFSIFoam_building3D",
+    "case_name": "r2_fsiBuilding3D_mechanical_thermo_pair",
+    "case_path": "blastFSIFoam/building3D",
+    "case_resolution_candidates": [
+      "blastFSIFoam/building3D"
+    ],
+    "category": "structural_mechanics",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFSIFoam/building3D",
+        "file_path": "constant/building/mechanicalProperties",
+        "canonical_id": "blastFSIFoam/building3D::constant/building/mechanicalProperties"
+      },
+      {
+        "case_path": "blastFSIFoam/building3D",
+        "file_path": "constant/building/thermophysicalProperties",
+        "canonical_id": "blastFSIFoam/building3D::constant/building/thermophysicalProperties"
+      }
+    ]
+  },
+  {
+    "id": 186,
+    "query": "Co-adjust fluid material and turbulence models in the building3D FSI air region.",
+    "description": "Co-adjust fluid material and turbulence models in the building3D FSI air region.",
+    "modification": "Update constant/air/phaseProperties and constant/air/turbulenceProperties together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFSIFoam_building3D",
+    "case_name": "r2_fsiBuilding3D_air_phase_turbulence_pair",
+    "case_path": "blastFSIFoam/building3D",
+    "case_resolution_candidates": [
+      "blastFSIFoam/building3D"
+    ],
+    "category": "physics_models",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFSIFoam/building3D",
+        "file_path": "constant/air/phaseProperties",
+        "canonical_id": "blastFSIFoam/building3D::constant/air/phaseProperties"
+      },
+      {
+        "case_path": "blastFSIFoam/building3D",
+        "file_path": "constant/air/turbulenceProperties",
+        "canonical_id": "blastFSIFoam/building3D::constant/air/turbulenceProperties"
+      }
+    ]
+  },
+  {
+    "id": 187,
+    "query": "For blastFSIFoam flap, co-tune fluid-region discretization and linear solvers.",
+    "description": "For blastFSIFoam flap, co-tune fluid-region discretization and linear solvers.",
+    "modification": "Update system/air/fvSchemes and system/air/fvSolution.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFSIFoam_flap",
+    "case_name": "r2_fsiFlap_air_schemes_solution",
+    "case_path": "blastFSIFoam/flap",
+    "case_resolution_candidates": [
+      "blastFSIFoam/flap"
+    ],
+    "category": "solver_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFSIFoam/flap",
+        "file_path": "system/air/fvSchemes",
+        "canonical_id": "blastFSIFoam/flap::system/air/fvSchemes"
+      },
+      {
+        "case_path": "blastFSIFoam/flap",
+        "file_path": "system/air/fvSolution",
+        "canonical_id": "blastFSIFoam/flap::system/air/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 188,
+    "query": "For blastFSIFoam flap, co-tune solid flap discretization and linear solver settings.",
+    "description": "For blastFSIFoam flap, co-tune solid flap discretization and linear solver settings.",
+    "modification": "Update system/flap/fvSchemes and system/flap/fvSolution.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFSIFoam_flap",
+    "case_name": "r2_fsiFlap_solid_schemes_solution",
+    "case_path": "blastFSIFoam/flap",
+    "case_resolution_candidates": [
+      "blastFSIFoam/flap"
+    ],
+    "category": "solver_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFSIFoam/flap",
+        "file_path": "system/flap/fvSchemes",
+        "canonical_id": "blastFSIFoam/flap::system/flap/fvSchemes"
+      },
+      {
+        "case_path": "blastFSIFoam/flap",
+        "file_path": "system/flap/fvSolution",
+        "canonical_id": "blastFSIFoam/flap::system/flap/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 189,
+    "query": "Refine both fluid and solid block meshes in the FSI flap benchmark for interface consistency.",
+    "description": "Refine both fluid and solid block meshes in the FSI flap benchmark for interface consistency.",
+    "modification": "Update system/air/blockMeshDict and system/flap/blockMeshDict.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFSIFoam_flap",
+    "case_name": "r2_fsiFlap_air_solid_mesh_pair",
+    "case_path": "blastFSIFoam/flap",
+    "case_resolution_candidates": [
+      "blastFSIFoam/flap"
+    ],
+    "category": "mesh",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFSIFoam/flap",
+        "file_path": "system/air/blockMeshDict",
+        "canonical_id": "blastFSIFoam/flap::system/air/blockMeshDict"
+      },
+      {
+        "case_path": "blastFSIFoam/flap",
+        "file_path": "system/flap/blockMeshDict",
+        "canonical_id": "blastFSIFoam/flap::system/flap/blockMeshDict"
+      }
+    ]
+  },
+  {
+    "id": 190,
+    "query": "Align global, fluid, and solid decomposition settings for large parallel FSI flap runs.",
+    "description": "Align global, fluid, and solid decomposition settings for large parallel FSI flap runs.",
+    "modification": "Co-update system/decomposeParDict, system/air/decomposeParDict, and system/flap/decomposeParDict.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFSIFoam_flap",
+    "case_name": "r2_fsiFlap_parallel_decomposition_triplet",
+    "case_path": "blastFSIFoam/flap",
+    "case_resolution_candidates": [
+      "blastFSIFoam/flap"
+    ],
+    "category": "solver_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFSIFoam/flap",
+        "file_path": "system/decomposeParDict",
+        "canonical_id": "blastFSIFoam/flap::system/decomposeParDict"
+      },
+      {
+        "case_path": "blastFSIFoam/flap",
+        "file_path": "system/air/decomposeParDict",
+        "canonical_id": "blastFSIFoam/flap::system/air/decomposeParDict"
+      },
+      {
+        "case_path": "blastFSIFoam/flap",
+        "file_path": "system/flap/decomposeParDict",
+        "canonical_id": "blastFSIFoam/flap::system/flap/decomposeParDict"
+      }
+    ]
+  },
+  {
+    "id": 191,
+    "query": "Co-adjust air material and turbulence closures in the FSI flap fluid region.",
+    "description": "Co-adjust air material and turbulence closures in the FSI flap fluid region.",
+    "modification": "Update constant/air/phaseProperties and constant/air/turbulenceProperties.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFSIFoam_flap",
+    "case_name": "r2_fsiFlap_air_phase_turbulence_pair",
+    "case_path": "blastFSIFoam/flap",
+    "case_resolution_candidates": [
+      "blastFSIFoam/flap"
+    ],
+    "category": "physics_models",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFSIFoam/flap",
+        "file_path": "constant/air/phaseProperties",
+        "canonical_id": "blastFSIFoam/flap::constant/air/phaseProperties"
+      },
+      {
+        "case_path": "blastFSIFoam/flap",
+        "file_path": "constant/air/turbulenceProperties",
+        "canonical_id": "blastFSIFoam/flap::constant/air/turbulenceProperties"
+      }
+    ]
+  },
+  {
+    "id": 192,
+    "query": "Retune flap constitutive mechanics jointly with flap thermophysical settings in FSI flap.",
+    "description": "Retune flap constitutive mechanics jointly with flap thermophysical settings in FSI flap.",
+    "modification": "Update constant/flap/mechanicalProperties and constant/flap/thermophysicalProperties.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFSIFoam_flap",
+    "case_name": "r2_fsiFlap_mechanical_thermo_pair",
+    "case_path": "blastFSIFoam/flap",
+    "case_resolution_candidates": [
+      "blastFSIFoam/flap"
+    ],
+    "category": "structural_mechanics",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFSIFoam/flap",
+        "file_path": "constant/flap/mechanicalProperties",
+        "canonical_id": "blastFSIFoam/flap::constant/flap/mechanicalProperties"
+      },
+      {
+        "case_path": "blastFSIFoam/flap",
+        "file_path": "constant/flap/thermophysicalProperties",
+        "canonical_id": "blastFSIFoam/flap::constant/flap/thermophysicalProperties"
+      }
+    ]
+  },
+  {
+    "id": 193,
+    "query": "In burstingWindow_workshop, co-update baffle creation and topological selection for window cuts.",
+    "description": "In burstingWindow_workshop, co-update baffle creation and topological selection for window cuts.",
+    "modification": "Update createBafflesDict and topoSetDict together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "burstingWindow_workshop",
+    "case_name": "r2_burstingWindow_baffles_toposet_pair",
+    "case_path": "blastFoam/burstingWindow_workshop",
+    "case_resolution_candidates": [
+      "blastFoam/burstingWindow_workshop"
+    ],
+    "category": "mesh",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/burstingWindow_workshop",
+        "file_path": "system/createBafflesDict",
+        "canonical_id": "blastFoam/burstingWindow_workshop::system/createBafflesDict"
+      },
+      {
+        "case_path": "blastFoam/burstingWindow_workshop",
+        "file_path": "system/topoSetDict",
+        "canonical_id": "blastFoam/burstingWindow_workshop::system/topoSetDict"
+      }
+    ]
+  },
+  {
+    "id": 194,
+    "query": "Increase geometry-meshing fidelity by co-tuning snappy and feature-extraction settings in burstingWindow_workshop.",
+    "description": "Increase geometry-meshing fidelity by co-tuning snappy and feature-extraction settings in burstingWindow_workshop.",
+    "modification": "Update snappyHexMeshDict and surfaceFeaturesDict together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "burstingWindow_workshop",
+    "case_name": "r2_burstingWindow_snappy_surface_features_pair",
+    "case_path": "blastFoam/burstingWindow_workshop",
+    "case_resolution_candidates": [
+      "blastFoam/burstingWindow_workshop"
+    ],
+    "category": "mesh",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/burstingWindow_workshop",
+        "file_path": "system/snappyHexMeshDict",
+        "canonical_id": "blastFoam/burstingWindow_workshop::system/snappyHexMeshDict"
+      },
+      {
+        "case_path": "blastFoam/burstingWindow_workshop",
+        "file_path": "system/surfaceFeaturesDict",
+        "canonical_id": "blastFoam/burstingWindow_workshop::system/surfaceFeaturesDict"
+      }
+    ]
+  },
+  {
+    "id": 195,
+    "query": "Stabilize burstingWindow_workshop by jointly tuning discretization schemes and solver settings.",
+    "description": "Stabilize burstingWindow_workshop by jointly tuning discretization schemes and solver settings.",
+    "modification": "Co-update fvSchemes and fvSolution.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "burstingWindow_workshop",
+    "case_name": "r2_burstingWindow_schemes_solution_pair",
+    "case_path": "blastFoam/burstingWindow_workshop",
+    "case_resolution_candidates": [
+      "blastFoam/burstingWindow_workshop"
+    ],
+    "category": "numerical_schemes",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/burstingWindow_workshop",
+        "file_path": "system/fvSchemes",
+        "canonical_id": "blastFoam/burstingWindow_workshop::system/fvSchemes"
+      },
+      {
+        "case_path": "blastFoam/burstingWindow_workshop",
+        "file_path": "system/fvSolution",
+        "canonical_id": "blastFoam/burstingWindow_workshop::system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 196,
+    "query": "Relocate the explosive initialization and keep alpha initialization consistent in burstingWindow_workshop.",
+    "description": "Relocate the explosive initialization and keep alpha initialization consistent in burstingWindow_workshop.",
+    "modification": "Update setFieldsDict and 0/alpha.c4.orig.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "burstingWindow_workshop",
+    "case_name": "r2_burstingWindow_setFields_alpha_pair",
+    "case_path": "blastFoam/burstingWindow_workshop",
+    "case_resolution_candidates": [
+      "blastFoam/burstingWindow_workshop"
+    ],
+    "category": "initial_conditions",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/burstingWindow_workshop",
+        "file_path": "system/setFieldsDict",
+        "canonical_id": "blastFoam/burstingWindow_workshop::system/setFieldsDict"
+      },
+      {
+        "case_path": "blastFoam/burstingWindow_workshop",
+        "file_path": "0/alpha.c4.orig",
+        "canonical_id": "blastFoam/burstingWindow_workshop::0/alpha.c4.orig"
+      }
+    ]
+  },
+  {
+    "id": 197,
+    "query": "Synchronize runtime control and parallel decomposition strategy in burstingWindow_workshop.",
+    "description": "Synchronize runtime control and parallel decomposition strategy in burstingWindow_workshop.",
+    "modification": "Update controlDict and decomposeParDict together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "burstingWindow_workshop",
+    "case_name": "r2_burstingWindow_control_decompose_pair",
+    "case_path": "blastFoam/burstingWindow_workshop",
+    "case_resolution_candidates": [
+      "blastFoam/burstingWindow_workshop"
+    ],
+    "category": "time_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/burstingWindow_workshop",
+        "file_path": "system/controlDict",
+        "canonical_id": "blastFoam/burstingWindow_workshop::system/controlDict"
+      },
+      {
+        "case_path": "blastFoam/burstingWindow_workshop",
+        "file_path": "system/decomposeParDict",
+        "canonical_id": "blastFoam/burstingWindow_workshop::system/decomposeParDict"
+      }
+    ]
+  },
+  {
+    "id": 198,
+    "query": "For internalDetonation, jointly tune discretization schemes and solver controls for stronger shocks.",
+    "description": "For internalDetonation, jointly tune discretization schemes and solver controls for stronger shocks.",
+    "modification": "Co-update fvSchemes and fvSolution.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "internalDetonation",
+    "case_name": "r2_internalDetonation_schemes_solution_pair",
+    "case_path": "blastFoam/internalDetonation/internalDetonation",
+    "case_resolution_candidates": [
+      "blastFoam/internalDetonation/internalDetonation"
+    ],
+    "category": "numerical_schemes",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/internalDetonation/internalDetonation",
+        "file_path": "system/fvSchemes",
+        "canonical_id": "blastFoam/internalDetonation/internalDetonation::system/fvSchemes"
+      },
+      {
+        "case_path": "blastFoam/internalDetonation/internalDetonation",
+        "file_path": "system/fvSolution",
+        "canonical_id": "blastFoam/internalDetonation/internalDetonation::system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 199,
+    "query": "Improve internalDetonation mesh quality by co-adjusting base mesh and dynamic refinement controls.",
+    "description": "Improve internalDetonation mesh quality by co-adjusting base mesh and dynamic refinement controls.",
+    "modification": "Update blockMeshDict and dynamicMeshDict.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "internalDetonation",
+    "case_name": "r2_internalDetonation_block_dynamic_mesh_pair",
+    "case_path": "blastFoam/internalDetonation/internalDetonation",
+    "case_resolution_candidates": [
+      "blastFoam/internalDetonation/internalDetonation"
+    ],
+    "category": "mesh",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/internalDetonation/internalDetonation",
+        "file_path": "system/blockMeshDict",
+        "canonical_id": "blastFoam/internalDetonation/internalDetonation::system/blockMeshDict"
+      },
+      {
+        "case_path": "blastFoam/internalDetonation/internalDetonation",
+        "file_path": "constant/dynamicMeshDict",
+        "canonical_id": "blastFoam/internalDetonation/internalDetonation::constant/dynamicMeshDict"
+      }
+    ]
+  },
+  {
+    "id": 200,
+    "query": "Move charge initialization and keep explosive alpha initialization aligned in internalDetonation.",
+    "description": "Move charge initialization and keep explosive alpha initialization aligned in internalDetonation.",
+    "modification": "Update setFieldsDict and 0/alpha.c4.orig together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "internalDetonation",
+    "case_name": "r2_internalDetonation_setFields_alpha_pair",
+    "case_path": "blastFoam/internalDetonation/internalDetonation",
+    "case_resolution_candidates": [
+      "blastFoam/internalDetonation/internalDetonation"
+    ],
+    "category": "initial_conditions",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/internalDetonation/internalDetonation",
+        "file_path": "system/setFieldsDict",
+        "canonical_id": "blastFoam/internalDetonation/internalDetonation::system/setFieldsDict"
+      },
+      {
+        "case_path": "blastFoam/internalDetonation/internalDetonation",
+        "file_path": "0/alpha.c4.orig",
+        "canonical_id": "blastFoam/internalDetonation/internalDetonation::0/alpha.c4.orig"
+      }
+    ]
+  },
+  {
+    "id": 201,
+    "query": "Synchronize runtime horizon and decomposition settings in internalDetonation for longer parallel runs.",
+    "description": "Synchronize runtime horizon and decomposition settings in internalDetonation for longer parallel runs.",
+    "modification": "Update controlDict and fvSolution together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "internalDetonation",
+    "case_name": "r2_internalDetonation_control_solution_pair",
+    "case_path": "blastFoam/internalDetonation/internalDetonation",
+    "case_resolution_candidates": [
+      "blastFoam/internalDetonation/internalDetonation"
+    ],
+    "category": "time_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/internalDetonation/internalDetonation",
+        "file_path": "system/controlDict",
+        "canonical_id": "blastFoam/internalDetonation/internalDetonation::system/controlDict"
+      },
+      {
+        "case_path": "blastFoam/internalDetonation/internalDetonation",
+        "file_path": "system/fvSolution",
+        "canonical_id": "blastFoam/internalDetonation/internalDetonation::system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 202,
+    "query": "For blastFoam reacting, co-adjust chemistry integration settings and reaction mechanism definitions.",
+    "description": "For blastFoam reacting, co-adjust chemistry integration settings and reaction mechanism definitions.",
+    "modification": "Update chemistryProperties and reactions together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFoam_reacting",
+    "case_name": "r2_blastFoamReacting_chemistry_reactions_pair",
+    "case_path": "blastFoam/reacting",
+    "case_resolution_candidates": [
+      "blastFoam/reacting"
+    ],
+    "category": "combustion",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/reacting",
+        "file_path": "constant/chemistryProperties",
+        "canonical_id": "blastFoam/reacting::constant/chemistryProperties"
+      },
+      {
+        "case_path": "blastFoam/reacting",
+        "file_path": "constant/reactions",
+        "canonical_id": "blastFoam/reacting::constant/reactions"
+      }
+    ]
+  },
+  {
+    "id": 203,
+    "query": "Retune thermodynamic and momentum-transport models jointly in blastFoam reacting.",
+    "description": "Retune thermodynamic and momentum-transport models jointly in blastFoam reacting.",
+    "modification": "Update thermo.compressibleGas and momentumTransport together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFoam_reacting",
+    "case_name": "r2_blastFoamReacting_thermo_momentum_pair",
+    "case_path": "blastFoam/reacting",
+    "case_resolution_candidates": [
+      "blastFoam/reacting"
+    ],
+    "category": "physics_models",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/reacting",
+        "file_path": "constant/thermo.compressibleGas",
+        "canonical_id": "blastFoam/reacting::constant/thermo.compressibleGas"
+      },
+      {
+        "case_path": "blastFoam/reacting",
+        "file_path": "constant/momentumTransport",
+        "canonical_id": "blastFoam/reacting::constant/momentumTransport"
+      }
+    ]
+  },
+  {
+    "id": 204,
+    "query": "Improve numerical robustness for blastFoam reacting by jointly tuning schemes and solvers.",
+    "description": "Improve numerical robustness for blastFoam reacting by jointly tuning schemes and solvers.",
+    "modification": "Co-update fvSchemes and fvSolution.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFoam_reacting",
+    "case_name": "r2_blastFoamReacting_schemes_solution_pair",
+    "case_path": "blastFoam/reacting",
+    "case_resolution_candidates": [
+      "blastFoam/reacting"
+    ],
+    "category": "solver_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/reacting",
+        "file_path": "system/fvSchemes",
+        "canonical_id": "blastFoam/reacting::system/fvSchemes"
+      },
+      {
+        "case_path": "blastFoam/reacting",
+        "file_path": "system/fvSolution",
+        "canonical_id": "blastFoam/reacting::system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 205,
+    "query": "Keep ignition-region setup and default species initialization consistent in blastFoam reacting.",
+    "description": "Keep ignition-region setup and default species initialization consistent in blastFoam reacting.",
+    "modification": "Update setFieldsDict and 0/Ydefault together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "blastFoam_reacting",
+    "case_name": "r2_blastFoamReacting_setFields_species_default_pair",
+    "case_path": "blastFoam/reacting",
+    "case_resolution_candidates": [
+      "blastFoam/reacting"
+    ],
+    "category": "initial_conditions",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "blastFoam/reacting",
+        "file_path": "system/setFieldsDict",
+        "canonical_id": "blastFoam/reacting::system/setFieldsDict"
+      },
+      {
+        "case_path": "blastFoam/reacting",
+        "file_path": "0/Ydefault",
+        "canonical_id": "blastFoam/reacting::0/Ydefault"
+      }
+    ]
+  },
+  {
+    "id": 206,
+    "query": "For initializeAtmosphere, co-adjust atmospheric profile settings and initialization regions.",
+    "description": "For initializeAtmosphere, co-adjust atmospheric profile settings and initialization regions.",
+    "modification": "Update atmosphereProperties and setFieldsDict together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "initializeAtmosphere",
+    "case_name": "r2_initializeAtmosphere_profile_setFields_pair",
+    "case_path": "initializeAtmosphere",
+    "case_resolution_candidates": [
+      "initializeAtmosphere"
+    ],
+    "category": "initial_conditions",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "initializeAtmosphere",
+        "file_path": "system/atmosphereProperties",
+        "canonical_id": "initializeAtmosphere::system/atmosphereProperties"
+      },
+      {
+        "case_path": "initializeAtmosphere",
+        "file_path": "system/setFieldsDict",
+        "canonical_id": "initializeAtmosphere::system/setFieldsDict"
+      }
+    ]
+  },
+  {
+    "id": 207,
+    "query": "Increase preprocessing consistency in initializeAtmosphere by co-updating mesh and patch definitions.",
+    "description": "Increase preprocessing consistency in initializeAtmosphere by co-updating mesh and patch definitions.",
+    "modification": "Update blockMeshDict and createPatchDict together.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "initializeAtmosphere",
+    "case_name": "r2_initializeAtmosphere_mesh_patch_pair",
+    "case_path": "initializeAtmosphere",
+    "case_resolution_candidates": [
+      "initializeAtmosphere"
+    ],
+    "category": "mesh",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "initializeAtmosphere",
+        "file_path": "system/blockMeshDict",
+        "canonical_id": "initializeAtmosphere::system/blockMeshDict"
+      },
+      {
+        "case_path": "initializeAtmosphere",
+        "file_path": "system/createPatchDict",
+        "canonical_id": "initializeAtmosphere::system/createPatchDict"
+      }
+    ]
+  },
+  {
+    "id": 208,
+    "query": "Stabilize initializeAtmosphere runtime by tuning control and solver settings together.",
+    "description": "Stabilize initializeAtmosphere runtime by tuning control and solver settings together.",
+    "modification": "Co-update controlDict and fvSolution.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "initializeAtmosphere",
+    "case_name": "r2_initializeAtmosphere_control_solution_pair",
+    "case_path": "initializeAtmosphere",
+    "case_resolution_candidates": [
+      "initializeAtmosphere"
+    ],
+    "category": "time_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "initializeAtmosphere",
+        "file_path": "system/controlDict",
+        "canonical_id": "initializeAtmosphere::system/controlDict"
+      },
+      {
+        "case_path": "initializeAtmosphere",
+        "file_path": "system/fvSolution",
+        "canonical_id": "initializeAtmosphere::system/fvSolution"
+      }
+    ]
+  },
+  {
+    "id": 209,
+    "query": "For preCICE flap fluid, co-tune coupling dictionary and runtime controls for stable partitioned interaction.",
+    "description": "For preCICE flap fluid, co-tune coupling dictionary and runtime controls for stable partitioned interaction.",
+    "modification": "Update Fluid/system/preciceDict and Fluid/system/controlDict.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "preCICE_flap",
+    "case_name": "r2_preCICEFlap_precice_control_pair",
+    "case_path": "preCICE/flap",
+    "case_resolution_candidates": [
+      "preCICE/flap"
+    ],
+    "category": "physics_models",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "preCICE/flap",
+        "file_path": "Fluid/system/preciceDict",
+        "canonical_id": "preCICE/flap::Fluid/system/preciceDict"
+      },
+      {
+        "case_path": "preCICE/flap",
+        "file_path": "Fluid/system/controlDict",
+        "canonical_id": "preCICE/flap::Fluid/system/controlDict"
+      }
+    ]
+  },
+  {
+    "id": 210,
+    "query": "For preCICE flap fluid, jointly tune schemes, solver settings, and turbulence closure.",
+    "description": "For preCICE flap fluid, jointly tune schemes, solver settings, and turbulence closure.",
+    "modification": "Co-update Fluid/system/fvSchemes, Fluid/system/fvSolution, and Fluid/constant/turbulenceProperties.",
+    "difficulty": "advanced",
+    "source_dataset": "manual_strict_expansion_round2_20260407.json",
+    "source_case_alias": "preCICE_flap",
+    "case_name": "r2_preCICEFlap_schemes_solution_turbulence_triplet",
+    "case_path": "preCICE/flap",
+    "case_resolution_candidates": [
+      "preCICE/flap"
+    ],
+    "category": "solver_control",
+    "correction_note": null,
+    "target_files": [
+      {
+        "case_path": "preCICE/flap",
+        "file_path": "Fluid/system/fvSchemes",
+        "canonical_id": "preCICE/flap::Fluid/system/fvSchemes"
+      },
+      {
+        "case_path": "preCICE/flap",
+        "file_path": "Fluid/system/fvSolution",
+        "canonical_id": "preCICE/flap::Fluid/system/fvSolution"
+      },
+      {
+        "case_path": "preCICE/flap",
+        "file_path": "Fluid/constant/turbulenceProperties",
+        "canonical_id": "preCICE/flap::Fluid/constant/turbulenceProperties"
+      }
+    ]
   }
 ]

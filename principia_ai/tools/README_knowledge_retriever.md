@@ -1,46 +1,28 @@
-# 知识检索工具
+# Knowledge Retrievers
 
-本项目包含两个知识检索工具，用于从BlastFoam的文档和教程中提取信息。这些工具利用大型语言模型（LLM）和知识图谱来理解用户查询并返回最相关的信息。
+本目录中的知识检索工具目前分为两类：
 
-## 1. 用户手册知识检索工具 (`UserGuideKnowledgeGraphRetriever`)
+- `UserGuideKnowledgeGraphRetriever`: 面向 BlastFoam 用户手册的分层检索
+- `CaseContentKnowledgeGraphRetriever`: 面向 tutorial 案例内容的全局检索
 
-这是一个用于从BlastFoam官方文档中检索相关信息的分层知识检索工具。它旨在帮助用户快速定位文档中的具体章节和内容。
+## 代码入口
 
-### 实现方式
+- 用户手册检索: `principia_ai/tools/user_guide_knowledge_graph_tool.py`
+- 案例内容检索: `principia_ai/tools/case_content_knowledge_graph_tool.py`
+- retrieval LLM 配置解析: `principia_ai/tools/retrieval_llm_config.py`
 
-该工具采用多层次检索策略，逐步缩小信息范围，以提高检索的准确性：
+## 详细文档
 
-1.  **预处理**: 依赖于预先生成的简化索引文件，该文件包含章节、标题等元数据，用于快速进行初次筛选。
-2.  **第一层检索 (章节识别)**: 根据用户查询，利用LLM从简化索引中识别相关的顶层章节。
-3.  **第二层检索 (小节识别)**: 在已识别的章节范围内，进一步定位到更具体的相关小节。
-4.  **第三层检索 (子小节识别)**: 在小节内部继续检索，找到最精确的子小节。
-5.  **内容获取**: 从完整的知识图谱文件中获取目标节点的完整内容并返回给用户。
+- 用户手册检索方法: `docs/检索方法/用户手册知识检索技术文档.md`
+- 案例内容检索方法: `docs/检索方法/案例内容知识检索技术文档.md`
+- 检索基线评测入口: `experiments/retrieval_method/README.md`
 
-### 数据文件
+## Retrieval LLM 配置优先级
 
-该工具依赖以下两个JSON文件：
+案例内容检索相关工具使用以下优先级解析模型配置：
 
-1.  `data/knowledge_graph/user_guide_knowledge_graph/user_guide_knowledge_graph.json`: 包含完整知识的JSON文件。
-2.  `data/knowledge_graph/user_guide_knowledge_graph/simplified_user_guide_knowledge_graph.json`: 只包含章节、标题等元数据的简化JSON文件，用于快速初始筛选。
+1. 显式传参
+2. `RETRIEVAL_LLM_*`
+3. `LLM_*`
 
-## 2. 案例内容知识检索工具 (`CaseContentKnowledgeGraphRetriever`)
-
-这是一个用于从BlastFoam教程案例的知识图谱中检索信息的工具。它可以帮助用户根据需求找到相关的教程案例、求解器、关键概念以及具体的参数设置和文件内容。
-
-### 实现方式
-
-该工具采用基于 LLM 的 ReAct (Reasoning + Acting) 代理模式，能够智能地在知识图谱中进行探索和检索：
-
-1.  **ReAct 代理循环**: 工具初始化一个智能代理，该代理根据用户查询和当前观察到的信息，动态决定下一步行动。
-2.  **可用工具**:
-    *   `search_nodes`: 根据生成的搜索策略（包含节点标签、属性过滤、关键词等）在知识图谱中搜索相关节点。
-    *   `inspect_nodes`: 查看特定节点的详细信息，包括属性和关联的文件内容。
-    *   `finish`: 结束检索并返回最终答案。
-3.  **动态探索**: 代理可以多次执行搜索和查看操作，逐步缩小范围并验证信息，直到找到用户所需的准确内容。
-4.  **内容获取与增强**: 工具不仅返回节点信息，还会自动读取并包含相关文件的实际内容（如 `controlDict` 或 `fvSolution` 的片段），并提供所属案例的上下文信息。
-
-### 数据文件
-
-该工具使用以下目录下的知识图谱文件：
-
-1.  `data/knowledge_graph/case_content_knowledge_graph/`: 该目录包含从BlastFoam教程案例中提取的知识图谱数据。
+这样可以让检索方法与主工作流智能体使用不同的模型与服务地址。

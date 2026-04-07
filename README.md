@@ -91,6 +91,8 @@ PrincipiaBlastFoam/
 *   [Quick Start Guide](QUICKSTART.md)
 *   [Multi-Agent System Design (ReAct Architecture)](docs/MULTI_AGENT_DESIGN.md)
 *   [Quantitative Metrics Implementation](docs/量化指标实现方案.md)
+*   [Retrieval Evaluation Guide](experiments/retrieval_method/README.md)
+*   [Case Content Retrieval Method](docs/检索方法/案例内容知识检索技术文档.md)
 
 ## 🤝 Contribution
 

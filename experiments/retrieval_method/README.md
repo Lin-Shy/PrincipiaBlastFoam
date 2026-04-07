@@ -1,266 +1,196 @@
-# Retrieval Methods Evaluation
+# Retrieval Method Evaluation
 
-This directory contains evaluation scripts for testing and comparing different retrieval methods used in the PrincipiaBlastFoam project.
+本目录是当前检索基线评测的唯一入口说明。
 
-## Overview
+所有在用的评测脚本都基于全 tutorial 范围的 strict 检索基准，按精确的 `case_path::file_path` 进行打分，不再使用旧的“只看相对文件路径”的 case 内局部评测口径。
 
-The evaluation framework tests two main retrieval approaches:
-1. **Embedding-Based Retrieval**: Uses vector embeddings and FAISS for semantic search
-   - **File-level (Default)**: Searches all individual files within cases for precise matching
-   - Case-level (Optional): Searches README files of OpenFOAM tutorial cases for case-level overview
-2. **Knowledge Graph-Based Retrieval**: Uses a structured knowledge graph of case content with LLM-generated search strategies
+## 当前口径
 
-**Note**: The default embedding evaluation uses **file-level** retrieval for better precision and coverage.
+- 权威数据集: `dataset/retrieval/blastfoam_retrieval_validation_dataset_strict.json`
+- 评测单元: `case_path::file_path`
+- 当前数据规模: `210` 条查询
+- 结果目录: `experiments/retrieval_method/results/`
+- 推荐运行环境: `graph-py310`
 
-## Files
+## 目录结构
 
-- `evaluate_embedding_retriever.py` - Evaluates embedding-based retrieval methods
-- `evaluate_knowledge_graph_retriever.py` - Evaluates knowledge graph-based retrieval
-- `compare_retrievers.py` - Compares performance across all methods
-- `results/` - Directory where evaluation results are saved
+- `evaluate_embedding_retriever.py`: strict embedding 基线评测
+- `evaluate_knowledge_graph_retriever.py`: strict KG 基线评测
+- `compare_retrievers.py`: 对比多个结果文件的聚合指标
+- `analyze_failures.py`: 对单个结果文件做失败案例分析
+- `evaluation_common.py`: 评测公共逻辑
 
-## Prerequisites
+## 前置条件
 
-1. **Environment Setup**: Ensure your `.env` file contains:
-   ```
-   BLASTFOAM_TUTORIALS=/path/to/openfoam/tutorials
-   EMBEDDING_API_KEY=your_api_key
-   EMBEDDING_API_BASE_URL=your_api_base_url
-   EMBEDDING_MODEL=text-embedding-v3
-   LLM_API_KEY=your_llm_api_key
-   LLM_API_BASE_URL=your_llm_base_url
-   LLM_MODEL=your_agent_model
-   RETRIEVAL_LLM_API_KEY=optional_retrieval_api_key
-   RETRIEVAL_LLM_API_BASE_URL=optional_retrieval_base_url
-   RETRIEVAL_LLM_MODEL=optional_retrieval_model
-   ```
+### 1. 运行环境
 
-2. **Validation Dataset**: The evaluation uses the BlastFOAM retrieval validation dataset located at:
-   ```
-   dataset/retrieval/blastfoam_retrieval_validation_dataset.json
-   ```
-
-3. **For Embedding-Based Retrieval**: Build the FAISS indexes first:
-   ```bash
-   python principia_ai/tools/build_embedding_index.py
-   ```
-
-4. **For Knowledge Graph Retrieval**: Ensure the knowledge graph data exists at:
-   ```
-   data/knowledge_graph/case_content_knowledge_graph/
-   ```
-
-## Usage
-
-### 1. Evaluate Embedding-Based Retrieval
+请在 `graph-py310` 环境中运行，并保证项目根目录下 `.env` 至少包含以下配置：
 
 ```bash
-# Evaluate file-level embedding retrieval (default - searches all files)
-python experiments/evaluate_embedding_retriever.py
+BLASTFOAM_TUTORIALS=/path/to/blastFoam_tutorials
+
+EMBEDDING_API_KEY=...
+EMBEDDING_API_BASE_URL=...
+EMBEDDING_MODEL=text-embedding-v3
+
+LLM_API_KEY=...
+LLM_API_BASE_URL=...
+LLM_MODEL=...
+
+RETRIEVAL_LLM_API_KEY=...
+RETRIEVAL_LLM_API_BASE_URL=...
+RETRIEVAL_LLM_MODEL=...
+
+# KG 检索 ReAct 最大迭代轮数（默认 3）
+KG_RETRIEVAL_MAX_ITERATIONS=3
 ```
 
-This script will:
-- Load the validation dataset (120 test queries)
-- Initialize the **file-level** embedding retriever (searches all files for precise matching)
-- Evaluate each query and calculate metrics
-- Save detailed results to `experiments/results/`
-- Optionally evaluate case-level retrieval (README only)
+说明：
 
-**Metrics Calculated:**
-- Hit@K: Whether target file appears in top-K results
-- MRR (Mean Reciprocal Rank): Average of 1/rank for first correct result
-- Precision@K: Proportion of relevant files in top-K
-- Recall@K: Proportion of target files found in top-K
-- Performance by difficulty (basic/intermediate/advanced)
-- Performance by category (20 query categories)
+- embedding 基线读取 `EMBEDDING_*`
+- KG 检索优先读取 `RETRIEVAL_LLM_*`
+- 如果未提供 `RETRIEVAL_LLM_*`，KG 检索会回退到 `LLM_*`
 
-### 2. Evaluate Knowledge Graph Retrieval
+### 2. 数据与索引
+
+- strict 数据集已位于 `dataset/retrieval/`
+- case content knowledge graph 位于 `data/knowledge_graph/case_content_knowledge_graph/`
+- embedding 基线需要先构建 FAISS 索引
+
+构建 embedding 索引：
 
 ```bash
-# Evaluate knowledge graph-based retrieval
-python experiments/evaluate_knowledge_graph_retriever.py
+python scripts/native_embedding/build_embedding_index.py
 ```
 
-If you want retrieval to use a different LLM from the main agent, you can either
-set `RETRIEVAL_LLM_*` in `.env` or pass them explicitly:
+## 运行方式
+
+### 1. Embedding 基线
+
+默认评测 file-level embedding 检索：
 
 ```bash
-python experiments/evaluate_knowledge_graph_retriever.py \
+python experiments/retrieval_method/evaluate_embedding_retriever.py \
+  --tutorials-dir "$BLASTFOAM_TUTORIALS"
+```
+
+常用参数：
+
+- `--embedding-level file|case`: 选择文件级或案例级索引，默认 `file`
+- `--search-k 40`: strict 去重前的候选数
+- `--k-values 1,3,5,10`: 评测的 K 值
+- `--limit N`: 只跑前 N 条，便于快速冒烟
+- `--results-dir ...`: 自定义结果输出目录
+
+### 2. Knowledge Graph 基线
+
+```bash
+python experiments/retrieval_method/evaluate_knowledge_graph_retriever.py \
+  --tutorials-dir "$BLASTFOAM_TUTORIALS"
+```
+
+如果希望检索方法使用与主工作流不同的 LLM，可以显式传 retrieval LLM 参数：
+
+```bash
+python experiments/retrieval_method/evaluate_knowledge_graph_retriever.py \
+  --tutorials-dir "$BLASTFOAM_TUTORIALS" \
   --retrieval-llm-base-url https://dashscope.aliyuncs.com/compatible-mode/v1 \
   --retrieval-llm-model qwen-plus
 ```
 
-This script will:
-- Load the validation dataset
-- Initialize the knowledge graph retriever
-- Evaluate using LLM-generated search strategies
-- Calculate the same metrics as embedding retrieval
-- Save results to `experiments/results/`
+常用参数：
 
-### 3. Compare All Methods
+- `--max-iterations N`: ReAct 搜索最大轮数（默认读取 `.env` 的 `KG_RETRIEVAL_MAX_ITERATIONS`，默认值为 `3`）
+- `--include-file-content`: 检索时连同原始文件内容一起读入，精度更高但更慢
+- `--limit N`: 快速抽样评测
+
+retrieval LLM 配置优先级：
+
+1. 命令行显式传参
+2. `.env` 中的 `RETRIEVAL_LLM_*`
+3. `.env` 中的 `LLM_*`
+
+KG 最大迭代轮数配置优先级：
+
+1. 命令行 `--max-iterations`
+2. `.env` 中的 `KG_RETRIEVAL_MAX_ITERATIONS`
+3. 默认值 `3`
+
+### 3. 对比不同基线结果与可视化
 
 ```bash
-# Compare performance across all methods
-python experiments/compare_retrievers.py
+python experiments/retrieval_method/compare_retrievers.py
 ```
 
-This script will:
-- Load the most recent evaluation results for each method
-- Generate comparison tables showing:
-  - Overall performance metrics
-  - Performance by difficulty level
-  - Performance by query category
-- Create visualization plots (if matplotlib is available):
-  - Hit@K comparison chart
-  - MRR by difficulty level
-  - Precision/Recall comparison
-  - Category performance heatmap
-- Generate a markdown comparison report
+该脚本会优先加载 `results/` 中每种方法最新的结果文件，并输出对比表；如果安装了 `matplotlib`，会自动生成 embedding 与 KG 的可视化对比图。
 
-## Evaluation Metrics
+当前可视化方法代码位于 `compare_retrievers.py`：
 
-### Hit@K
-Measures whether at least one target file appears in the top-K retrieved results.
-- **Range**: 0 to 1 (0% to 100%)
-- **Interpretation**: Higher is better. Hit@5 = 0.85 means 85% of queries found the target in top-5 results.
+- `plot_comparison`: 统一生成 2x2 对比图
+- `_plot_hit_at_k`: 比较 Hit@K（Embedding/KG）
+- `_plot_mrr_by_difficulty`: 按难度比较 MRR
+- `_plot_precision_recall`: 比较 Precision@5 / Recall@5
+- `_plot_category_heatmap`: 按类别比较 Hit@5 热力图
 
-### Mean Reciprocal Rank (MRR)
-Average of 1/rank for the first correct result across all queries.
-- **Range**: 0 to 1
-- **Interpretation**: Higher is better. MRR = 0.70 means on average, the first correct result appears at rank ~1.4.
+输出文件示例：
 
-### Precision@K
-Proportion of retrieved items (in top-K) that are relevant.
-- **Formula**: (# relevant items in top-K) / K
-- **Range**: 0 to 1
-- **Interpretation**: Higher is better. Measures retrieval accuracy.
+- `results/comparison_plot_YYYYMMDD_HHMMSS.png`
+- `results/comparison_report_YYYYMMDD_HHMMSS.md`
 
-### Recall@K
-Proportion of relevant items that are retrieved in top-K.
-- **Formula**: (# relevant items found in top-K) / (total # relevant items)
-- **Range**: 0 to 1
-- **Interpretation**: Higher is better. Measures retrieval completeness.
+### 4. 分析失败案例
 
-## Output Files
-
-### Individual Evaluation Results
-Saved to `experiments/results/`:
-- `embedding_retrieval_case_YYYYMMDD_HHMMSS.json` - Case-level embedding results
-- `embedding_retrieval_file_YYYYMMDD_HHMMSS.json` - File-level embedding results
-- `knowledge_graph_retrieval_YYYYMMDD_HHMMSS.json` - Knowledge graph results
-
-Each JSON file contains:
-```json
-{
-  "metadata": {
-    "dataset": "path/to/dataset",
-    "timestamp": "...",
-    "total_queries": 120
-  },
-  "aggregate_metrics": {
-    "mrr": 0.75,
-    "hit@1": 0.60,
-    "hit@3": 0.80,
-    "hit@5": 0.85,
-    "by_difficulty": {...},
-    "by_category": {...}
-  },
-  "detailed_results": [...]
-}
-```
-
-### Comparison Results
-Saved to `experiments/results/`:
-- `comparison_report_YYYYMMDD_HHMMSS.md` - Markdown report with tables
-- `comparison_plot_YYYYMMDD_HHMMSS.png` - Visualization charts
-
-## Validation Dataset
-
-The BlastFOAM retrieval validation dataset contains:
-- **120 test queries** covering realistic user requests
-- **20 categories**: turbulence models, time control, mesh, materials, etc.
-- **3 difficulty levels**: basic (40), intermediate (40), advanced (40)
-- **4 query types**: direct technical, file location, goal-based, complex configuration
-
-Each query includes:
-- Natural language query text
-- Target file paths that should be retrieved
-- Difficulty level and category labels
-- Detailed description of the modification needed
-
-## Customization
-
-### Adjust K Values
-Modify the `k_values` parameter in the evaluation scripts:
-```python
-metrics = evaluator.evaluate_all(k_values=[1, 3, 5, 10, 20])
-```
-
-### Filter by Category or Difficulty
-You can modify the scripts to evaluate only specific subsets:
-```python
-# In evaluate_*.py, filter the dataset
-filtered_dataset = [q for q in self.dataset if q['difficulty'] == 'advanced']
-```
-
-### Add Custom Metrics
-Extend the evaluator classes with new metric calculation methods:
-```python
-def _calculate_custom_metric(self, retrieved_paths, target_paths):
-    # Your custom metric logic
-    return score
-```
-
-## Troubleshooting
-
-### Issue: "No index found"
-**Solution**: Build the embedding indexes first:
 ```bash
-python principia_ai/tools/build_embedding_index.py
+python experiments/retrieval_method/analyze_failures.py
 ```
 
-### Issue: "Knowledge graph not found"
-**Solution**: Ensure the knowledge graph data exists in `data/knowledge_graph/case_content_knowledge_graph/`
+该脚本会列出可用结果文件，随后按 `hit@5` 等指标筛出失败查询并给出模式分析。
 
-### Issue: "No results found for comparison"
-**Solution**: Run the individual evaluation scripts first before running the comparison script.
+## 结果指标
 
-### Issue: "Matplotlib not found"
-**Solution**: Install matplotlib for visualization:
-```bash
-pip install matplotlib
-```
+当前 strict 结果至少关注以下指标：
 
-## Performance Expectations
+- `mrr`
+- `hit@1`, `hit@3`, `hit@5`
+- `case_hit@k`: case 对但 file 错的情况也能反映出来
+- `file_hit@k`: file 对但 case 错的情况
+- `precision@k`
+- `recall@k`
+- `avg_retrieval_time`
 
-Based on the validation dataset:
+其中最重要的是：
 
-**Embedding-Based Retrieval (File-level - Default):**
-- Best for: Specific file content, detailed parameter searches, precise matching
-- Expected Hit@5: 70-85%
-- Expected MRR: 0.55-0.70
-- **Recommended for most use cases**
+- strict `hit@k`: case 和 file 必须同时命中
+- `case_hit@k`: 用来区分“先找对案例、但文件没排上来”的问题
 
-**Embedding-Based Retrieval (Case-level - Optional):**
-- Best for: General case discovery, README-level information, case overview
-- Expected Hit@5: 60-75%
-- Expected MRR: 0.45-0.60
+## 输出文件
 
-**Knowledge Graph Retrieval:**
-- Best for: Structured queries, file-specific questions, complex relationships
-- Expected Hit@5: 75-90%
-- Expected MRR: 0.60-0.75
+结果默认写入 `experiments/retrieval_method/results/`：
 
-## Contributing
+- `embedding_retrieval_file_YYYYMMDD_HHMMSS.json`
+- `embedding_retrieval_case_YYYYMMDD_HHMMSS.json`
+- `knowledge_graph_retrieval_YYYYMMDD_HHMMSS.json`
 
-To add a new retrieval method:
-1. Create a new evaluation script following the existing pattern
-2. Implement the same metrics for fair comparison
-3. Update the comparison script to include the new method
-4. Document the new method in this README
+每个结果文件都包含：
 
-## References
+- `metadata`: 数据集路径、模型配置、时间戳等
+- `aggregate_metrics`: 聚合指标
+- `detailed_results`: 每条查询的目标、命中情况、检索耗时和原始结果
 
-- Validation Dataset: `dataset/retrieval/RETRIEVAL_VALIDATION_DATASET_README.md`
-- Embedding Retriever: `principia_ai/tools/embedding_retriever.py`
-- Knowledge Graph Retriever: `principia_ai/tools/case_content_knowledge_graph_tool.py`
+## 建议工作流
+
+1. 先确认 `.env` 与 `BLASTFOAM_TUTORIALS` 正确。
+2. 如果要跑 embedding，先构建索引。
+3. 分别运行 embedding 与 KG 基线。
+4. 用 `compare_retrievers.py` 看整体差异。
+5. 用 `analyze_failures.py` 追踪失败类别、案例族和目标文件族。
+
+## 相关文档
+
+- strict 数据集说明: `dataset/retrieval/STRICT_RETRIEVAL_VALIDATION_README.md`
+- strict 审计摘要: `dataset/retrieval/STRICT_RETRIEVAL_AUDIT_SUMMARY.md`
+- strict 数据集问题复核: `dataset/retrieval/STRICT_RETRIEVAL_DATASET_ISSUE_REVIEW.md`
+- 案例内容 KG 检索方法: `docs/检索方法/案例内容知识检索技术文档.md`
+- 用户手册 KG 检索方法: `docs/检索方法/用户手册知识检索技术文档.md`
+- embedding 检索实现说明: `scripts/native_embedding/EMBEDDING_README.md`
+
+本 README 已覆盖旧的 `SCRIPTS_SUMMARY.md` 和 `WORKFLOW_GUIDE.md`，后续以这里为准。

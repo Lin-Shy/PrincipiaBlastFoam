@@ -20,6 +20,24 @@ project_root = Path(__file__).parent.parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
+
+KG_RETRIEVAL_MAX_ITERATIONS_ENV = "KG_RETRIEVAL_MAX_ITERATIONS"
+KG_RETRIEVAL_MAX_ITERATIONS_DEFAULT = 3
+
+
+def _resolve_kg_max_iterations(max_iterations: Optional[int]) -> int:
+    if max_iterations is not None:
+        return max(1, int(max_iterations))
+
+    raw_value = os.getenv(KG_RETRIEVAL_MAX_ITERATIONS_ENV)
+    if not raw_value:
+        return KG_RETRIEVAL_MAX_ITERATIONS_DEFAULT
+
+    try:
+        return max(1, int(raw_value))
+    except ValueError:
+        return KG_RETRIEVAL_MAX_ITERATIONS_DEFAULT
+
 class CaseContentKnowledgeGraphRetriever:
     """
     A tool for retrieving information from the BlastFoam case content knowledge graph.
@@ -1222,11 +1240,12 @@ Please provide ONLY the JSON object, no additional text.
         user_query: str,
         top_k: int = 5,
         include_file_content: bool = True,
-        max_iterations: int = 5,
+        max_iterations: Optional[int] = None,
     ) -> Dict[str, object]:
         """
         Execute the ReAct loop once and return both text and structured outputs.
         """
+        max_iterations = _resolve_kg_max_iterations(max_iterations)
         print(f"Starting ReAct search for: '{user_query}'")
 
         kg_summary = self._get_knowledge_graph_summary()
@@ -1344,7 +1363,7 @@ Please provide ONLY the JSON object, no additional text.
         user_query: str,
         top_k: int = 5,
         include_file_content: bool = False,
-        max_iterations: int = 5,
+        max_iterations: Optional[int] = None,
     ) -> Dict[str, object]:
         """
         Search the knowledge graph and return both text and structured results.
@@ -1357,7 +1376,7 @@ Please provide ONLY the JSON object, no additional text.
         )
         return result
 
-    def search(self, user_query: str, top_k: int = 5, include_file_content: bool = True, max_iterations: int = 5) -> str:
+    def search(self, user_query: str, top_k: int = 5, include_file_content: bool = True, max_iterations: Optional[int] = None) -> str:
         """
         Search the knowledge graph using an LLM-driven ReAct agent.
         
@@ -1365,7 +1384,8 @@ Please provide ONLY the JSON object, no additional text.
             user_query: The user's query string.
             top_k: Number of top results to return in the final answer.
             include_file_content: Whether to include actual file content.
-            max_iterations: Maximum number of ReAct iterations.
+            max_iterations: Maximum number of ReAct iterations. If omitted,
+                read from KG_RETRIEVAL_MAX_ITERATIONS (default: 3).
             
         Returns:
             A string containing the retrieved information.

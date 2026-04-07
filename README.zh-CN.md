@@ -91,6 +91,8 @@ PrincipiaBlastFoam/
 *   [快速开始指南](QUICKSTART.md)
 *   [多智能体系统设计说明 (ReAct 架构)](docs/MULTI_AGENT_DESIGN.md)
 *   [量化指标实现方案](docs/量化指标实现方案.md)
+*   [检索评测说明](experiments/retrieval_method/README.md)
+*   [案例内容检索方法文档](docs/检索方法/案例内容知识检索技术文档.md)
 
 ## 🤝 贡献
 
