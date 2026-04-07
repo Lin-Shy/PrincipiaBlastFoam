@@ -1,0 +1,1788 @@
+[
+  {
+    "id": 1,
+    "query": "Which section explains the single-fluid governing equations used in BlastFoam?",
+    "description": "Which section explains the single-fluid governing equations used in BlastFoam?",
+    "difficulty": "basic",
+    "category": "governing_equations",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec2.1",
+        "number": "2.1",
+        "title": "Single-fluid model",
+        "canonical_id": "sec2.1",
+        "section_id": "sec2.1",
+        "chapter_id": "ch2"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "query": "Where does the user guide describe the multi-fluid formulation where each phase has its own mass, momentum, and energy?",
+    "description": "Where does the user guide describe the multi-fluid formulation where each phase has its own mass, momentum, and energy?",
+    "difficulty": "intermediate",
+    "category": "governing_equations",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec2.2",
+        "number": "2.2",
+        "title": "Multi-fluid",
+        "canonical_id": "sec2.2",
+        "section_id": "sec2.2",
+        "chapter_id": "ch2"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "query": "Which section explains the governing equations for granular phases in the multi-fluid model?",
+    "description": "Which section explains the governing equations for granular phases in the multi-fluid model?",
+    "difficulty": "basic",
+    "category": "governing_equations",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec2.2.1",
+        "number": "2.2.1",
+        "title": "Granular phases",
+        "canonical_id": "sec2.2.1",
+        "section_id": "sec2.2.1",
+        "chapter_id": "ch2"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "query": "Where is the overview of interfacial drag models documented in the user guide?",
+    "description": "Where is the overview of interfacial drag models documented in the user guide?",
+    "difficulty": "basic",
+    "category": "interfacial_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec3.1",
+        "number": "3.1",
+        "title": "Drag models",
+        "canonical_id": "sec3.1",
+        "section_id": "sec3.1",
+        "chapter_id": "ch3"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "query": "Which user guide entry documents the Wen-Yu drag model for dispersed particulate flow?",
+    "description": "Which user guide entry documents the Wen-Yu drag model for dispersed particulate flow?",
+    "difficulty": "basic",
+    "category": "drag_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model3.1.2",
+        "number": "3.1.2",
+        "title": "WenYu",
+        "canonical_id": "model3.1.2",
+        "section_id": "sec3.1",
+        "chapter_id": "ch3"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "query": "Where is the drag model that uses Wen-Yu in dilute flow and Ergun in dense flow documented?",
+    "description": "Where is the drag model that uses Wen-Yu in dilute flow and Ergun in dense flow documented?",
+    "difficulty": "intermediate",
+    "category": "drag_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model3.1.6",
+        "number": "3.1.6",
+        "title": "GidaspowErgunWenYu",
+        "canonical_id": "model3.1.6",
+        "section_id": "sec3.1",
+        "chapter_id": "ch3"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "query": "Which drag model blends a Gidaspow-style formulation with Schiller-Naumann weighting by dispersed phase volume fraction?",
+    "description": "Which drag model blends a Gidaspow-style formulation with Schiller-Naumann weighting by dispersed phase volume fraction?",
+    "difficulty": "advanced",
+    "category": "drag_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model3.1.7",
+        "number": "3.1.7",
+        "title": "GidaspowSchillerNaumann",
+        "canonical_id": "model3.1.7",
+        "section_id": "sec3.1",
+        "chapter_id": "ch3"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "query": "Which section gives the overview of interfacial heat-transfer models?",
+    "description": "Which section gives the overview of interfacial heat-transfer models?",
+    "difficulty": "basic",
+    "category": "heat_transfer",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec3.3",
+        "number": "3.3",
+        "title": "Heat transfer models",
+        "canonical_id": "sec3.3",
+        "section_id": "sec3.3",
+        "chapter_id": "ch3"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "query": "Where is the Ranz-Marshall heat-transfer model described?",
+    "description": "Where is the Ranz-Marshall heat-transfer model described?",
+    "difficulty": "basic",
+    "category": "heat_transfer",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model3.3.1",
+        "number": "3.3.1",
+        "title": "RanzMarshall",
+        "canonical_id": "model3.3.1",
+        "section_id": "sec3.3",
+        "chapter_id": "ch3"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "query": "Which section covers the Nusselt number models available in BlastFoam?",
+    "description": "Which section covers the Nusselt number models available in BlastFoam?",
+    "difficulty": "basic",
+    "category": "heat_transfer",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec3.4",
+        "number": "3.4",
+        "title": "Nusselt number models",
+        "canonical_id": "sec3.4",
+        "section_id": "sec3.4",
+        "chapter_id": "ch3"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "query": "Where is the duct Nusselt-number model for hollow particles documented?",
+    "description": "Where is the duct Nusselt-number model for hollow particles documented?",
+    "difficulty": "intermediate",
+    "category": "heat_transfer",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model3.4.2",
+        "number": "3.4.2",
+        "title": "duct",
+        "canonical_id": "model3.4.2",
+        "section_id": "sec3.4",
+        "chapter_id": "ch3"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "query": "Which user guide entry documents the reacting-particle mass-transfer model?",
+    "description": "Which user guide entry documents the reacting-particle mass-transfer model?",
+    "difficulty": "advanced",
+    "category": "mass_transfer",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model3.5.2",
+        "number": "3.5.2",
+        "title": "reactingParticle",
+        "canonical_id": "model3.5.2",
+        "section_id": "sec3.5",
+        "chapter_id": "ch3"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "query": "Where is the total-pressure interfacial pressure model described?",
+    "description": "Where is the total-pressure interfacial pressure model described?",
+    "difficulty": "intermediate",
+    "category": "interfacial_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model3.6.3",
+        "number": "3.6.3",
+        "title": "totalPressure",
+        "canonical_id": "model3.6.3",
+        "section_id": "sec3.6",
+        "chapter_id": "ch3"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "query": "Which entry defines the mass-averaged interfacial velocity model?",
+    "description": "Which entry defines the mass-averaged interfacial velocity model?",
+    "difficulty": "intermediate",
+    "category": "interfacial_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model3.7.2",
+        "number": "3.7.2",
+        "title": "massAveraged",
+        "canonical_id": "model3.7.2",
+        "section_id": "sec3.7",
+        "chapter_id": "ch3"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "query": "Where is the overview of radial distribution models for granular phases?",
+    "description": "Where is the overview of radial distribution models for granular phases?",
+    "difficulty": "basic",
+    "category": "granular_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec4.1",
+        "number": "4.1",
+        "title": "Radial distribution models",
+        "canonical_id": "sec4.1",
+        "section_id": "sec4.1",
+        "chapter_id": "ch4"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "query": "Which section introduces the available granular viscosity models?",
+    "description": "Which section introduces the available granular viscosity models?",
+    "difficulty": "basic",
+    "category": "granular_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec4.2",
+        "number": "4.2",
+        "title": "Granular viscosity models",
+        "canonical_id": "sec4.2",
+        "section_id": "sec4.2",
+        "chapter_id": "ch4"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "query": "Where is the Hrenya-Sinclair granular viscosity model documented?",
+    "description": "Where is the Hrenya-Sinclair granular viscosity model documented?",
+    "difficulty": "intermediate",
+    "category": "granular_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model4.2.2",
+        "number": "4.2.2",
+        "title": "HrenyaSinclair",
+        "canonical_id": "model4.2.2",
+        "section_id": "sec4.2",
+        "chapter_id": "ch4"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "query": "Which section presents the granular conductivity models?",
+    "description": "Which section presents the granular conductivity models?",
+    "difficulty": "basic",
+    "category": "granular_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec4.3",
+        "number": "4.3",
+        "title": "Granular conductivity models",
+        "canonical_id": "sec4.3",
+        "section_id": "sec4.3",
+        "chapter_id": "ch4"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "query": "Where is the Hrenya-Sinclair granular conductivity model described?",
+    "description": "Where is the Hrenya-Sinclair granular conductivity model described?",
+    "difficulty": "intermediate",
+    "category": "granular_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model4.3.3",
+        "number": "4.3.3",
+        "title": "HrenyaSinclair",
+        "canonical_id": "model4.3.3",
+        "section_id": "sec4.3",
+        "chapter_id": "ch4"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "query": "Which section explains the frictional stress models used near the packing limit?",
+    "description": "Which section explains the frictional stress models used near the packing limit?",
+    "difficulty": "basic",
+    "category": "granular_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec4.5",
+        "number": "4.5",
+        "title": "Frictional stress models",
+        "canonical_id": "sec4.5",
+        "section_id": "sec4.5",
+        "chapter_id": "ch4"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "query": "What user guide entry documents the Johnson-Jackson frictional stress model?",
+    "description": "What user guide entry documents the Johnson-Jackson frictional stress model?",
+    "difficulty": "basic",
+    "category": "granular_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model4.5.1",
+        "number": "4.5.1",
+        "title": "JohnsonJackson",
+        "canonical_id": "model4.5.1",
+        "section_id": "sec4.5",
+        "chapter_id": "ch4"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "query": "Where does the user guide discuss packing-limit models for granular phases?",
+    "description": "Where does the user guide discuss packing-limit models for granular phases?",
+    "difficulty": "basic",
+    "category": "granular_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec4.6",
+        "number": "4.6",
+        "title": "Packing limit models",
+        "canonical_id": "sec4.6",
+        "section_id": "sec4.6",
+        "chapter_id": "ch4"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "query": "Where is the Yu-Standish packing-limit model described?",
+    "description": "Where is the Yu-Standish packing-limit model described?",
+    "difficulty": "intermediate",
+    "category": "granular_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model4.6.2",
+        "number": "4.6.2",
+        "title": "YuStandish",
+        "canonical_id": "model4.6.2",
+        "section_id": "sec4.6",
+        "chapter_id": "ch4"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "query": "Which packing-limit model is only valid for a binary mixture, according to the user guide?",
+    "description": "Which packing-limit model is only valid for a binary mixture, according to the user guide?",
+    "difficulty": "advanced",
+    "category": "granular_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model4.6.3",
+        "number": "4.6.3",
+        "title": "FedorsLandel",
+        "canonical_id": "model4.6.3",
+        "section_id": "sec4.6",
+        "chapter_id": "ch4"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "query": "Which section introduces granular drag models between particle phases?",
+    "description": "Which section introduces granular drag models between particle phases?",
+    "difficulty": "intermediate",
+    "category": "granular_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec4.7",
+        "number": "4.7",
+        "title": "Granular drag models",
+        "canonical_id": "sec4.7",
+        "section_id": "sec4.7",
+        "chapter_id": "ch4"
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "query": "Where is the Syamlal granular drag model documented?",
+    "description": "Where is the Syamlal granular drag model documented?",
+    "difficulty": "advanced",
+    "category": "granular_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model4.7.2",
+        "number": "4.7.2",
+        "title": "Syamlal",
+        "canonical_id": "model4.7.2",
+        "section_id": "sec4.7",
+        "chapter_id": "ch4"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "query": "Which section provides the overview of thermodynamic models?",
+    "description": "Which section provides the overview of thermodynamic models?",
+    "difficulty": "basic",
+    "category": "thermodynamic_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec5.1",
+        "number": "5.1",
+        "title": "Thermodynamic models",
+        "canonical_id": "sec5.1",
+        "section_id": "sec5.1",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "query": "Where is the eConst thermodynamic model with constant Cv documented?",
+    "description": "Where is the eConst thermodynamic model with constant Cv documented?",
+    "difficulty": "basic",
+    "category": "thermodynamic_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model5.1.1",
+        "number": "5.1.1",
+        "title": "eConst",
+        "canonical_id": "model5.1.1",
+        "section_id": "sec5.1",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "query": "Which thermodynamic model uses JANAF polynomial coefficients for low and high temperature ranges?",
+    "description": "Which thermodynamic model uses JANAF polynomial coefficients for low and high temperature ranges?",
+    "difficulty": "intermediate",
+    "category": "thermodynamic_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model5.1.11",
+        "number": "5.1.11",
+        "title": "JANAF",
+        "canonical_id": "model5.1.11",
+        "section_id": "sec5.1",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "query": "Which section introduces the equation-of-state models in the user guide?",
+    "description": "Which section introduces the equation-of-state models in the user guide?",
+    "difficulty": "basic",
+    "category": "equation_of_state",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec5.2",
+        "number": "5.2",
+        "title": "Equation of states",
+        "canonical_id": "sec5.2",
+        "section_id": "sec5.2",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "query": "Where is the subsection about internal-energy-based equations of state in Mie-Gruneisen form?",
+    "description": "Where is the subsection about internal-energy-based equations of state in Mie-Gruneisen form?",
+    "difficulty": "intermediate",
+    "category": "equation_of_state",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec5.2.2",
+        "number": "5.2.2",
+        "title": "Internal energy based (Mie-Grüneisen form)",
+        "canonical_id": "sec5.2.2",
+        "section_id": "sec5.2.2",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "query": "Which user guide entry documents the LSZK equation of state for ideal explosives?",
+    "description": "Which user guide entry documents the LSZK equation of state for ideal explosives?",
+    "difficulty": "advanced",
+    "category": "equation_of_state",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model5.2.2.7",
+        "number": "5.2.2.7",
+        "title": "LSZK",
+        "canonical_id": "model5.2.2.7",
+        "section_id": "sec5.2.2",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "query": "Where is the JWL equation of state documented for energetic materials?",
+    "description": "Where is the JWL equation of state documented for energetic materials?",
+    "difficulty": "intermediate",
+    "category": "equation_of_state",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model5.2.2.8",
+        "number": "5.2.2.8",
+        "title": "JWL",
+        "canonical_id": "model5.2.2.8",
+        "section_id": "sec5.2.2",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "query": "Which subsection groups the temperature-based equations of state?",
+    "description": "Which subsection groups the temperature-based equations of state?",
+    "difficulty": "intermediate",
+    "category": "equation_of_state",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec5.2.3",
+        "number": "5.2.3",
+        "title": "Temperature-based",
+        "canonical_id": "sec5.2.3",
+        "section_id": "sec5.2.3",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "query": "Where is the temperature-based C-form JWL model, called JWLC, documented?",
+    "description": "Where is the temperature-based C-form JWL model, called JWLC, documented?",
+    "difficulty": "advanced",
+    "category": "equation_of_state",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model5.2.3.2",
+        "number": "5.2.3.2",
+        "title": "JWLC",
+        "canonical_id": "model5.2.3.2",
+        "section_id": "sec5.2.3",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "query": "Which user guide entry explains the Abel-Nobel equation of state for propellant-like explosive materials?",
+    "description": "Which user guide entry explains the Abel-Nobel equation of state for propellant-like explosive materials?",
+    "difficulty": "advanced",
+    "category": "equation_of_state",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model5.2.3.3",
+        "number": "5.2.3.3",
+        "title": "AbelNobel",
+        "canonical_id": "model5.2.3.3",
+        "section_id": "sec5.2.3",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "query": "Which user guide entry explains the BKW equation of state for explosive materials?",
+    "description": "Which user guide entry explains the BKW equation of state for explosive materials?",
+    "difficulty": "advanced",
+    "category": "equation_of_state",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model5.2.3.4",
+        "number": "5.2.3.4",
+        "title": "BKW",
+        "canonical_id": "model5.2.3.4",
+        "section_id": "sec5.2.3",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "query": "Where is the overview of fluid transport models documented?",
+    "description": "Where is the overview of fluid transport models documented?",
+    "difficulty": "basic",
+    "category": "transport_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec5.3",
+        "number": "5.3",
+        "title": "Fluid Transport",
+        "canonical_id": "sec5.3",
+        "section_id": "sec5.3",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "query": "Which fluid transport model uses Sutherland's formula for viscosity?",
+    "description": "Which fluid transport model uses Sutherland's formula for viscosity?",
+    "difficulty": "basic",
+    "category": "transport_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model5.3.2",
+        "number": "5.3.2",
+        "title": "sutherland",
+        "canonical_id": "model5.3.2",
+        "section_id": "sec5.3",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "query": "Which section introduces the solid transport models?",
+    "description": "Which section introduces the solid transport models?",
+    "difficulty": "basic",
+    "category": "transport_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec5.4",
+        "number": "5.4",
+        "title": "Solid Transport",
+        "canonical_id": "sec5.4",
+        "section_id": "sec5.4",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "query": "Where is the constAnIso solid-transport model with anisotropic conductivity documented?",
+    "description": "Where is the constAnIso solid-transport model with anisotropic conductivity documented?",
+    "difficulty": "intermediate",
+    "category": "transport_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model5.4.2",
+        "number": "5.4.2",
+        "title": "constAnIso",
+        "canonical_id": "model5.4.2",
+        "section_id": "sec5.4",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "query": "Which section introduces the detonating thermodynamic model?",
+    "description": "Which section introduces the detonating thermodynamic model?",
+    "difficulty": "basic",
+    "category": "reactive_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec5.6",
+        "number": "5.6",
+        "title": "Detonating thermodynamic model",
+        "canonical_id": "sec5.6",
+        "section_id": "sec5.6",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "query": "Where does the user guide group the available activation models for detonating solids?",
+    "description": "Where does the user guide group the available activation models for detonating solids?",
+    "difficulty": "intermediate",
+    "category": "reactive_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec5.6.1",
+        "number": "5.6.1",
+        "title": "Activation Models",
+        "canonical_id": "sec5.6.1",
+        "section_id": "sec5.6.1",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "query": "Which activation model supports programmed ignition together with compression-based triggering?",
+    "description": "Which activation model supports programmed ignition together with compression-based triggering?",
+    "difficulty": "advanced",
+    "category": "reactive_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model5.6.1.3",
+        "number": "5.6.1.3",
+        "title": "programmedIgnition",
+        "canonical_id": "model5.6.1.3",
+        "section_id": "sec5.6.1",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "query": "Where is the pressure-based activation model for detonating material described?",
+    "description": "Where is the pressure-based activation model for detonating material described?",
+    "difficulty": "advanced",
+    "category": "reactive_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model5.6.1.4",
+        "number": "5.6.1.4",
+        "title": "pressureBased",
+        "canonical_id": "model5.6.1.4",
+        "section_id": "sec5.6.1",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "query": "Where is the Arrhenius-rate activation model for detonating solids described?",
+    "description": "Where is the Arrhenius-rate activation model for detonating solids described?",
+    "difficulty": "advanced",
+    "category": "reactive_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model5.6.1.5",
+        "number": "5.6.1.5",
+        "title": "ArrheniusRate",
+        "canonical_id": "model5.6.1.5",
+        "section_id": "sec5.6.1",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "query": "Which subsection introduces the afterburn models?",
+    "description": "Which subsection introduces the afterburn models?",
+    "difficulty": "intermediate",
+    "category": "reactive_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec5.6.2",
+        "number": "5.6.2",
+        "title": "Afterburn Models",
+        "canonical_id": "sec5.6.2",
+        "section_id": "sec5.6.2",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "query": "Which user guide entry documents the Miller afterburn model?",
+    "description": "Which user guide entry documents the Miller afterburn model?",
+    "difficulty": "advanced",
+    "category": "reactive_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model5.6.2.4",
+        "number": "5.6.2.4",
+        "title": "Miller",
+        "canonical_id": "model5.6.2.4",
+        "section_id": "sec5.6.2",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "query": "Where does the user guide discuss the thermodynamic setup for two-phase and multiphase models?",
+    "description": "Where does the user guide discuss the thermodynamic setup for two-phase and multiphase models?",
+    "difficulty": "intermediate",
+    "category": "multiphase_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec5.8",
+        "number": "5.8",
+        "title": "Two/multiphase models",
+        "canonical_id": "sec5.8",
+        "section_id": "sec5.8",
+        "chapter_id": "ch5"
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "query": "Which burst model uses both pressure and impulse to decide when a patch should fail?",
+    "description": "Which burst model uses both pressure and impulse to decide when a patch should fail?",
+    "difficulty": "intermediate",
+    "category": "burst_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model7.1.3",
+        "number": "7.1.3",
+        "title": "pressureAndImpulse",
+        "canonical_id": "model7.1.3",
+        "section_id": "sec7.1",
+        "chapter_id": "ch7"
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "query": "Where is the burst model that checks a list of fields and threshold values documented?",
+    "description": "Where is the burst model that checks a list of fields and threshold values documented?",
+    "difficulty": "advanced",
+    "category": "burst_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model7.1.4",
+        "number": "7.1.4",
+        "title": "field",
+        "canonical_id": "model7.1.4",
+        "section_id": "sec7.1",
+        "chapter_id": "ch7"
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "query": "Which section explains the global region-model boundary conditions?",
+    "description": "Which section explains the global region-model boundary conditions?",
+    "difficulty": "basic",
+    "category": "boundary_conditions",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec8.1",
+        "number": "8.1",
+        "title": "Boundary conditions",
+        "canonical_id": "sec8.1",
+        "section_id": "sec8.1",
+        "chapter_id": "ch8"
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "query": "Where is the globalMapped boundary condition documented?",
+    "description": "Where is the globalMapped boundary condition documented?",
+    "difficulty": "basic",
+    "category": "boundary_conditions",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model8.1.1",
+        "number": "8.1.1",
+        "title": "globalMapped",
+        "canonical_id": "model8.1.1",
+        "section_id": "sec8.1",
+        "chapter_id": "ch8"
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "query": "Which boundary condition computes patch temperature using mapped global data and thermal coupling?",
+    "description": "Which boundary condition computes patch temperature using mapped global data and thermal coupling?",
+    "difficulty": "intermediate",
+    "category": "boundary_conditions",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model8.1.3",
+        "number": "8.1.3",
+        "title": "globalTemperatureCoupled",
+        "canonical_id": "model8.1.3",
+        "section_id": "sec8.1",
+        "chapter_id": "ch8"
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "query": "Where is the reacting diameter model documented?",
+    "description": "Where is the reacting diameter model documented?",
+    "difficulty": "intermediate",
+    "category": "diameter_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model9.3",
+        "number": "9.3",
+        "title": "reacting",
+        "canonical_id": "model9.3",
+        "section_id": "ch9",
+        "chapter_id": "ch9"
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "query": "Which section groups the reaction-rate models used by the diameter model?",
+    "description": "Which section groups the reaction-rate models used by the diameter model?",
+    "difficulty": "basic",
+    "category": "diameter_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec9.4",
+        "number": "9.4",
+        "title": "Reaction Rates",
+        "canonical_id": "sec9.4",
+        "section_id": "sec9.4",
+        "chapter_id": "ch9"
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "query": "Which diameter reaction-rate model uses an Arrhenius formula?",
+    "description": "Which diameter reaction-rate model uses an Arrhenius formula?",
+    "difficulty": "intermediate",
+    "category": "diameter_models",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model9.4.2",
+        "number": "9.4.2",
+        "title": "Arrhenius",
+        "canonical_id": "model9.4.2",
+        "section_id": "sec9.4",
+        "chapter_id": "ch9"
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "query": "Which section introduces the available Riemann solvers in BlastFoam?",
+    "description": "Which section introduces the available Riemann solvers in BlastFoam?",
+    "difficulty": "basic",
+    "category": "numerics",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec10.1",
+        "number": "10.1",
+        "title": "Riemann Solvers",
+        "canonical_id": "sec10.1",
+        "section_id": "sec10.1",
+        "chapter_id": "ch10"
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "query": "Where is the AUSM+up flux scheme with low-speed correction documented?",
+    "description": "Where is the AUSM+up flux scheme with low-speed correction documented?",
+    "difficulty": "advanced",
+    "category": "numerics",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "model10.1.5",
+        "number": "10.1.5",
+        "title": "AUSM+up",
+        "canonical_id": "model10.1.5",
+        "section_id": "sec10.1",
+        "chapter_id": "ch10"
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "query": "Which section explains the Riemann advection scheme used for non-conserved transport quantities?",
+    "description": "Which section explains the Riemann advection scheme used for non-conserved transport quantities?",
+    "difficulty": "intermediate",
+    "category": "numerics",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec10.2",
+        "number": "10.2",
+        "title": "Riemann advection scheme",
+        "canonical_id": "sec10.2",
+        "section_id": "sec10.2",
+        "chapter_id": "ch10"
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "query": "Where does the user guide explain the available time-integration methods?",
+    "description": "Where does the user guide explain the available time-integration methods?",
+    "difficulty": "basic",
+    "category": "numerics",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec10.3",
+        "number": "10.3",
+        "title": "Time integration",
+        "canonical_id": "sec10.3",
+        "section_id": "sec10.3",
+        "chapter_id": "ch10"
+      }
+    ]
+  },
+  {
+    "id": 62,
+    "query": "Where is the RK4 time integration method described in the user guide?",
+    "description": "Where is the RK4 time integration method described in the user guide?",
+    "difficulty": "basic",
+    "category": "numerics",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "method10.3.6",
+        "number": "10.3.6",
+        "title": "RK4",
+        "canonical_id": "method10.3.6",
+        "section_id": "sec10.3",
+        "chapter_id": "ch10"
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "query": "Which time-integration method is the fourth-order SSP Runge-Kutta scheme?",
+    "description": "Which time-integration method is the fourth-order SSP Runge-Kutta scheme?",
+    "difficulty": "advanced",
+    "category": "numerics",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "method10.3.7",
+        "number": "10.3.7",
+        "title": "RK4SSP",
+        "canonical_id": "method10.3.7",
+        "section_id": "sec10.3",
+        "chapter_id": "ch10"
+      }
+    ]
+  },
+  {
+    "id": 64,
+    "query": "Which section introduces AMR error estimators?",
+    "description": "Which section introduces AMR error estimators?",
+    "difficulty": "basic",
+    "category": "amr",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec11.1",
+        "number": "11.1",
+        "title": "Error estimators",
+        "canonical_id": "sec11.1",
+        "section_id": "sec11.1",
+        "chapter_id": "ch11"
+      }
+    ]
+  },
+  {
+    "id": 65,
+    "query": "Where is the density-gradient AMR error estimator documented?",
+    "description": "Where is the density-gradient AMR error estimator documented?",
+    "difficulty": "advanced",
+    "category": "amr",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "method11.1.5",
+        "number": "11.1.5",
+        "title": "Density gradient (densityGradient)",
+        "canonical_id": "method11.1.5",
+        "section_id": "sec11.1",
+        "chapter_id": "ch11"
+      }
+    ]
+  },
+  {
+    "id": 66,
+    "query": "Which AMR error estimator section documents the Lohner method?",
+    "description": "Which AMR error estimator section documents the Lohner method?",
+    "difficulty": "intermediate",
+    "category": "amr",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "method11.1.6",
+        "number": "11.1.6",
+        "title": "Lohner",
+        "canonical_id": "method11.1.6",
+        "section_id": "sec11.1",
+        "chapter_id": "ch11"
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "query": "Where is the multicomponent AMR error estimator that combines multiple criteria?",
+    "description": "Where is the multicomponent AMR error estimator that combines multiple criteria?",
+    "difficulty": "advanced",
+    "category": "amr",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "method11.1.7",
+        "number": "11.1.7",
+        "title": "multiComponent",
+        "canonical_id": "method11.1.7",
+        "section_id": "sec11.1",
+        "chapter_id": "ch11"
+      }
+    ]
+  },
+  {
+    "id": 68,
+    "query": "Where does the user guide discuss dynamic load balancing for adaptive mesh refinement?",
+    "description": "Where does the user guide discuss dynamic load balancing for adaptive mesh refinement?",
+    "difficulty": "intermediate",
+    "category": "amr",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec11.2",
+        "number": "11.2",
+        "title": "Dynamic Load Balancing",
+        "canonical_id": "sec11.2",
+        "section_id": "sec11.2",
+        "chapter_id": "ch11"
+      }
+    ]
+  },
+  {
+    "id": 69,
+    "query": "Which section introduces the 1D, 2D, and 3D lookup-table framework?",
+    "description": "Which section introduces the 1D, 2D, and 3D lookup-table framework?",
+    "difficulty": "basic",
+    "category": "numerics",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec12.1",
+        "number": "12.1",
+        "title": "Lookup tables",
+        "canonical_id": "sec12.1",
+        "section_id": "sec12.1",
+        "chapter_id": "ch12"
+      }
+    ]
+  },
+  {
+    "id": 70,
+    "query": "Which user guide entry explains interpolation schemes for lookup tables?",
+    "description": "Which user guide entry explains interpolation schemes for lookup tables?",
+    "difficulty": "basic",
+    "category": "numerics",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "method12.1.2",
+        "number": "12.1.2",
+        "title": "Interpolation schemes",
+        "canonical_id": "method12.1.2",
+        "section_id": "sec12.1",
+        "chapter_id": "ch12"
+      }
+    ]
+  },
+  {
+    "id": 71,
+    "query": "Where is the section about 1D lookup tables with derivative and reverse-lookup support?",
+    "description": "Where is the section about 1D lookup tables with derivative and reverse-lookup support?",
+    "difficulty": "intermediate",
+    "category": "numerics",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "method12.1.3",
+        "number": "12.1.3",
+        "title": "1D lookup tables",
+        "canonical_id": "method12.1.3",
+        "section_id": "sec12.1",
+        "chapter_id": "ch12"
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "query": "Which user guide entry explains 3D lookup tables that read values using x, y, and z inputs?",
+    "description": "Which user guide entry explains 3D lookup tables that read values using x, y, and z inputs?",
+    "difficulty": "advanced",
+    "category": "numerics",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "method12.1.5",
+        "number": "12.1.5",
+        "title": "3D lookup tables",
+        "canonical_id": "method12.1.5",
+        "section_id": "sec12.1",
+        "chapter_id": "ch12"
+      }
+    ]
+  },
+  {
+    "id": 73,
+    "query": "Where is the overview of univariate and multivariate root solvers documented?",
+    "description": "Where is the overview of univariate and multivariate root solvers documented?",
+    "difficulty": "intermediate",
+    "category": "numerics",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec12.3",
+        "number": "12.3",
+        "title": "Root solvers",
+        "canonical_id": "sec12.3",
+        "section_id": "sec12.3",
+        "chapter_id": "ch12"
+      }
+    ]
+  },
+  {
+    "id": 74,
+    "query": "Which section describes the numerical integrators for arbitrary data types?",
+    "description": "Which section describes the numerical integrators for arbitrary data types?",
+    "difficulty": "intermediate",
+    "category": "numerics",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec12.5",
+        "number": "12.5",
+        "title": "Integrators",
+        "canonical_id": "sec12.5",
+        "section_id": "sec12.5",
+        "chapter_id": "ch12"
+      }
+    ]
+  },
+  {
+    "id": 75,
+    "query": "Where is the blastProbes function object documented?",
+    "description": "Where is the blastProbes function object documented?",
+    "difficulty": "basic",
+    "category": "function_objects",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec15.1",
+        "number": "15.1",
+        "title": "blastProbes",
+        "canonical_id": "sec15.1",
+        "section_id": "sec15.1",
+        "chapter_id": "ch15"
+      }
+    ]
+  },
+  {
+    "id": 76,
+    "query": "Where is the blastMachNo function object documented?",
+    "description": "Where is the blastMachNo function object documented?",
+    "difficulty": "basic",
+    "category": "function_objects",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec15.8",
+        "number": "15.8",
+        "title": "blastMachNo",
+        "canonical_id": "sec15.8",
+        "section_id": "sec15.8",
+        "chapter_id": "ch15"
+      }
+    ]
+  },
+  {
+    "id": 77,
+    "query": "Which function object writes the overpressure field relative to a reference pressure?",
+    "description": "Which function object writes the overpressure field relative to a reference pressure?",
+    "difficulty": "basic",
+    "category": "function_objects",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec15.10",
+        "number": "15.10",
+        "title": "overpressure",
+        "canonical_id": "sec15.10",
+        "section_id": "sec15.10",
+        "chapter_id": "ch15"
+      }
+    ]
+  },
+  {
+    "id": 78,
+    "query": "Which function object integrates overpressure over time to compute impulse?",
+    "description": "Which function object integrates overpressure over time to compute impulse?",
+    "difficulty": "basic",
+    "category": "function_objects",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec15.11",
+        "number": "15.11",
+        "title": "impulse",
+        "canonical_id": "sec15.11",
+        "section_id": "sec15.11",
+        "chapter_id": "ch15"
+      }
+    ]
+  },
+  {
+    "id": 79,
+    "query": "Where is the function object that records the time of peak pressure arrival documented?",
+    "description": "Where is the function object that records the time of peak pressure arrival documented?",
+    "difficulty": "intermediate",
+    "category": "function_objects",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec15.12",
+        "number": "15.12",
+        "title": "timeOfArrival",
+        "canonical_id": "sec15.12",
+        "section_id": "sec15.12",
+        "chapter_id": "ch15"
+      }
+    ]
+  },
+  {
+    "id": 80,
+    "query": "Which utility converts patch data into smaller VTK files for post-processing?",
+    "description": "Which utility converts patch data into smaller VTK files for post-processing?",
+    "difficulty": "basic",
+    "category": "utilities",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec16.2",
+        "number": "16.2",
+        "title": "blastToVTK",
+        "canonical_id": "sec16.2",
+        "section_id": "sec16.2",
+        "chapter_id": "ch16"
+      }
+    ]
+  },
+  {
+    "id": 81,
+    "query": "Which utility generates a .series file so ParaView can load a VTK or STL time sequence?",
+    "description": "Which utility generates a .series file so ParaView can load a VTK or STL time sequence?",
+    "difficulty": "basic",
+    "category": "utilities",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec16.3",
+        "number": "16.3",
+        "title": "createTimeSeries",
+        "canonical_id": "sec16.3",
+        "section_id": "sec16.3",
+        "chapter_id": "ch16"
+      }
+    ]
+  },
+  {
+    "id": 82,
+    "query": "Which utility computes impulse from a pressure probe file?",
+    "description": "Which utility computes impulse from a pressure probe file?",
+    "difficulty": "basic",
+    "category": "utilities",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec16.5",
+        "number": "16.5",
+        "title": "calculateImpulse",
+        "canonical_id": "sec16.5",
+        "section_id": "sec16.5",
+        "chapter_id": "ch16"
+      }
+    ]
+  },
+  {
+    "id": 83,
+    "query": "Where is the initializeAtmosphere utility described?",
+    "description": "Where is the initializeAtmosphere utility described?",
+    "difficulty": "basic",
+    "category": "utilities",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec16.6",
+        "number": "16.6",
+        "title": "initializeAtmosphere",
+        "canonical_id": "sec16.6",
+        "section_id": "sec16.6",
+        "chapter_id": "ch16"
+      }
+    ]
+  },
+  {
+    "id": 84,
+    "query": "Which utility rotates and maps fields from a 1D or 2D solution onto a higher-dimensional mesh?",
+    "description": "Which utility rotates and maps fields from a 1D or 2D solution onto a higher-dimensional mesh?",
+    "difficulty": "intermediate",
+    "category": "utilities",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec16.7",
+        "number": "16.7",
+        "title": "rotateFields",
+        "canonical_id": "sec16.7",
+        "section_id": "sec16.7",
+        "chapter_id": "ch16"
+      }
+    ]
+  },
+  {
+    "id": 85,
+    "query": "Which utility reconstructs decomposed cases that have undergone dynamic load balancing?",
+    "description": "Which utility reconstructs decomposed cases that have undergone dynamic load balancing?",
+    "difficulty": "advanced",
+    "category": "utilities",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "sec16.9",
+        "number": "16.9",
+        "title": "reconstructParAll",
+        "canonical_id": "sec16.9",
+        "section_id": "sec16.9",
+        "chapter_id": "ch16"
+      }
+    ]
+  },
+  {
+    "id": 86,
+    "query": "Where is the chapter about coupling BlastFoam to preCICE's OpenFOAM adapter?",
+    "description": "Where is the chapter about coupling BlastFoam to preCICE's OpenFOAM adapter?",
+    "difficulty": "basic",
+    "category": "coupling",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "ch14",
+        "number": "14",
+        "title": "Coupling to preCICE’s OpenFOAM adapter",
+        "canonical_id": "ch14",
+        "section_id": "ch14",
+        "chapter_id": "ch14"
+      }
+    ]
+  },
+  {
+    "id": 87,
+    "query": "Which solver entry describes the standard blastFoam solver for single-phase and multiphase flows?",
+    "description": "Which solver entry describes the standard blastFoam solver for single-phase and multiphase flows?",
+    "difficulty": "basic",
+    "category": "solvers",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "solver19.1",
+        "number": "19.1",
+        "title": "blastFoam",
+        "canonical_id": "solver19.1",
+        "section_id": "ch19",
+        "chapter_id": "ch19"
+      }
+    ]
+  },
+  {
+    "id": 88,
+    "query": "Where is the blastEulerFoam solver for Euler-Euler multifluid simulations documented?",
+    "description": "Where is the blastEulerFoam solver for Euler-Euler multifluid simulations documented?",
+    "difficulty": "basic",
+    "category": "solvers",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "solver19.2",
+        "number": "19.2",
+        "title": "blastEulerFoam",
+        "canonical_id": "solver19.2",
+        "section_id": "ch19",
+        "chapter_id": "ch19"
+      }
+    ]
+  },
+  {
+    "id": 89,
+    "query": "Which solver entry describes blastFSIFoam for fluid-solid interaction problems?",
+    "description": "Which solver entry describes blastFSIFoam for fluid-solid interaction problems?",
+    "difficulty": "basic",
+    "category": "solvers",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "solver19.3",
+        "number": "19.3",
+        "title": "blastFSIFoam",
+        "canonical_id": "solver19.3",
+        "section_id": "ch19",
+        "chapter_id": "ch19"
+      }
+    ]
+  },
+  {
+    "id": 90,
+    "query": "Where is the blastXiFoam combustion solver documented?",
+    "description": "Where is the blastXiFoam combustion solver documented?",
+    "difficulty": "basic",
+    "category": "solvers",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "solver19.4",
+        "number": "19.4",
+        "title": "blastXiFoam",
+        "canonical_id": "solver19.4",
+        "section_id": "ch19",
+        "chapter_id": "ch19"
+      }
+    ]
+  },
+  {
+    "id": 91,
+    "query": "Which solver uses the standard OpenFOAM thermodynamic classes for reacting multi-species systems?",
+    "description": "Which solver uses the standard OpenFOAM thermodynamic classes for reacting multi-species systems?",
+    "difficulty": "intermediate",
+    "category": "solvers",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "solver19.5",
+        "number": "19.5",
+        "title": "blastReactingFoam",
+        "canonical_id": "solver19.5",
+        "section_id": "ch19",
+        "chapter_id": "ch19"
+      }
+    ]
+  },
+  {
+    "id": 92,
+    "query": "Where is the blastMultiRegionFoam solver for thermally coupled multi-region problems documented?",
+    "description": "Where is the blastMultiRegionFoam solver for thermally coupled multi-region problems documented?",
+    "difficulty": "advanced",
+    "category": "solvers",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "solver19.6",
+        "number": "19.6",
+        "title": "blastMultiRegionFoam",
+        "canonical_id": "solver19.6",
+        "section_id": "ch19",
+        "chapter_id": "ch19"
+      }
+    ]
+  },
+  {
+    "id": 93,
+    "query": "Which solver entry describes blastParcelFoam for coupled Eulerian flow and Lagrangian parcels?",
+    "description": "Which solver entry describes blastParcelFoam for coupled Eulerian flow and Lagrangian parcels?",
+    "difficulty": "intermediate",
+    "category": "solvers",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "solver19.7",
+        "number": "19.7",
+        "title": "blastParcelFoam",
+        "canonical_id": "solver19.7",
+        "section_id": "ch19",
+        "chapter_id": "ch19"
+      }
+    ]
+  },
+  {
+    "id": 94,
+    "query": "Where is the blastEquation utility that evaluates coded equations documented?",
+    "description": "Where is the blastEquation utility that evaluates coded equations documented?",
+    "difficulty": "intermediate",
+    "category": "solvers",
+    "benchmark": "user_guide",
+    "source_blueprint": "dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "target_nodes": [
+      {
+        "node_id": "solver19.8",
+        "number": "19.8",
+        "title": "blastEquation",
+        "canonical_id": "solver19.8",
+        "section_id": "ch19",
+        "chapter_id": "ch19"
+      }
+    ]
+  }
+]

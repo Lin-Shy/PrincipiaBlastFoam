@@ -21,8 +21,8 @@
 
 ### 数据文件
 
-- strict 数据集: `dataset/retrieval/blastfoam_retrieval_validation_dataset_strict.json`
-- strict 审计: `dataset/retrieval/blastfoam_retrieval_validation_dataset_strict_audit.json`
+- strict 数据集: `dataset/retrieval/benchmarks/case_content/blastfoam_retrieval_validation_dataset_strict.json`
+- strict 审计: `dataset/retrieval/benchmarks/case_content/blastfoam_retrieval_validation_dataset_strict_audit.json`
 - tutorial 清单: `dataset/retrieval/tutorial_case_manifest.json`
 - 审计摘要: `dataset/retrieval/STRICT_RETRIEVAL_AUDIT_SUMMARY.md`
 - 问题复核: `dataset/retrieval/STRICT_RETRIEVAL_DATASET_ISSUE_REVIEW.md`

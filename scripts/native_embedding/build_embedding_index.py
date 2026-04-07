@@ -1,17 +1,39 @@
-import os
+import argparse
 import hashlib
-import requests
+import json
+import os
 from pathlib import Path
-from typing import List
+from typing import List, Optional
+
+import requests
+
 try:
     from dotenv import load_dotenv
 except ModuleNotFoundError:
     def load_dotenv(*_args, **_kwargs):  # type: ignore[no-redef]
         return False
+
 from langchain.docstore.document import Document
+from langchain.embeddings.base import Embeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
-from langchain.embeddings.base import Embeddings
+
+
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+USER_GUIDE_GRAPH_PATH = (
+    PROJECT_ROOT
+    / "data"
+    / "knowledge_graph"
+    / "user_guide_knowledge_graph"
+    / "user_guide_knowledge_graph.json"
+)
+
+
+def cache_path_for(benchmark: str, embedding_level: str, source_identity: str, source_name: str, cache_dir: Path) -> Path:
+    source_hash = hashlib.md5(source_identity.encode("utf-8")).hexdigest()[:8]
+    if benchmark == "case_content":
+        return cache_dir / f"embedding_{embedding_level}_{source_name}_{source_hash}"
+    return cache_dir / f"embedding_{benchmark}_{embedding_level}_{source_name}_{source_hash}"
 
 
 class CustomOpenAIEmbeddings(Embeddings):
@@ -19,381 +41,354 @@ class CustomOpenAIEmbeddings(Embeddings):
     Custom embeddings class that uses standard OpenAI API format.
     Compatible with DashScope and other OpenAI-compatible APIs.
     """
+
     def __init__(self, api_key: str, base_url: str, model: str):
         self.api_key = api_key
-        self.base_url = base_url.rstrip('/')
+        self.base_url = base_url.rstrip("/")
         self.model = model
         self.headers = {
             "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         }
-    
+
     def embed_documents(self, texts: List[str]) -> List[List[float]]:
-        """Embed a list of documents."""
         embeddings = []
-        # DashScope has a batch size limit of 10
         batch_size = 10
         for i in range(0, len(texts), batch_size):
             batch = texts[i:i + batch_size]
-            batch_embeddings = self._get_embeddings(batch)
-            embeddings.extend(batch_embeddings)
+            embeddings.extend(self._get_embeddings(batch))
         return embeddings
-    
+
     def embed_query(self, text: str) -> List[float]:
-        """Embed a single query."""
         return self._get_embeddings([text])[0]
-    
+
     def _get_embeddings(self, texts: List[str]) -> List[List[float]]:
-        """Call the embedding API."""
         url = f"{self.base_url}/embeddings"
-        
-        # Use standard OpenAI format
         payload = {
             "model": self.model,
-            "input": texts if len(texts) > 1 else texts[0]
+            "input": texts if len(texts) > 1 else texts[0],
         }
-        
         try:
             response = requests.post(url, headers=self.headers, json=payload, timeout=60)
             response.raise_for_status()
             data = response.json()
-            
-            # Extract embeddings from response
-            if isinstance(data.get('data'), list):
-                # Sort by index to ensure correct order
-                sorted_data = sorted(data['data'], key=lambda x: x.get('index', 0))
-                return [item['embedding'] for item in sorted_data]
-            else:
-                raise ValueError(f"Unexpected response format: {data}")
-                
-        except requests.exceptions.RequestException as e:
-            raise Exception(f"Embedding API request failed: {e}")
+            if isinstance(data.get("data"), list):
+                sorted_data = sorted(data["data"], key=lambda x: x.get("index", 0))
+                return [item["embedding"] for item in sorted_data]
+            raise ValueError(f"Unexpected response format: {data}")
+        except requests.exceptions.RequestException as exc:
+            raise Exception(f"Embedding API request failed: {exc}")
 
 
 class EmbeddingIndexBuilder:
     """
-    A tool for building and saving FAISS vector store indexes.
-    Supports both case-level (READMEs) and file-level (all files) embeddings.
+    Build and cache FAISS indexes for retrieval benchmarks.
     """
-    def __init__(self, case_base_dir: str, embedding_level: str = 'case'):
-        """
-        Initializes the EmbeddingIndexBuilder.
 
-        Args:
-            case_base_dir (str): The base directory where the cases are stored.
-            embedding_level (str): 'case' for READMEs, 'file' for all files.
-        """
-        if not case_base_dir or not os.path.isdir(case_base_dir):
-            raise ValueError(f"Provided case_base_dir is not a valid directory: {case_base_dir}")
+    def __init__(
+        self,
+        case_base_dir: Optional[str] = None,
+        embedding_level: str = "case",
+        benchmark: str = "case_content",
+    ):
+        load_dotenv(dotenv_path=PROJECT_ROOT / ".env")
 
-        # Load environment variables from the project root
-        project_root = Path(__file__).parent.parent.parent
-        dotenv_path = project_root / '.env'
-        load_dotenv(dotenv_path=dotenv_path)
-
-        self.case_base_dir = Path(case_base_dir)
+        self.benchmark = benchmark
         self.embedding_level = embedding_level
-        
-        # Use custom embeddings that work with DashScope API
+        self.case_base_dir = Path(case_base_dir) if case_base_dir else None
+
+        if self.benchmark == "case_content":
+            if not self.case_base_dir or not self.case_base_dir.is_dir():
+                raise ValueError(f"Provided case_base_dir is not a valid directory: {case_base_dir}")
+            if self.embedding_level not in {"case", "file"}:
+                raise ValueError("case_content benchmark supports only embedding_level='case' or 'file'.")
+            source_identity = str(self.case_base_dir.resolve())
+            source_name = self.case_base_dir.name
+        elif self.benchmark == "user_guide":
+            if self.embedding_level != "node":
+                raise ValueError("user_guide benchmark supports only embedding_level='node'.")
+            source_identity = str(USER_GUIDE_GRAPH_PATH.resolve())
+            source_name = USER_GUIDE_GRAPH_PATH.stem
+        else:
+            raise ValueError(f"Unsupported benchmark: {self.benchmark}")
+
         self.embeddings = CustomOpenAIEmbeddings(
             api_key=os.getenv("EMBEDDING_API_KEY"),
             base_url=os.getenv("EMBEDDING_API_BASE_URL"),
-            model=os.getenv("EMBEDDING_MODEL", "text-embedding-v3")
+            model=os.getenv("EMBEDDING_MODEL", "text-embedding-v3"),
         )
-        
-        # Setup cache directory
-        self.cache_dir = project_root / "data" / "vector_store_cache"
+
+        self.cache_dir = PROJECT_ROOT / "data" / "vector_store_cache"
         self.cache_dir.mkdir(parents=True, exist_ok=True)
-        
-        # Create a descriptive name for the cache file
-        # Format: embedding_{level}_{dirname_hash}
-        # This makes it easier to identify which index corresponds to which directory
-        base_dir_name = self.case_base_dir.name
-        base_dir_hash = hashlib.md5(str(self.case_base_dir).encode('utf-8')).hexdigest()[:8]
-        self.cache_path = self.cache_dir / f"embedding_{self.embedding_level}_{base_dir_name}_{base_dir_hash}"
-        
-        # Text splitter for large documents
+        self.cache_path = cache_path_for(
+            benchmark=self.benchmark,
+            embedding_level=self.embedding_level,
+            source_identity=source_identity,
+            source_name=source_name,
+            cache_dir=self.cache_dir,
+        )
         self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 
     def _is_case_directory(self, directory: Path) -> bool:
-        """
-        Check if a directory is a valid OpenFOAM case directory.
-        A directory is considered a case if it contains an Allrun file.
-        
-        Args:
-            directory (Path): The directory to check.
-            
-        Returns:
-            bool: True if the directory contains an Allrun file.
-        """
-        allrun_file = directory / 'Allrun'
-        return allrun_file.exists() and allrun_file.is_file()
-    
-    def _find_case_directories(self, base_dir: Path) -> list:
-        """
-        Recursively find all case directories under base_dir.
-        
-        Args:
-            base_dir (Path): The base directory to search.
-            
-        Returns:
-            list: A list of Path objects representing case directories.
-        """
-        case_dirs = []
-        
-        def recursive_search(current_dir: Path):
-            """Recursively search for case directories."""
+        return (directory / "Allrun").exists()
+
+    def _find_case_directories(self, base_dir: Path) -> List[Path]:
+        case_dirs: List[Path] = []
+
+        def recursive_search(current_dir: Path) -> None:
             if not current_dir.is_dir():
                 return
-            
-            # Check if current directory is a case directory
             if self._is_case_directory(current_dir):
                 case_dirs.append(current_dir)
-                # Don't search subdirectories of a case directory
                 return
-            
-            # Recursively search subdirectories
             try:
                 for subdir in current_dir.iterdir():
                     if subdir.is_dir():
                         recursive_search(subdir)
             except PermissionError:
-                # Skip directories we don't have permission to read
                 pass
-        
+
         recursive_search(base_dir)
         return case_dirs
-    
-    def _load_documents(self):
-        """
-        Loads documents based on the embedding level.
-        - 'case': Each README.md is a document.
-        - 'file': Each file in a case is a document.
-        
-        Recursively searches for case directories (identified by Allrun file).
-        """
-        docs = []
-        
-        # Find all case directories
+
+    def _load_case_content_documents(self) -> List[Document]:
+        docs: List[Document] = []
+        assert self.case_base_dir is not None
+
         print(f"Searching for case directories (containing Allrun) in {self.case_base_dir}...")
         case_dirs = self._find_case_directories(self.case_base_dir)
         print(f"Found {len(case_dirs)} case directories.")
-        
+
         for case_dir in case_dirs:
-            if self.embedding_level == 'case':
-                # Load only README.md from each case
-                readme_path = case_dir / 'README.md'
-                if readme_path.exists():
+            if self.embedding_level == "case":
+                readme_path = case_dir / "README.md"
+                if not readme_path.exists():
+                    continue
+                try:
+                    content = readme_path.read_text(encoding="utf-8").strip()
+                except Exception:
+                    continue
+                if not content:
+                    continue
+                docs.append(
+                    Document(
+                        page_content=content,
+                        metadata={
+                            "source": str(readme_path),
+                            "case_dir": str(case_dir),
+                            "case_name": case_dir.name,
+                            "benchmark": self.benchmark,
+                            "embedding_level": self.embedding_level,
+                        },
+                    )
+                )
+            elif self.embedding_level == "file":
+                for file_path in case_dir.rglob("*"):
+                    if not file_path.is_file():
+                        continue
                     try:
-                        content = readme_path.read_text(encoding='utf-8')
-                        if content and content.strip():
-                            content_str = str(content).strip()
-                            if content_str:
-                                docs.append(Document(
-                                    page_content=content_str, 
-                                    metadata={
-                                        "source": str(readme_path),
-                                        "case_dir": str(case_dir),
-                                        "case_name": case_dir.name
-                                    }
-                                ))
-                    except Exception as e:
-                        print(f"Error reading {readme_path}: {e}")
-                        
-            elif self.embedding_level == 'file':
-                # Load all files from each case
-                for file_path in case_dir.rglob('*'):
-                    if file_path.is_file():
-                        try:
-                            content = file_path.read_text(encoding='utf-8')
-                            if content and content.strip():
-                                content_str = str(content).strip()
-                                if content_str:
-                                    docs.append(Document(
-                                        page_content=content_str, 
-                                        metadata={
-                                            "source": str(file_path),
-                                            "case_dir": str(case_dir),
-                                            "case_name": case_dir.name,
-                                            "file_name": file_path.name
-                                        }
-                                    ))
-                        except Exception as e:
-                            # Ignore binary files or files with encoding issues
-                            pass
-        
+                        content = file_path.read_text(encoding="utf-8").strip()
+                    except Exception:
+                        continue
+                    if not content:
+                        continue
+                    docs.append(
+                        Document(
+                            page_content=content,
+                            metadata={
+                                "source": str(file_path),
+                                "case_dir": str(case_dir),
+                                "case_name": case_dir.name,
+                                "file_name": file_path.name,
+                                "benchmark": self.benchmark,
+                                "embedding_level": self.embedding_level,
+                            },
+                        )
+                    )
+
         return docs
 
-    def build_and_save_index(self, force_rebuild: bool = False):
-        """
-        Builds the FAISS vector store and saves it to disk.
-        
-        Args:
-            force_rebuild (bool): If True, rebuild even if cache exists.
-            
-        Returns:
-            bool: True if successful, False otherwise.
-        """
-        # Check if a cached index exists
+    def _user_guide_node_to_text(self, node: dict) -> str:
+        parts = [
+            f"Node ID: {node.get('id')}",
+            f"Section Number: {node.get('number')}",
+            f"Title: {node.get('title')}",
+            f"Semantic Type: {node.get('semantic_type')}",
+        ]
+
+        summary = str(node.get("content_summary") or "").strip()
+        if summary:
+            parts.append(f"Summary:\n{summary}")
+
+        content = str(node.get("content") or "").strip()
+        if content:
+            parts.append(f"Content:\n{content}")
+
+        table = node.get("table")
+        if table and table != "[]":
+            if isinstance(table, str):
+                try:
+                    table = json.loads(table)
+                except Exception:
+                    pass
+            parts.append(f"Table:\n{json.dumps(table, ensure_ascii=False, indent=2)}")
+
+        return "\n\n".join(parts).strip()
+
+    def _load_user_guide_documents(self) -> List[Document]:
+        docs: List[Document] = []
+        nodes = json.loads(USER_GUIDE_GRAPH_PATH.read_text(encoding="utf-8"))
+
+        for node in nodes:
+            node_id = node.get("id")
+            if not node_id:
+                continue
+
+            content = self._user_guide_node_to_text(node)
+            if not content:
+                continue
+
+            docs.append(
+                Document(
+                    page_content=content,
+                    metadata={
+                        "source": str(node_id),
+                        "node_id": str(node_id),
+                        "number": str(node.get("number") or ""),
+                        "title": str(node.get("title") or ""),
+                        "semantic_type": str(node.get("semantic_type") or ""),
+                        "parent_id": str(node.get("parentId") or ""),
+                        "benchmark": self.benchmark,
+                        "embedding_level": self.embedding_level,
+                    },
+                )
+            )
+
+        print(f"Loaded {len(docs)} user-guide nodes from {USER_GUIDE_GRAPH_PATH}")
+        return docs
+
+    def _load_documents(self) -> List[Document]:
+        if self.benchmark == "case_content":
+            return self._load_case_content_documents()
+        if self.benchmark == "user_guide":
+            return self._load_user_guide_documents()
+        raise ValueError(f"Unsupported benchmark: {self.benchmark}")
+
+    def build_and_save_index(self, force_rebuild: bool = False) -> bool:
         if self.cache_path.exists() and not force_rebuild:
             print(f"Index already exists at {self.cache_path}")
             print("Use force_rebuild=True to rebuild.")
             return True
 
-        # Build a new index
-        print(f"Building new FAISS index for embedding level '{self.embedding_level}'...")
+        print(
+            f"Building new FAISS index for benchmark '{self.benchmark}' "
+            f"at embedding level '{self.embedding_level}'..."
+        )
         documents = self._load_documents()
-        
         if not documents:
-            print(f"No documents found for embedding level '{self.embedding_level}' in '{self.case_base_dir}'")
+            print(f"No documents found for benchmark '{self.benchmark}' and level '{self.embedding_level}'.")
             return False
-        
+
         print(f"Loaded {len(documents)} documents.")
-        
-        # Split documents into chunks to avoid token limit issues
-        texts = []
+        texts: List[Document] = []
         for doc in documents:
-            max_chars = 8000 * 4  # Conservative limit (1 token ≈ 4 chars)
+            max_chars = 8000 * 4
             if len(doc.page_content) > max_chars:
-                chunks = self.text_splitter.split_documents([doc])
-                texts.extend(chunks)
+                texts.extend(self.text_splitter.split_documents([doc]))
             else:
                 texts.append(doc)
 
-        if not texts:
-            print("No documents to index.")
+        valid_texts = [doc for doc in texts if isinstance(doc.page_content, str) and doc.page_content.strip()]
+        if not valid_texts:
+            print("No valid documents after filtering.")
             return False
 
-        print(f"Processing {len(texts)} document chunks for indexing...")
+        print(f"Processing {len(valid_texts)} document chunks for indexing...")
+        batch_size = 100
+        vector_store = None
 
-        try:
-            # Validate all documents have valid content
-            valid_texts = []
-            for doc in texts:
-                if isinstance(doc.page_content, str) and doc.page_content.strip():
-                    valid_texts.append(doc)
-                else:
-                    print(f"Skipping invalid document: {doc.metadata.get('source', 'unknown')}")
-            
-            if not valid_texts:
-                print("No valid documents after filtering.")
-                return False
-            
-            print(f"Valid documents after filtering: {len(valid_texts)}")
-            
-            # Process documents in batches
-            batch_size = 100
-            vector_store = None
-            
-            for i in range(0, len(valid_texts), batch_size):
-                batch = valid_texts[i:i + batch_size]
-                print(f"Processing batch {i//batch_size + 1}/{(len(valid_texts)-1)//batch_size + 1} ({len(batch)} documents)...")
-                
-                try:
-                    if vector_store is None:
-                        vector_store = FAISS.from_documents(batch, self.embeddings)
-                    else:
-                        batch_store = FAISS.from_documents(batch, self.embeddings)
-                        vector_store.merge_from(batch_store)
-                except Exception as batch_error:
-                    print(f"Error processing batch {i//batch_size + 1}: {batch_error}")
-                    print("Retrying this batch one document at a time to isolate bad inputs...")
-
-                    recovered_docs = 0
-                    for doc in batch:
-                        source = doc.metadata.get("source", "unknown")
-                        try:
-                            if vector_store is None:
-                                vector_store = FAISS.from_documents([doc], self.embeddings)
-                            else:
-                                single_store = FAISS.from_documents([doc], self.embeddings)
-                                vector_store.merge_from(single_store)
-                            recovered_docs += 1
-                        except Exception as single_error:
-                            print(f"Skipping document after single-document retry failed: {source}")
-                            print(f"  Error: {single_error}")
-
-                    print(
-                        f"Recovered {recovered_docs}/{len(batch)} documents "
-                        f"from batch {i//batch_size + 1} after fallback retry."
-                    )
-                    continue
-            
-            if vector_store is None:
-                print("Failed to create vector store from any batch.")
-                return False
-            
-            print(f"Successfully built FAISS index for embedding level '{self.embedding_level}'.")
-            
-            # Save the index to cache
+        for i in range(0, len(valid_texts), batch_size):
+            batch = valid_texts[i:i + batch_size]
+            print(f"Processing batch {i // batch_size + 1}/{(len(valid_texts) - 1) // batch_size + 1} ({len(batch)} documents)...")
             try:
-                print(f"Saving FAISS index to {self.cache_path}")
-                vector_store.save_local(str(self.cache_path))
-                print("Successfully saved index to cache.")
-                return True
-            except Exception as e:
-                print(f"Error saving index to cache: {e}")
-                return False
+                if vector_store is None:
+                    vector_store = FAISS.from_documents(batch, self.embeddings)
+                else:
+                    batch_store = FAISS.from_documents(batch, self.embeddings)
+                    vector_store.merge_from(batch_store)
+            except Exception as batch_error:
+                print(f"Error processing batch {i // batch_size + 1}: {batch_error}")
+                print("Retrying this batch one document at a time to isolate bad inputs...")
+                recovered_docs = 0
+                for doc in batch:
+                    source = doc.metadata.get("source", "unknown")
+                    try:
+                        if vector_store is None:
+                            vector_store = FAISS.from_documents([doc], self.embeddings)
+                        else:
+                            single_store = FAISS.from_documents([doc], self.embeddings)
+                            vector_store.merge_from(single_store)
+                        recovered_docs += 1
+                    except Exception as single_error:
+                        print(f"Skipping document after single-document retry failed: {source}")
+                        print(f"  Error: {single_error}")
+                print(f"Recovered {recovered_docs}/{len(batch)} documents from batch {i // batch_size + 1} after fallback retry.")
 
-        except Exception as e:
-            print(f"Error building FAISS index: {e}")
-            import traceback
-            traceback.print_exc()
+        if vector_store is None:
+            print("Failed to create vector store from any batch.")
+            return False
+
+        print(
+            f"Successfully built FAISS index for benchmark '{self.benchmark}' "
+            f"at embedding level '{self.embedding_level}'."
+        )
+        try:
+            print(f"Saving FAISS index to {self.cache_path}")
+            vector_store.save_local(str(self.cache_path))
+            print("Successfully saved index to cache.")
+            return True
+        except Exception as exc:
+            print(f"Error saving index to cache: {exc}")
             return False
 
 
-def main():
-    """Main function to build indexes."""
-    # Load environment variables
-    project_root = Path(__file__).parent.parent.parent
-    dotenv_path = project_root / '.env'
-    load_dotenv(dotenv_path=dotenv_path)
-    
-    foam_tutorials_path = os.getenv("BLASTFOAM_TUTORIALS")
-    
-    if not foam_tutorials_path:
-        print("BLASTFOAM_TUTORIALS environment variable not set.")
-        return
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Build FAISS embedding indexes for retrieval benchmarks.")
+    parser.add_argument("--benchmark", default="case_content", choices=["case_content", "user_guide"])
+    parser.add_argument("--embedding-level", default=None, help="Embedding level. case_content: case|file, user_guide: node")
+    parser.add_argument("--tutorials-dir", default=os.getenv("BLASTFOAM_TUTORIALS"), help="Tutorials root for case_content.")
+    parser.add_argument("--force-rebuild", action="store_true", help="Rebuild even if a cache already exists.")
+    return parser.parse_args()
 
-    print(f"Using BLASTFOAM_TUTORIALS path: {foam_tutorials_path}")
-    
-    # Build case-level index
-    print("\n" + "="*60)
-    print("Building Case-Level Index (README files only)")
-    print("="*60)
-    case_builder = EmbeddingIndexBuilder(
-        case_base_dir=foam_tutorials_path, 
-        embedding_level='case'
-    )
-    case_success = case_builder.build_and_save_index(force_rebuild=False)
-    
-    if case_success:
-        print("\n✓ Case-level index built successfully!")
-    else:
-        print("\n✗ Failed to build case-level index.")
-    
-    # Build file-level index
-    print("\n" + "="*60)
-    print("Building File-Level Index (all files)")
-    print("="*60)
-    print("WARNING: This may take a very long time for large repositories!")
-    
-    # Ask for confirmation
-    response = input("Do you want to build file-level index? (yes/no): ")
-    if response.lower() in ['yes', 'y']:
-        file_builder = EmbeddingIndexBuilder(
-            case_base_dir=foam_tutorials_path, 
-            embedding_level='file'
+
+def main() -> None:
+    load_dotenv(dotenv_path=PROJECT_ROOT / ".env")
+    args = parse_args()
+
+    if args.benchmark == "case_content":
+        if not args.tutorials_dir:
+            raise SystemExit("BLASTFOAM_TUTORIALS environment variable not set.")
+        embedding_level = args.embedding_level or "file"
+        print(f"Using BLASTFOAM_TUTORIALS path: {args.tutorials_dir}")
+        builder = EmbeddingIndexBuilder(
+            case_base_dir=args.tutorials_dir,
+            embedding_level=embedding_level,
+            benchmark=args.benchmark,
         )
-        file_success = file_builder.build_and_save_index(force_rebuild=False)
-        
-        if file_success:
-            print("\n✓ File-level index built successfully!")
-        else:
-            print("\n✗ Failed to build file-level index.")
     else:
-        print("Skipping file-level index build.")
+        embedding_level = args.embedding_level or "node"
+        builder = EmbeddingIndexBuilder(
+            case_base_dir=None,
+            embedding_level=embedding_level,
+            benchmark=args.benchmark,
+        )
+
+    success = builder.build_and_save_index(force_rebuild=args.force_rebuild)
+    if success:
+        print("\n✓ Index built successfully!")
+    else:
+        print("\n✗ Failed to build index.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

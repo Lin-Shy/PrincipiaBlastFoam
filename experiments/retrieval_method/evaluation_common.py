@@ -24,11 +24,13 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from dataset.retrieval.benchmark_registry import get_benchmark_config
 from dataset.retrieval.strict_retrieval_evaluator import StrictRetrievalEvaluator
 
 
-DEFAULT_DATASET_PATH = PROJECT_ROOT / "dataset" / "retrieval" / "blastfoam_retrieval_validation_dataset_strict.json"
-DEFAULT_RESULTS_DIR = PROJECT_ROOT / "experiments" / "retrieval_method" / "results"
+DEFAULT_BENCHMARK = "case_content"
+DEFAULT_DATASET_PATH = Path(get_benchmark_config(DEFAULT_BENCHMARK)["default_dataset"])
+DEFAULT_RESULTS_DIR = Path(get_benchmark_config(DEFAULT_BENCHMARK)["default_results_dir"])
 
 
 def load_project_environment() -> None:
@@ -47,6 +49,18 @@ def parse_k_values(raw_value: Optional[str]) -> List[int]:
 def ensure_results_dir(results_dir: Path) -> Path:
     results_dir.mkdir(parents=True, exist_ok=True)
     return results_dir
+
+
+def resolve_dataset_path(benchmark: str, dataset_override: Optional[str]) -> Path:
+    if dataset_override:
+        return Path(dataset_override).resolve()
+    return Path(get_benchmark_config(benchmark)["default_dataset"]).resolve()
+
+
+def resolve_results_dir(benchmark: str, results_override: Optional[str]) -> Path:
+    if results_override:
+        return ensure_results_dir(Path(results_override).resolve())
+    return ensure_results_dir(Path(get_benchmark_config(benchmark)["default_results_dir"]).resolve())
 
 
 def now_timestamp() -> str:

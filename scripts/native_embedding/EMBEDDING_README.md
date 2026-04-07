@@ -7,10 +7,11 @@
 - `build_embedding_index.py`: 构建并缓存 FAISS 索引
 - `embedding_retriever.py`: 加载缓存索引并执行相似度搜索
 
-## 支持的索引级别
+## 支持的 benchmark / 索引级别
 
-- `case`: 仅索引 case 级 README，速度快，但无法直接支持 strict file 命中
-- `file`: 索引 tutorial 中的文件内容，是当前 strict embedding 基线的默认配置
+- `case_content/case`: 仅索引 case 级 README，速度快，但无法直接支持 strict file 命中
+- `case_content/file`: 索引 tutorial 中的文件内容，是当前 case-content strict embedding 基线的默认配置
+- `user_guide/node`: 索引用户手册知识图谱节点内容，是当前 user-guide embedding 基线
 
 ## 推荐使用流程
 
@@ -26,7 +27,18 @@ EMBEDDING_MODEL=text-embedding-v3
 ### 2. 构建索引
 
 ```bash
-python scripts/native_embedding/build_embedding_index.py
+python scripts/native_embedding/build_embedding_index.py \
+  --benchmark case_content \
+  --embedding-level file \
+  --tutorials-dir "$BLASTFOAM_TUTORIALS"
+```
+
+构建 `user_guide` 节点级索引：
+
+```bash
+python scripts/native_embedding/build_embedding_index.py \
+  --benchmark user_guide \
+  --embedding-level node
 ```
 
 索引会缓存到：
@@ -37,8 +49,17 @@ python scripts/native_embedding/build_embedding_index.py
 
 ```bash
 python experiments/retrieval_method/evaluate_embedding_retriever.py \
+  --benchmark case_content \
   --tutorials-dir "$BLASTFOAM_TUTORIALS" \
   --embedding-level file
+```
+
+评测 `user_guide` embedding baseline：
+
+```bash
+python experiments/retrieval_method/evaluate_embedding_retriever.py \
+  --benchmark user_guide \
+  --embedding-level node
 ```
 
 当前评测说明见：
@@ -55,6 +76,18 @@ from scripts.native_embedding.build_embedding_index import EmbeddingIndexBuilder
 builder = EmbeddingIndexBuilder(
     case_base_dir="/path/to/blastFoam_tutorials",
     embedding_level="file",
+    benchmark="case_content",
+)
+builder.build_and_save_index(force_rebuild=False)
+```
+
+用户手册：
+
+```python
+builder = EmbeddingIndexBuilder(
+    case_base_dir=None,
+    embedding_level="node",
+    benchmark="user_guide",
 )
 builder.build_and_save_index(force_rebuild=False)
 ```
@@ -67,16 +100,30 @@ from scripts.native_embedding.embedding_retriever import EmbeddingRetriever
 retriever = EmbeddingRetriever(
     case_base_dir="/path/to/blastFoam_tutorials",
     embedding_level="file",
+    benchmark="case_content",
 )
 results = retriever.search_with_scores("Set maxCo to 0.3", k=5)
+```
+
+用户手册：
+
+```python
+retriever = EmbeddingRetriever(
+    case_base_dir=None,
+    embedding_level="node",
+    benchmark="user_guide",
+)
+results = retriever.search_with_scores("Where is the RK4 time integration method described?", k=5)
 ```
 
 ## 实现要点
 
 - 使用 OpenAI-compatible embedding API
-- case base dir 通过 MD5 命名缓存，避免不同教程目录互相覆盖
+- case-content 索引会继续沿用原有缓存命名，避免已有 FAISS 缓存失效
+- user-guide 索引会按知识图谱文件路径单独缓存
 - file-level 模式会递归扫描 case 目录下文件，并过滤空文件/不可读文件
-- 检索评测时，返回的 `source` 路径会交给 strict evaluator 做 `case + file` 归一化匹配
+- user-guide node-level 模式会把节点编号、标题、摘要、正文、表格一起写入 embedding 文本
+- 检索评测时，返回的 `source` / `node_id` 会交给 strict evaluator 做目标归一化匹配
 
 ## 常见问题
 
@@ -85,7 +132,13 @@ results = retriever.search_with_scores("Set maxCo to 0.3", k=5)
 先运行：
 
 ```bash
-python scripts/native_embedding/build_embedding_index.py
+python scripts/native_embedding/build_embedding_index.py --benchmark case_content --embedding-level file --tutorials-dir "$BLASTFOAM_TUTORIALS"
+```
+
+或针对用户手册：
+
+```bash
+python scripts/native_embedding/build_embedding_index.py --benchmark user_guide --embedding-level node
 ```
 
 ### file-level 太慢

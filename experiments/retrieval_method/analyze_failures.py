@@ -17,6 +17,8 @@ project_root = Path(__file__).parent.parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
+from dataset.retrieval.benchmark_registry import get_benchmark_config
+
 
 class FailureAnalyzer:
     """Analyze retrieval failures to identify improvement opportunities."""
@@ -38,6 +40,22 @@ class FailureAnalyzer:
         
         print(f"Loaded results from: {self.results_file.name}")
         print(f"Total queries: {len(self.results)}")
+
+    @staticmethod
+    def _target_key(result: Dict) -> str:
+        if "target_files" in result:
+            return "target_files"
+        if "target_nodes" in result:
+            return "target_nodes"
+        return "target_files"
+
+    @staticmethod
+    def _retrieved_key(result: Dict) -> str:
+        if "retrieved_files" in result:
+            return "retrieved_files"
+        if "retrieved_nodes" in result:
+            return "retrieved_nodes"
+        return "retrieved_files"
     
     def identify_failures(self, metric: str = 'hit@5', threshold: float = 0.0) -> List[Dict]:
         """
@@ -93,7 +111,7 @@ class FailureAnalyzer:
         # Target file patterns
         target_files = defaultdict(int)
         for f in failures:
-            for target in f.get('target_files', []):
+            for target in f.get(self._target_key(f), []):
                 target_files[target] += 1
         
         print("\nMost Common Target Files in Failures (Top 10):")
@@ -119,11 +137,13 @@ class FailureAnalyzer:
             print(f"Query: {failure.get('query')}")
             print(f"Difficulty: {failure.get('difficulty')}")
             print(f"Category: {failure.get('category')}")
-            print(f"\nTarget Files:")
-            for target in failure.get('target_files', []):
+            target_label = "Target Files" if self._target_key(failure) == "target_files" else "Target Nodes"
+            retrieved_label = "Retrieved Files" if self._retrieved_key(failure) == "retrieved_files" else "Retrieved Nodes"
+            print(f"\n{target_label}:")
+            for target in failure.get(self._target_key(failure), []):
                 print(f"  - {target}")
-            print(f"\nRetrieved Files:")
-            retrieved = failure.get('retrieved_files', [])
+            print(f"\n{retrieved_label}:")
+            retrieved = failure.get(self._retrieved_key(failure), [])
             if retrieved:
                 for j, ret_file in enumerate(retrieved[:5], 1):
                     print(f"  {j}. {ret_file}")
@@ -258,7 +278,7 @@ class FailureAnalyzer:
 def main():
     """Main function to run failure analysis."""
     
-    results_dir = Path(__file__).parent / 'results'
+    results_dir = Path(get_benchmark_config("case_content")["default_results_dir"])
     
     if not results_dir.exists():
         print(f"Results directory not found: {results_dir}")

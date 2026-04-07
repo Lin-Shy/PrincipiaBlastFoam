@@ -1,0 +1,566 @@
+[
+  {
+    "node_id": "sec2.1",
+    "difficulty": "basic",
+    "category": "governing_equations",
+    "query": "Which section explains the single-fluid governing equations used in BlastFoam?"
+  },
+  {
+    "node_id": "sec2.2",
+    "difficulty": "intermediate",
+    "category": "governing_equations",
+    "query": "Where does the user guide describe the multi-fluid formulation where each phase has its own mass, momentum, and energy?"
+  },
+  {
+    "node_id": "sec2.2.1",
+    "difficulty": "basic",
+    "category": "governing_equations",
+    "query": "Which section explains the governing equations for granular phases in the multi-fluid model?"
+  },
+  {
+    "node_id": "sec3.1",
+    "difficulty": "basic",
+    "category": "interfacial_models",
+    "query": "Where is the overview of interfacial drag models documented in the user guide?"
+  },
+  {
+    "node_id": "model3.1.2",
+    "difficulty": "basic",
+    "category": "drag_models",
+    "query": "Which user guide entry documents the Wen-Yu drag model for dispersed particulate flow?"
+  },
+  {
+    "node_id": "model3.1.6",
+    "difficulty": "intermediate",
+    "category": "drag_models",
+    "query": "Where is the drag model that uses Wen-Yu in dilute flow and Ergun in dense flow documented?"
+  },
+  {
+    "node_id": "model3.1.7",
+    "difficulty": "advanced",
+    "category": "drag_models",
+    "query": "Which drag model blends a Gidaspow-style formulation with Schiller-Naumann weighting by dispersed phase volume fraction?"
+  },
+  {
+    "node_id": "sec3.3",
+    "difficulty": "basic",
+    "category": "heat_transfer",
+    "query": "Which section gives the overview of interfacial heat-transfer models?"
+  },
+  {
+    "node_id": "model3.3.1",
+    "difficulty": "basic",
+    "category": "heat_transfer",
+    "query": "Where is the Ranz-Marshall heat-transfer model described?"
+  },
+  {
+    "node_id": "sec3.4",
+    "difficulty": "basic",
+    "category": "heat_transfer",
+    "query": "Which section covers the Nusselt number models available in BlastFoam?"
+  },
+  {
+    "node_id": "model3.4.2",
+    "difficulty": "intermediate",
+    "category": "heat_transfer",
+    "query": "Where is the duct Nusselt-number model for hollow particles documented?"
+  },
+  {
+    "node_id": "model3.5.2",
+    "difficulty": "advanced",
+    "category": "mass_transfer",
+    "query": "Which user guide entry documents the reacting-particle mass-transfer model?"
+  },
+  {
+    "node_id": "model3.6.3",
+    "difficulty": "intermediate",
+    "category": "interfacial_models",
+    "query": "Where is the total-pressure interfacial pressure model described?"
+  },
+  {
+    "node_id": "model3.7.2",
+    "difficulty": "intermediate",
+    "category": "interfacial_models",
+    "query": "Which entry defines the mass-averaged interfacial velocity model?"
+  },
+  {
+    "node_id": "sec4.1",
+    "difficulty": "basic",
+    "category": "granular_models",
+    "query": "Where is the overview of radial distribution models for granular phases?"
+  },
+  {
+    "node_id": "sec4.2",
+    "difficulty": "basic",
+    "category": "granular_models",
+    "query": "Which section introduces the available granular viscosity models?"
+  },
+  {
+    "node_id": "model4.2.2",
+    "difficulty": "intermediate",
+    "category": "granular_models",
+    "query": "Where is the Hrenya-Sinclair granular viscosity model documented?"
+  },
+  {
+    "node_id": "sec4.3",
+    "difficulty": "basic",
+    "category": "granular_models",
+    "query": "Which section presents the granular conductivity models?"
+  },
+  {
+    "node_id": "model4.3.3",
+    "difficulty": "intermediate",
+    "category": "granular_models",
+    "query": "Where is the Hrenya-Sinclair granular conductivity model described?"
+  },
+  {
+    "node_id": "sec4.5",
+    "difficulty": "basic",
+    "category": "granular_models",
+    "query": "Which section explains the frictional stress models used near the packing limit?"
+  },
+  {
+    "node_id": "model4.5.1",
+    "difficulty": "basic",
+    "category": "granular_models",
+    "query": "What user guide entry documents the Johnson-Jackson frictional stress model?"
+  },
+  {
+    "node_id": "sec4.6",
+    "difficulty": "basic",
+    "category": "granular_models",
+    "query": "Where does the user guide discuss packing-limit models for granular phases?"
+  },
+  {
+    "node_id": "model4.6.2",
+    "difficulty": "intermediate",
+    "category": "granular_models",
+    "query": "Where is the Yu-Standish packing-limit model described?"
+  },
+  {
+    "node_id": "model4.6.3",
+    "difficulty": "advanced",
+    "category": "granular_models",
+    "query": "Which packing-limit model is only valid for a binary mixture, according to the user guide?"
+  },
+  {
+    "node_id": "sec4.7",
+    "difficulty": "intermediate",
+    "category": "granular_models",
+    "query": "Which section introduces granular drag models between particle phases?"
+  },
+  {
+    "node_id": "model4.7.2",
+    "difficulty": "advanced",
+    "category": "granular_models",
+    "query": "Where is the Syamlal granular drag model documented?"
+  },
+  {
+    "node_id": "sec5.1",
+    "difficulty": "basic",
+    "category": "thermodynamic_models",
+    "query": "Which section provides the overview of thermodynamic models?"
+  },
+  {
+    "node_id": "model5.1.1",
+    "difficulty": "basic",
+    "category": "thermodynamic_models",
+    "query": "Where is the eConst thermodynamic model with constant Cv documented?"
+  },
+  {
+    "node_id": "model5.1.11",
+    "difficulty": "intermediate",
+    "category": "thermodynamic_models",
+    "query": "Which thermodynamic model uses JANAF polynomial coefficients for low and high temperature ranges?"
+  },
+  {
+    "node_id": "sec5.2",
+    "difficulty": "basic",
+    "category": "equation_of_state",
+    "query": "Which section introduces the equation-of-state models in the user guide?"
+  },
+  {
+    "node_id": "sec5.2.2",
+    "difficulty": "intermediate",
+    "category": "equation_of_state",
+    "query": "Where is the subsection about internal-energy-based equations of state in Mie-Gruneisen form?"
+  },
+  {
+    "node_id": "model5.2.2.7",
+    "difficulty": "advanced",
+    "category": "equation_of_state",
+    "query": "Which user guide entry documents the LSZK equation of state for ideal explosives?"
+  },
+  {
+    "node_id": "model5.2.2.8",
+    "difficulty": "intermediate",
+    "category": "equation_of_state",
+    "query": "Where is the JWL equation of state documented for energetic materials?"
+  },
+  {
+    "node_id": "sec5.2.3",
+    "difficulty": "intermediate",
+    "category": "equation_of_state",
+    "query": "Which subsection groups the temperature-based equations of state?"
+  },
+  {
+    "node_id": "model5.2.3.2",
+    "difficulty": "advanced",
+    "category": "equation_of_state",
+    "query": "Where is the temperature-based C-form JWL model, called JWLC, documented?"
+  },
+  {
+    "node_id": "model5.2.3.3",
+    "difficulty": "advanced",
+    "category": "equation_of_state",
+    "query": "Which user guide entry explains the Abel-Nobel equation of state for propellant-like explosive materials?"
+  },
+  {
+    "node_id": "model5.2.3.4",
+    "difficulty": "advanced",
+    "category": "equation_of_state",
+    "query": "Which user guide entry explains the BKW equation of state for explosive materials?"
+  },
+  {
+    "node_id": "sec5.3",
+    "difficulty": "basic",
+    "category": "transport_models",
+    "query": "Where is the overview of fluid transport models documented?"
+  },
+  {
+    "node_id": "model5.3.2",
+    "difficulty": "basic",
+    "category": "transport_models",
+    "query": "Which fluid transport model uses Sutherland's formula for viscosity?"
+  },
+  {
+    "node_id": "sec5.4",
+    "difficulty": "basic",
+    "category": "transport_models",
+    "query": "Which section introduces the solid transport models?"
+  },
+  {
+    "node_id": "model5.4.2",
+    "difficulty": "intermediate",
+    "category": "transport_models",
+    "query": "Where is the constAnIso solid-transport model with anisotropic conductivity documented?"
+  },
+  {
+    "node_id": "sec5.6",
+    "difficulty": "basic",
+    "category": "reactive_models",
+    "query": "Which section introduces the detonating thermodynamic model?"
+  },
+  {
+    "node_id": "sec5.6.1",
+    "difficulty": "intermediate",
+    "category": "reactive_models",
+    "query": "Where does the user guide group the available activation models for detonating solids?"
+  },
+  {
+    "node_id": "model5.6.1.3",
+    "difficulty": "advanced",
+    "category": "reactive_models",
+    "query": "Which activation model supports programmed ignition together with compression-based triggering?"
+  },
+  {
+    "node_id": "model5.6.1.4",
+    "difficulty": "advanced",
+    "category": "reactive_models",
+    "query": "Where is the pressure-based activation model for detonating material described?"
+  },
+  {
+    "node_id": "model5.6.1.5",
+    "difficulty": "advanced",
+    "category": "reactive_models",
+    "query": "Where is the Arrhenius-rate activation model for detonating solids described?"
+  },
+  {
+    "node_id": "sec5.6.2",
+    "difficulty": "intermediate",
+    "category": "reactive_models",
+    "query": "Which subsection introduces the afterburn models?"
+  },
+  {
+    "node_id": "model5.6.2.4",
+    "difficulty": "advanced",
+    "category": "reactive_models",
+    "query": "Which user guide entry documents the Miller afterburn model?"
+  },
+  {
+    "node_id": "sec5.8",
+    "difficulty": "intermediate",
+    "category": "multiphase_models",
+    "query": "Where does the user guide discuss the thermodynamic setup for two-phase and multiphase models?"
+  },
+  {
+    "node_id": "model7.1.3",
+    "difficulty": "intermediate",
+    "category": "burst_models",
+    "query": "Which burst model uses both pressure and impulse to decide when a patch should fail?"
+  },
+  {
+    "node_id": "model7.1.4",
+    "difficulty": "advanced",
+    "category": "burst_models",
+    "query": "Where is the burst model that checks a list of fields and threshold values documented?"
+  },
+  {
+    "node_id": "sec8.1",
+    "difficulty": "basic",
+    "category": "boundary_conditions",
+    "query": "Which section explains the global region-model boundary conditions?"
+  },
+  {
+    "node_id": "model8.1.1",
+    "difficulty": "basic",
+    "category": "boundary_conditions",
+    "query": "Where is the globalMapped boundary condition documented?"
+  },
+  {
+    "node_id": "model8.1.3",
+    "difficulty": "intermediate",
+    "category": "boundary_conditions",
+    "query": "Which boundary condition computes patch temperature using mapped global data and thermal coupling?"
+  },
+  {
+    "node_id": "model9.3",
+    "difficulty": "intermediate",
+    "category": "diameter_models",
+    "query": "Where is the reacting diameter model documented?"
+  },
+  {
+    "node_id": "sec9.4",
+    "difficulty": "basic",
+    "category": "diameter_models",
+    "query": "Which section groups the reaction-rate models used by the diameter model?"
+  },
+  {
+    "node_id": "model9.4.2",
+    "difficulty": "intermediate",
+    "category": "diameter_models",
+    "query": "Which diameter reaction-rate model uses an Arrhenius formula?"
+  },
+  {
+    "node_id": "sec10.1",
+    "difficulty": "basic",
+    "category": "numerics",
+    "query": "Which section introduces the available Riemann solvers in BlastFoam?"
+  },
+  {
+    "node_id": "model10.1.5",
+    "difficulty": "advanced",
+    "category": "numerics",
+    "query": "Where is the AUSM+up flux scheme with low-speed correction documented?"
+  },
+  {
+    "node_id": "sec10.2",
+    "difficulty": "intermediate",
+    "category": "numerics",
+    "query": "Which section explains the Riemann advection scheme used for non-conserved transport quantities?"
+  },
+  {
+    "node_id": "sec10.3",
+    "difficulty": "basic",
+    "category": "numerics",
+    "query": "Where does the user guide explain the available time-integration methods?"
+  },
+  {
+    "node_id": "method10.3.6",
+    "difficulty": "basic",
+    "category": "numerics",
+    "query": "Where is the RK4 time integration method described in the user guide?"
+  },
+  {
+    "node_id": "method10.3.7",
+    "difficulty": "advanced",
+    "category": "numerics",
+    "query": "Which time-integration method is the fourth-order SSP Runge-Kutta scheme?"
+  },
+  {
+    "node_id": "sec11.1",
+    "difficulty": "basic",
+    "category": "amr",
+    "query": "Which section introduces AMR error estimators?"
+  },
+  {
+    "node_id": "method11.1.5",
+    "difficulty": "advanced",
+    "category": "amr",
+    "query": "Where is the density-gradient AMR error estimator documented?"
+  },
+  {
+    "node_id": "method11.1.6",
+    "difficulty": "intermediate",
+    "category": "amr",
+    "query": "Which AMR error estimator section documents the Lohner method?"
+  },
+  {
+    "node_id": "method11.1.7",
+    "difficulty": "advanced",
+    "category": "amr",
+    "query": "Where is the multicomponent AMR error estimator that combines multiple criteria?"
+  },
+  {
+    "node_id": "sec11.2",
+    "difficulty": "intermediate",
+    "category": "amr",
+    "query": "Where does the user guide discuss dynamic load balancing for adaptive mesh refinement?"
+  },
+  {
+    "node_id": "sec12.1",
+    "difficulty": "basic",
+    "category": "numerics",
+    "query": "Which section introduces the 1D, 2D, and 3D lookup-table framework?"
+  },
+  {
+    "node_id": "method12.1.2",
+    "difficulty": "basic",
+    "category": "numerics",
+    "query": "Which user guide entry explains interpolation schemes for lookup tables?"
+  },
+  {
+    "node_id": "method12.1.3",
+    "difficulty": "intermediate",
+    "category": "numerics",
+    "query": "Where is the section about 1D lookup tables with derivative and reverse-lookup support?"
+  },
+  {
+    "node_id": "method12.1.5",
+    "difficulty": "advanced",
+    "category": "numerics",
+    "query": "Which user guide entry explains 3D lookup tables that read values using x, y, and z inputs?"
+  },
+  {
+    "node_id": "sec12.3",
+    "difficulty": "intermediate",
+    "category": "numerics",
+    "query": "Where is the overview of univariate and multivariate root solvers documented?"
+  },
+  {
+    "node_id": "sec12.5",
+    "difficulty": "intermediate",
+    "category": "numerics",
+    "query": "Which section describes the numerical integrators for arbitrary data types?"
+  },
+  {
+    "node_id": "sec15.1",
+    "difficulty": "basic",
+    "category": "function_objects",
+    "query": "Where is the blastProbes function object documented?"
+  },
+  {
+    "node_id": "sec15.8",
+    "difficulty": "basic",
+    "category": "function_objects",
+    "query": "Where is the blastMachNo function object documented?"
+  },
+  {
+    "node_id": "sec15.10",
+    "difficulty": "basic",
+    "category": "function_objects",
+    "query": "Which function object writes the overpressure field relative to a reference pressure?"
+  },
+  {
+    "node_id": "sec15.11",
+    "difficulty": "basic",
+    "category": "function_objects",
+    "query": "Which function object integrates overpressure over time to compute impulse?"
+  },
+  {
+    "node_id": "sec15.12",
+    "difficulty": "intermediate",
+    "category": "function_objects",
+    "query": "Where is the function object that records the time of peak pressure arrival documented?"
+  },
+  {
+    "node_id": "sec16.2",
+    "difficulty": "basic",
+    "category": "utilities",
+    "query": "Which utility converts patch data into smaller VTK files for post-processing?"
+  },
+  {
+    "node_id": "sec16.3",
+    "difficulty": "basic",
+    "category": "utilities",
+    "query": "Which utility generates a .series file so ParaView can load a VTK or STL time sequence?"
+  },
+  {
+    "node_id": "sec16.5",
+    "difficulty": "basic",
+    "category": "utilities",
+    "query": "Which utility computes impulse from a pressure probe file?"
+  },
+  {
+    "node_id": "sec16.6",
+    "difficulty": "basic",
+    "category": "utilities",
+    "query": "Where is the initializeAtmosphere utility described?"
+  },
+  {
+    "node_id": "sec16.7",
+    "difficulty": "intermediate",
+    "category": "utilities",
+    "query": "Which utility rotates and maps fields from a 1D or 2D solution onto a higher-dimensional mesh?"
+  },
+  {
+    "node_id": "sec16.9",
+    "difficulty": "advanced",
+    "category": "utilities",
+    "query": "Which utility reconstructs decomposed cases that have undergone dynamic load balancing?"
+  },
+  {
+    "node_id": "ch14",
+    "difficulty": "basic",
+    "category": "coupling",
+    "query": "Where is the chapter about coupling BlastFoam to preCICE's OpenFOAM adapter?"
+  },
+  {
+    "node_id": "solver19.1",
+    "difficulty": "basic",
+    "category": "solvers",
+    "query": "Which solver entry describes the standard blastFoam solver for single-phase and multiphase flows?"
+  },
+  {
+    "node_id": "solver19.2",
+    "difficulty": "basic",
+    "category": "solvers",
+    "query": "Where is the blastEulerFoam solver for Euler-Euler multifluid simulations documented?"
+  },
+  {
+    "node_id": "solver19.3",
+    "difficulty": "basic",
+    "category": "solvers",
+    "query": "Which solver entry describes blastFSIFoam for fluid-solid interaction problems?"
+  },
+  {
+    "node_id": "solver19.4",
+    "difficulty": "basic",
+    "category": "solvers",
+    "query": "Where is the blastXiFoam combustion solver documented?"
+  },
+  {
+    "node_id": "solver19.5",
+    "difficulty": "intermediate",
+    "category": "solvers",
+    "query": "Which solver uses the standard OpenFOAM thermodynamic classes for reacting multi-species systems?"
+  },
+  {
+    "node_id": "solver19.6",
+    "difficulty": "advanced",
+    "category": "solvers",
+    "query": "Where is the blastMultiRegionFoam solver for thermally coupled multi-region problems documented?"
+  },
+  {
+    "node_id": "solver19.7",
+    "difficulty": "intermediate",
+    "category": "solvers",
+    "query": "Which solver entry describes blastParcelFoam for coupled Eulerian flow and Lagrangian parcels?"
+  },
+  {
+    "node_id": "solver19.8",
+    "difficulty": "intermediate",
+    "category": "solvers",
+    "query": "Where is the blastEquation utility that evaluates coded equations documented?"
+  }
+]

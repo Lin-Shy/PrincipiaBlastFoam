@@ -10,13 +10,15 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Sequence
 
 try:
+    from benchmark_registry import get_benchmark_config
     from strict_retrieval_evaluator import StrictRetrievalEvaluator
 except ModuleNotFoundError:
+    from dataset.retrieval.benchmark_registry import get_benchmark_config
     from dataset.retrieval.strict_retrieval_evaluator import StrictRetrievalEvaluator
 
 
 RETRIEVAL_DIR = Path(__file__).resolve().parent
-DEFAULT_DATASET_PATH = RETRIEVAL_DIR / "blastfoam_retrieval_validation_dataset_strict.json"
+DEFAULT_DATASET_PATH = Path(get_benchmark_config("case_content")["default_dataset"])
 
 STRICT_CASE_HINTS: Dict[str, Sequence[str]] = {
     "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass": (

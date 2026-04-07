@@ -22,6 +22,8 @@ project_root = Path(__file__).parent.parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
+from dataset.retrieval.benchmark_registry import get_benchmark_config
+
 
 class RetrieverComparator:
     """Compare performance of different retrieval methods."""
@@ -34,7 +36,7 @@ class RetrieverComparator:
             results_dir: Directory containing evaluation result JSON files
         """
         if results_dir is None:
-            results_dir = Path(__file__).parent / 'results'
+            results_dir = Path(get_benchmark_config("case_content")["default_results_dir"])
         
         self.results_dir = Path(results_dir)
         self.results = {}
@@ -487,7 +489,9 @@ def main():
     
     # Generate visualizations
     print("\nGenerating comparison plots...")
-    plot_path = Path(__file__).parent / 'results' / f'comparison_plot_{datetime.now().strftime("%Y%m%d_%H%M%S")}.png'
+    results_dir = Path(get_benchmark_config("case_content")["default_results_dir"])
+    results_dir.mkdir(parents=True, exist_ok=True)
+    plot_path = results_dir / f'comparison_plot_{datetime.now().strftime("%Y%m%d_%H%M%S")}.png'
     try:
         comparator.plot_comparison(save_path=str(plot_path))
     except Exception as e:
@@ -495,7 +499,7 @@ def main():
         print("Note: matplotlib may not be installed or display may not be available")
     
     # Generate report
-    report_path = Path(__file__).parent / 'results' / f'comparison_report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.md'
+    report_path = results_dir / f'comparison_report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.md'
     comparator.generate_report(output_file=str(report_path))
 
 

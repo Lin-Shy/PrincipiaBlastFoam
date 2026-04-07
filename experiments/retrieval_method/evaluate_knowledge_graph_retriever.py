@@ -19,14 +19,14 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from dataset.retrieval.strict_retrieval_evaluator import StrictRetrievalEvaluator
 from experiments.retrieval_method.evaluation_common import (
-    DEFAULT_DATASET_PATH,
-    DEFAULT_RESULTS_DIR,
+    DEFAULT_BENCHMARK,
     build_evaluation_payload,
-    ensure_results_dir,
     load_project_environment,
     maybe_limit_dataset,
     parse_k_values,
     print_summary,
+    resolve_dataset_path,
+    resolve_results_dir,
     save_results,
 )
 
@@ -41,24 +41,24 @@ def default_kg_max_iterations() -> int:
     except ValueError:
         return 3
 
-def load_knowledge_graph_retriever_class():
-    module_path = PROJECT_ROOT / "principia_ai" / "tools" / "case_content_knowledge_graph_tool.py"
+def load_knowledge_graph_retriever_class(module_path: Path, class_name: str):
     spec = importlib.util.spec_from_file_location("strict_kg_eval_module", module_path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"Could not load module spec from {module_path}")
 
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    return module.CaseContentKnowledgeGraphRetriever
+    return getattr(module, class_name)
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Evaluate knowledge-graph retrieval with strict case+file matching.")
-    parser.add_argument("--dataset", default=str(DEFAULT_DATASET_PATH), help="Strict retrieval dataset path.")
+    parser = argparse.ArgumentParser(description="Evaluate knowledge-graph retrieval for the configured benchmark.")
+    parser.add_argument("--benchmark", default=DEFAULT_BENCHMARK, help="Benchmark name, e.g. case_content or user_guide.")
+    parser.add_argument("--dataset", default=None, help="Retrieval dataset path. Defaults to the selected benchmark dataset.")
     parser.add_argument("--tutorials-dir", default=os.getenv("BLASTFOAM_TUTORIALS"), help="Tutorial root directory.")
     parser.add_argument("--k-values", default="1,3,5,10", help="Comma-separated K values, e.g. 1,3,5,10")
     parser.add_argument("--limit", type=int, default=None, help="Evaluate only the first N queries.")
-    parser.add_argument("--results-dir", default=str(DEFAULT_RESULTS_DIR), help="Directory for result JSON files.")
+    parser.add_argument("--results-dir", default=None, help="Directory for result JSON files. Defaults to the selected benchmark results directory.")
     parser.add_argument(
         "--max-iterations",
         type=int,
@@ -92,28 +92,35 @@ def main() -> None:
     load_project_environment()
     args = parse_args()
 
-    if not args.tutorials_dir:
+    if args.benchmark == "case_content" and not args.tutorials_dir:
         raise SystemExit("Please provide --tutorials-dir or set BLASTFOAM_TUTORIALS.")
 
-    dataset_path = Path(args.dataset).resolve()
-    tutorials_dir = Path(args.tutorials_dir).resolve()
-    results_dir = ensure_results_dir(Path(args.results_dir).resolve())
+    from dataset.retrieval.benchmark_registry import get_benchmark_config
+
+    benchmark_config = get_benchmark_config(args.benchmark)
+    dataset_path = resolve_dataset_path(args.benchmark, args.dataset)
+    tutorials_dir = Path(args.tutorials_dir).resolve() if args.tutorials_dir else None
+    results_dir = resolve_results_dir(args.benchmark, args.results_dir)
     k_values = parse_k_values(args.k_values)
 
-    os.environ["BLASTFOAM_TUTORIALS"] = str(tutorials_dir)
+    if tutorials_dir:
+        os.environ["BLASTFOAM_TUTORIALS"] = str(tutorials_dir)
 
-    evaluator = StrictRetrievalEvaluator(str(dataset_path), str(tutorials_dir))
+    evaluator = StrictRetrievalEvaluator(str(dataset_path), str(tutorials_dir) if tutorials_dir else None)
     maybe_limit_dataset(evaluator, args.limit)
 
     try:
-        CaseContentKnowledgeGraphRetriever = load_knowledge_graph_retriever_class()
+        retriever_class = load_knowledge_graph_retriever_class(
+            module_path=Path(benchmark_config["knowledge_graph_module"]),
+            class_name=str(benchmark_config["knowledge_graph_class"]),
+        )
     except ModuleNotFoundError as exc:
         raise SystemExit(
             "Knowledge-graph evaluation dependencies are missing. "
             f"Install the packages from requirements.txt and retry. Missing module: {exc.name}"
         ) from exc
 
-    retriever = CaseContentKnowledgeGraphRetriever(
+    retriever = retriever_class(
         llm_api_key=args.retrieval_llm_api_key,
         llm_base_url=args.retrieval_llm_base_url,
         llm_model=args.retrieval_llm_model,
@@ -149,7 +156,8 @@ def main() -> None:
         k_values=k_values,
         metadata_updates={
             "dataset": str(dataset_path),
-            "retriever_type": "case_content_knowledge_graph",
+            "benchmark": args.benchmark,
+            "retriever_type": f"{args.benchmark}_knowledge_graph",
             "strict_mode": True,
             "max_iterations": args.max_iterations,
             "include_file_content": args.include_file_content,
@@ -159,6 +167,7 @@ def main() -> None:
             "total_queries": len(evaluator.dataset),
         },
         aggregate_updates={
+            "benchmark": args.benchmark,
             "strict_mode": True,
         },
     )
@@ -169,16 +178,7 @@ def main() -> None:
     print(f"\nSaved results to: {output_path}")
     print_summary(
         results,
-        metric_names=[
-            "mrr",
-            "hit@1",
-            "hit@3",
-            "hit@5",
-            "case_hit@5",
-            "precision@5",
-            "recall@5",
-            "avg_retrieval_time",
-        ],
+        metric_names=benchmark_config["summary_metrics"],
     )
 
 

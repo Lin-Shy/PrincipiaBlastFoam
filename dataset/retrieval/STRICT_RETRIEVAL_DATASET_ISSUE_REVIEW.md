@@ -17,8 +17,8 @@ Current strict dataset facts:
 
 Source references:
 
-- `dataset/retrieval/blastfoam_retrieval_validation_dataset_strict.json`
-- `dataset/retrieval/blastfoam_retrieval_validation_dataset_strict_audit.json`
+- `dataset/retrieval/benchmarks/case_content/blastfoam_retrieval_validation_dataset_strict.json`
+- `dataset/retrieval/benchmarks/case_content/blastfoam_retrieval_validation_dataset_strict_audit.json`
 - `dataset/retrieval/STRICT_RETRIEVAL_AUDIT_SUMMARY.md`
 
 ## Main Findings

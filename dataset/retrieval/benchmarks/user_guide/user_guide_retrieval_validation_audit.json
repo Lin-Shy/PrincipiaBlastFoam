@@ -1,0 +1,826 @@
+{
+  "metadata": {
+    "blueprint_path": "/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam/dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_blueprint.json",
+    "graph_path": "/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam/data/knowledge_graph/user_guide_knowledge_graph/user_guide_knowledge_graph.json",
+    "dataset_path": "/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam/dataset/retrieval/benchmarks/user_guide/user_guide_retrieval_validation_dataset.json",
+    "total_entries": 94
+  },
+  "summary": {
+    "pass": 92,
+    "warn": 2,
+    "fail": 0,
+    "difficulty_distribution": {
+      "advanced": 20,
+      "basic": 42,
+      "intermediate": 32
+    },
+    "category_distribution": {
+      "amr": 5,
+      "boundary_conditions": 3,
+      "burst_models": 2,
+      "coupling": 1,
+      "diameter_models": 3,
+      "drag_models": 3,
+      "equation_of_state": 8,
+      "function_objects": 5,
+      "governing_equations": 3,
+      "granular_models": 12,
+      "heat_transfer": 4,
+      "interfacial_models": 3,
+      "mass_transfer": 1,
+      "multiphase_models": 1,
+      "numerics": 12,
+      "reactive_models": 7,
+      "solvers": 8,
+      "thermodynamic_models": 3,
+      "transport_models": 4,
+      "utilities": 6
+    },
+    "chapter_distribution": {
+      "ch10": 6,
+      "ch11": 5,
+      "ch12": 6,
+      "ch14": 1,
+      "ch15": 5,
+      "ch16": 6,
+      "ch19": 8,
+      "ch2": 3,
+      "ch3": 11,
+      "ch4": 12,
+      "ch5": 23,
+      "ch7": 2,
+      "ch8": 3,
+      "ch9": 3
+    },
+    "section_count": 50,
+    "avg_query_length": 10.52127659574468,
+    "min_query_length": 6,
+    "max_query_length": 19,
+    "duplicate_query_count": 0,
+    "duplicate_node_count": 0,
+    "ambiguous_title_count": 0
+  },
+  "checks": {
+    "duplicate_queries": [],
+    "duplicate_nodes": [],
+    "ambiguous_titles": []
+  },
+  "per_entry_audit": [
+    {
+      "id": 1,
+      "node_id": "sec2.1",
+      "number": "2.1",
+      "title": "Single-fluid model",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 2,
+      "node_id": "sec2.2",
+      "number": "2.2",
+      "title": "Multi-fluid",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 3,
+      "node_id": "sec2.2.1",
+      "number": "2.2.1",
+      "title": "Granular phases",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 4,
+      "node_id": "sec3.1",
+      "number": "3.1",
+      "title": "Drag models",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 5,
+      "node_id": "model3.1.2",
+      "number": "3.1.2",
+      "title": "WenYu",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 6,
+      "node_id": "model3.1.6",
+      "number": "3.1.6",
+      "title": "GidaspowErgunWenYu",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 7,
+      "node_id": "model3.1.7",
+      "number": "3.1.7",
+      "title": "GidaspowSchillerNaumann",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 8,
+      "node_id": "sec3.3",
+      "number": "3.3",
+      "title": "Heat transfer models",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 9,
+      "node_id": "model3.3.1",
+      "number": "3.3.1",
+      "title": "RanzMarshall",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 10,
+      "node_id": "sec3.4",
+      "number": "3.4",
+      "title": "Nusselt number models",
+      "status": "warn",
+      "issues": [
+        "missing_content_and_table"
+      ]
+    },
+    {
+      "id": 11,
+      "node_id": "model3.4.2",
+      "number": "3.4.2",
+      "title": "duct",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 12,
+      "node_id": "model3.5.2",
+      "number": "3.5.2",
+      "title": "reactingParticle",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 13,
+      "node_id": "model3.6.3",
+      "number": "3.6.3",
+      "title": "totalPressure",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 14,
+      "node_id": "model3.7.2",
+      "number": "3.7.2",
+      "title": "massAveraged",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 15,
+      "node_id": "sec4.1",
+      "number": "4.1",
+      "title": "Radial distribution models",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 16,
+      "node_id": "sec4.2",
+      "number": "4.2",
+      "title": "Granular viscosity models",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 17,
+      "node_id": "model4.2.2",
+      "number": "4.2.2",
+      "title": "HrenyaSinclair",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 18,
+      "node_id": "sec4.3",
+      "number": "4.3",
+      "title": "Granular conductivity models",
+      "status": "warn",
+      "issues": [
+        "missing_content_and_table"
+      ]
+    },
+    {
+      "id": 19,
+      "node_id": "model4.3.3",
+      "number": "4.3.3",
+      "title": "HrenyaSinclair",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 20,
+      "node_id": "sec4.5",
+      "number": "4.5",
+      "title": "Frictional stress models",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 21,
+      "node_id": "model4.5.1",
+      "number": "4.5.1",
+      "title": "JohnsonJackson",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 22,
+      "node_id": "sec4.6",
+      "number": "4.6",
+      "title": "Packing limit models",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 23,
+      "node_id": "model4.6.2",
+      "number": "4.6.2",
+      "title": "YuStandish",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 24,
+      "node_id": "model4.6.3",
+      "number": "4.6.3",
+      "title": "FedorsLandel",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 25,
+      "node_id": "sec4.7",
+      "number": "4.7",
+      "title": "Granular drag models",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 26,
+      "node_id": "model4.7.2",
+      "number": "4.7.2",
+      "title": "Syamlal",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 27,
+      "node_id": "sec5.1",
+      "number": "5.1",
+      "title": "Thermodynamic models",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 28,
+      "node_id": "model5.1.1",
+      "number": "5.1.1",
+      "title": "eConst",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 29,
+      "node_id": "model5.1.11",
+      "number": "5.1.11",
+      "title": "JANAF",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 30,
+      "node_id": "sec5.2",
+      "number": "5.2",
+      "title": "Equation of states",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 31,
+      "node_id": "sec5.2.2",
+      "number": "5.2.2",
+      "title": "Internal energy based (Mie-Grüneisen form)",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 32,
+      "node_id": "model5.2.2.7",
+      "number": "5.2.2.7",
+      "title": "LSZK",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 33,
+      "node_id": "model5.2.2.8",
+      "number": "5.2.2.8",
+      "title": "JWL",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 34,
+      "node_id": "sec5.2.3",
+      "number": "5.2.3",
+      "title": "Temperature-based",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 35,
+      "node_id": "model5.2.3.2",
+      "number": "5.2.3.2",
+      "title": "JWLC",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 36,
+      "node_id": "model5.2.3.3",
+      "number": "5.2.3.3",
+      "title": "AbelNobel",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 37,
+      "node_id": "model5.2.3.4",
+      "number": "5.2.3.4",
+      "title": "BKW",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 38,
+      "node_id": "sec5.3",
+      "number": "5.3",
+      "title": "Fluid Transport",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 39,
+      "node_id": "model5.3.2",
+      "number": "5.3.2",
+      "title": "sutherland",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 40,
+      "node_id": "sec5.4",
+      "number": "5.4",
+      "title": "Solid Transport",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 41,
+      "node_id": "model5.4.2",
+      "number": "5.4.2",
+      "title": "constAnIso",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 42,
+      "node_id": "sec5.6",
+      "number": "5.6",
+      "title": "Detonating thermodynamic model",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 43,
+      "node_id": "sec5.6.1",
+      "number": "5.6.1",
+      "title": "Activation Models",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 44,
+      "node_id": "model5.6.1.3",
+      "number": "5.6.1.3",
+      "title": "programmedIgnition",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 45,
+      "node_id": "model5.6.1.4",
+      "number": "5.6.1.4",
+      "title": "pressureBased",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 46,
+      "node_id": "model5.6.1.5",
+      "number": "5.6.1.5",
+      "title": "ArrheniusRate",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 47,
+      "node_id": "sec5.6.2",
+      "number": "5.6.2",
+      "title": "Afterburn Models",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 48,
+      "node_id": "model5.6.2.4",
+      "number": "5.6.2.4",
+      "title": "Miller",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 49,
+      "node_id": "sec5.8",
+      "number": "5.8",
+      "title": "Two/multiphase models",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 50,
+      "node_id": "model7.1.3",
+      "number": "7.1.3",
+      "title": "pressureAndImpulse",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 51,
+      "node_id": "model7.1.4",
+      "number": "7.1.4",
+      "title": "field",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 52,
+      "node_id": "sec8.1",
+      "number": "8.1",
+      "title": "Boundary conditions",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 53,
+      "node_id": "model8.1.1",
+      "number": "8.1.1",
+      "title": "globalMapped",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 54,
+      "node_id": "model8.1.3",
+      "number": "8.1.3",
+      "title": "globalTemperatureCoupled",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 55,
+      "node_id": "model9.3",
+      "number": "9.3",
+      "title": "reacting",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 56,
+      "node_id": "sec9.4",
+      "number": "9.4",
+      "title": "Reaction Rates",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 57,
+      "node_id": "model9.4.2",
+      "number": "9.4.2",
+      "title": "Arrhenius",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 58,
+      "node_id": "sec10.1",
+      "number": "10.1",
+      "title": "Riemann Solvers",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 59,
+      "node_id": "model10.1.5",
+      "number": "10.1.5",
+      "title": "AUSM+up",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 60,
+      "node_id": "sec10.2",
+      "number": "10.2",
+      "title": "Riemann advection scheme",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 61,
+      "node_id": "sec10.3",
+      "number": "10.3",
+      "title": "Time integration",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 62,
+      "node_id": "method10.3.6",
+      "number": "10.3.6",
+      "title": "RK4",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 63,
+      "node_id": "method10.3.7",
+      "number": "10.3.7",
+      "title": "RK4SSP",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 64,
+      "node_id": "sec11.1",
+      "number": "11.1",
+      "title": "Error estimators",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 65,
+      "node_id": "method11.1.5",
+      "number": "11.1.5",
+      "title": "Density gradient (densityGradient)",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 66,
+      "node_id": "method11.1.6",
+      "number": "11.1.6",
+      "title": "Lohner",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 67,
+      "node_id": "method11.1.7",
+      "number": "11.1.7",
+      "title": "multiComponent",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 68,
+      "node_id": "sec11.2",
+      "number": "11.2",
+      "title": "Dynamic Load Balancing",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 69,
+      "node_id": "sec12.1",
+      "number": "12.1",
+      "title": "Lookup tables",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 70,
+      "node_id": "method12.1.2",
+      "number": "12.1.2",
+      "title": "Interpolation schemes",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 71,
+      "node_id": "method12.1.3",
+      "number": "12.1.3",
+      "title": "1D lookup tables",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 72,
+      "node_id": "method12.1.5",
+      "number": "12.1.5",
+      "title": "3D lookup tables",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 73,
+      "node_id": "sec12.3",
+      "number": "12.3",
+      "title": "Root solvers",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 74,
+      "node_id": "sec12.5",
+      "number": "12.5",
+      "title": "Integrators",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 75,
+      "node_id": "sec15.1",
+      "number": "15.1",
+      "title": "blastProbes",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 76,
+      "node_id": "sec15.8",
+      "number": "15.8",
+      "title": "blastMachNo",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 77,
+      "node_id": "sec15.10",
+      "number": "15.10",
+      "title": "overpressure",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 78,
+      "node_id": "sec15.11",
+      "number": "15.11",
+      "title": "impulse",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 79,
+      "node_id": "sec15.12",
+      "number": "15.12",
+      "title": "timeOfArrival",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 80,
+      "node_id": "sec16.2",
+      "number": "16.2",
+      "title": "blastToVTK",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 81,
+      "node_id": "sec16.3",
+      "number": "16.3",
+      "title": "createTimeSeries",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 82,
+      "node_id": "sec16.5",
+      "number": "16.5",
+      "title": "calculateImpulse",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 83,
+      "node_id": "sec16.6",
+      "number": "16.6",
+      "title": "initializeAtmosphere",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 84,
+      "node_id": "sec16.7",
+      "number": "16.7",
+      "title": "rotateFields",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 85,
+      "node_id": "sec16.9",
+      "number": "16.9",
+      "title": "reconstructParAll",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 86,
+      "node_id": "ch14",
+      "number": "14",
+      "title": "Coupling to preCICE’s OpenFOAM adapter",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 87,
+      "node_id": "solver19.1",
+      "number": "19.1",
+      "title": "blastFoam",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 88,
+      "node_id": "solver19.2",
+      "number": "19.2",
+      "title": "blastEulerFoam",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 89,
+      "node_id": "solver19.3",
+      "number": "19.3",
+      "title": "blastFSIFoam",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 90,
+      "node_id": "solver19.4",
+      "number": "19.4",
+      "title": "blastXiFoam",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 91,
+      "node_id": "solver19.5",
+      "number": "19.5",
+      "title": "blastReactingFoam",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 92,
+      "node_id": "solver19.6",
+      "number": "19.6",
+      "title": "blastMultiRegionFoam",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 93,
+      "node_id": "solver19.7",
+      "number": "19.7",
+      "title": "blastParcelFoam",
+      "status": "pass",
+      "issues": []
+    },
+    {
+      "id": 94,
+      "node_id": "solver19.8",
+      "number": "19.8",
+      "title": "blastEquation",
+      "status": "pass",
+      "issues": []
+    }
+  ]
+}

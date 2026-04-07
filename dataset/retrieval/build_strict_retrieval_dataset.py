@@ -25,8 +25,8 @@ MODIFICATION_DATASETS: Sequence[Tuple[str, Path]] = (
     ("basic", PROJECT_ROOT / "dataset" / "modification" / "blastfoam_basic_modifications.json"),
     ("advanced", PROJECT_ROOT / "dataset" / "modification" / "blastfoam_senior_modifications.json"),
 )
-STRICT_DATASET_PATH = RETRIEVAL_DIR / "blastfoam_retrieval_validation_dataset_strict.json"
-STRICT_AUDIT_PATH = RETRIEVAL_DIR / "blastfoam_retrieval_validation_dataset_strict_audit.json"
+STRICT_DATASET_PATH = RETRIEVAL_DIR / "benchmarks" / "case_content" / "blastfoam_retrieval_validation_dataset_strict.json"
+STRICT_AUDIT_PATH = RETRIEVAL_DIR / "benchmarks" / "case_content" / "blastfoam_retrieval_validation_dataset_strict_audit.json"
 CASE_MANIFEST_PATH = RETRIEVAL_DIR / "tutorial_case_manifest.json"
 SUMMARY_PATH = RETRIEVAL_DIR / "STRICT_RETRIEVAL_AUDIT_SUMMARY.md"
 

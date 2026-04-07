@@ -1,0 +1,332 @@
+{
+  "metadata": {
+    "dataset": "/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam/dataset/retrieval/benchmarks/case_content/blastfoam_retrieval_validation_dataset_strict.json",
+    "tutorials_dir": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials",
+    "dataset_mode": "case_content",
+    "total_queries": 1,
+    "timestamp": "20260407_151245",
+    "case_base_dir": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials",
+    "benchmark": "case_content",
+    "retriever_type": "case_content_embedding_file",
+    "embedding_level": "file",
+    "strict_mode": true,
+    "search_k": 40
+  },
+  "aggregate_metrics": {
+    "dataset_mode": "case_content",
+    "total_queries": 1,
+    "mrr": 0.03225806451612903,
+    "hit@1": 0.0,
+    "hit@3": 0.0,
+    "hit@5": 0.0,
+    "hit@10": 0.0,
+    "case_hit@1": 1.0,
+    "case_hit@3": 1.0,
+    "case_hit@5": 1.0,
+    "case_hit@10": 1.0,
+    "file_hit@1": 0.0,
+    "file_hit@3": 0.0,
+    "file_hit@5": 0.0,
+    "file_hit@10": 0.0,
+    "precision@1": 0.0,
+    "precision@3": 0.0,
+    "precision@5": 0.0,
+    "precision@10": 0.0,
+    "recall@1": 0.0,
+    "recall@3": 0.0,
+    "recall@5": 0.0,
+    "recall@10": 0.0,
+    "by_difficulty": {
+      "basic": {
+        "count": 1.0,
+        "mrr": 0.03225806451612903,
+        "hit@1": 0.0,
+        "case_hit@1": 1.0,
+        "file_hit@1": 0.0,
+        "precision@1": 0.0,
+        "recall@1": 0.0,
+        "hit@3": 0.0,
+        "case_hit@3": 1.0,
+        "file_hit@3": 0.0,
+        "precision@3": 0.0,
+        "recall@3": 0.0,
+        "hit@5": 0.0,
+        "case_hit@5": 1.0,
+        "file_hit@5": 0.0,
+        "precision@5": 0.0,
+        "recall@5": 0.0,
+        "hit@10": 0.0,
+        "case_hit@10": 1.0,
+        "file_hit@10": 0.0,
+        "precision@10": 0.0,
+        "recall@10": 0.0
+      }
+    },
+    "by_category": {
+      "turbulence_model": {
+        "count": 1.0,
+        "mrr": 0.03225806451612903,
+        "hit@1": 0.0,
+        "case_hit@1": 1.0,
+        "file_hit@1": 0.0,
+        "precision@1": 0.0,
+        "recall@1": 0.0,
+        "hit@3": 0.0,
+        "case_hit@3": 1.0,
+        "file_hit@3": 0.0,
+        "precision@3": 0.0,
+        "recall@3": 0.0,
+        "hit@5": 0.0,
+        "case_hit@5": 1.0,
+        "file_hit@5": 0.0,
+        "precision@5": 0.0,
+        "recall@5": 0.0,
+        "hit@10": 0.0,
+        "case_hit@10": 1.0,
+        "file_hit@10": 0.0,
+        "precision@10": 0.0,
+        "recall@10": 0.0
+      }
+    },
+    "avg_retrieval_time": 0.4955290110083297,
+    "benchmark": "case_content",
+    "embedding_level": "file",
+    "strict_mode": true
+  },
+  "detailed_results": [
+    {
+      "query_id": 1,
+      "query": "Simulate a deflagration to detonation transition (DDT) process, but use the Spalart-Allmaras turbulence model.",
+      "case_path": "blastXiFoam/deflagrationToDetonationTransition",
+      "difficulty": "basic",
+      "category": "turbulence_model",
+      "target_files": [
+        "blastXiFoam/deflagrationToDetonationTransition::constant/turbulenceProperties"
+      ],
+      "retrieved_files": [
+        "blastXiFoam/deflagrationToDetonationTransition::README.md",
+        "blastFoam/twoChargeDetonation::README.md",
+        "blastFSIFoam/flap::README.md",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle::README.md",
+        "blastEulerFoam/reactingParticles::constant/turbulenceProperties.gas",
+        "blastEulerFoam/shockTube_polydisperse::constant/turbulenceProperties.gas",
+        "blastEulerFoam/shockTube_polydisperse::constant/turbulenceProperties.coal",
+        "blastEulerFoam/reactingParticles::constant/turbulenceProperties.particles",
+        "blastEulerFoam/shockTube_polydisperse::constant/turbulenceProperties.particles1",
+        "blastEulerFoam/shockTube_polydisperse::constant/turbulenceProperties.particles3",
+        "blastFoam/internalDetonation/internalDetonation::constant/phaseProperties",
+        "blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass::constant/phaseProperties",
+        "blastFoam/internalDetonation/internalDetonation_withObstacle::constant/phaseProperties",
+        "blastEulerFoam/shockTube_polydisperse::constant/turbulenceProperties.particles2",
+        "blastFoam/internalDetonation/internalDetonation::README.md",
+        "blastEulerFoam/shockTube_polydisperse::constant/turbulenceProperties.particles4",
+        "solids4Foam/flap::constant/fluid/phaseProperties",
+        "blastFSIFoam/flap::constant/air/phaseProperties",
+        "blastFoam/building3D::constant/phaseProperties",
+        "blastEulerFoam/shockTube_polydisperse::constant/turbulenceProperties.particles0",
+        "preCICE/flap::Fluid/constant/phaseProperties",
+        "preCICE/flap::README.md",
+        "blastFoam/delayedDetonation::constant/phaseProperties",
+        "blastParcelFoam/forwardStep::constant/turbulenceProperties",
+        "blastFoam/mappedBuilding3D::building3D/constant/phaseProperties",
+        "blastFoam/mappedBuilding3D::wedge/constant/phaseProperties",
+        "blastFoam/mappedBuilding3D::sector/constant/phaseProperties",
+        "blastFoam/delayedDetonation::README.md",
+        "blastFoam/twoChargeDetonation::constant/phaseProperties",
+        "blastFoam/building3DWorkshop::constant/phaseProperties",
+        "blastXiFoam/deflagrationToDetonationTransition::constant/turbulenceProperties",
+        "blastFoam/movingCone::constant/turbulenceProperties",
+        "solids4Foam/flap::constant/fluid/turbulenceProperties",
+        "blastFSIFoam/flap::constant/air/turbulenceProperties",
+        "blastFSIFoam/building3D::constant/air/turbulenceProperties",
+        "blastReactingFoam/obliqueShock::constant/turbulenceProperties",
+        "blastFoam/axisymmetricCharge::constant/phaseProperties",
+        "blastReactingFoam/reacting::README.md"
+      ],
+      "mrr": 0.03225806451612903,
+      "hit@1": false,
+      "case_hit@1": true,
+      "file_hit@1": false,
+      "precision@1": 0.0,
+      "recall@1": 0.0,
+      "hit@3": false,
+      "case_hit@3": true,
+      "file_hit@3": false,
+      "precision@3": 0.0,
+      "recall@3": 0.0,
+      "hit@5": false,
+      "case_hit@5": true,
+      "file_hit@5": false,
+      "precision@5": 0.0,
+      "recall@5": 0.0,
+      "hit@10": false,
+      "case_hit@10": true,
+      "file_hit@10": false,
+      "precision@10": 0.0,
+      "recall@10": 0.0,
+      "retrieval_time": 0.4955290110083297,
+      "raw_ranked_results": [
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastXiFoam/deflagrationToDetonationTransition/README.md",
+          "score": 0.7032037377357483
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/twoChargeDetonation/README.md",
+          "score": 0.8083723187446594
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFSIFoam/flap/README.md",
+          "score": 0.8346142172813416
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/solids4Foam/flap/README.md",
+          "score": 0.8380558490753174
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/internalDetonation/internalDetonation_withObstacle/README.md",
+          "score": 0.8418718576431274
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastEulerFoam/reactingParticles/constant/turbulenceProperties.gas",
+          "score": 0.8537761569023132
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastEulerFoam/shockTube_polydisperse/constant/turbulenceProperties.gas",
+          "score": 0.8537761569023132
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastEulerFoam/shockTube_polydisperse/constant/turbulenceProperties.coal",
+          "score": 0.8587983846664429
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastEulerFoam/reactingParticles/constant/turbulenceProperties.particles",
+          "score": 0.8590017557144165
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastEulerFoam/shockTube_polydisperse/constant/turbulenceProperties.particles1",
+          "score": 0.8624913692474365
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastEulerFoam/shockTube_polydisperse/constant/turbulenceProperties.particles3",
+          "score": 0.8639528751373291
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/internalDetonation/internalDetonation/constant/phaseProperties",
+          "score": 0.8645048141479492
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/internalDetonation/internalDetonation_withObstacleAndGlass/constant/phaseProperties",
+          "score": 0.8646864891052246
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/internalDetonation/internalDetonation_withObstacle/constant/phaseProperties",
+          "score": 0.8646864891052246
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastEulerFoam/shockTube_polydisperse/constant/turbulenceProperties.particles2",
+          "score": 0.8653166890144348
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/internalDetonation/internalDetonation/README.md",
+          "score": 0.8689873814582825
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastEulerFoam/shockTube_polydisperse/constant/turbulenceProperties.particles4",
+          "score": 0.8694481253623962
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/solids4Foam/flap/constant/fluid/phaseProperties",
+          "score": 0.8712090849876404
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFSIFoam/flap/constant/air/phaseProperties",
+          "score": 0.8712090849876404
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/building3D/constant/phaseProperties",
+          "score": 0.8715376257896423
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastEulerFoam/shockTube_polydisperse/constant/turbulenceProperties.particles0",
+          "score": 0.8728616237640381
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/preCICE/flap/Fluid/constant/phaseProperties",
+          "score": 0.8731563091278076
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/preCICE/flap/README.md",
+          "score": 0.8765454292297363
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/delayedDetonation/constant/phaseProperties",
+          "score": 0.8773015141487122
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastParcelFoam/forwardStep/constant/turbulenceProperties",
+          "score": 0.8783657550811768
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/mappedBuilding3D/building3D/constant/phaseProperties",
+          "score": 0.8799200057983398
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/mappedBuilding3D/wedge/constant/phaseProperties",
+          "score": 0.8799200057983398
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/mappedBuilding3D/sector/constant/phaseProperties",
+          "score": 0.8800950646400452
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/delayedDetonation/README.md",
+          "score": 0.882615327835083
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/twoChargeDetonation/constant/phaseProperties",
+          "score": 0.8839690685272217
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastEquation/equation/Allrun",
+          "score": 0.8886479139328003
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/building3DWorkshop/constant/phaseProperties",
+          "score": 0.8916212320327759
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastXiFoam/deflagrationToDetonationTransition/constant/turbulenceProperties",
+          "score": 0.8935697078704834
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/movingCone/constant/turbulenceProperties",
+          "score": 0.8964169025421143
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/solids4Foam/flap/constant/fluid/turbulenceProperties",
+          "score": 0.8964169025421143
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFSIFoam/flap/constant/air/turbulenceProperties",
+          "score": 0.8964169025421143
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFSIFoam/building3D/constant/air/turbulenceProperties",
+          "score": 0.8964169025421143
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastReactingFoam/obliqueShock/constant/turbulenceProperties",
+          "score": 0.8964169025421143
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastFoam/axisymmetricCharge/constant/phaseProperties",
+          "score": 0.8992208242416382
+        },
+        {
+          "source": "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials/blastReactingFoam/reacting/README.md",
+          "score": 0.9025121927261353
+        }
+      ]
+    }
+  ]
+}
