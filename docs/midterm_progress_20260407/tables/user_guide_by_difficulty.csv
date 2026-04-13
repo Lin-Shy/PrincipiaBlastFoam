@@ -1,0 +1,4 @@
+difficulty,count,embedding_mrr,kg_mrr,embedding_hit@1,kg_hit@1
+basic,42,0.8361,0.9365,0.7381,0.881
+intermediate,32,0.8646,0.9844,0.75,0.9688
+advanced,20,0.975,0.975,0.95,0.95

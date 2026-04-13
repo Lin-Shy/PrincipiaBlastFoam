@@ -1,0 +1,5 @@
+method,total_queries,mrr,hit@1,hit@3,hit@5,avg_retrieval_time
+case_content_embedding,210,0.0349,0.0,0.0381,0.0524,0.4024
+case_content_kg,210,0.6963,0.6476,0.7429,0.7524,13.6879
+user_guide_embedding,94,0.8754,0.7872,0.9574,1.0,0.3758
+user_guide_kg,94,0.961,0.9255,1.0,1.0,1.9452

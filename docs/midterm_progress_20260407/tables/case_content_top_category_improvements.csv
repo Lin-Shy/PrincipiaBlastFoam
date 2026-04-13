@@ -1,0 +1,11 @@
+category,count,embedding_hit@5,kg_hit@5,gain_hit@5
+equation_of_state,6,0.0,1.0,1.0
+multiphase,20,0.05,0.9,0.85
+structural_mechanics,12,0.0,0.8333,0.8333
+numerical_schemes,23,0.0,0.8261,0.8261
+turbulence_model,10,0.1,0.9,0.8
+thermodynamics,5,0.0,0.8,0.8
+time_control,27,0.037,0.7778,0.7407
+output_control,11,0.0,0.7273,0.7273
+initial_conditions,14,0.0714,0.7857,0.7143
+boundary_conditions,10,0.0,0.7,0.7

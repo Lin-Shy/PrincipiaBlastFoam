@@ -1,0 +1,30 @@
+{
+  "asset_summary": {
+    "case_graph_files": 28,
+    "case_nodes": 28,
+    "file_nodes": 542,
+    "variable_nodes": 3420,
+    "case_graph_edges": 5303,
+    "user_guide_nodes": 233,
+    "case_dataset_size": 210,
+    "guide_dataset_size": 94
+  },
+  "headline_results": {
+    "case_content": {
+      "embedding_mrr": 0.0349,
+      "kg_mrr": 0.6963,
+      "embedding_hit@5": 0.0524,
+      "kg_hit@5": 0.7524,
+      "embedding_avg_time": 0.4024,
+      "kg_avg_time": 13.6879
+    },
+    "user_guide": {
+      "embedding_mrr": 0.8754,
+      "kg_mrr": 0.961,
+      "embedding_hit@1": 0.7872,
+      "kg_hit@1": 0.9255,
+      "embedding_avg_time": 0.3758,
+      "kg_avg_time": 1.9452
+    }
+  }
+}

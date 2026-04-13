@@ -1,0 +1,11 @@
+category,count,embedding_hit@1,kg_hit@1,gain_hit@1
+interfacial_models,3,0.0,1.0,1.0
+multiphase_models,1,0.0,1.0,1.0
+amr,5,0.6,1.0,0.4
+governing_equations,3,0.3333,0.6667,0.3333
+thermodynamic_models,3,0.6667,1.0,0.3333
+diameter_models,3,0.3333,0.6667,0.3333
+heat_transfer,4,0.75,1.0,0.25
+granular_models,12,0.75,1.0,0.25
+equation_of_state,8,0.75,1.0,0.25
+transport_models,4,0.75,1.0,0.25
