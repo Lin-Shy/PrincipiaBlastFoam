@@ -8,6 +8,7 @@ PrincipiaBlastFoam 是一个基于 **ReAct (Reasoning + Acting) 范式** 和 **O
 
 *   **基于 ReAct 范式的多智能体协作**: 深度融合 **ReAct (Reasoning + Acting)** 思想，赋予智能体“思考-行动-观察”的循环能力。由协调智能体（Orchestrator）基于当前状态动态推理并调度物理分析、算例设置、执行等专家智能体，实现复杂任务的自适应求解。
 *   **知识增强检索**: 集成 User Guide 和 Case Content 知识图谱，采用层次化检索和上下文增强策略，确保智能体获取准确的物理知识和算例配置信息。
+*   **MCP 检索服务**: 提供 `principia_retrieval` MCP server，可将案例内容知识图谱常驻加载为工具服务，避免每个 agent 重复初始化检索器。
 *   **自动化工作流**: 支持从零开始初始化算例、修改参数、运行仿真、监控日志到结果分析的全过程。
 *   **BlastFoam 深度支持**: 针对爆炸力学仿真（blastFoam）进行了专门的优化和知识库构建。
 
@@ -57,7 +58,18 @@ pip install -r requirements.txt
 python example_improved_retrieval.py
 ```
 
-**2. 运行完整工作流**
+**2. MCP 检索服务测试**
+
+MCP server 位于 `mcp_servers/principia_retrieval/`，会在一个常驻进程中加载 Case Content 知识图谱，并向 LangChain/LangGraph 暴露工具。
+
+```bash
+python -m mcp_servers.principia_retrieval.test_client
+python examples/mcp/langchain_mcp_client_example.py
+```
+
+可用工具包括 `get_case_by_intent`、`get_files_for_case`、`find_variable`、`get_file_content`、`get_modification_targets`、`search_case_content` 和 `search_user_guide`。
+
+**3. 运行完整工作流**
 
 编辑 `run_workflow.py` 中的 `CASE_PATH` 和 `user_request` 变量，定义你的仿真任务，然后运行：
 
@@ -79,6 +91,8 @@ PrincipiaBlastFoam/
 │   └── ...
 ├── docs/                   # 项目文档
 ├── experiments/            # 实验与评估脚本
+├── mcp_servers/            # MCP 服务（检索工具服务化）
+├── examples/               # 集成示例
 ├── scripts/                # 辅助脚本
 ├── tests/                  # 测试用例
 ├── run_workflow.py         # 主运行脚本

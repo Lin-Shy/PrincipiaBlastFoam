@@ -40,6 +40,10 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+> Note: `requirements.txt` includes MCP support through `mcp` and
+> `langchain-mcp-adapters==0.0.11`. The adapter is pinned to stay compatible
+> with this project's LangChain 0.3 dependency set.
+
 ## ⚙️ Configuration
 
 ### 1. Environment Variables
@@ -79,7 +83,21 @@ python example_improved_retrieval.py
 
 This script demonstrates the system's ability to retrieve relevant OpenFOAM case information using the improved hierarchical retrieval strategy.
 
-### 2. Run the Main Workflow
+### 2. Verify the MCP Retrieval Server
+
+The MCP retrieval server keeps the case-content knowledge graph loaded in one
+server process and exposes retrieval as reusable tools for LangChain/LangGraph
+agents.
+
+```bash
+python -m mcp_servers.principia_retrieval.test_client
+python examples/mcp/langchain_mcp_client_example.py
+```
+
+The first command connects through MCP and calls representative tools. The
+second command verifies that LangChain can load the MCP tools.
+
+### 3. Run the Main Workflow
 
 The core of the system is the multi-agent workflow.
 
@@ -93,7 +111,7 @@ The core of the system is the multi-agent workflow.
 python run_workflow.py
 ```
 
-### 3. Monitor Progress
+### 4. Monitor Progress
 
 The system will output logs to the console, showing the interaction between agents:
 *   **Orchestrator**: Planning and delegating tasks.
