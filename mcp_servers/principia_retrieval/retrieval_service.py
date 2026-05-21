@@ -16,11 +16,11 @@ if str(PROJECT_ROOT) not in sys.path:
 
 load_dotenv(PROJECT_ROOT / ".env", override=False)
 
-from principia_ai.tools.case_content_knowledge_graph_tool import (  # noqa: E402
+from principia_ai.retrieval.case_content_knowledge_graph import (  # noqa: E402
     CaseContentKnowledgeGraphRetriever,
 )
 from principia_ai.tools.retrieval_llm_config import resolve_retrieval_llm_config  # noqa: E402
-from principia_ai.tools.user_guide_knowledge_graph_tool import (  # noqa: E402
+from principia_ai.retrieval.user_guide_knowledge_graph import (  # noqa: E402
     UserGuideKnowledgeGraphRetriever,
 )
 
@@ -89,6 +89,10 @@ FILE_INTENT_RULES = [
             "write interval",
             "courant",
             "functions",
+            "时间",
+            "步长",
+            "输出",
+            "控制",
         ),
         85.0,
     ),
@@ -96,8 +100,16 @@ FILE_INTENT_RULES = [
         "system/setFieldsDict",
         (
             "charge",
+            "charge mass",
+            "c4",
             "tnt",
             "explosive",
+            "装药",
+            "爆源",
+            "炸药",
+            "爆炸",
+            "比例距离",
+            "初始场",
             "location",
             "sphere",
             "box",
@@ -114,6 +126,13 @@ FILE_INTENT_RULES = [
             "resolution",
             "blockmesh",
             "geometry",
+            "网格",
+            "计算域",
+            "领域",
+            "尺度",
+            "几何",
+            "边界",
+            "比例距离",
         ),
         80.0,
     ),
@@ -151,6 +170,49 @@ FILE_INTENT_RULES = [
             "equation of state",
         ),
         75.0,
+    ),
+    (
+        "constant/phaseProperties",
+        (
+            "phase",
+            "phaseproperties",
+            "c4",
+            "jwl",
+            "eos",
+            "equation of state",
+            "density",
+            "rho",
+            "tnt equivalence",
+            "explosive properties",
+            "物性",
+            "状态方程",
+            "密度",
+            "炸药物性",
+        ),
+        90.0,
+    ),
+    (
+        "0/rho.c4.orig",
+        (
+            "rho.c4",
+            "c4 density",
+            "density",
+            "1601",
+            "密度",
+        ),
+        95.0,
+    ),
+    (
+        "0/alpha.c4.orig",
+        (
+            "alpha.c4",
+            "volume fraction",
+            "c4 region",
+            "initial c4",
+            "体积分数",
+            "初始c4",
+        ),
+        90.0,
     ),
 ]
 
@@ -309,12 +371,23 @@ class PrincipiaRetrievalService:
             "content": content,
         }
 
-    def get_modification_targets(self, user_request: str, top_k: int = 5) -> Dict[str, Any]:
-        case_info = self.get_case_by_intent(user_request)
-        if not case_info.get("found"):
-            return {"found": False, "case_path": None, "targets": [], "reason": case_info.get("reason")}
+    def get_modification_targets(
+        self,
+        user_request: str,
+        case_path: Optional[str] = None,
+        top_k: int = 5,
+    ) -> Dict[str, Any]:
+        if case_path:
+            resolved_case = self._resolve_case_path(case_path)
+            if not resolved_case:
+                return {"found": False, "case_path": case_path, "targets": [], "reason": "No matching case found."}
+        else:
+            case_info = self.get_case_by_intent(user_request)
+            if not case_info.get("found"):
+                return {"found": False, "case_path": None, "targets": [], "reason": case_info.get("reason")}
+            resolved_case = str(case_info["case_path"])
 
-        case_path = str(case_info["case_path"])
+        case_path = resolved_case
         files_info = self.get_files_for_case(case_path)
         available = {str(item["file_path"]): item for item in files_info.get("files", [])}
         normalized_query = _normalize(user_request)
@@ -347,19 +420,102 @@ class PrincipiaRetrievalService:
 
         return {"found": bool(targets), "case_path": case_path, "targets": targets}
 
+    def _score_case_files(self, case_path: str, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+        files_info = self.get_files_for_case(case_path)
+        if not files_info.get("found"):
+            return []
+
+        normalized_query = _normalize(query)
+        scored_targets = []
+        for item in files_info.get("files", []):
+            file_path = str(item.get("file_path") or "")
+            path_norm = _normalize(file_path)
+            score = 0.0
+
+            if path_norm and path_norm in normalized_query:
+                score += 120.0
+            if file_path and file_path.lower() in str(query).lower():
+                score += 120.0
+
+            for suffix, phrases, boost in FILE_INTENT_RULES:
+                if file_path == suffix or file_path.endswith(f"/{suffix}"):
+                    if any(_normalize(phrase) in normalized_query for phrase in phrases):
+                        score += boost
+
+            if score > 0:
+                scored_targets.append((score, item))
+
+        scored_targets.sort(key=lambda pair: (-pair[0], str(pair[1]["file_path"])))
+        results = []
+        for rank, (score, item) in enumerate(scored_targets[: max(1, int(top_k))], start=1):
+            results.append(
+                {
+                    "rank": rank,
+                    "score": score,
+                    "case_path": case_path,
+                    "file_path": item["file_path"],
+                    "node_id": item["node_id"],
+                    "name": item.get("name"),
+                }
+            )
+        return results
+
     def search_case_content(
         self,
         query: str,
+        case_path: Optional[str] = None,
+        file_path: Optional[str] = None,
+        variable_name: Optional[str] = None,
         top_k: int = 5,
         include_file_content: bool = False,
         max_iterations: int = 1,
     ) -> Dict[str, Any]:
+        resolved_case = self._resolve_case_path(case_path or "") if case_path else None
+
+        if resolved_case and file_path:
+            content = self.get_file_content(resolved_case, file_path, max_lines=120 if include_file_content else 40)
+            return {
+                "found": content.get("found", False),
+                "strategy": "scoped_file_content",
+                "case_path": resolved_case,
+                "results": [content] if content.get("found") else [],
+                "fallback_used": False,
+            }
+
+        if resolved_case and variable_name:
+            variable_result = self.find_variable(resolved_case, variable_name)
+            return {
+                "found": variable_result.get("found", False),
+                "strategy": "scoped_variable_lookup",
+                "case_path": resolved_case,
+                "results": variable_result.get("matches", []),
+                "fallback_used": False,
+            }
+
+        if resolved_case:
+            scoped_results = self._score_case_files(resolved_case, query, top_k=top_k)
+            if scoped_results:
+                if include_file_content:
+                    for item in scoped_results:
+                        content = self.get_file_content(resolved_case, item["file_path"], max_lines=80)
+                        item["content"] = content.get("content", "")
+                return {
+                    "found": True,
+                    "strategy": "scoped_case_file_rules",
+                    "case_path": resolved_case,
+                    "results": scoped_results,
+                    "fallback_used": False,
+                }
+
         result = self.case_retriever.search_detailed(
             query,
             top_k=top_k,
             include_file_content=include_file_content,
             max_iterations=max_iterations,
         )
+        if resolved_case:
+            result["scoped_case_path"] = resolved_case
+            result["fallback_used"] = True
         return result
 
     def search_user_guide(self, query: str, top_k: int = 5) -> Dict[str, Any]:
@@ -376,4 +532,3 @@ class PrincipiaRetrievalService:
 @lru_cache(maxsize=1)
 def get_service() -> PrincipiaRetrievalService:
     return PrincipiaRetrievalService()
-

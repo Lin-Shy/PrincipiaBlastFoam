@@ -11,9 +11,9 @@ from principia_ai.metrics import MetricsReporter, MetricsTracker
 from principia_ai.tools.retrieval_llm_config import resolve_retrieval_llm_config
 
 
-DEFAULT_CASE_PATH = r"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam_output/surfaceburst_scaledd3"
+DEFAULT_CASE_PATH = r"/data/PrincipiaBlastFoam_output/surfaceburst_scaledd3"
 DEFAULT_USER_REQUEST = "模拟一个触地爆场景，并修改爆炸场景的最远比例距离接近3。"
-DEFAULT_TUTORIAL_PATH = "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials"
+DEFAULT_TUTORIAL_PATH = "/data/blastFoam_tutorials"
 
 
 def parse_args() -> argparse.Namespace:

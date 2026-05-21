@@ -2,12 +2,10 @@ import os
 import json
 from typing import Dict, Any, List, Optional
 from langchain.schema import HumanMessage, SystemMessage
-from langchain.tools import StructuredTool
 
 from ..graph.graph_state import GraphState
 from ..prompts import PromptManager
-from ..tools.user_guide_knowledge_graph_tool import UserGuideKnowledgeGraphRetriever
-from ..tools.case_content_knowledge_graph_tool import CaseContentKnowledgeGraphRetriever
+from ..tools.mcp_retrieval_tools import get_mcp_retrieval_tools, set_retrieval_context
 from ..metrics.decorators import track_agent_execution, track_llm_call
 
 # New imports for Refactoring
@@ -39,43 +37,7 @@ class PhysicsAnalystAgent:
         
         # Initialize Tools
         self.agent_tools = get_read_tools() + get_search_tools() + get_edit_tools() + get_execute_tools()
-        
-        # Add Knowledge Tools if enabled
-        if use_knowledge_manager:
-            try:
-                self.user_guide_retriever = UserGuideKnowledgeGraphRetriever(
-                    llm_api_key=retrieval_llm_api_key,
-                    llm_base_url=retrieval_llm_base_url,
-                    llm_model=retrieval_llm_model,
-                )
-                # Wrap knowledge search as a tool
-                self.agent_tools.append(
-                    StructuredTool.from_function(
-                        func=self.user_guide_retriever.search,
-                        name="search_user_guide",
-                        description="Search the BlastFoam user guide for interfacial models, granular models, fluid and solid thermodynamic models, burst patches, region models, diameter models and solver settings."
-                    )
-                )
-            except Exception as e:
-                print(f"Warning: Could not initialize UserGuideKnowledgeGraphRetriever: {e}")
-            
-        if use_tutorial_retriever:
-            try:
-                self.case_content_retriever = CaseContentKnowledgeGraphRetriever(
-                    llm_api_key=retrieval_llm_api_key,
-                    llm_base_url=retrieval_llm_base_url,
-                    llm_model=retrieval_llm_model,
-                )
-                 # Wrap tutorial search as a tool
-                self.agent_tools.append(
-                    StructuredTool.from_function(
-                        func=self.case_content_retriever.search,
-                        name="search_case_content",
-                        description="Search for blastFoam tutorial cases setting, files contents, and variable definitions as reference content when encountering uncertain problems. "
-                    )
-                )
-            except Exception as e:
-                print(f"Warning: Could not initialize CaseContentKnowledgeGraphRetriever: {e}")
+        self.agent_tools.extend(get_mcp_retrieval_tools(use_knowledge_manager, use_tutorial_retriever))
 
         # Load System Prompt
         self.system_prompt = self.prompt_manager.load_prompt("physics_analyst_agent", "react_system")
@@ -101,6 +63,7 @@ class PhysicsAnalystAgent:
         
         user_query = state.get("user_request", "")
         case_path = state.get("case_path", "")
+        set_retrieval_context(state.get("tutorial_case_path"), user_query)
         current_task = state.get("current_task", {})
         task_description = current_task.get("description", "Analyze the current case configuration against the User Query.")
 
@@ -145,6 +108,7 @@ class PhysicsAnalystAgent:
             return {}
         
         case_path = state.get("case_path", "")
+        set_retrieval_context(state.get("tutorial_case_path"), state.get("user_request", ""))
         changed_files = state.get("changed_files", [])
         report_path = os.path.join(case_path, "physics_report.md")
         

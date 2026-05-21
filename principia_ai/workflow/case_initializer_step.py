@@ -155,5 +155,7 @@ class CaseInitializationStep:
         return {
             "tutorial_initialized": True,
             "initialization_message": message,
+            "tutorial_case_path": selected_case.get("relative_path"),
+            "tutorial_source_path": source_case_path,
             "config_state_map": self._scan_config_state(case_path),
         }

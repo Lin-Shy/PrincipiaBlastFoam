@@ -13,6 +13,8 @@ class GraphState(TypedDict):
         user_request: The initial user request.
         case_path: The path to the OpenFOAM case directory.
         tutorial_path: The path to the OpenFOAM tutorial directory for initialization.
+        tutorial_case_path: Relative tutorial case selected during initialization.
+        tutorial_source_path: Absolute source tutorial case selected during initialization.
         task_id: Unique identifier for this workflow task.
         plan: A list of tasks to be executed.
         completed_tasks: A list of completed tasks.
@@ -28,6 +30,8 @@ class GraphState(TypedDict):
     user_request: str
     case_path: str
     tutorial_path: Optional[str]
+    tutorial_case_path: Optional[str]
+    tutorial_source_path: Optional[str]
     task_id: Optional[str]
     plan: Optional[List[dict]]
     completed_tasks: List[dict]

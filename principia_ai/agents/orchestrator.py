@@ -79,6 +79,15 @@ class OrchestratorAgent:
                         pass
         return state_map
 
+    def _execution_enabled(self) -> bool:
+        return os.getenv("ENABLE_EXECUTION", "false").lower() in {"1", "true", "yes", "on"}
+
+    def _last_agent_index(self, completed_tasks: List[dict], agent_name: str) -> int:
+        for index in range(len(completed_tasks or []) - 1, -1, -1):
+            if completed_tasks[index].get("assigned_agent") == agent_name:
+                return index
+        return -1
+
     def create_execution_plan(self, user_query: str, physics_context: str, case_path: str) -> str:
         """
         Generates initial high-level plan.
@@ -96,7 +105,7 @@ class OrchestratorAgent:
         
         # Track tokens
         tracker = MetricsTracker()
-        usage = response.usage_metadata if hasattr(response, 'usage_metadata') else {}
+        usage = getattr(response, 'usage_metadata', None) or {}
         tracker.record_llm_call(
             agent_name="orchestrator",
             input_tokens=usage.get('input_tokens', 0),
@@ -134,6 +143,26 @@ class OrchestratorAgent:
                 "needs_physics_update": False # Clear flag
             }
         # === End Priority Route ===
+
+        last_case_setup_index = self._last_agent_index(completed_tasks, "case_setup_agent")
+        last_execution_index = self._last_agent_index(completed_tasks, "execution_agent")
+        should_run_initial_execution = last_case_setup_index != -1 and last_execution_index == -1
+        should_rerun_after_fix = (
+            last_case_setup_index != -1
+            and last_execution_index != -1
+            and last_case_setup_index > last_execution_index
+            and state.get("run_status") != "completed"
+        )
+        if self._execution_enabled() and physics_report and (should_run_initial_execution or should_rerun_after_fix):
+            print("Orchestrator: ENABLE_EXECUTION=true and case setup is complete; routing to execution_agent.")
+            return {
+                "current_agent": "execution_agent",
+                "current_task": {
+                    "description": "Run the prepared OpenFOAM/blastFoam case and report solver logs/results.",
+                    "assigned_agent": "execution_agent",
+                    "status": "pending",
+                },
+            }
         
         # === Phase 2: Planning Trigger ===
         if physics_report and not plan:

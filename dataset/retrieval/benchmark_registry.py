@@ -19,7 +19,7 @@ BENCHMARK_CONFIGS: Dict[str, Dict[str, object]] = {
         "label": "Case Content",
         "default_dataset": BENCHMARKS_DIR / "case_content" / "blastfoam_retrieval_validation_dataset_strict.json",
         "default_results_dir": RESULTS_DIR / "case_content",
-        "knowledge_graph_module": PROJECT_ROOT / "principia_ai" / "tools" / "case_content_knowledge_graph_tool.py",
+        "knowledge_graph_module": PROJECT_ROOT / "principia_ai" / "retrieval" / "case_content_knowledge_graph.py",
         "knowledge_graph_class": "CaseContentKnowledgeGraphRetriever",
         "summary_metrics": (
             "mrr",
@@ -37,7 +37,7 @@ BENCHMARK_CONFIGS: Dict[str, Dict[str, object]] = {
         "label": "User Guide",
         "default_dataset": BENCHMARKS_DIR / "user_guide" / "user_guide_retrieval_validation_dataset.json",
         "default_results_dir": RESULTS_DIR / "user_guide",
-        "knowledge_graph_module": PROJECT_ROOT / "principia_ai" / "tools" / "user_guide_knowledge_graph_tool.py",
+        "knowledge_graph_module": PROJECT_ROOT / "principia_ai" / "retrieval" / "user_guide_knowledge_graph.py",
         "knowledge_graph_class": "UserGuideKnowledgeGraphRetriever",
         "summary_metrics": (
             "mrr",

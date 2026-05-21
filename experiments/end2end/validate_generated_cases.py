@@ -26,7 +26,7 @@ sys.path.insert(0, str(project_root))
 
 from langchain_openai import ChatOpenAI
 from langchain.schema import SystemMessage, HumanMessage
-from principia_ai.tools.user_guide_knowledge_graph_tool import UserGuideKnowledgeGraphRetriever
+from principia_ai.retrieval.user_guide_knowledge_graph import UserGuideKnowledgeGraphRetriever
 
 # Configuration
 mode = "senior"

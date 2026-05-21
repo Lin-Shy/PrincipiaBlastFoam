@@ -1,14 +1,15 @@
 # Knowledge Retrievers
 
-本目录中的知识检索工具目前分为两类：
+本目录中的知识检索引擎目前分为两类。它们是 MCP retrieval service 的内部实现和离线评测入口，不再作为 agent-facing tool 直接暴露。
 
 - `UserGuideKnowledgeGraphRetriever`: 面向 BlastFoam 用户手册的分层检索
 - `CaseContentKnowledgeGraphRetriever`: 面向 tutorial 案例内容的全局检索
 
 ## 代码入口
 
-- 用户手册检索: `principia_ai/tools/user_guide_knowledge_graph_tool.py`
-- 案例内容检索: `principia_ai/tools/case_content_knowledge_graph_tool.py`
+- 用户手册检索: `principia_ai/retrieval/user_guide_knowledge_graph.py`
+- 案例内容检索: `principia_ai/retrieval/case_content_knowledge_graph.py`
+- agent-facing MCP 工具: `principia_ai/tools/mcp_retrieval_tools.py`
 - retrieval LLM 配置解析: `principia_ai/tools/retrieval_llm_config.py`
 
 ## 详细文档

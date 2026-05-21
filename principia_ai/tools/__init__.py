@@ -2,8 +2,6 @@ from typing import Dict, Any, Callable
 
 # Import the langgraph-based tools
 from .tutorial_initializer import TutorialInitializer
-from .user_guide_knowledge_graph_tool import UserGuideKnowledgeGraphRetriever
-from .case_content_knowledge_graph_tool import CaseContentKnowledgeGraphRetriever
 from .physics_inspection import get_physics_report_tool
 from .execution_inspection import get_execution_report_tool
 from .review_inspection import get_review_report_tool
@@ -23,8 +21,6 @@ from .search.text_search import text_search
 
 __all__ = [
     "TutorialInitializer",
-    "UserGuideKnowledgeGraphRetriever",
-    "CaseContentKnowledgeGraphRetriever",
     "get_physics_report_tool",
     "get_execution_report_tool",
     "get_review_report_tool",
