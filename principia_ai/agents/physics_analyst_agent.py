@@ -120,26 +120,27 @@ class PhysicsAnalystAgent:
             print("Physics Updater: No changed files detected. Skipping.")
             return {}
 
-        # 1. Read old report
-        with open(report_path, 'r') as f:
-            old_report = f.read()
-            
-        # 2. Read changed files content
+        max_chars_per_file = int(os.getenv("PHYSICS_UPDATE_FILE_CONTEXT_CHARS", "4000"))
+
+        # Read only the relevant changed files selected by the orchestrator.
         file_contents = ""
         for rel_path in changed_files:
             abs_path = os.path.join(case_path, rel_path)
             try:
                 with open(abs_path, 'r') as f:
                     content = f.read()
+                    if len(content) > max_chars_per_file:
+                        content = content[:max_chars_per_file] + "\n... [truncated]\n"
                     file_contents += f"\n=== FILE: {rel_path} ===\n{content}\n"
             except Exception as e:
                 file_contents += f"\n=== FILE: {rel_path} (Error: {e}) ===\n"
 
-        # 3. Construct incremental update prompt
         prompt = (
             f"You are a CFD Physics Analyst. A configuration change has occurred.\n"
             f"=== TASK ===\n"
             f"Update the existing Physics Report ({report_path}) to reflect the changes in the modified files.\n"
+            f"Only use the relevant changed configuration files below; do not run the solver or inspect runtime output.\n"
+            f"Prefer patching affected sections or adding a concise incremental update note over rewriting unrelated content.\n"
             f"Use the tools to overwrite the report with the updated content.\n"
             f"Do NOT output the report content in your response. Just confirm the update.\n\n"
             f"=== MODIFIED FILES ===\n{file_contents}\n"

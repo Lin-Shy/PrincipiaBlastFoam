@@ -15,6 +15,8 @@ class GraphState(TypedDict):
         tutorial_path: The path to the OpenFOAM tutorial directory for initialization.
         tutorial_case_path: Relative tutorial case selected during initialization.
         tutorial_source_path: Absolute source tutorial case selected during initialization.
+        tutorial_initialized: Whether tutorial initialization was performed successfully.
+        initialization_message: Human-readable initialization result.
         task_id: Unique identifier for this workflow task.
         plan: A list of tasks to be executed.
         completed_tasks: A list of completed tasks.
@@ -22,6 +24,8 @@ class GraphState(TypedDict):
         current_case_specs: Specifications derived from physics analysis.
         case_files: A dictionary of file paths and their content.
         execution_output: Output from the execution agent.
+        execution_status: Structured authoritative execution result from execution_status.json.
+        execution_status_path: Path to execution_status.json.
         validation_status: The status of the validation ('passed' or 'failed').
         validation_notes: Notes from the validation process.
         issue_details: Detailed information about any issues found.
@@ -32,6 +36,8 @@ class GraphState(TypedDict):
     tutorial_path: Optional[str]
     tutorial_case_path: Optional[str]
     tutorial_source_path: Optional[str]
+    tutorial_initialized: Optional[bool]
+    initialization_message: Optional[str]
     task_id: Optional[str]
     plan: Optional[List[dict]]
     completed_tasks: List[dict]
@@ -40,6 +46,8 @@ class GraphState(TypedDict):
     relevant_tutorial_cases: Optional[List[Dict[str, Any]]]
     case_files: Dict[str, str]
     execution_output: Optional[str]
+    execution_status: Optional[Dict[str, Any]]
+    execution_status_path: Optional[str]
     validation_status: Optional[str]
     validation_notes: Optional[str]
     issue_details: Optional[dict]
@@ -47,7 +55,10 @@ class GraphState(TypedDict):
     current_agent: Optional[str]
     physics_analysis: Optional[str]
     run_status: Optional[str]
+    workflow_error: Optional[str]
     execution_summary: Optional[str]
     config_state_map: Optional[Dict[str, str]]
     needs_physics_update: Optional[bool]
+    physics_update_pending: Optional[bool]
+    physics_update_status: Optional[str]
     changed_files: Optional[List[str]]

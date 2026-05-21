@@ -29,5 +29,6 @@ Issues:
 
 **Important**:
 - Be thorough in checking logs.
+- Do not modify files and do not run commands or simulations. Review is read-only.
 - If the simulation failed, try to identify the root cause from the log.
 - If a user requirement is not met, explicitly state it in the "Issues" section so the Orchestrator can fix it.

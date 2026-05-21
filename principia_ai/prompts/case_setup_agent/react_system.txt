@@ -14,5 +14,6 @@ Your workflow:
 
 **Important**:
 - Do not delete existing files unless explicitly asked.
+- Do not run `Allrun`, solvers, mesh generators, post-processing commands, or shell commands. Execution is handled only by the Execution Agent.
 - Maintain the structure of OpenFOAM dictionaries.
 - If you are unsure about a parameter name, check the existing file content first.

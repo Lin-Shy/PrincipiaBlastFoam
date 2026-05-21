@@ -8,6 +8,7 @@ and initializes the target case path with files from the selected tutorial.
 import os
 import shutil
 import json
+import re
 from typing import Dict, List, Optional, Any, Tuple
 from pathlib import Path
 from langchain.schema import HumanMessage, SystemMessage
@@ -43,6 +44,11 @@ class TutorialInitializer:
             - readme_content: content of README file if exists
             - description: extracted description from case structure
         """
+        cache_key = os.path.abspath(tutorial_path)
+        if cache_key in self.tutorial_cases_cache:
+            print(f"Using cached tutorial case scan: {tutorial_path}")
+            return self.tutorial_cases_cache[cache_key]
+
         if not os.path.exists(tutorial_path):
             print(f"Tutorial path does not exist: {tutorial_path}")
             return []
@@ -83,6 +89,7 @@ class TutorialInitializer:
         scan_directory(tutorial_path)
         
         print(f"Found {len(complete_cases)} complete cases")
+        self.tutorial_cases_cache[cache_key] = complete_cases
         return complete_cases
     
     def _read_readme(self, case_path: str) -> Optional[str]:
@@ -179,13 +186,127 @@ class TutorialInitializer:
             return []
             
         if not self.llm:
-            print("Warning: No LLM available. Cannot find relevant tutorial cases.")
-            return []
+            print("Warning: No LLM available. Falling back to deterministic tutorial matching.")
+            return self._deterministic_case_matches(user_request, tutorial_cases, top_k)
         
         # Use the find_multiple_relevant_cases method
         relevant_cases = self.find_multiple_relevant_cases(user_request, tutorial_cases, top_k)
         
         return relevant_cases
+
+    def _case_search_text(self, case: Dict[str, Any]) -> str:
+        """Builds a compact text blob for deterministic tutorial matching."""
+        parts = [
+            str(case.get("relative_path") or ""),
+            str(case.get("description") or ""),
+            str(case.get("readme_content") or "")[:4000],
+        ]
+        return "\n".join(parts).lower()
+
+    def _rank_cases_deterministically(
+        self,
+        user_request: str,
+        tutorial_cases: List[Dict[str, Any]],
+    ) -> List[Tuple[int, Dict[str, Any]]]:
+        """Ranks tutorial cases without selecting an unrelated first-case fallback."""
+        request = (user_request or "").lower()
+        if not request:
+            return []
+
+        request_aliases: List[Tuple[Tuple[str, ...], Tuple[str, ...], Tuple[str, ...], int]] = [
+            (
+                (
+                    "axisymmetriccharge",
+                    "axisymmetric charge",
+                    "axisymmetric",
+                    "surface burst",
+                    "ground burst",
+                    "scaled distance",
+                    "scaled-distance",
+                    "hopkinson",
+                    "触地",
+                    "地表",
+                    "比例距离",
+                ),
+                ("axisymmetriccharge", "axisymmetric", "charge"),
+                ("solids4foam", "solid", "flap"),
+                70,
+            ),
+            (
+                ("building3d", "building", "facade", "wall pressure", "建筑", "外立面", "迎爆面"),
+                ("building3d", "building3dworkshop", "building"),
+                ("solids4foam", "flap"),
+                70,
+            ),
+            (
+                ("shock tube", "shocktube", "sod", "激波管"),
+                ("shocktube", "shock_tube", "shock"),
+                ("solids4foam", "flap"),
+                70,
+            ),
+            (
+                ("detonation", "charge", "爆轰", "炸药", "爆炸"),
+                ("detonation", "charge", "blast"),
+                ("solids4foam",),
+                25,
+            ),
+        ]
+
+        request_tokens = {
+            token
+            for token in re.findall(r"[a-z0-9_]{3,}|[\u4e00-\u9fff]{2,}", request)
+            if token not in {"please", "with", "case", "test", "smoke", "short", "very", "不要", "一个"}
+        }
+
+        ranked: List[Tuple[int, Dict[str, Any]]] = []
+        for case in tutorial_cases:
+            text = self._case_search_text(case)
+            path = str(case.get("relative_path") or "").lower()
+            score = 0
+
+            for request_terms, desired_terms, negative_terms, weight in request_aliases:
+                if not any(term in request for term in request_terms):
+                    continue
+                if any(term in path for term in desired_terms):
+                    score += weight
+                elif any(term in text for term in desired_terms):
+                    score += max(10, weight // 3)
+                if any(term in path for term in negative_terms):
+                    score -= max(10, weight // 2)
+
+            for token in request_tokens:
+                if token in path:
+                    score += 4
+                elif token in text:
+                    score += 1
+
+            if "blast" in request and "blast" in path:
+                score += 8
+            if any(term in request for term in ("爆炸", "爆轰", "blast", "charge")) and "solids4foam" in path:
+                score -= 15
+
+            if score > 0:
+                ranked.append((score, case))
+
+        ranked.sort(key=lambda item: (item[0], item[1].get("relative_path", "")), reverse=True)
+        return ranked
+
+    def _deterministic_case_matches(
+        self,
+        user_request: str,
+        tutorial_cases: List[Dict[str, Any]],
+        top_k: int,
+    ) -> List[Dict[str, Any]]:
+        ranked = self._rank_cases_deterministically(user_request, tutorial_cases)
+        if not ranked:
+            print("Deterministic tutorial matching found no supported candidates.")
+            return []
+
+        selected = [case for _score, case in ranked[:top_k]]
+        print("Deterministic tutorial matching selected:")
+        for score, case in ranked[:top_k]:
+            print(f"  score={score}: {case.get('relative_path')}")
+        return selected
             
     def find_multiple_relevant_cases(self, user_request: str, tutorial_cases: List[Dict[str, Any]], top_k: int = 3) -> List[Dict[str, Any]]:
         """
@@ -204,8 +325,8 @@ class TutorialInitializer:
             return []
         
         if not self.llm:
-            print("No LLM available, returning first few cases")
-            return tutorial_cases[:min(top_k, len(tutorial_cases))]
+            print("No LLM available, using deterministic tutorial matching")
+            return self._deterministic_case_matches(user_request, tutorial_cases, top_k)
         
         # 准备案例信息用于LLM分析
         cases_info = []
@@ -249,7 +370,7 @@ Which {top_k} case indices are most relevant for this user request? Return as a 
             
             # Track tokens
             tracker = MetricsTracker()
-            usage = response.usage_metadata if hasattr(response, 'usage_metadata') else {}
+            usage = getattr(response, 'usage_metadata', None) or {}
             agent_name = tracker.current_agent or "TutorialInitializer"
             tracker.record_llm_call(
                 agent_name=agent_name,
@@ -279,25 +400,39 @@ Which {top_k} case indices are most relevant for this user request? Return as a 
                 valid_indices = valid_indices[:top_k]
                 
                 if not valid_indices:
-                    print("No valid indices returned, using first few cases")
-                    return tutorial_cases[:min(top_k, len(tutorial_cases))]
+                    print("No valid indices returned, using deterministic tutorial matching")
+                    return self._deterministic_case_matches(user_request, tutorial_cases, top_k)
                 
                 # Get the selected cases
                 selected_cases = [tutorial_cases[idx] for idx in valid_indices]
                 print(f"LLM selected {len(selected_cases)} cases")
                 for idx, case in zip(valid_indices, selected_cases):
                     print(f"  Case index {idx}: {case['relative_path']}")
+
+                ranked = self._rank_cases_deterministically(user_request, tutorial_cases)
+                if ranked:
+                    score_by_path = {
+                        case.get("relative_path"): score
+                        for score, case in ranked
+                    }
+                    top_score, top_case = ranked[0]
+                    selected_score = score_by_path.get(selected_cases[0].get("relative_path"), 0)
+                    if top_score >= 30 and selected_score <= 0:
+                        print(
+                            "LLM selected a tutorial with no deterministic support; "
+                            f"using deterministic match {top_case.get('relative_path')} instead."
+                        )
+                        return [case for _score, case in ranked[:top_k]]
                 
                 return selected_cases
                 
             except Exception as e:
                 print(f"Could not parse LLM response as list of indices: {e}. Response: {response.content}")
-                # Fall back to first few cases
-                return tutorial_cases[:min(top_k, len(tutorial_cases))]
+                return self._deterministic_case_matches(user_request, tutorial_cases, top_k)
                 
         except Exception as e:
             print(f"Error in LLM case selection: {e}")
-            return tutorial_cases[:min(top_k, len(tutorial_cases))]
+            return self._deterministic_case_matches(user_request, tutorial_cases, top_k)
     
     def copy_case_files(self, source_case_path: str, target_case_path: str) -> bool:
         """

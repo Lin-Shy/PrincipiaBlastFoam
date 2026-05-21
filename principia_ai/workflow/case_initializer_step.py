@@ -82,6 +82,17 @@ class CaseInitializationStep:
                         continue
         return signatures
 
+    def _fail_initialization(self, message: str) -> Dict[str, Any]:
+        print(f"Case Initializer Agent: {message}")
+        return {
+            "tutorial_initialized": False,
+            "initialization_message": message,
+            "run_status": "failed",
+            "validation_status": "failed",
+            "workflow_error": message,
+            "current_agent": "end",
+        }
+
     def run(self, state: GraphState) -> Dict[str, Any]:
         """Initializes the case directory if it is empty."""
         case_path = state.get("case_path", "")
@@ -120,7 +131,7 @@ class CaseInitializationStep:
         print("Case Initializer Agent: Proceeding with initialization.")
 
         if not self.tutorial_initializer:
-            return {"initialization_message": "Tutorial initializer unavailable."}
+            return self._fail_initialization("Tutorial initializer unavailable.")
 
         tutorial_root = state.get("tutorial_path") or os.getenv(
             "BLASTFOAM_TUTORIALS",
@@ -128,24 +139,24 @@ class CaseInitializationStep:
         )
 
         if not tutorial_root or not os.path.exists(tutorial_root):
-            return {"initialization_message": f"Tutorial path unavailable: {tutorial_root}"}
+            return self._fail_initialization(f"Tutorial path unavailable: {tutorial_root}")
 
         cases = self.tutorial_initializer.find_complete_cases(tutorial_root)
         if not cases:
-            return {"initialization_message": "Error: No tutorial cases found."}
+            return self._fail_initialization("Error: No tutorial cases found.")
 
         relevant_cases = self.tutorial_initializer.find_relevant_tutorial_cases(user_request, cases, top_k=1)
         if not relevant_cases:
-            return {"initialization_message": "Error: Could not find relevant tutorial case."}
+            return self._fail_initialization("Error: Could not find relevant tutorial case.")
 
         selected_case = relevant_cases[0]
         source_case_path = selected_case.get("path")
         if not source_case_path or not os.path.exists(source_case_path):
-            return {"initialization_message": "Selected tutorial case path invalid."}
+            return self._fail_initialization("Selected tutorial case path invalid.")
 
         success = self.tutorial_initializer.copy_case_files(source_case_path, case_path)
         if not success:
-            return {"initialization_message": "Failed to initialize case from tutorial."}
+            return self._fail_initialization("Failed to initialize case from tutorial.")
 
         message = (
             "Successfully initialized case from "

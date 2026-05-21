@@ -1,4 +1,5 @@
 import os
+import re
 from typing import Dict, Any, List, Optional
 from langchain.schema import HumanMessage, SystemMessage
 
@@ -8,7 +9,7 @@ from principia_ai.metrics.decorators import track_agent_execution, track_llm_cal
 from ..tools.mcp_retrieval_tools import get_mcp_retrieval_tools, set_retrieval_context
 
 from .base_agent import BaseAgent
-from ..tools.standard_tools import get_read_tools, get_search_tools, get_edit_tools, get_execute_tools
+from ..tools.standard_tools import get_read_tools, get_search_tools
 
 class ReviewerAgent:
     """
@@ -28,7 +29,7 @@ class ReviewerAgent:
         self.prompt_manager = PromptManager()
         
         # Initialize Tools
-        self.agent_tools = get_read_tools() + get_search_tools() + get_edit_tools() + get_execute_tools()
+        self.agent_tools = get_read_tools() + get_search_tools()
         self.agent_tools.extend(get_mcp_retrieval_tools(use_knowledge_manager, use_tutorial_retriever))
         
         # Load System Prompt
@@ -42,6 +43,24 @@ class ReviewerAgent:
             agent_name="ReviewerAgent",
             max_iterations=int(os.getenv("MAX_ITERATIONS"))
         )
+
+    def _parse_validation_status(self, output: str) -> str:
+        """Parse the required status line before falling back to coarse heuristics."""
+        text = output or ""
+        match = re.search(r"validation status\s*:\s*(passed|failed)", text, flags=re.IGNORECASE)
+        if match:
+            return "passed" if match.group(1).lower() == "passed" else "failed"
+
+        lowered = text.lower()
+        issues_match = re.search(r"issues\s*:\s*(.*)", text, flags=re.IGNORECASE | re.DOTALL)
+        issues_text = issues_match.group(1).strip().lower() if issues_match else ""
+        if issues_text and issues_text not in {"none", "无", "n/a"}:
+            if "not satisfied" in issues_text or "failed" in issues_text or "error" in issues_text:
+                return "failed"
+
+        if "not satisfied" in lowered:
+            return "failed"
+        return "passed"
 
     @track_agent_execution("reviewer")
     def review_task(self, state: GraphState) -> Dict[str, Any]:
@@ -75,10 +94,7 @@ class ReviewerAgent:
         except Exception as e:
             print(f"Reviewer Agent: Warning - could not save report file: {e}")
         
-        # Parse status from output (heuristic)
-        status = "passed"
-        if "fail" in output.lower() or "error" in output.lower() or "not satisfied" in output.lower():
-             status = "failed"
+        status = self._parse_validation_status(output)
             
         print(f"Reviewer Agent: Review complete. Status: {status}")
         

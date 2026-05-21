@@ -1,0 +1,75 @@
+{
+  "name": "principia_agent_e2e_smoke_benchmark",
+  "version": "0.1.0",
+  "description": "Small realistic end-to-end workflow prompts for evaluating the PrincipiaBlastFoam agent system without producing large simulation outputs.",
+  "sources": [
+    {
+      "id": "ufc_3_340_02",
+      "title": "UFC 3-340-02 Structures to Resist the Effects of Accidental Explosions",
+      "url": "https://www.wbdg.org/FFC/DOD/UFC/ARCHIVES/ufc_3_340_02.pdf",
+      "benchmark_use": "Scaled-distance and surface-burst inspired requirements."
+    },
+    {
+      "id": "blastfoam_examples",
+      "title": "blastFoam examples",
+      "url": "https://www.blastfoam.org/examples/",
+      "benchmark_use": "Realistic explosive-threat and validation-oriented blast simulation contexts."
+    },
+    {
+      "id": "blastfoam_github",
+      "title": "synthetik-technologies/blastfoam",
+      "url": "https://github.com/synthetik-technologies/blastfoam",
+      "benchmark_use": "blastFoam tutorial and validation-case availability."
+    },
+    {
+      "id": "shock_tube_reference",
+      "title": "OpenFOAM shock tube tutorial summary",
+      "url": "https://www.xsim.info/articles/OpenFOAM/en-US/tutorials/compressible-sonicFoam-laminar-shockTube.html",
+      "benchmark_use": "Short shock-tube transient with high/low pressure states and fast-running validation intent."
+    }
+  ],
+  "cases": [
+    {
+      "id": "shock_tube_short_validation",
+      "title": "Short shock-tube validation setup",
+      "tags": ["shock_tube", "validation", "short_runtime"],
+      "source_ids": ["shock_tube_reference", "blastfoam_github"],
+      "difficulty": "smoke",
+      "user_request": "基于 blastFoam 的 shockTube_tabulated 或最接近的 shock tube tutorial，创建一个短时激波管验证算例：保持高低压间断和一维传播物理，不要扩大网格；将 system/controlDict 的 endTime 控制在 0.0005 秒以内，writeInterval 设置得足够小以便至少写出一个非零时间结果；保留或添加压力采样/后处理，目标是快速验证 agent 能否选择合适 tutorial、做最小配置修改并运行一个短 transient case。",
+      "expected": {
+        "max_end_time": 0.0005,
+        "required_reports": ["physics_report.md"],
+        "preferred_case_keywords": ["shockTube", "shock tube"],
+        "important_files": ["system/controlDict", "system/setFieldsDict"]
+      }
+    },
+    {
+      "id": "surface_burst_scaled_probe_smoke",
+      "title": "Surface burst scaled-distance probe smoke test",
+      "tags": ["surface_burst", "scaled_distance", "pressure_probes"],
+      "source_ids": ["ufc_3_340_02", "blastfoam_examples"],
+      "difficulty": "smoke",
+      "user_request": "构建一个很短的触地/地表爆炸 smoke test：优先使用 axisymmetricCharge tutorial，保持爆源在 ground 平面上；按 Hopkinson-Cranz 比例距离思路，把最远地面压力 probe 放到一个接近目标 Z=2 到 3 的位置，但不要追求完整工程精度；为了节省数据盘，将 endTime 控制在 0.001 秒以内，writeInterval 不超过 0.0005 秒，并保留 p/impulse 或 overpressure 相关输出，目标是测试 agent 能否完成真实感的地表爆炸配置修改。",
+      "expected": {
+        "max_end_time": 0.001,
+        "required_reports": ["physics_report.md"],
+        "preferred_case_keywords": ["axisymmetricCharge", "surface", "ground"],
+        "important_files": ["system/controlDict", "system/setFieldsDict", "system/blockMeshDict"]
+      }
+    },
+    {
+      "id": "building_facade_pressure_probe_smoke",
+      "title": "Building facade pressure probe smoke test",
+      "tags": ["building", "blast_load", "pressure_probe"],
+      "source_ids": ["blastfoam_examples", "blastfoam_github"],
+      "difficulty": "smoke",
+      "user_request": "构建一个建筑外立面冲击载荷的短时 smoke test：优先参考 building3D 或 building3DWorkshop tutorial；目标是在建筑迎爆面附近保留/添加少量 pressure probe 或可用于读取 p/overpressure 的输出；不要做大规模网格加密，不要扩大计算域；将 endTime 控制在 0.001 秒以内，仅用于验证 case 生成、运行脚本和报告链路是否可用。",
+      "expected": {
+        "max_end_time": 0.001,
+        "required_reports": ["physics_report.md"],
+        "preferred_case_keywords": ["building3D", "building"],
+        "important_files": ["system/controlDict"]
+      }
+    }
+  ]
+}

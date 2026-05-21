@@ -9,7 +9,7 @@ from ..tools.mcp_retrieval_tools import get_mcp_retrieval_tools, set_retrieval_c
 
 # New imports
 from .base_agent import BaseAgent
-from ..tools.standard_tools import get_read_tools, get_search_tools, get_edit_tools, get_execute_tools
+from ..tools.standard_tools import get_read_tools, get_search_tools, get_edit_tools
 from ..tools.physics_inspection import get_physics_report_tool
 
 class CaseSetupAgent:
@@ -30,7 +30,7 @@ class CaseSetupAgent:
         self.prompt_manager = PromptManager()
         
         # Initialize Tools
-        self.agent_tools = get_edit_tools() + get_read_tools() + get_search_tools() + get_execute_tools()
+        self.agent_tools = get_edit_tools() + get_read_tools() + get_search_tools()
         self.agent_tools.append(get_physics_report_tool())
         self.agent_tools.extend(get_mcp_retrieval_tools(use_knowledge_manager, use_tutorial_retriever))
         

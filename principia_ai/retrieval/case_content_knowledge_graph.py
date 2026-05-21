@@ -1210,7 +1210,7 @@ Please provide ONLY the JSON object, no additional text.
         
         # Track tokens
         tracker = MetricsTracker()
-        usage = response.usage_metadata if hasattr(response, 'usage_metadata') else {}
+        usage = getattr(response, 'usage_metadata', None) or {}
         agent_name = tracker.current_agent or "CaseContentTool"
         tracker.record_llm_call(
             agent_name=agent_name,

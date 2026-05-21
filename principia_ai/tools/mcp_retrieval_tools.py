@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import atexit
+import concurrent.futures
 import json
 import os
 import sys
@@ -55,7 +56,11 @@ class _MCPRetrievalClient:
         )
         try:
             return future.result(timeout=timeout)
+        except concurrent.futures.TimeoutError:
+            future.cancel()
+            return f"MCP retrieval tool '{name}' timed out after {timeout:.0f} seconds."
         except Exception as exc:
+            future.cancel()
             return f"MCP retrieval tool '{name}' failed: {exc}"
 
     def _ensure_started(self) -> None:

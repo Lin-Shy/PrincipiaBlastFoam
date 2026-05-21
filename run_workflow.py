@@ -9,6 +9,8 @@ from principia_ai.agents import create_workflow
 from principia_ai.graph.graph_state import GraphState
 from principia_ai.metrics import MetricsReporter, MetricsTracker
 from principia_ai.tools.retrieval_llm_config import resolve_retrieval_llm_config
+from principia_ai.utils.execution_status import read_execution_status, status_run_completed
+from principia_ai.utils.solver_logs import solver_log_has_clean_end
 
 
 DEFAULT_CASE_PATH = r"/data/PrincipiaBlastFoam_output/surfaceburst_scaledd3"
@@ -93,6 +95,47 @@ def build_workflow_app(llm: ChatOpenAI, args: argparse.Namespace):
     )
 
 
+def execution_required() -> bool:
+    return os.getenv("ENABLE_EXECUTION", "false").lower() in {"1", "true", "yes", "on"} or os.getenv(
+        "REQUIRE_EXECUTION", "false"
+    ).lower() in {"1", "true", "yes", "on"}
+
+
+def solver_log_has_end(case_path: str) -> bool:
+    return solver_log_has_clean_end(case_path)
+
+
+def validate_final_state(final_state: GraphState, args: argparse.Namespace) -> list[str]:
+    failures: list[str] = []
+    case_path = args.case_path
+
+    if final_state.get("workflow_error"):
+        failures.append(str(final_state["workflow_error"]))
+
+    if final_state.get("validation_status") == "failed":
+        failures.append("validation_status is failed")
+
+    if not os.path.exists(os.path.join(case_path, "physics_report.md")):
+        failures.append("physics_report.md was not produced")
+
+    if execution_required():
+        if not os.path.exists(os.path.join(case_path, "execution_report.md")):
+            failures.append("execution_report.md was not produced")
+
+        execution_status = final_state.get("execution_status") or read_execution_status(case_path)
+        if not execution_status:
+            failures.append("execution_status.json was not produced")
+        elif not status_run_completed(execution_status):
+            failures.append("execution_status.json does not mark execution successful")
+
+        if final_state.get("run_status") != "completed":
+            failures.append("run_status is not completed")
+        if not solver_log_has_end(case_path):
+            failures.append("solver log does not contain a clean End marker")
+
+    return failures
+
+
 def test_full_workflow_run(workflow_app, args: argparse.Namespace) -> None:
     """
     Tests a full run of the OASiS workflow from user request to final state.
@@ -148,6 +191,13 @@ def test_full_workflow_run(workflow_app, args: argparse.Namespace) -> None:
 
         if final_state.get("current_agent") == "end" or len(final_state.get("completed_tasks", [])) > 0:
             print("✅ Workflow reached completion state.")
+
+        failures = validate_final_state(final_state, args)
+        if failures:
+            print("\n--- Workflow Run Test Failed ---")
+            for failure in failures:
+                print(f"❌ {failure}")
+            raise RuntimeError("; ".join(failures))
 
         print("\n--- Workflow Run Test Passed ---")
 

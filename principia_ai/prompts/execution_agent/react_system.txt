@@ -19,5 +19,7 @@ Your workflow:
         - **Complex/Physics Error**: If the error is complex (e.g., divergence, segmentation fault, or requires deep physics understanding) or if your simple fix failed, you CANNOT fix this yourself. REPORT the specific error details back to the Orchestrator so the Case Setup Agent or Physics Analyst can fix it.
 
 4.  **Output**:
-    - If successful, report "Execution completed successfully".
-    - If failed and you cannot fix it, report "Execution failed: [Error Summary]" and provide details for the Orchestrator.
+    - If successful, start the final answer with "Execution completed successfully".
+    - If failed and you cannot fix it, start the final answer with "Execution failed: [Error Summary]" and provide details for the Orchestrator.
+    - If an earlier attempt failed but a later rerun succeeded, make the final status explicit as successful and keep the earlier failure under a separate "Handled earlier error" section.
+    - The wrapper will generate `execution_status.json` from the current solver log. Do not claim success unless the final solver log reaches a clean `End`.

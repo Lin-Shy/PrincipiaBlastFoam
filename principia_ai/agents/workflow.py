@@ -37,6 +37,7 @@ def create_workflow(
         use_tutorial_retriever,
         **retrieval_kwargs,
     )
+    orchestrator.set_async_physics_update_runner(physics_analyst_agent.update_report)
     case_setup_agent = CaseSetupAgent(
         llm,
         use_knowledge_manager,

@@ -648,7 +648,7 @@ Example:
             
             # Track tokens
             tracker = MetricsTracker()
-            usage = response.usage_metadata if hasattr(response, 'usage_metadata') else {}
+            usage = getattr(response, 'usage_metadata', None) or {}
             agent_name = tracker.current_agent or "UserGuideTool"
             tracker.record_llm_call(
                 agent_name=agent_name,
@@ -726,7 +726,7 @@ Example:
             
             # Track tokens
             tracker = MetricsTracker()
-            usage = response.usage_metadata if hasattr(response, 'usage_metadata') else {}
+            usage = getattr(response, 'usage_metadata', None) or {}
             agent_name = tracker.current_agent or "UserGuideTool"
             tracker.record_llm_call(
                 agent_name=agent_name,
@@ -840,7 +840,7 @@ Example:
             
             # Track tokens
             tracker = MetricsTracker()
-            usage = response.usage_metadata if hasattr(response, 'usage_metadata') else {}
+            usage = getattr(response, 'usage_metadata', None) or {}
             agent_name = tracker.current_agent or "UserGuideTool"
             tracker.record_llm_call(
                 agent_name=agent_name,
