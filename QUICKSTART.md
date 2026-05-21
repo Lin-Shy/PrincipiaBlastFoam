@@ -9,6 +9,7 @@ Before you begin, ensure you have the following installed:
 *   **Operating System**: Linux (Recommended for OpenFOAM compatibility)
 *   **Python**: Version 3.10 or higher
 *   **OpenFOAM**: A working installation of OpenFOAM (specifically **blastFoam** if running explosion simulations)
+*   **Execution User**: A normal, non-root Linux user for OpenFOAM/blastFoam runs
 *   **Database**: Neo4j (Required for Knowledge Graph storage)
 
 ## 🛠️ Installation
@@ -70,6 +71,7 @@ Open `.env` and configure the following critical settings:
 
 *   **OpenFOAM Configuration**:
     *   `BLASTFOAM_TUTORIALS`: Path to your blastFoam tutorials directory (used for reference).
+    *   `OPENFOAM_RUN_AS_USER`: Optional user for end-to-end benchmark runs, for example `openfoam`.
 
 ## 🏃‍♂️ Running the System
 
@@ -111,6 +113,18 @@ The core of the system is the multi-agent workflow.
 python run_workflow.py
 ```
 
+When running real OpenFOAM/blastFoam cases, avoid executing the solver stack as root. Some tutorials use `#calc` or `#codeStream`, which require OpenFOAM to compile and load dynamic code. OpenFOAM can reject this when the process runs as root. For benchmark runs, use:
+
+```bash
+python experiments/end2end/run_agent_benchmark.py --run-as-user openfoam
+```
+
+or:
+
+```bash
+export OPENFOAM_RUN_AS_USER=openfoam
+```
+
 ### 4. Monitor Progress
 
 The system will output logs to the console, showing the interaction between agents:
@@ -123,6 +137,7 @@ The system will output logs to the console, showing the interaction between agen
 
 *   **Neo4j Connection Error**: Ensure the Neo4j service is running and the credentials in `.env` are correct.
 *   **OpenFOAM Command Not Found**: Make sure you have sourced the OpenFOAM environment variables (e.g., `source /opt/openfoam/etc/bashrc`) before running the Python scripts.
+*   **OpenFOAM dynamicCode Security Error**: If `blockMesh` or another OpenFOAM utility fails with a root/dynamicCode security message, rerun through a non-root user such as `openfoam`.
 *   **LLM API Error**: Check your API key and network connection.
 
 ## 📚 Next Steps

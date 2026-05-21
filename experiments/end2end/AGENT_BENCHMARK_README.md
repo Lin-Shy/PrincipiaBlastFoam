@@ -117,13 +117,23 @@ python experiments/end2end/run_agent_benchmark.py \
   --cleanup-final
 ```
 
+如果系统还没有专门用户，可以先创建一个普通用户并确保输出目录可写：
+
+```bash
+sudo useradd -m -d /data/openfoam-runner -s /bin/bash openfoam
+sudo mkdir -p /data/PrincipiaBlastFoam_output
+sudo chown -R openfoam:openfoam /data/PrincipiaBlastFoam_output
+```
+
 也可以通过环境变量设置：
 
 ```bash
 export OPENFOAM_RUN_AS_USER=openfoam
 ```
 
-如果 runner 本身以 root 启动且没有指定普通用户，它会优先自动查找 `openfoam`、`foam`、`ofuser`。若都不存在，会直接退出并提示配置普通用户。只有明确接受 root 执行风险时，才使用：
+如果 runner 本身以 root 启动且没有指定普通用户，它会优先自动查找 `openfoam`、`foam`、`ofuser`。若都不存在，会直接退出并提示配置普通用户。runner 会把本轮 `run_<timestamp>/` 输出目录授权给该用户，然后用 `runuser -u <user> -- bash -lc ...` 启动 workflow。
+
+只有明确接受 root 执行风险时，才使用：
 
 ```bash
 --allow-root-openfoam

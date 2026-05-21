@@ -32,6 +32,7 @@ PrincipiaBlastFoam 是一个基于 **ReAct (Reasoning + Acting) 范式** 和 **O
 *   Linux (推荐)
 *   Python 3.10+
 *   OpenFOAM / blastFoam 环境
+*   用于运行 OpenFOAM/blastFoam 的普通 Linux 用户（不建议使用 root 直接运行求解器）
 *   Neo4j (用于知识图谱存储)
 
 ### 安装依赖
@@ -76,6 +77,8 @@ python examples/mcp/langchain_mcp_client_example.py
 ```bash
 python run_workflow.py
 ```
+
+> 注意：OpenFOAM 的 `#calc` / `#codeStream` 等功能会触发动态代码编译和加载。root 用户执行这类算例时可能被 OpenFOAM 安全检查拒绝，典型表现是 `blockMesh` 报 dynamicCode 安全错误。建议用普通用户运行实际 OpenFOAM/blastFoam workflow。端到端 benchmark runner 支持 `--run-as-user openfoam` 或 `OPENFOAM_RUN_AS_USER=openfoam`，并会把每轮输出目录授权给该用户。
 
 ## 📂 项目结构
 

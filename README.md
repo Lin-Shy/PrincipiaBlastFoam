@@ -31,6 +31,7 @@ For detailed architecture description, please refer to [docs/MULTI_AGENT_DESIGN.
 *   Linux (Recommended)
 *   Python 3.10+
 *   OpenFOAM / blastFoam environment
+*   A non-root Linux user for running OpenFOAM/blastFoam solvers
 *   Neo4j (for Knowledge Graph storage)
 
 ### Installation
@@ -64,6 +65,8 @@ Edit the `CASE_PATH` and `user_request` variables in `run_workflow.py` to define
 ```bash
 python run_workflow.py
 ```
+
+> Note: OpenFOAM features such as `#calc` and `#codeStream` compile and load dynamic code. Running those cases as root can be rejected by OpenFOAM's security checks, often during utilities such as `blockMesh`. Use a normal Linux user for actual OpenFOAM/blastFoam execution. The end-to-end benchmark runner supports `--run-as-user openfoam` or `OPENFOAM_RUN_AS_USER=openfoam` and will hand off each workflow subprocess to that user.
 
 ## 📂 Project Structure
 
