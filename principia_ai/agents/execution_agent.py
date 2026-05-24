@@ -8,6 +8,8 @@ from principia_ai.graph.graph_state import GraphState
 from principia_ai.prompts import PromptManager
 from principia_ai.metrics.decorators import track_agent_execution, track_llm_call
 from ..tools.mcp_retrieval_tools import get_mcp_retrieval_tools, set_retrieval_context
+from ..tools.context import scoped_tool_context
+from ..utils.execution_preflight import format_preflight_report, run_execution_preflight
 from ..utils.execution_status import build_execution_status, write_execution_status
 
 # New imports
@@ -53,7 +55,7 @@ class ExecutionAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="ExecutionAgent",
-            max_iterations=int(os.getenv("MAX_ITERATIONS"))
+            max_iterations=int(os.getenv("MAX_ITERATIONS", "50"))
         )
 
     def _parse_execution_status(self, output: str) -> str:
@@ -86,9 +88,51 @@ class ExecutionAgent:
         """
         print("Execution Agent: Starting execution (Autonomous Mode)...")
         
-        case_path = state.get('case_path')
+        case_path = state.get('case_path') or ""
         set_retrieval_context(state.get("tutorial_case_path"), state.get("user_request", ""))
         current_task = state.get('current_task', {'id': 'execution', 'name': 'Execute simulation'})
+
+        preflight = run_execution_preflight(case_path)
+        if not preflight["ok"]:
+            output = format_preflight_report(preflight)
+            report_path = os.path.join(case_path, "execution_report.md")
+            try:
+                with open(report_path, "w", encoding="utf-8") as f:
+                    f.write(output)
+                print(f"Execution Agent: Preflight report saved to {report_path}")
+            except Exception as e:
+                print(f"Execution Agent: Warning - could not save preflight report file: {e}")
+
+            execution_status = build_execution_status(case_path, output, "failed")
+            execution_status.update(
+                {
+                    "status_source": "environment_preflight",
+                    "status_reason": "; ".join(preflight["blockers"]),
+                    "environment_status": "blocked",
+                    "environment_blockers": preflight["blockers"],
+                    "environment_warnings": preflight["warnings"],
+                }
+            )
+            status_path = None
+            try:
+                status_path = write_execution_status(case_path, execution_status)
+                print(f"Execution Agent: Preflight status saved to {status_path}")
+            except Exception as e:
+                print(f"Execution Agent: Warning - could not save execution status file: {e}")
+
+            current_task['status'] = "failed"
+            current_task['result_summary'] = output
+            return {
+                'current_task': current_task,
+                "run_status": "failed",
+                "execution_status": execution_status,
+                "execution_status_path": str(status_path) if status_path else None,
+                "execution_output": output,
+                "execution_summary": output,
+                "environment_status": "blocked",
+                "environment_blockers": preflight["blockers"],
+                "completed_tasks": state.get('completed_tasks', []) + [current_task],
+            }
         
         input_text = (
             f"Task: Execute the simulation in {case_path}.\n"
@@ -96,7 +140,8 @@ class ExecutionAgent:
             f"Report the final status and a summary of the execution."
         )
         
-        result = self.agent.invoke({"input": input_text})
+        with scoped_tool_context(case_path):
+            result = self.agent.invoke({"input": input_text})
         output = result.get("output", "")
         
         # Save the report to a file for other agents to use

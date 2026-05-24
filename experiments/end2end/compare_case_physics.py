@@ -31,21 +31,24 @@ from principia_ai.retrieval.user_guide_knowledge_graph import UserGuideKnowledge
 # CONFIGURATION - Modify these variables for your comparison
 # ============================================================================
 mode = "basic"
+DEFAULT_COMPARISON_OUTPUT_ROOT = Path(
+    os.getenv("PRINCIPIA_COMPARISON_OUTPUT_ROOT", "/data/PrincipiaBlastFoam_output/comparisons")
+)
 # Directory paths
-CASES_DIR_A = f"/media/dev/vdb1/linshihao/LLM/LLM-output-cases/batch_runs/blastfoam_{mode}_modifications"
-CASES_DIR_B = f"/media/dev/vdb1/linshihao/LLM/LLM-output-cases/no_kg-batch_runs/blastfoam_{mode}_modifications"
+CASES_DIR_A = str(DEFAULT_COMPARISON_OUTPUT_ROOT / "batch_runs" / f"blastfoam_{mode}_modifications")
+CASES_DIR_B = str(DEFAULT_COMPARISON_OUTPUT_ROOT / "no_kg-batch_runs" / f"blastfoam_{mode}_modifications")
 
 # Modifications metadata files (optional, for enhanced context)
-MODIFICATIONS_FILE_A = f"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam/dataset/modification/blastfoam_{mode}_modifications.json"
-MODIFICATIONS_FILE_B = f"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam/dataset/modification/blastfoam_{mode}_modifications.json"
+MODIFICATIONS_FILE_A = str(project_root / "dataset" / "modification" / f"blastfoam_{mode}_modifications.json")
+MODIFICATIONS_FILE_B = str(project_root / "dataset" / "modification" / f"blastfoam_{mode}_modifications.json")
 
 # Output file for comparison results
-OUTPUT_FILE = f"/media/dev/vdb1/linshihao/LLM/LLM-output-cases/{mode}_physics_comparison_results.json"
+OUTPUT_FILE = str(DEFAULT_COMPARISON_OUTPUT_ROOT / f"{mode}_physics_comparison_results.json")
 
 # LLM Configuration (leave None to use environment variables from .env)
-LLM_API_KEY = "sk-4f9c1cbdc4ce43a7886791887284e108"
-LLM_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
-LLM_MODEL = "qwen-plus"  # or set your model name
+LLM_API_KEY = None
+LLM_BASE_URL = None
+LLM_MODEL = None
 
 # File content truncation settings (to avoid excessive token usage)
 MAX_FILE_CONTENT_LENGTH = 2000  # Max characters per file to send to LLM

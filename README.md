@@ -8,7 +8,9 @@ By leveraging Large Language Models (LLMs) and Knowledge Graph technology, the s
 
 *   **Multi-Agent Collaboration based on ReAct Paradigm**: Deeply integrates the **ReAct (Reasoning + Acting)** philosophy, endowing agents with a "Think-Act-Observe" loop capability. An Orchestrator agent dynamically reasons based on the current state and schedules expert agents (Physics Analyst, Case Setup, Execution, etc.) to achieve adaptive problem-solving for complex tasks.
 *   **Knowledge-Enhanced Retrieval**: Integrates User Guide and Case Content Knowledge Graphs, employing hierarchical retrieval and context-enhanced strategies to ensure agents obtain accurate physical knowledge and case configuration information.
+*   **MCP Retrieval Service**: Provides the `principia_retrieval` MCP server so retrieval tools can be loaded once and reused by LangChain/LangGraph agents.
 *   **Automated Workflow**: Supports the entire process from scratch: case initialization, parameter modification, simulation execution, log monitoring, to result analysis.
+*   **Execution Guardrails**: Adds scoped file tools, sensitive-output redaction, environment preflight checks, and artifact validation to reduce unsafe or incomplete workflow runs.
 *   **Deep BlastFoam Support**: Specifically optimized and knowledge-base constructed for explosion mechanics simulation (blastFoam).
 
 ## 🏗️ System Architecture
@@ -46,24 +48,35 @@ pip install -r requirements.txt
     ```bash
     cp example.env .env
     ```
-2.  Edit the `.env` file to configure LLM API and Neo4j connection information.
+2.  Edit the `.env` file to configure LLM API and Neo4j connection information. The real `.env` file is ignored by Git and must not be committed.
 
 ### Running Examples
 
-**1. Knowledge Graph Retrieval Demo**
+**1. Retrieval Evaluation**
 
-Run the following command to see the effect of the improved retrieval strategy:
+The retrieval benchmark entry points live under `experiments/retrieval_method/`:
 
 ```bash
-python example_improved_retrieval.py
+python experiments/retrieval_method/evaluate_knowledge_graph_retriever.py --benchmark user_guide
 ```
 
-**2. Run Full Workflow**
+See [experiments/retrieval_method/README.md](experiments/retrieval_method/README.md) for case-content and embedding benchmark commands.
 
-Edit the `CASE_PATH` and `user_request` variables in `run_workflow.py` to define your simulation task, then run:
+**2. MCP Retrieval Server Smoke Test**
 
 ```bash
-python run_workflow.py
+python -m mcp_servers.principia_retrieval.test_client
+python examples/mcp/langchain_mcp_client_example.py
+```
+
+**3. Run Full Workflow**
+
+Pass the target case directory and natural-language request to `run_workflow.py`:
+
+```bash
+python run_workflow.py \
+  --case-path /data/PrincipiaBlastFoam_output/surfaceburst_scaledd3 \
+  --user-request "Simulate a surface-burst case and keep the farthest scaled distance close to 3."
 ```
 
 > Note: OpenFOAM features such as `#calc` and `#codeStream` compile and load dynamic code. Running those cases as root can be rejected by OpenFOAM's security checks, often during utilities such as `blockMesh`. Use a normal Linux user for actual OpenFOAM/blastFoam execution. The end-to-end benchmark runner supports `--run-as-user openfoam` or `OPENFOAM_RUN_AS_USER=openfoam` and will hand off each workflow subprocess to that user.

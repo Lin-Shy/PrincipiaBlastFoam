@@ -10,6 +10,7 @@ PrincipiaBlastFoam 是一个基于 **ReAct (Reasoning + Acting) 范式** 和 **O
 *   **知识增强检索**: 集成 User Guide 和 Case Content 知识图谱，采用层次化检索和上下文增强策略，确保智能体获取准确的物理知识和算例配置信息。
 *   **MCP 检索服务**: 提供 `principia_retrieval` MCP server，可将案例内容知识图谱常驻加载为工具服务，避免每个 agent 重复初始化检索器。
 *   **自动化工作流**: 支持从零开始初始化算例、修改参数、运行仿真、监控日志到结果分析的全过程。
+*   **执行安全护栏**: 增加工具路径作用域、敏感输出脱敏、执行前环境检查和产物契约校验，减少误读敏感文件或错误结束 workflow 的风险。
 *   **BlastFoam 深度支持**: 针对爆炸力学仿真（blastFoam）进行了专门的优化和知识库构建。
 
 ## 🏗️ 系统架构
@@ -47,17 +48,19 @@ pip install -r requirements.txt
     ```bash
     cp example.env .env
     ```
-2.  编辑 `.env` 文件，配置 LLM API 和 Neo4j 连接信息。
+2.  编辑 `.env` 文件，配置 LLM API 和 Neo4j 连接信息。真实 `.env` 已被 Git 忽略，不应提交到仓库。
 
 ### 运行示例
 
-**1. 知识图谱检索演示**
+**1. 检索评测**
 
-运行以下命令查看改进后的检索策略效果：
+检索评测入口位于 `experiments/retrieval_method/`：
 
 ```bash
-python example_improved_retrieval.py
+python experiments/retrieval_method/evaluate_knowledge_graph_retriever.py --benchmark user_guide
 ```
+
+case-content、embedding 等评测命令见 [experiments/retrieval_method/README.md](experiments/retrieval_method/README.md)。
 
 **2. MCP 检索服务测试**
 
@@ -72,10 +75,12 @@ python examples/mcp/langchain_mcp_client_example.py
 
 **3. 运行完整工作流**
 
-编辑 `run_workflow.py` 中的 `CASE_PATH` 和 `user_request` 变量，定义你的仿真任务，然后运行：
+通过命令行参数传入目标算例目录和自然语言任务：
 
 ```bash
-python run_workflow.py
+python run_workflow.py \
+  --case-path /data/PrincipiaBlastFoam_output/surfaceburst_scaledd3 \
+  --user-request "模拟一个触地爆场景，并修改爆炸场景的最远比例距离接近3。"
 ```
 
 > 注意：OpenFOAM 的 `#calc` / `#codeStream` 等功能会触发动态代码编译和加载。root 用户执行这类算例时可能被 OpenFOAM 安全检查拒绝，典型表现是 `blockMesh` 报 dynamicCode 安全错误。建议用普通用户运行实际 OpenFOAM/blastFoam workflow。端到端 benchmark runner 支持 `--run-as-user openfoam` 或 `OPENFOAM_RUN_AS_USER=openfoam`，并会把每轮输出目录授权给该用户。

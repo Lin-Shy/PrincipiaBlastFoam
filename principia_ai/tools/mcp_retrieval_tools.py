@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import atexit
 import concurrent.futures
+import inspect
 import json
 import os
 import sys
@@ -15,6 +16,11 @@ from typing import Any, Dict, List, Optional
 from langchain.tools import StructuredTool
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
+
+try:
+    from langchain_mcp_adapters.client import MultiServerMCPClient
+except Exception:  # pragma: no cover - optional adapter dependency/version
+    MultiServerMCPClient = None
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -131,6 +137,82 @@ _CLIENT = _MCPRetrievalClient()
 atexit.register(_CLIENT.close)
 
 
+TUTORIAL_RETRIEVAL_TOOL_NAMES = {
+    "get_case_by_intent",
+    "get_files_for_case",
+    "find_variable",
+    "get_file_content",
+    "get_modification_targets",
+    "search_case_content",
+}
+USER_GUIDE_RETRIEVAL_TOOL_NAMES = {"search_user_guide"}
+
+
+def _mcp_server_config() -> Dict[str, Dict[str, Any]]:
+    return {
+        "principia_retrieval": {
+            "transport": "stdio",
+            "command": sys.executable,
+            "args": ["-m", "mcp_servers.principia_retrieval.server"],
+            "cwd": str(PROJECT_ROOT),
+            "env": os.environ.copy(),
+        }
+    }
+
+
+async def _maybe_await(value):
+    if inspect.isawaitable(value):
+        return await value
+    return value
+
+
+async def _load_adapter_tools_async() -> List[StructuredTool]:
+    if MultiServerMCPClient is None:
+        raise RuntimeError("langchain_mcp_adapters.client.MultiServerMCPClient is unavailable")
+
+    client = MultiServerMCPClient(_mcp_server_config())
+    try:
+        return await _maybe_await(client.get_tools())
+    except Exception:
+        if not hasattr(client, "__aenter__"):
+            raise
+        async with client as active_client:
+            return await _maybe_await(active_client.get_tools())
+
+
+def _load_adapter_tools_sync() -> Optional[List[StructuredTool]]:
+    try:
+        running_loop = asyncio.get_running_loop()
+    except RuntimeError:
+        running_loop = None
+
+    if running_loop and running_loop.is_running():
+        return None
+
+    try:
+        return asyncio.run(_load_adapter_tools_async())
+    except Exception as exc:
+        print(f"MCP adapter tool loading failed; falling back to built-in client: {exc}")
+        return None
+
+
+def _tool_basename(tool_name: str) -> str:
+    return tool_name.rsplit("__", 1)[-1].rsplit(".", 1)[-1]
+
+
+def _filter_adapter_tools(
+    tools: List[StructuredTool],
+    use_knowledge_manager: bool,
+    use_tutorial_retriever: bool,
+) -> List[StructuredTool]:
+    allowed = set()
+    if use_tutorial_retriever:
+        allowed.update(TUTORIAL_RETRIEVAL_TOOL_NAMES)
+    if use_knowledge_manager:
+        allowed.update(USER_GUIDE_RETRIEVAL_TOOL_NAMES)
+    return [tool for tool in tools if _tool_basename(getattr(tool, "name", "")) in allowed]
+
+
 def _effective_query(query: Optional[str], user_query: Optional[str]) -> str:
     return (query or user_query or _current_user_request.get() or "").strip()
 
@@ -232,7 +314,18 @@ def get_mcp_retrieval_tools(
     use_knowledge_manager: bool = True,
     use_tutorial_retriever: bool = True,
 ) -> List[StructuredTool]:
-    """Return MCP-backed retrieval tools without starting the MCP server until first use."""
+    """Return MCP-backed retrieval tools, preferring the official LangChain MCP adapter."""
+    if os.getenv("MCP_RETRIEVAL_CLIENT", "adapter").lower() in {"adapter", "langchain"}:
+        adapter_tools = _load_adapter_tools_sync()
+        if adapter_tools:
+            filtered_tools = _filter_adapter_tools(
+                adapter_tools,
+                use_knowledge_manager=use_knowledge_manager,
+                use_tutorial_retriever=use_tutorial_retriever,
+            )
+            if filtered_tools:
+                return filtered_tools
+
     tools: List[StructuredTool] = []
 
     if use_tutorial_retriever:

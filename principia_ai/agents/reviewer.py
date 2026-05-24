@@ -7,6 +7,7 @@ from principia_ai.graph.graph_state import GraphState
 from principia_ai.prompts import PromptManager
 from principia_ai.metrics.decorators import track_agent_execution, track_llm_call
 from ..tools.mcp_retrieval_tools import get_mcp_retrieval_tools, set_retrieval_context
+from ..tools.context import scoped_tool_context
 
 from .base_agent import BaseAgent
 from ..tools.standard_tools import get_read_tools, get_search_tools
@@ -41,7 +42,7 @@ class ReviewerAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="ReviewerAgent",
-            max_iterations=int(os.getenv("MAX_ITERATIONS"))
+            max_iterations=int(os.getenv("MAX_ITERATIONS", "50"))
         )
 
     def _parse_validation_status(self, output: str) -> str:
@@ -70,7 +71,7 @@ class ReviewerAgent:
         print("Reviewer Agent: Starting review (Autonomous Mode)...")
         
         user_request = state.get('user_request', '')
-        case_path = state.get('case_path')
+        case_path = state.get('case_path') or ""
         set_retrieval_context(state.get("tutorial_case_path"), user_request)
         
         input_text = (
@@ -82,7 +83,8 @@ class ReviewerAgent:
             f"3. Report back with a checklist and status."
         )
         
-        result = self.agent.invoke({"input": input_text})
+        with scoped_tool_context(case_path):
+            result = self.agent.invoke({"input": input_text})
         output = result.get("output", "")
         
         # Save the report to a file for other agents to use

@@ -38,7 +38,7 @@
 
 ## 前置条件
 
-请在 `graph-py310` 环境中运行，并保证项目根目录下 `.env` 至少包含以下配置：
+请在 `principia-blastfoam` 环境中运行，并保证项目根目录下 `.env` 至少包含以下配置：
 
 ```bash
 BLASTFOAM_TUTORIALS=/path/to/blastFoam_tutorials

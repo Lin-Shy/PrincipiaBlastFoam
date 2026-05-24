@@ -6,6 +6,7 @@ from principia_ai.graph.graph_state import GraphState
 from principia_ai.prompts import PromptManager
 from principia_ai.metrics.decorators import track_agent_execution, track_llm_call
 from ..tools.mcp_retrieval_tools import get_mcp_retrieval_tools, set_retrieval_context
+from ..tools.context import scoped_tool_context
 
 # New imports
 from .base_agent import BaseAgent
@@ -50,7 +51,7 @@ class CaseSetupAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="CaseSetupAgent",
-            max_iterations=int(os.getenv("MAX_ITERATIONS"))
+            max_iterations=int(os.getenv("MAX_ITERATIONS", "50"))
         )
 
     @track_agent_execution("case_setup_agent")
@@ -60,7 +61,7 @@ class CaseSetupAgent:
         """
         print("Case Setup Agent: Starting setup (Autonomous Mode)...")
         
-        case_path = state.get('case_path')
+        case_path = state.get('case_path') or ""
         user_request = state.get('user_request', '')
         set_retrieval_context(state.get("tutorial_case_path"), user_request)
         physics_analysis = state.get('physics_analysis', '')
@@ -73,7 +74,8 @@ class CaseSetupAgent:
             f"Current Task Details: {current_task}\n"
         )
         
-        result = self.agent.invoke({"input": input_text})
+        with scoped_tool_context(case_path):
+            result = self.agent.invoke({"input": input_text})
         output = result.get("output", "")
         
         print("Case Setup Agent: Setup complete.")

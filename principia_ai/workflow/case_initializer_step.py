@@ -5,6 +5,7 @@ from principia_ai.graph.graph_state import GraphState
 from principia_ai.tools.tutorial_initializer import TutorialInitializer
 from principia_ai.agents.base_agent import BaseAgent
 from principia_ai.tools.standard_tools import get_read_tools
+from principia_ai.tools.context import scoped_tool_context
 from principia_ai.tools.search.list_directory import list_directory
 from principia_ai.prompts.prompt_manager import PromptManager
 
@@ -111,7 +112,8 @@ class CaseInitializationStep:
         )
         
         print("Case Initializer Agent: Checking if initialization is needed...")
-        result = self.agent.invoke({"input": input_text})
+        with scoped_tool_context(case_path):
+            result = self.agent.invoke({"input": input_text})
         output = result.get("output", "")
         
         should_initialize = False

@@ -36,6 +36,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from principia_ai.utils.solver_logs import solver_log_has_clean_end
 from principia_ai.utils.execution_status import read_execution_status, status_run_completed
+from principia_ai.utils.redaction import redact_file_in_place, redact_text
 
 DEFAULT_CASES_FILE = PROJECT_ROOT / "experiments" / "end2end" / "agent_benchmark_cases.json"
 DEFAULT_OUTPUT_ROOT = Path("/data/PrincipiaBlastFoam_output/e2e_agent_benchmark")
@@ -181,6 +182,7 @@ def run_subprocess(command: str, log_path: Path, timeout: int) -> Dict[str, Any]
                 os.killpg(process.pid, signal.SIGKILL)
                 return_code = process.wait()
 
+    redact_file_in_place(log_path)
     elapsed = time.time() - started
     return {
         "exit_code": return_code,
@@ -250,13 +252,13 @@ def read_log_tail(log_path: Path, max_chars: int = 4000) -> str:
     if not log_path.exists():
         return ""
     text = log_path.read_text(encoding="utf-8", errors="ignore")
-    return text[-max_chars:]
+    return redact_text(text[-max_chars:])
 
 
 def read_log(log_path: Path) -> str:
     if not log_path.exists():
         return ""
-    return log_path.read_text(encoding="utf-8", errors="ignore")
+    return redact_text(log_path.read_text(encoding="utf-8", errors="ignore"))
 
 
 def parse_selected_tutorial(log_text: str) -> Optional[str]:
@@ -516,7 +518,7 @@ def main() -> None:
             output_root,
             started_at,
             case.get("expected", {}),
-            case.get("prompt"),
+            case.get("user_request") or case.get("prompt"),
         )
         result = {
             "case_id": case_id,

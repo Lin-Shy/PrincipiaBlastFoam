@@ -1,4 +1,5 @@
 import os
+import uuid
 from langgraph.graph import StateGraph, END
 from principia_ai.graph.graph_state import GraphState
 from principia_ai.agents import (OrchestratorAgent, PhysicsAnalystAgent,
@@ -6,11 +7,84 @@ from principia_ai.agents import (OrchestratorAgent, PhysicsAnalystAgent,
 from principia_ai.workflow.case_initializer_step import CaseInitializationStep
 
 
+def _checkpointing_enabled(explicit_value=None) -> bool:
+    if explicit_value is not None:
+        if isinstance(explicit_value, str):
+            return explicit_value.lower() in {"1", "true", "yes", "on"}
+        return bool(explicit_value)
+    return os.getenv("LANGGRAPH_CHECKPOINTS", "true").lower() in {"1", "true", "yes", "on"}
+
+
+def _create_memory_checkpointer():
+    try:
+        from langgraph.checkpoint.memory import InMemorySaver
+        return InMemorySaver()
+    except Exception:
+        try:
+            from langgraph.checkpoint.memory import MemorySaver
+            return MemorySaver()
+        except Exception as exc:
+            print(f"Warning: Could not initialize LangGraph checkpointer: {exc}")
+            return None
+
+
+class WorkflowApp:
+    """Thin wrapper that supplies a default thread_id when checkpointing is enabled."""
+
+    def __init__(self, app, checkpointing_enabled: bool = False):
+        self._app = app
+        self._checkpointing_enabled = checkpointing_enabled
+
+    def _with_default_thread_id(self, input_state, config):
+        if not self._checkpointing_enabled:
+            return config
+
+        updated_config = dict(config or {})
+        configurable = dict(updated_config.get("configurable") or {})
+        has_checkpoint_key = any(
+            configurable.get(key)
+            for key in ("thread_id", "checkpoint_ns", "checkpoint_id")
+        )
+        if not has_checkpoint_key:
+            task_id = input_state.get("task_id") if isinstance(input_state, dict) else None
+            configurable["thread_id"] = str(task_id or uuid.uuid4())
+            updated_config["configurable"] = configurable
+        return updated_config
+
+    def invoke(self, input_state, config=None, *args, **kwargs):
+        return self._app.invoke(
+            input_state,
+            self._with_default_thread_id(input_state, config),
+            *args,
+            **kwargs,
+        )
+
+    async def ainvoke(self, input_state, config=None, *args, **kwargs):
+        return await self._app.ainvoke(
+            input_state,
+            self._with_default_thread_id(input_state, config),
+            *args,
+            **kwargs,
+        )
+
+    def stream(self, input_state, config=None, *args, **kwargs):
+        return self._app.stream(
+            input_state,
+            self._with_default_thread_id(input_state, config),
+            *args,
+            **kwargs,
+        )
+
+    def __getattr__(self, name):
+        return getattr(self._app, name)
+
+
 def create_workflow(
     llm,
     retrieval_llm_api_key=None,
     retrieval_llm_base_url=None,
     retrieval_llm_model=None,
+    enable_checkpointer=None,
 ):
     """
     创建并配置基于OASiS模型的多智能体协作工作流。
@@ -111,7 +185,8 @@ def create_workflow(
     )
     
     # 6. 编译工作流
-    app = workflow.compile()
+    checkpointer = _create_memory_checkpointer() if _checkpointing_enabled(enable_checkpointer) else None
+    app = workflow.compile(checkpointer=checkpointer) if checkpointer else workflow.compile()
     
     print("OASiS workflow created successfully.")
-    return app
+    return WorkflowApp(app, checkpointing_enabled=checkpointer is not None)

@@ -2,6 +2,8 @@ import os
 from typing import List, Dict, Any
 from langchain_core.tools import tool
 
+from principia_ai.tools.context import resolve_tool_path
+
 @tool
 def edit_files(path: str, edits: List[Dict[str, Any]]):
     """Edit files by replacing text.
@@ -12,10 +14,11 @@ def edit_files(path: str, edits: List[Dict[str, Any]]):
                Example: [{'old_text': 'foo', 'new_text': 'bar'}]
     """
     try:
-        if not os.path.exists(path):
-            return f"Error: File {path} does not exist."
+        resolved_path = resolve_tool_path(path)
+        if not os.path.exists(resolved_path):
+            return f"Error: File {path} does not exist. Resolved path: {resolved_path}."
             
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(resolved_path, 'r', encoding='utf-8') as f:
             content = f.read()
             
         for edit in edits:
@@ -23,12 +26,12 @@ def edit_files(path: str, edits: List[Dict[str, Any]]):
             new_text = edit.get('new_text')
             if old_text and new_text is not None:
                 if old_text not in content:
-                    return f"Error: Could not find text '{old_text}' in {path}"
+                    return f"Error: Could not find text '{old_text}' in {resolved_path}"
                 content = content.replace(old_text, new_text)
         
-        with open(path, 'w', encoding='utf-8') as f:
+        with open(resolved_path, 'w', encoding='utf-8') as f:
             f.write(content)
             
-        return f"Successfully edited file: {path}"
+        return f"Successfully edited file: {resolved_path}"
     except Exception as e:
         return f"Error editing file {path}: {str(e)}"

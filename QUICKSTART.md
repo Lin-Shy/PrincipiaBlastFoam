@@ -73,17 +73,25 @@ Open `.env` and configure the following critical settings:
     *   `BLASTFOAM_TUTORIALS`: Path to your blastFoam tutorials directory (used for reference).
     *   `OPENFOAM_RUN_AS_USER`: Optional user for end-to-end benchmark runs, for example `openfoam`.
 
+*   **Runtime Controls**:
+    *   `AGENT_RUNTIME`: `langgraph` by default, with `langchain` available as a compatibility fallback.
+    *   `LANGGRAPH_CHECKPOINTS`: Enables in-memory LangGraph checkpointing when set to `true`.
+    *   `ORCHESTRATOR_STRUCTURED_OUTPUT`: Enables structured routing decisions.
+    *   `LLM_STRUCTURED_OUTPUT` and `LLM_THINKING`: Provider capability overrides; keep `auto` unless a provider requires explicit behavior.
+
+The real `.env` file is ignored by Git. Keep actual keys there only, not in committed files.
+
 ## 🏃‍♂️ Running the System
 
 ### 1. Verify Knowledge Graph Retrieval
 
-To ensure the Knowledge Graph and retrieval tools are working correctly, run the example script:
+To ensure the Knowledge Graph and retrieval tools are working correctly, run a small benchmark entry point:
 
 ```bash
-python example_improved_retrieval.py
+python experiments/retrieval_method/evaluate_knowledge_graph_retriever.py --benchmark user_guide --limit 3
 ```
 
-This script demonstrates the system's ability to retrieve relevant OpenFOAM case information using the improved hierarchical retrieval strategy.
+For case-content and embedding retrieval commands, see `experiments/retrieval_method/README.md`.
 
 ### 2. Verify the MCP Retrieval Server
 
@@ -103,14 +111,12 @@ second command verifies that LangChain can load the MCP tools.
 
 The core of the system is the multi-agent workflow.
 
-1.  Open `run_workflow.py`.
-2.  Modify the `user_request` variable to describe your simulation task.
-    *   *Example*: "Set up a 2D explosion simulation with a charge mass of 5kg located at (0 0 0)."
-3.  Set the `CASE_PATH` to your target working directory.
-4.  Run the workflow:
+Run `run_workflow.py` with an explicit case path and request:
 
 ```bash
-python run_workflow.py
+python run_workflow.py \
+  --case-path /data/PrincipiaBlastFoam_output/surfaceburst_scaledd3 \
+  --user-request "Set up a 2D explosion simulation with a charge mass of 5kg located at (0 0 0)."
 ```
 
 When running real OpenFOAM/blastFoam cases, avoid executing the solver stack as root. Some tutorials use `#calc` or `#codeStream`, which require OpenFOAM to compile and load dynamic code. OpenFOAM can reject this when the process runs as root. For benchmark runs, use:

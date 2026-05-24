@@ -6,6 +6,8 @@ from principia_ai.graph.graph_state import GraphState
 from principia_ai.prompts import PromptManager
 from principia_ai.metrics.decorators import track_agent_execution, track_llm_call
 from ..tools.mcp_retrieval_tools import get_mcp_retrieval_tools, set_retrieval_context
+from ..tools.context import scoped_tool_context
+from ..utils.postprocessing_contracts import validate_post_processing_output
 
 # New imports
 from .base_agent import BaseAgent
@@ -47,7 +49,7 @@ class PostProcessingAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="PostProcessingAgent",
-            max_iterations=int(os.getenv("MAX_ITERATIONS"))
+            max_iterations=int(os.getenv("MAX_ITERATIONS", "50"))
         )
 
     @track_agent_execution("post_processing_agent")
@@ -57,7 +59,7 @@ class PostProcessingAgent:
         """
         print("Post-Processing Agent: Starting processing (Autonomous Mode)...")
         
-        case_path = state.get('case_path')
+        case_path = state.get('case_path') or ""
         set_retrieval_context(state.get("tutorial_case_path"), state.get("user_request", ""))
         current_task = state.get('current_task', {})
         
@@ -66,8 +68,22 @@ class PostProcessingAgent:
             f"Task Details: {current_task}\n"
         )
         
-        result = self.agent.invoke({"input": input_text})
+        with scoped_tool_context(case_path):
+            result = self.agent.invoke({"input": input_text})
         output = result.get("output", "")
+        validation = validate_post_processing_output(case_path, output)
+
+        report_path = os.path.join(case_path, "post_processing_report.md")
+        try:
+            with open(report_path, "w", encoding="utf-8") as f:
+                f.write(output)
+                if validation["issues"]:
+                    f.write("\n\nPost-processing contract issues:\n")
+                    for issue in validation["issues"]:
+                        f.write(f"- {issue}\n")
+            print(f"Post-Processing Agent: Report saved to {report_path}")
+        except Exception as e:
+            print(f"Post-Processing Agent: Warning - could not save report file: {e}")
         
         print("Post-Processing Agent: Processing complete.")
         
@@ -76,7 +92,8 @@ class PostProcessingAgent:
             current_task['status'] = 'completed'
             
         return {
-            "post_processing_status": "complete", 
+            "post_processing_status": "complete" if validation["ok"] else "failed",
+            "post_processing_issues": validation["issues"],
             "summary": output,
             "current_task": current_task
         }

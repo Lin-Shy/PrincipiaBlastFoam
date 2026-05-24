@@ -10,6 +10,7 @@ from principia_ai.graph.graph_state import GraphState
 from principia_ai.metrics import MetricsReporter, MetricsTracker
 from principia_ai.tools.retrieval_llm_config import resolve_retrieval_llm_config
 from principia_ai.utils.execution_status import read_execution_status, status_run_completed
+from principia_ai.utils.llm_profiles import chat_openai_kwargs, resolve_llm_profile
 from principia_ai.utils.solver_logs import solver_log_has_clean_end
 
 
@@ -67,11 +68,22 @@ def parse_args() -> argparse.Namespace:
 
 
 def build_main_llm(args: argparse.Namespace) -> ChatOpenAI:
+    profile = resolve_llm_profile(args.llm_api_base_url, args.llm_model)
+    print(
+        "Main LLM profile: "
+        f"provider={profile.provider}, "
+        f"model={profile.model}, "
+        f"thinking={profile.thinking}, "
+        f"structured_output={profile.structured_output}, "
+        f"reasoning_roundtrip={profile.reasoning_roundtrip}"
+    )
     return ChatOpenAI(
-        base_url=args.llm_api_base_url,
-        model=args.llm_model,
-        api_key=args.llm_api_key,
-        temperature=0.1,
+        **chat_openai_kwargs(
+            base_url=args.llm_api_base_url,
+            model=args.llm_model,
+            api_key=args.llm_api_key,
+            temperature=0.1,
+        )
     )
 
 
@@ -155,7 +167,13 @@ def test_full_workflow_run(workflow_app, args: argparse.Namespace) -> None:
     )
 
     try:
-        final_state = workflow_app.invoke(initial_state, {"recursion_limit": args.recursion_limit})
+        final_state = workflow_app.invoke(
+            initial_state,
+            {
+                "recursion_limit": args.recursion_limit,
+                "configurable": {"thread_id": task_id},
+            },
+        )
 
         if final_state.get("plan"):
             tracker.record_task_event("planned", len(final_state["plan"]))

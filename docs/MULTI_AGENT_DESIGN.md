@@ -73,3 +73,15 @@
     *   Case Setup Agent -> Orchestrator: “文件修改完成。”
     *   Orchestrator -> Execution Agent: “运行求解器。”
 4.  **闭环反馈**: 每个步骤完成后，Orchestrator 都会重新评估状态，确保任务按计划推进，直到最终目标达成。
+
+## 5. 当前运行时保护机制
+
+近期代码在原有 ReAct 流程上增加了几类防护，避免 workflow 在不完整或不安全的状态下继续推进：
+
+1.  **结构化路由**: Orchestrator 优先使用结构化输出解析 `next_agent` 和 `task_instructions`，并对 agent 名称做别名归一化。若模型或 provider 不支持结构化输出，可通过 `ORCHESTRATOR_LEGACY_FALLBACK` 回退到旧的文本解析路径。
+2.  **工具路径作用域**: 文件读取、搜索、编辑和终端执行工具会在当前 case 目录上下文中解析相对路径，降低 agent 误操作仓库根目录或读取无关文件的概率。
+3.  **敏感信息脱敏**: 工具输出、agent 日志、benchmark 日志和 Git diff 会过滤 `.env` 等敏感文件，并对常见 API key、token、password 字段做脱敏。
+4.  **执行前检查**: ExecutionAgent 在启动求解器前检查 case 目录、`Allrun`、并行运行依赖、root + dynamicCode 风险以及 OpenFOAM 命令可用性。阻塞项会写入 `execution_report.md` 和 `execution_status.json`。
+5.  **产物契约校验**: Physics report、post-processing report 和执行状态都有最低可用性校验。若报告为空、过短或包含明显 agent/tool 错误，workflow 会标记失败而不是误报完成。
+
+相关环境变量包括 `AGENT_RUNTIME`、`LANGGRAPH_CHECKPOINTS`、`ORCHESTRATOR_STRUCTURED_OUTPUT`、`LLM_STRUCTURED_OUTPUT`、`LLM_THINKING` 和 `ALLOW_ROOT_OPENFOAM`。

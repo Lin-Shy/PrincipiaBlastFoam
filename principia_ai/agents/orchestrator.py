@@ -21,13 +21,46 @@ from ..utils.execution_status import read_execution_status, status_run_completed
 # New imports
 from .base_agent import BaseAgent
 from ..tools.standard_tools import get_read_tools, get_search_tools
+from ..utils.llm_profiles import structured_output_mode
+from pydantic import BaseModel, Field
 
 
 NUMERIC_TIME_DIR_RE = re.compile(r"^\d+(?:\.\d+)?(?:[eE][+-]?\d+)?$")
+ROUTE_TARGET_ALIASES = {
+    "finish": "end",
+    "finished": "end",
+    "done": "end",
+    "end": "end",
+    "__end__": "end",
+    "physics": "physics_analyst_agent",
+    "physics_analyst": "physics_analyst_agent",
+    "physics_analyst_agent": "physics_analyst_agent",
+    "physics_updater": "physics_updater",
+    "case_setup": "case_setup_agent",
+    "case_setup_agent": "case_setup_agent",
+    "execution": "execution_agent",
+    "execution_agent": "execution_agent",
+    "post_processing": "post_processing_agent",
+    "post_processing_agent": "post_processing_agent",
+    "review": "reviewer",
+    "reviewer": "reviewer",
+}
+ALLOWED_ROUTE_TARGETS = set(ROUTE_TARGET_ALIASES.values())
 
 
 def re_fullmatch_numeric_time(value: str) -> bool:
     return bool(NUMERIC_TIME_DIR_RE.fullmatch(value))
+
+
+class RouteDecision(BaseModel):
+    next_agent: str = Field(
+        description="The next workflow node/agent to run, or FINISH/end when the goal is complete."
+    )
+    task_instructions: str = Field(
+        default="",
+        description="Concrete instructions for the next agent. Empty when finishing.",
+    )
+
 
 class OrchestratorAgent:
     """
@@ -54,7 +87,7 @@ class OrchestratorAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="OrchestratorAgent",
-            max_iterations=int(os.getenv("MAX_ITERATIONS"))
+            max_iterations=int(os.getenv("MAX_ITERATIONS", "50"))
         )
 
     def set_async_physics_update_runner(self, runner) -> None:
@@ -186,15 +219,29 @@ class OrchestratorAgent:
         thread.start()
         return True
 
-    def _fail_workflow(self, reason: str, updates: Dict[str, Any] | None = None) -> Dict[str, Any]:
+    def _fail_workflow(
+        self,
+        reason: str,
+        updates: Dict[str, Any] | None = None,
+        state: GraphState | None = None,
+    ) -> Dict[str, Any]:
         print(f"Orchestrator: Failing workflow: {reason}")
-        return {
+        payload = {
             **(updates or {}),
             "current_agent": "end",
-            "run_status": "failed",
+            "workflow_status": "failed",
             "validation_status": "failed",
             "workflow_error": reason,
         }
+        if "run_status" not in payload:
+            execution_status = None
+            if state:
+                execution_status = self._current_execution_status(state, state.get("case_path", ""))
+            if status_run_completed(execution_status):
+                payload["run_status"] = execution_status.get("run_status", "completed")
+            else:
+                payload["run_status"] = "failed"
+        return payload
 
     def _current_execution_status(self, state: GraphState, case_path: str) -> Dict[str, Any] | None:
         status = state.get("execution_status")
@@ -213,6 +260,10 @@ class OrchestratorAgent:
     def _can_finish(self, state: GraphState, case_path: str, physics_report: str) -> tuple[bool, str]:
         if not physics_report:
             return False, "orchestrator attempted to finish before physics_report.md was produced"
+        if state.get("physics_report_status") == "failed":
+            return False, "physics_report.md did not satisfy the minimum artifact contract"
+        if state.get("post_processing_status") == "failed":
+            return False, "post-processing failed artifact/field validation"
 
         if self._execution_enabled():
             execution_report_path = os.path.join(case_path, "execution_report.md")
@@ -263,6 +314,255 @@ class OrchestratorAgent:
         
         return response.content
 
+    def _record_llm_usage(self, response: Any, agent_name: str = "orchestrator") -> None:
+        tracker = MetricsTracker()
+        usage = getattr(response, 'usage_metadata', None) or {}
+        tracker.record_llm_call(
+            agent_name=agent_name,
+            input_tokens=usage.get('input_tokens', 0),
+            output_tokens=usage.get('output_tokens', 0),
+            model=self.llm.model_name if hasattr(self.llm, 'model_name') else 'unknown'
+        )
+
+    def _normalize_route_decision(self, decision: RouteDecision) -> RouteDecision:
+        raw_next_agent = str(decision.next_agent or "").strip()
+        lookup_key = raw_next_agent.replace("-", "_").replace(" ", "_").lower()
+        next_agent = ROUTE_TARGET_ALIASES.get(lookup_key)
+        if next_agent not in ALLOWED_ROUTE_TARGETS:
+            raise ValueError(f"orchestrator selected unknown next_agent: {raw_next_agent!r}")
+        return RouteDecision(
+            next_agent=next_agent,
+            task_instructions=decision.task_instructions or "",
+        )
+
+    def _parse_route_decision_payload(self, output_content: str) -> Any:
+        clean_json = str(output_content).replace("```json", "").replace("```", "").strip()
+        start = clean_json.find("{")
+        end = clean_json.rfind("}")
+        if start == -1 or end == -1:
+            raise ValueError("orchestrator produced no parseable JSON decision")
+
+        clean_json = clean_json[start:end + 1]
+        try:
+            return json.loads(clean_json)
+        except json.JSONDecodeError:
+            return ast.literal_eval(clean_json)
+
+    def _extract_tool_call_payload(self, payload: Any) -> Any | None:
+        additional_kwargs = getattr(payload, "additional_kwargs", None)
+        if isinstance(payload, dict):
+            additional_kwargs = payload.get("additional_kwargs") or additional_kwargs
+            tool_calls = payload.get("tool_calls")
+        else:
+            tool_calls = getattr(payload, "tool_calls", None)
+
+        if not tool_calls and isinstance(additional_kwargs, dict):
+            tool_calls = additional_kwargs.get("tool_calls")
+
+        if not tool_calls:
+            return None
+
+        first_tool_call = tool_calls[0]
+        if isinstance(first_tool_call, dict):
+            if first_tool_call.get("args") is not None:
+                return first_tool_call["args"]
+            if first_tool_call.get("input") is not None:
+                return first_tool_call["input"]
+            function_payload = first_tool_call.get("function")
+            if isinstance(function_payload, dict) and function_payload.get("arguments") is not None:
+                return function_payload["arguments"]
+            return None
+
+        args = getattr(first_tool_call, "args", None)
+        if args is not None:
+            return args
+        function_payload = getattr(first_tool_call, "function", None)
+        if isinstance(function_payload, dict):
+            return function_payload.get("arguments")
+        return None
+
+    def _coerce_route_decision(self, payload: Any) -> RouteDecision:
+        if isinstance(payload, RouteDecision):
+            return self._normalize_route_decision(payload)
+
+        tool_call_payload = self._extract_tool_call_payload(payload)
+        if tool_call_payload is not None:
+            return self._coerce_route_decision(tool_call_payload)
+
+        if isinstance(payload, dict):
+            if payload.get("parsed") is not None:
+                return self._coerce_route_decision(payload["parsed"])
+            if payload.get("raw") is not None:
+                return self._coerce_route_decision(payload["raw"])
+            if "next_agent" in payload:
+                return self._normalize_route_decision(RouteDecision.model_validate(payload))
+            if "content" in payload:
+                return self._coerce_route_decision(payload["content"])
+
+        if isinstance(payload, list):
+            text_blocks: List[str] = []
+            for block in payload:
+                if isinstance(block, dict):
+                    if "next_agent" in block:
+                        return self._coerce_route_decision(block)
+                    if block.get("input") is not None:
+                        return self._coerce_route_decision(block["input"])
+                    if block.get("args") is not None:
+                        return self._coerce_route_decision(block["args"])
+                    text = block.get("text") or block.get("content")
+                    if text:
+                        text_blocks.append(str(text))
+                elif isinstance(block, str):
+                    text_blocks.append(block)
+            if text_blocks:
+                return self._coerce_route_decision("\n".join(text_blocks))
+
+        content = getattr(payload, "content", None)
+        if content is not None and content is not payload:
+            return self._coerce_route_decision(content)
+
+        if hasattr(payload, "model_dump"):
+            return self._coerce_route_decision(payload.model_dump())
+
+        if isinstance(payload, str):
+            return self._coerce_route_decision(self._parse_route_decision_payload(payload))
+
+        return self._coerce_route_decision(str(payload))
+
+    def _parse_route_decision_output(self, output_content: str) -> RouteDecision:
+        return self._coerce_route_decision(self._parse_route_decision_payload(output_content))
+
+    def _route_decision_messages(
+        self,
+        chat_history: List[Any],
+        input_text: str,
+        *,
+        json_mode: bool = False,
+    ) -> List[Any]:
+        system_prompt = self.system_prompt
+        if json_mode:
+            system_prompt = (
+                f"{system_prompt}\n\n"
+                "You must respond with exactly one valid JSON object and no extra prose. "
+                'Use this schema: {"next_agent": "case_setup_agent", "task_instructions": "..."}'
+            )
+        return [SystemMessage(content=system_prompt), *chat_history, HumanMessage(content=input_text)]
+
+    def _invoke_route_llm(self, messages: List[Any], response_format: dict[str, str] | None = None) -> Any:
+        if not getattr(self, "llm", None):
+            raise RuntimeError("LLM is not configured")
+        if response_format is None:
+            return self.llm.invoke(messages)
+        try:
+            return self.llm.invoke(messages, response_format=response_format)
+        except TypeError:
+            if hasattr(self.llm, "bind"):
+                return self.llm.bind(response_format=response_format).invoke(messages)
+            raise
+
+    def _route_response_raw_output(self, response: Any) -> str:
+        content = getattr(response, "content", response)
+        if isinstance(content, str):
+            return content
+        if isinstance(content, list):
+            parts: List[str] = []
+            for block in content:
+                if isinstance(block, str):
+                    parts.append(block)
+                elif isinstance(block, dict):
+                    text = block.get("text") or block.get("content")
+                    if text:
+                        parts.append(str(text))
+            if parts:
+                return "\n".join(parts)
+        if hasattr(response, "model_dump_json"):
+            return response.model_dump_json()
+        return str(content)
+
+    def _invoke_json_object_route_decision(
+        self,
+        chat_history: List[Any],
+        input_text: str,
+    ) -> tuple[RouteDecision, str]:
+        messages = self._route_decision_messages(chat_history, input_text, json_mode=True)
+        response = self._invoke_route_llm(messages, response_format={"type": "json_object"})
+        self._record_llm_usage(response)
+        decision = self._coerce_route_decision(response)
+        return decision, decision.model_dump_json()
+
+    def _invoke_prompt_route_decision(
+        self,
+        chat_history: List[Any],
+        input_text: str,
+    ) -> tuple[RouteDecision, str]:
+        messages = self._route_decision_messages(chat_history, input_text, json_mode=True)
+        response = self._invoke_route_llm(messages)
+        self._record_llm_usage(response)
+        decision = self._coerce_route_decision(response)
+        return decision, decision.model_dump_json()
+
+    def _invoke_structured_route_decision(
+        self,
+        chat_history: List[Any],
+        input_text: str,
+    ) -> tuple[RouteDecision, str]:
+        mode = structured_output_mode(getattr(self, "llm", None))
+        if mode == "disabled":
+            raise RuntimeError("structured routing is disabled by LLM profile")
+        if mode == "json_object":
+            return self._invoke_json_object_route_decision(chat_history, input_text)
+        if mode == "prompt_only":
+            return self._invoke_prompt_route_decision(chat_history, input_text)
+
+        if not getattr(self, "llm", None) or not hasattr(self.llm, "with_structured_output"):
+            raise RuntimeError("LLM does not support structured output binding")
+
+        structured_llm = self.llm.with_structured_output(RouteDecision)
+        messages = self._route_decision_messages(chat_history, input_text)
+        response = structured_llm.invoke(messages)
+        self._record_llm_usage(response)
+        decision = self._coerce_route_decision(response)
+        return decision, decision.model_dump_json()
+
+    def _invoke_legacy_route_decision(
+        self,
+        chat_history: List[Any],
+        input_text: str,
+    ) -> tuple[RouteDecision, str]:
+        output_content = ""
+        for attempt in range(2):
+            result = self.agent.invoke({"chat_history": chat_history, "input": input_text})
+            output_content = result.get("output", "")
+            if str(output_content).strip():
+                break
+            if attempt == 0:
+                print("Orchestrator: Empty decision output; retrying once.")
+        return self._parse_route_decision_output(output_content), output_content
+
+    def _invoke_route_decision(
+        self,
+        chat_history: List[Any],
+        input_text: str,
+    ) -> tuple[RouteDecision, str]:
+        if os.getenv("ORCHESTRATOR_STRUCTURED_OUTPUT", "true").lower() in {"1", "true", "yes", "on"}:
+            try:
+                decision = self._invoke_structured_route_decision(chat_history, input_text)
+                self._last_structured_routing_error = None
+                return decision
+            except Exception as exc:
+                self._last_structured_routing_error = str(exc)
+                if os.getenv("ORCHESTRATOR_LEGACY_FALLBACK", "true").lower() not in {"1", "true", "yes", "on"}:
+                    raise
+                print(f"Orchestrator: Structured routing failed; trying prompt-only routing: {exc}")
+                try:
+                    return self._invoke_prompt_route_decision(chat_history, input_text)
+                except Exception as prompt_exc:
+                    print(
+                        "Orchestrator: Prompt-only routing failed; "
+                        f"falling back to legacy agent parsing: {prompt_exc}"
+                    )
+        return self._invoke_legacy_route_decision(chat_history, input_text)
+
     @track_agent_execution("orchestrator")
     def route(self, state: GraphState) -> Dict[str, Any]:
         """
@@ -278,7 +578,7 @@ class OrchestratorAgent:
         execution_run_status = self._execution_run_status(state, case_path)
 
         if state.get("workflow_error"):
-            return self._fail_workflow(str(state["workflow_error"]))
+            return self._fail_workflow(str(state["workflow_error"]), state=state)
         
         updates = {}
 
@@ -345,7 +645,7 @@ class OrchestratorAgent:
             and execution_run_status == "failed"
             and not self._auto_repair_execution_failures_enabled()
         ):
-            return self._fail_workflow("execution_status.json marked execution failed; see execution_report.md")
+            return self._fail_workflow("execution_status.json marked execution failed; see execution_report.md", state=state)
 
         if self._execution_enabled() and last_execution_index != -1 and execution_run_status == "completed":
             if last_reviewer_index == -1 or last_reviewer_index < last_execution_index:
@@ -360,9 +660,9 @@ class OrchestratorAgent:
                 }
             if state.get("validation_status") == "passed":
                 print("Orchestrator: Execution and review completed successfully.")
-                return {"current_agent": "end"}
+                return {"current_agent": "end", "workflow_status": "completed"}
             if state.get("validation_status") == "failed":
-                return self._fail_workflow("reviewer marked validation as failed")
+                return self._fail_workflow("reviewer marked validation as failed", state=state)
         
         # === Phase 2: Planning Trigger ===
         if physics_report and not plan:
@@ -394,64 +694,39 @@ class OrchestratorAgent:
             f"Determine the NEXT immediate step and agent based on the History and Plan.\n"
             f"Note: If 'physics_report.md' exists, assume physics analysis is COMPLETED.\n"
             f"If the goal is achieved, output 'FINISH'.\n"
-            f"\nOutput Format JSON: {{'next_agent': '...', 'task_instructions': '...'}}"
+            f"\nReturn exactly one JSON object and no extra prose: "
+            f'{{"next_agent": "...", "task_instructions": "..."}}'
         )
         
-        result = self.agent.invoke({"chat_history": chat_history, "input": input_text})
-        output_content = result.get("output", "")
-        if not str(output_content).strip():
-            print("Orchestrator: Empty decision output; retrying once.")
-            result = self.agent.invoke({"chat_history": chat_history, "input": input_text})
-            output_content = result.get("output", "")
-        
         try:
-            # Simple JSON parsing
-            clean_json = output_content.replace("```json", "").replace("```", "").strip()
-            # Find the first { and last }
-            start = clean_json.find("{")
-            end = clean_json.rfind("}")
-            if start != -1 and end != -1:
-                clean_json = clean_json[start:end+1]
-                try:
-                    decision = json.loads(clean_json)
-                except json.JSONDecodeError:
-                    # Fallback to ast.literal_eval for single quotes or relaxed syntax
-                    try:
-                        decision = ast.literal_eval(clean_json)
-                    except Exception:
-                        # If both fail, raise the original error to be caught by outer except
-                        raise
-                
-                next_agent = decision.get("next_agent", "end")
-                updates['current_agent'] = next_agent
-                task_instructions = decision.get("task_instructions", "")
-                
-                if next_agent == "FINISH" or next_agent == "end":
-                    can_finish, reason = self._can_finish(state, case_path, physics_report)
-                    if not can_finish:
-                        return self._fail_workflow(reason, updates)
-                    return {**updates, "current_agent": "end"}
+            decision, output_content = self._invoke_route_decision(chat_history, input_text)
+            next_agent = decision.next_agent or "end"
+            updates['current_agent'] = next_agent
+            task_instructions = decision.task_instructions or ""
 
-                print(f"Orchestrator: Routing to {next_agent} with task: {task_instructions[:50]}...")
-                
-                new_task = {
-                    "description": task_instructions,
-                    "status": "pending",
-                    "assigned_agent": next_agent
-                }
-                
-                return {
-                    **updates,
-                    "current_agent": next_agent,
-                    "current_task": new_task
-                }
-            else:
-                 print(f"Orchestrator: Could not find JSON in output: {output_content}")
-                 return self._fail_workflow("orchestrator produced no parseable JSON decision", updates)
+            if next_agent == "FINISH" or next_agent == "end":
+                can_finish, reason = self._can_finish(state, case_path, physics_report)
+                if not can_finish:
+                    return self._fail_workflow(reason, updates, state=state)
+                return {**updates, "current_agent": "end", "workflow_status": "completed"}
+
+            print(f"Orchestrator: Routing to {next_agent} with task: {task_instructions[:50]}...")
+
+            new_task = {
+                "description": task_instructions,
+                "status": "pending",
+                "assigned_agent": next_agent
+            }
+
+            return {
+                **updates,
+                "current_agent": next_agent,
+                "current_task": new_task
+            }
 
         except Exception as e:
             print(f"Orchestrator: Error parsing decision: {e}.")
-            return self._fail_workflow(f"orchestrator decision parsing failed: {e}", updates)
+            return self._fail_workflow(f"orchestrator decision parsing failed: {e}", updates, state=state)
 
     @track_agent_execution("orchestrator")
     def process_feedback(self, state: GraphState) -> Dict[str, Any]:
@@ -496,7 +771,8 @@ class OrchestratorAgent:
         completed_tasks = state.get('completed_tasks', [])
         completed_tasks.append(current_task)
         
-        self.save_checkpoint(state)
+        if os.getenv("MANUAL_CHECKPOINTS", "false").lower() in {"1", "true", "yes", "on"}:
+            self.save_checkpoint(state)
         
         # === Incremental Detection Logic ===
         updates = {}

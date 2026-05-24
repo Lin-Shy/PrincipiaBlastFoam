@@ -1,6 +1,10 @@
 import os
 from langchain_core.tools import tool
 
+from principia_ai.tools.context import resolve_tool_path
+from principia_ai.utils.redaction import is_sensitive_path, redact_text
+
+
 @tool
 def read_file(path: str, start_line: int = 1, end_line: int = -1):
     """Read the contents of a file.
@@ -11,10 +15,14 @@ def read_file(path: str, start_line: int = 1, end_line: int = -1):
         end_line: The line number to end reading at (1-based). -1 for end of file.
     """
     try:
-        if not os.path.exists(path):
-            return f"Error: File {path} does not exist."
+        resolved_path = resolve_tool_path(path)
+        if is_sensitive_path(resolved_path):
+            return f"Error: Refusing to read sensitive file {resolved_path}."
+
+        if not os.path.exists(resolved_path):
+            return f"Error: File {path} does not exist. Resolved path: {resolved_path}."
             
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(resolved_path, 'r', encoding='utf-8') as f:
             lines = f.readlines()
             
         if end_line == -1:
@@ -30,6 +38,6 @@ def read_file(path: str, start_line: int = 1, end_line: int = -1):
         start_index = max(0, start_line - 1)
         end_index = min(len(lines), end_line)
         
-        return "".join(lines[start_index:end_index])
+        return redact_text("".join(lines[start_index:end_index]))
     except Exception as e:
         return f"Error reading file {path}: {str(e)}"

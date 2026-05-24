@@ -3,6 +3,7 @@ import json
 import os
 import uuid
 from datetime import datetime
+from pathlib import Path
 
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
@@ -11,18 +12,24 @@ from principia_ai.agents import create_workflow
 from principia_ai.graph.graph_state import GraphState
 from principia_ai.metrics import MetricsReporter, MetricsTracker
 from principia_ai.tools.retrieval_llm_config import resolve_retrieval_llm_config
+from principia_ai.utils.llm_profiles import chat_openai_kwargs, resolve_llm_profile
 
 
 DEFAULT_MODE = "basic"
-DEFAULT_TUTORIAL_PATH = "/media/dev/vdb1/linshihao/cases/blastFoam-cases-dataset/blastFoam_tutorials"
+PROJECT_ROOT = Path(__file__).resolve().parent
+DEFAULT_TUTORIAL_PATH = os.getenv("BLASTFOAM_TUTORIALS", "/data/blastFoam_tutorials")
+DEFAULT_BATCH_OUTPUT_ROOT = os.getenv(
+    "PRINCIPIA_BATCH_OUTPUT_ROOT",
+    "/data/PrincipiaBlastFoam_output/agent-batch_runs",
+)
 
 
 def default_modifications_file(mode: str) -> str:
-    return f"/media/dev/vdb1/linshihao/LLM/PrincipiaBlastFoam/dataset/modification/blastfoam_{mode}_modifications.json"
+    return str(PROJECT_ROOT / "dataset" / "modification" / f"blastfoam_{mode}_modifications.json")
 
 
 def default_output_base_dir(mode: str) -> str:
-    return f"/media/dev/vdb1/linshihao/LLM/LLM-output-cases/agent-batch_runs/blastfoam_{mode}_modifications"
+    return str(Path(DEFAULT_BATCH_OUTPUT_ROOT) / f"blastfoam_{mode}_modifications")
 
 
 def parse_args() -> argparse.Namespace:
@@ -34,7 +41,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--tutorial-path",
-        default=os.getenv("BLASTFOAM_TUTORIALS", DEFAULT_TUTORIAL_PATH),
+        default=DEFAULT_TUTORIAL_PATH,
         help="BlastFoam tutorial root directory.",
     )
     parser.add_argument(
@@ -99,11 +106,22 @@ def build_runtime_config(args: argparse.Namespace) -> argparse.Namespace:
 
 
 def build_main_llm(args: argparse.Namespace) -> ChatOpenAI:
+    profile = resolve_llm_profile(args.llm_api_base_url, args.llm_model)
+    print(
+        "Main LLM profile: "
+        f"provider={profile.provider}, "
+        f"model={profile.model}, "
+        f"thinking={profile.thinking}, "
+        f"structured_output={profile.structured_output}, "
+        f"reasoning_roundtrip={profile.reasoning_roundtrip}"
+    )
     return ChatOpenAI(
-        base_url=args.llm_api_base_url,
-        model=args.llm_model,
-        api_key=args.llm_api_key,
-        temperature=0.1,
+        **chat_openai_kwargs(
+            base_url=args.llm_api_base_url,
+            model=args.llm_model,
+            api_key=args.llm_api_key,
+            temperature=0.1,
+        )
     )
 
 
@@ -177,7 +195,13 @@ def execute_single_case(modification, llm_instance, args: argparse.Namespace, re
         )
 
         print("\n⚙️  Starting workflow execution...")
-        final_state = workflow_app.invoke(initial_state, {"recursion_limit": args.recursion_limit})
+        final_state = workflow_app.invoke(
+            initial_state,
+            {
+                "recursion_limit": args.recursion_limit,
+                "configurable": {"thread_id": task_id},
+            },
+        )
 
         if final_state.get("plan"):
             tracker.record_task_event("planned", len(final_state["plan"]))

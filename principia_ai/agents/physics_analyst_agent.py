@@ -6,6 +6,8 @@ from langchain.schema import HumanMessage, SystemMessage
 from ..graph.graph_state import GraphState
 from ..prompts import PromptManager
 from ..tools.mcp_retrieval_tools import get_mcp_retrieval_tools, set_retrieval_context
+from ..tools.context import scoped_tool_context
+from ..utils.report_contracts import validate_agent_report
 from ..metrics.decorators import track_agent_execution, track_llm_call
 
 # New imports for Refactoring
@@ -49,7 +51,7 @@ class PhysicsAnalystAgent:
             tools=self.agent_tools,
             system_prompt=self.system_prompt,
             agent_name="physics_analyst_agent",
-            max_iterations=int(os.getenv("MAX_ITERATIONS"))
+            max_iterations=int(os.getenv("MAX_ITERATIONS", "50"))
         )
 
     @track_agent_execution("physics_analyst_agent")
@@ -77,9 +79,11 @@ class PhysicsAnalystAgent:
             f"Focus on analyzing the CURRENT state. Do NOT generate a fix plan yet."
         )
         
-        # Run the agent
-        result = self.agent.invoke({"input": input_text})
+        # Run the agent with filesystem tools scoped to the generated case.
+        with scoped_tool_context(case_path):
+            result = self.agent.invoke({"input": input_text})
         output = result.get("output", "No output generated.")
+        report_status = validate_agent_report(output, "physics_report", min_chars=120)
         
         # Save the report to a file for other agents to use
         report_path = os.path.join(case_path, "physics_report.md")
@@ -93,7 +97,12 @@ class PhysicsAnalystAgent:
         print("Physics Analyst Agent: Reconnaissance complete.")
         
         # Return minimal state update; report is persisted to filesystem for downstream agents.
-        return {}
+        if not report_status["valid"]:
+            return {
+                "physics_report_status": "failed",
+                "workflow_error": report_status["reason"],
+            }
+        return {"physics_report_status": "completed"}
 
     @track_agent_execution("physics_updater")
     def update_report(self, state: GraphState) -> Dict[str, Any]:
@@ -147,7 +156,8 @@ class PhysicsAnalystAgent:
         )
 
         # 4. Invoke LLM
-        result = self.agent.invoke({"input": prompt})
+        with scoped_tool_context(case_path):
+            result = self.agent.invoke({"input": prompt})
         
         print(f"Physics Updater: Agent invoked for update on {len(changed_files)} files.")
         

@@ -2,6 +2,8 @@ import glob
 import os
 from langchain_core.tools import tool
 
+from principia_ai.tools.context import resolve_tool_path
+
 @tool
 def file_search(pattern: str, path: str = None):
     """Search for files in the workspace by glob pattern. This only returns the paths of matching files.
@@ -11,9 +13,9 @@ def file_search(pattern: str, path: str = None):
         path: The path to search in. Defaults to the current directory.
     """
     try:
-        search_path = path if path else "."
+        search_path = resolve_tool_path(path, default_to_case=True)
         # glob.glob with recursive=True handles **
-        full_pattern = os.path.join(search_path, pattern)
+        full_pattern = os.path.join(str(search_path), pattern)
         matches = glob.glob(full_pattern, recursive=True)
         return "\n".join(matches)
     except Exception as e:
