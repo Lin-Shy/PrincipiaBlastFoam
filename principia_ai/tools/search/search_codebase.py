@@ -10,4 +10,4 @@ def search_codebase(query: str, path: str = None):
         path: The path to search in. Defaults to the current directory.
     """
     # Mapping codebase search to text search for now
-    return text_search(query, path)
+    return text_search.invoke({"query": query, "path": path})

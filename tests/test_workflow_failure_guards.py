@@ -13,7 +13,9 @@ from principia_ai.agents.workflow import WorkflowApp, _checkpointing_enabled
 from principia_ai.agents.orchestrator import RouteDecision
 from principia_ai.tools.context import scoped_tool_context
 from principia_ai.tools.read.read_file import read_file
+from principia_ai.tools.search.file_search import file_search
 from principia_ai.tools.search.get_changes import get_changes
+from principia_ai.tools.search.text_search import text_search
 from principia_ai.tools.mcp_retrieval_tools import _filter_adapter_tools
 from principia_ai.tools.tutorial_initializer import TutorialInitializer
 from principia_ai.utils.redaction import filter_sensitive_diff, is_sensitive_path, redact_text
@@ -878,6 +880,29 @@ def test_reviewer_status_parser_uses_explicit_status_line():
     assert status == "passed"
 
 
+def test_reviewer_status_parser_accepts_markdown_and_nonblocking_issue_text():
+    agent = ReviewerAgent.__new__(ReviewerAgent)
+
+    status = agent._parse_validation_status(
+        "## Validation Status: **Passed**\n\n"
+        "## Issues:\n"
+        "- A probe file was not found, but this is not a configuration error and is non-blocking.\n"
+    )
+
+    assert status == "passed"
+
+
+def test_reviewer_status_parser_detects_explicit_failed_status():
+    agent = ReviewerAgent.__new__(ReviewerAgent)
+
+    status = agent._parse_validation_status(
+        "**Validation Status**: failed\n\n"
+        "The execution status did not mark the run completed."
+    )
+
+    assert status == "failed"
+
+
 def test_report_contract_rejects_placeholder_and_raw_tool_output():
     placeholder = validate_agent_report("Sorry, need more steps to process this request.", "review_report")
     raw_tool = validate_agent_report(
@@ -994,6 +1019,8 @@ def test_orchestrator_rejects_completed_workflow_with_invalid_review_report(tmp_
     assert result["run_status"] == "completed"
     assert "artifact contract failed" in result["workflow_error"]
     assert result["artifact_contract"]["checks"]["review_report_valid"] is False
+    evidence = (tmp_path / "workflow_evidence.md").read_text(encoding="utf-8")
+    assert "`artifact_contract.json`: exists=True" in evidence
 
 
 def test_workflow_evidence_writes_compact_solver_and_artifact_summary(tmp_path):
@@ -1019,6 +1046,48 @@ def test_workflow_evidence_writes_compact_solver_and_artifact_summary(tmp_path):
     assert evidence["solver"]["clean_end"] is True
     assert "postProcessing/nearProbe/0/p" in evidence_md
     assert "Solver clean End" in evidence_md
+
+
+def test_search_tools_exclude_runtime_outputs_by_default(tmp_path):
+    system_dir = tmp_path / "system"
+    system_dir.mkdir()
+    (system_dir / "controlDict").write_text("application blastFoam;\nneedle yes;\n", encoding="utf-8")
+    runtime_dir = tmp_path / "processor0" / "0.0013"
+    runtime_dir.mkdir(parents=True)
+    (runtime_dir / "alpha.c4").write_text("needle\n" * 200, encoding="utf-8")
+
+    with scoped_tool_context(tmp_path):
+        search_output = text_search.invoke({"query": "needle"})
+        file_output = file_search.invoke({"pattern": "**/*"})
+
+    assert "system/controlDict" in search_output
+    assert "processor0" not in search_output
+    assert "system/controlDict" in file_output
+    assert "processor0" not in file_output
+    assert "runtime output directories excluded" in search_output
+
+
+def test_text_search_has_output_budget(tmp_path):
+    for index in range(10):
+        (tmp_path / f"case_{index}.txt").write_text("needle\n", encoding="utf-8")
+
+    with scoped_tool_context(tmp_path):
+        output = text_search.invoke({"query": "needle", "max_matches": 3})
+
+    assert output.count("needle") == 3
+    assert "truncated after 3 matches" in output
+
+
+def test_read_file_requires_targeted_range_for_large_files(tmp_path):
+    large_file = tmp_path / "0.001" / "p"
+    large_file.parent.mkdir()
+    large_file.write_text("1\n" * 2000, encoding="utf-8")
+
+    with scoped_tool_context(tmp_path):
+        output = read_file.invoke({"path": "0.001/p", "max_chars": 1000})
+
+    assert "is large" in output
+    assert "Specify start_line/end_line" in output
 
 
 def test_workflow_evidence_samples_long_time_directory_lists(tmp_path):

@@ -6,13 +6,14 @@ from principia_ai.utils.redaction import is_sensitive_path, redact_text
 
 
 @tool
-def read_file(path: str, start_line: int = 1, end_line: int = -1):
+def read_file(path: str, start_line: int = 1, end_line: int = -1, max_chars: int = 120000):
     """Read the contents of a file.
     
     Args:
         path: The path to the file to read.
         start_line: The line number to start reading from (1-based).
         end_line: The line number to end reading at (1-based). -1 for end of file.
+        max_chars: Maximum returned characters.
     """
     try:
         resolved_path = resolve_tool_path(path)
@@ -21,6 +22,14 @@ def read_file(path: str, start_line: int = 1, end_line: int = -1):
 
         if not os.path.exists(resolved_path):
             return f"Error: File {path} does not exist. Resolved path: {resolved_path}."
+
+        max_chars = max(1000, min(int(max_chars), 500000))
+        file_size = os.path.getsize(resolved_path)
+        if end_line == -1 and file_size > max_chars:
+            return (
+                f"Warning: File '{path}' is large ({file_size} bytes). "
+                "Specify start_line/end_line or increase max_chars for a targeted read."
+            )
             
         with open(resolved_path, 'r', encoding='utf-8') as f:
             lines = f.readlines()
@@ -38,6 +47,9 @@ def read_file(path: str, start_line: int = 1, end_line: int = -1):
         start_index = max(0, start_line - 1)
         end_index = min(len(lines), end_line)
         
-        return redact_text("".join(lines[start_index:end_index]))
+        output = "".join(lines[start_index:end_index])
+        if len(output) > max_chars:
+            output = output[:max_chars] + f"\n[truncated after {max_chars} characters]"
+        return redact_text(output)
     except Exception as e:
         return f"Error reading file {path}: {str(e)}"

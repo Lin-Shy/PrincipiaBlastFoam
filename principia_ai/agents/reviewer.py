@@ -50,18 +50,24 @@ class ReviewerAgent:
     def _parse_validation_status(self, output: str) -> str:
         """Parse the required status line before falling back to coarse heuristics."""
         text = output or ""
-        match = re.search(r"validation status\s*:\s*(passed|failed)", text, flags=re.IGNORECASE)
-        if match:
-            return "passed" if match.group(1).lower() == "passed" else "failed"
+        for line in text.splitlines()[:80]:
+            normalized = re.sub(r"[*_`>#\[\]()]|\s+", " ", line).strip().lower()
+            match = re.search(
+                r"\b(?:validation\s+status|status)\s*[:：-]?\s*(passed|pass|failed|fail|partial)\b",
+                normalized,
+            )
+            if match:
+                status = match.group(1)
+                return "passed" if status in {"passed", "pass"} else "failed"
 
         lowered = text.lower()
-        issues_match = re.search(r"issues\s*:\s*(.*)", text, flags=re.IGNORECASE | re.DOTALL)
-        issues_text = issues_match.group(1).strip().lower() if issues_match else ""
-        if issues_text and issues_text not in {"none", "无", "n/a"}:
-            if "not satisfied" in issues_text or "failed" in issues_text or "error" in issues_text:
-                return "failed"
-
-        if "not satisfied" in lowered:
+        explicit_failure_patterns = (
+            r"\bvalidation\s+(?:status\s*[:：-]\s*)?failed\b",
+            r"\brequirements?\s+(?:are\s+)?not\s+satisfied\b",
+            r"\bchecklist\s+(?:is\s+)?not\s+satisfied\b",
+            r"\bblocking\s+(?:issue|failure|error)s?\b",
+        )
+        if any(re.search(pattern, lowered) for pattern in explicit_failure_patterns):
             return "failed"
         return "passed"
 

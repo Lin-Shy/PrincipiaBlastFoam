@@ -13,6 +13,7 @@ from principia_ai.utils.execution_status import read_execution_status, status_ru
 from principia_ai.utils.llm_profiles import chat_openai_kwargs, resolve_llm_profile
 from principia_ai.utils.solver_logs import solver_log_has_clean_end
 from principia_ai.utils.workflow_artifacts import validate_workflow_artifacts, write_artifact_contract
+from principia_ai.utils.workflow_evidence import write_workflow_evidence
 
 
 DEFAULT_CASE_PATH = r"/data/PrincipiaBlastFoam_output/surfaceburst_scaledd3"
@@ -156,6 +157,10 @@ def validate_final_state(final_state: GraphState, args: argparse.Namespace) -> l
         write_artifact_contract(case_path, artifact_contract)
     except OSError as exc:
         failures.append(f"artifact_contract.json could not be written: {exc}")
+    try:
+        write_workflow_evidence(case_path)
+    except Exception as exc:
+        failures.append(f"workflow_evidence.md could not be written: {exc}")
     if not artifact_contract["ok"]:
         failures.extend(f"artifact contract: {issue}" for issue in artifact_contract["issues"])
 

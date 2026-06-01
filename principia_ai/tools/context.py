@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 from contextlib import contextmanager
 from contextvars import ContextVar
 from pathlib import Path
@@ -8,6 +9,7 @@ from typing import Iterator, Optional
 
 
 _active_case_path: ContextVar[Optional[str]] = ContextVar("active_case_path", default=None)
+NUMERIC_TIME_DIR_RE = re.compile(r"^\d+(?:\.\d+)?(?:[eE][+-]?\d+)?$")
 
 
 def _normalize_path(path: str | os.PathLike[str]) -> str:
@@ -42,6 +44,8 @@ def _looks_case_relative(path: str) -> bool:
     if not normalized:
         return False
     first_part = normalized.split("/", 1)[0]
+    if first_part != "0" and NUMERIC_TIME_DIR_RE.fullmatch(first_part):
+        return True
     return first_part in {
         "0",
         "0.orig",

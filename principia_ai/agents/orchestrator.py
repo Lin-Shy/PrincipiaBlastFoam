@@ -18,6 +18,7 @@ from ..tools.execution_inspection import get_execution_report_tool
 from ..tools.review_inspection import get_review_report_tool
 from ..utils.execution_status import read_execution_status, status_run_completed
 from ..utils.workflow_artifacts import validate_workflow_artifacts, write_artifact_contract
+from ..utils.workflow_evidence import write_workflow_evidence
 
 # New imports
 from .base_agent import BaseAgent
@@ -174,6 +175,13 @@ class OrchestratorAgent:
         except Exception as exc:
             contract.setdefault("issues", []).append(f"could not write artifact_contract.json: {exc}")
             contract["ok"] = False
+
+        try:
+            evidence = write_workflow_evidence(case_path)
+            contract["workflow_evidence_path"] = str(os.path.join(case_path, "workflow_evidence.md"))
+            contract["workflow_evidence_created_at"] = evidence.get("created_at")
+        except Exception as exc:
+            contract.setdefault("warnings", []).append(f"could not refresh workflow_evidence.md: {exc}")
         return contract
 
     def _normalize_case_rel_path(self, rel_path: str) -> str:
@@ -845,8 +853,10 @@ class OrchestratorAgent:
             updates["physics_update_pending"] = False
             updates["physics_update_status"] = "completed"
 
-        # If last agent was not physics_updater or physics_analyst_agent (prevent loops), check for diffs
-        if last_agent != 'physics_updater' and last_agent != 'physics_analyst_agent':
+        # Only agents that may intentionally change case configuration should
+        # trigger config-diff accounting. Reviewer and post-processing tools can
+        # create reports or runtime outputs that are not new physics setup.
+        if last_agent in {'case_setup_agent', 'execution_agent'}:
             current_changed_files = []
             for f_path, signature in new_map.items():
                 if f_path not in old_map or old_map[f_path] != signature:
