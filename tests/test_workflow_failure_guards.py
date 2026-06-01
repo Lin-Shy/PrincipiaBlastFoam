@@ -17,11 +17,15 @@ from principia_ai.tools.search.get_changes import get_changes
 from principia_ai.tools.mcp_retrieval_tools import _filter_adapter_tools
 from principia_ai.tools.tutorial_initializer import TutorialInitializer
 from principia_ai.utils.redaction import filter_sensitive_diff, is_sensitive_path, redact_text
-from principia_ai.utils.execution_status import build_execution_status, status_run_completed
+from principia_ai.utils.execution_status import build_execution_status, status_run_completed, write_execution_status
 from principia_ai.utils.execution_preflight import run_execution_preflight
 from principia_ai.utils.llm_profiles import chat_openai_kwargs, resolve_llm_profile
+from principia_ai.utils.openfoam_diagnostics import classify_openfoam_log_text, summarize_diagnostics
 from principia_ai.utils.postprocessing_contracts import validate_post_processing_output
+from principia_ai.utils.report_contracts import validate_agent_report
 from principia_ai.utils.solver_logs import resolve_solver_log_paths, solver_log_has_clean_end
+from principia_ai.utils.workflow_artifacts import validate_workflow_artifacts
+from principia_ai.utils.workflow_evidence import write_workflow_evidence
 
 
 @dataclass
@@ -46,6 +50,18 @@ class FakeLLM:
 class EmptyAgent:
     def invoke(self, _payload):
         return {"output": ""}
+
+
+class SequentialAgent:
+    def __init__(self, outputs):
+        self.outputs = list(outputs)
+        self.inputs = []
+
+    def invoke(self, payload):
+        self.inputs.append(payload.get("input", ""))
+        if not self.outputs:
+            return {"output": ""}
+        return {"output": self.outputs.pop(0)}
 
 
 class StructuredDecisionLLM:
@@ -679,6 +695,122 @@ def test_post_processing_contract_rejects_missing_pressure_probe_field(tmp_path)
     assert any("available probe fields are: U" in issue for issue in status["issues"])
 
 
+def test_post_processing_contract_accepts_successful_calculate_impulse(tmp_path):
+    probe_dir = tmp_path / "postProcessing" / "pressureProbes" / "0"
+    probe_dir.mkdir(parents=True)
+    (probe_dir / "p").write_text("0 101298\n", encoding="utf-8")
+    (probe_dir / "impulse").write_text("0 0\n", encoding="utf-8")
+
+    status = validate_post_processing_output(
+        tmp_path,
+        'Exec   : calculateImpulse pressureProbes\nUsing "p" in "postProcessing/pressureProbes/0"\nDone.\n',
+    )
+
+    assert status["ok"]
+    assert status["issues"] == []
+
+
+def test_openfoam_diagnostics_classifies_dynamicp_as_nonblocking():
+    diagnostics = classify_openfoam_log_text(
+        "--> FOAM Warning :     functionObjects::fieldMinMax fieldMinMax cannot find required object dynamicP\n"
+        "Selected 0 cells for refinement out of 712.\n",
+        source="log.blastFoam",
+    )
+
+    assert diagnostics
+    assert diagnostics[0].severity == "nonblocking_warning"
+    assert diagnostics[0].category == "derived_field_unavailable"
+    assert diagnostics[0].blocking is False
+    assert "final field" in diagnostics[0].hint
+
+
+def test_openfoam_diagnostics_classifies_probe_relocation_as_nonblocking():
+    diagnostics = classify_openfoam_log_text(
+        "--> FOAM Warning : \n"
+        "    From function virtual void Foam::blastProbes::findElements(const Foam::fvMesh&, bool, bool)\n"
+        "    in file blastProbes/blastProbes.C at line 153\n"
+        "    Did not find location (2 0 0.5) in any cell. Skipping location.\n"
+        "\n"
+        "4 blastProbes were not found in any domain.\n"
+        "These blastProbes are being moved to the nearest patch face.\n",
+        source="log.blastFoam",
+    )
+
+    assert diagnostics
+    assert diagnostics[0].severity == "nonblocking_warning"
+    assert diagnostics[0].category == "probe_location_adjusted"
+    assert diagnostics[0].blocking is False
+
+
+def test_openfoam_diagnostics_classifies_charge_mass_discretization_warning():
+    diagnostics = classify_openfoam_log_text(
+        "--> FOAM Warning :\n"
+        "From function void Foam::massToCell::checkMass(const labelHashSet&, const Foam::polyMesh&) const\n"
+        "Requested mass is 10 but set mass is 16.01, 60.1% different\n",
+        source="log.setRefinedFields",
+    )
+
+    assert diagnostics
+    assert diagnostics[0].severity == "warning"
+    assert diagnostics[0].category == "charge_mass_discretization"
+    assert diagnostics[0].blocking is False
+
+
+def test_openfoam_diagnostics_marks_fatal_as_blocking():
+    diagnostics = classify_openfoam_log_text(
+        "Time = 0.1\n"
+        "FOAM FATAL ERROR:\n"
+        "Cannot find patchField entry for inlet\n"
+        "FOAM exiting\n",
+        source="log.blastFoam",
+    )
+    summary = summarize_diagnostics([item.to_dict() for item in diagnostics])
+
+    assert any(item.blocking for item in diagnostics)
+    assert summary["blocking"] >= 1
+    assert summary["fatal"] >= 1
+
+
+def test_openfoam_diagnostics_classifies_parallel_internal_patch_fatal():
+    diagnostics = classify_openfoam_log_text(
+        "[0] --> FOAM FATAL ERROR:\n"
+        "[0] When balancing is enabled, an internal patch should be added to the mesh.\n"
+        "[0] To add the necessary patch to the mesh and the fields, use the command\n",
+        source="log.blastFoam",
+    )
+
+    assert diagnostics
+    assert diagnostics[0].category == "parallel_internal_patch_missing"
+    assert diagnostics[0].blocking is True
+
+
+def test_openfoam_diagnostics_classifies_field_dictionary_type_fatal():
+    diagnostics = classify_openfoam_log_text(
+        "[2] --> FOAM FATAL IO ERROR:\n"
+        "[2] Expected a '(' while reading VectorSpace<Form, Cmpt, Ncmpts>, found on line 34 the word 'uniform'\n"
+        "[2] file: processor2/0/U/boundaryField/outlet/fieldInf at line 34.\n",
+        source="log.addEmptyPatch",
+    )
+
+    assert diagnostics
+    assert diagnostics[0].category == "field_dictionary_type_mismatch"
+    assert diagnostics[0].blocking is True
+
+
+def test_openfoam_diagnostics_classifies_blast_function_library_warning():
+    diagnostics = classify_openfoam_log_text(
+        "--> FOAM Warning :\n"
+        "    dlopen error : libblastFunctionObject.so: cannot open shared object file: No such file or directory\n"
+        "--> FOAM Warning :\n"
+        "    could not load \"libblastFunctionObject.so\"\n",
+        source="log.blastFoam",
+    )
+
+    assert diagnostics
+    assert any(item.category == "blast_function_library_unavailable" for item in diagnostics)
+    assert all(item.blocking is False for item in diagnostics)
+
+
 def test_workflow_failure_preserves_completed_solver_status(tmp_path, monkeypatch):
     monkeypatch.setenv("ENABLE_EXECUTION", "true")
     system_dir = tmp_path / "system"
@@ -716,7 +848,24 @@ def test_benchmark_wraps_workflow_command_for_non_root_user(monkeypatch):
 
     command = run_agent_benchmark.wrap_command_for_user("echo hello", "openfoam")
 
-    assert command == "runuser -u openfoam -- bash -lc 'echo hello'"
+    assert command == (
+        "runuser -u openfoam -- env LANG=C.utf8 LC_ALL=C.utf8 "
+        "PYTHONUTF8=1 PYTHONIOENCODING=utf-8 bash -lc 'echo hello'"
+    )
+
+
+def test_benchmark_subprocess_env_forces_utf8_locale(monkeypatch):
+    from experiments.end2end import run_agent_benchmark
+
+    monkeypatch.setenv("LANG", "C")
+    monkeypatch.setenv("LC_ALL", "C")
+
+    env = run_agent_benchmark.workflow_subprocess_env()
+
+    assert env["LANG"] == "C.utf8"
+    assert env["LC_ALL"] == "C.utf8"
+    assert env["PYTHONUTF8"] == "1"
+    assert env["PYTHONIOENCODING"] == "utf-8"
 
 
 def test_reviewer_status_parser_uses_explicit_status_line():
@@ -727,3 +876,203 @@ def test_reviewer_status_parser_uses_explicit_status_line():
     )
 
     assert status == "passed"
+
+
+def test_report_contract_rejects_placeholder_and_raw_tool_output():
+    placeholder = validate_agent_report("Sorry, need more steps to process this request.", "review_report")
+    raw_tool = validate_agent_report(
+        "--- Retrieved Documentation Information ---\n\n## Section 15.11 impulse\nraw docs",
+        "physics_report",
+    )
+
+    assert not placeholder["valid"]
+    assert "placeholder continuation" in placeholder["reason"]
+    assert not raw_tool["valid"]
+    assert "raw tool" in raw_tool["reason"]
+
+
+def test_reviewer_retries_invalid_placeholder_report(tmp_path, monkeypatch):
+    monkeypatch.setenv("REPORT_REPAIR_ATTEMPTS", "1")
+
+    valid_report = (
+        "Validation Status: Passed\n\n"
+        "Checklist:\n"
+        "- Solver log contains a clean End marker.\n"
+        "- execution_status.json marks the run completed.\n"
+        "- Requested pressure probes and reports are present.\n\n"
+        "Conclusion: the generated case satisfies the requested smoke validation."
+    )
+    agent = ReviewerAgent.__new__(ReviewerAgent)
+    agent.agent = SequentialAgent([
+        "Sorry, need more steps to process this request.",
+        valid_report,
+    ])
+
+    output, report_status = agent._run_review_task(str(tmp_path), "Review the completed case.")
+
+    assert report_status["valid"]
+    assert output == valid_report
+    assert len(agent.agent.inputs) == 2
+    assert "previous review_report.md did not satisfy" in agent.agent.inputs[1].lower()
+
+
+def test_execution_report_retry_still_marks_invalid_when_repair_fails(tmp_path, monkeypatch):
+    monkeypatch.setenv("REPORT_REPAIR_ATTEMPTS", "1")
+
+    agent = ExecutionAgent.__new__(ExecutionAgent)
+    agent.agent = SequentialAgent([
+        "Sorry, need more steps to process this request.",
+        "No output generated.",
+    ])
+
+    output, report_status = agent._run_report_task(str(tmp_path), "Execute the case.")
+
+    assert output == "No output generated."
+    assert not report_status["valid"]
+    assert len(agent.agent.inputs) == 2
+
+
+def test_workflow_artifact_contract_rejects_placeholder_review_report(tmp_path):
+    system_dir = tmp_path / "system"
+    system_dir.mkdir()
+    (system_dir / "controlDict").write_text("application blastFoam;\n", encoding="utf-8")
+    (tmp_path / "log.blastFoam").write_text("Solver ok\nEnd\n", encoding="utf-8")
+    (tmp_path / "physics_report.md").write_text("Physics report. " * 20, encoding="utf-8")
+    (tmp_path / "execution_report.md").write_text("Execution report. " * 20, encoding="utf-8")
+    (tmp_path / "review_report.md").write_text(
+        "Sorry, need more steps to process this request.",
+        encoding="utf-8",
+    )
+    execution_status = build_execution_status(tmp_path, "Execution completed successfully.", "completed")
+    write_execution_status(tmp_path, execution_status)
+
+    contract = validate_workflow_artifacts(
+        tmp_path,
+        {"execution_status": execution_status, "validation_status": "passed"},
+        require_execution=True,
+        require_review=True,
+    )
+
+    assert not contract["ok"]
+    assert contract["checks"]["review_report_valid"] is False
+    assert any("review_report.md invalid" in issue for issue in contract["issues"])
+
+
+def test_orchestrator_rejects_completed_workflow_with_invalid_review_report(tmp_path, monkeypatch):
+    monkeypatch.setenv("ENABLE_EXECUTION", "true")
+
+    system_dir = tmp_path / "system"
+    system_dir.mkdir()
+    (system_dir / "controlDict").write_text("application blastFoam;\n", encoding="utf-8")
+    (tmp_path / "log.blastFoam").write_text("Solver ok\nEnd\n", encoding="utf-8")
+    (tmp_path / "physics_report.md").write_text("Physics report. " * 20, encoding="utf-8")
+    (tmp_path / "execution_report.md").write_text("Execution report. " * 20, encoding="utf-8")
+    (tmp_path / "review_report.md").write_text(
+        "Sorry, need more steps to process this request.",
+        encoding="utf-8",
+    )
+    execution_status = build_execution_status(tmp_path, "Execution completed successfully.", "completed")
+    write_execution_status(tmp_path, execution_status)
+
+    orchestrator = OrchestratorAgent.__new__(OrchestratorAgent)
+    result = orchestrator.route(
+        {
+            "user_request": "run a smoke test",
+            "case_path": str(tmp_path),
+            "plan": "run the case",
+            "execution_status": execution_status,
+            "run_status": "completed",
+            "validation_status": "passed",
+            "completed_tasks": [
+                {"assigned_agent": "execution_agent", "status": "completed"},
+                {"assigned_agent": "reviewer", "status": "completed"},
+            ],
+        }
+    )
+
+    assert result["workflow_status"] == "failed"
+    assert result["run_status"] == "completed"
+    assert "artifact contract failed" in result["workflow_error"]
+    assert result["artifact_contract"]["checks"]["review_report_valid"] is False
+
+
+def test_workflow_evidence_writes_compact_solver_and_artifact_summary(tmp_path):
+    system_dir = tmp_path / "system"
+    system_dir.mkdir()
+    (system_dir / "controlDict").write_text(
+        "application blastFoam;\nendTime 0.0015;\nwriteInterval 0.0005;\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "log.blastFoam").write_text("Time = 0.0015\nEnd\n", encoding="utf-8")
+    (tmp_path / "physics_report.md").write_text("Physics report. " * 20, encoding="utf-8")
+    (tmp_path / "execution_report.md").write_text("Execution report. " * 20, encoding="utf-8")
+    status = build_execution_status(tmp_path, "Execution completed successfully.", "completed")
+    write_execution_status(tmp_path, status)
+    probe_dir = tmp_path / "postProcessing" / "nearProbe" / "0"
+    probe_dir.mkdir(parents=True)
+    (probe_dir / "p").write_text("0 101325\n", encoding="utf-8")
+
+    evidence = write_workflow_evidence(tmp_path)
+    evidence_md = (tmp_path / "workflow_evidence.md").read_text(encoding="utf-8")
+
+    assert evidence["control"]["endTime"] == "0.0015"
+    assert evidence["solver"]["clean_end"] is True
+    assert "postProcessing/nearProbe/0/p" in evidence_md
+    assert "Solver clean End" in evidence_md
+
+
+def test_workflow_evidence_samples_long_time_directory_lists(tmp_path):
+    system_dir = tmp_path / "system"
+    system_dir.mkdir()
+    (system_dir / "controlDict").write_text("application blastFoam;\n", encoding="utf-8")
+    for index in range(40):
+        (tmp_path / f"0.{index:04d}").mkdir()
+
+    evidence = write_workflow_evidence(tmp_path)
+    evidence_md = (tmp_path / "workflow_evidence.md").read_text(encoding="utf-8")
+
+    assert evidence["time_dir_count"] == 40
+    assert "..." in evidence["time_dirs"]
+    assert len(evidence["time_dirs"]) < 20
+    assert "Time directory count" in evidence_md
+
+
+def test_reviewer_prompt_includes_compact_workflow_evidence(tmp_path, monkeypatch):
+    monkeypatch.setenv("REPORT_REPAIR_ATTEMPTS", "0")
+
+    system_dir = tmp_path / "system"
+    system_dir.mkdir()
+    (system_dir / "controlDict").write_text(
+        "application blastFoam;\nendTime 0.0015;\nwriteInterval 0.0005;\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "log.blastFoam").write_text("Time = 0.0015\nEnd\n", encoding="utf-8")
+    (tmp_path / "physics_report.md").write_text("Physics report. " * 20, encoding="utf-8")
+    (tmp_path / "execution_report.md").write_text("Execution report. " * 20, encoding="utf-8")
+    status = build_execution_status(tmp_path, "Execution completed successfully.", "completed")
+    write_execution_status(tmp_path, status)
+
+    review_output = (
+        "Validation Status: Passed\n\n"
+        "Checklist:\n"
+        "- Execution status is completed.\n"
+        "- Solver log has a clean End marker.\n"
+        "- Required reports are present.\n\n"
+        "The compact workflow evidence supports this validation."
+    )
+    agent = ReviewerAgent.__new__(ReviewerAgent)
+    agent.agent = SequentialAgent([review_output])
+
+    result = agent.review_task(
+        {
+            "user_request": "run a short validation case",
+            "case_path": str(tmp_path),
+            "tutorial_case_path": None,
+        }
+    )
+
+    assert result["validation_status"] == "passed"
+    assert result["review_report_status"] == "completed"
+    assert "Compact Workflow Evidence" in agent.agent.inputs[0]
+    assert "Avoid reading full solver logs" in agent.agent.inputs[0]
+    assert (tmp_path / "workflow_evidence.md").exists()

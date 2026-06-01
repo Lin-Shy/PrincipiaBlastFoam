@@ -12,6 +12,7 @@ from principia_ai.tools.retrieval_llm_config import resolve_retrieval_llm_config
 from principia_ai.utils.execution_status import read_execution_status, status_run_completed
 from principia_ai.utils.llm_profiles import chat_openai_kwargs, resolve_llm_profile
 from principia_ai.utils.solver_logs import solver_log_has_clean_end
+from principia_ai.utils.workflow_artifacts import validate_workflow_artifacts, write_artifact_contract
 
 
 DEFAULT_CASE_PATH = r"/data/PrincipiaBlastFoam_output/surfaceburst_scaledd3"
@@ -144,6 +145,19 @@ def validate_final_state(final_state: GraphState, args: argparse.Namespace) -> l
             failures.append("run_status is not completed")
         if not solver_log_has_end(case_path):
             failures.append("solver log does not contain a clean End marker")
+
+    artifact_contract = validate_workflow_artifacts(
+        case_path,
+        final_state,
+        require_execution=execution_required(),
+        require_review=execution_required(),
+    )
+    try:
+        write_artifact_contract(case_path, artifact_contract)
+    except OSError as exc:
+        failures.append(f"artifact_contract.json could not be written: {exc}")
+    if not artifact_contract["ok"]:
+        failures.extend(f"artifact contract: {issue}" for issue in artifact_contract["issues"])
 
     return failures
 

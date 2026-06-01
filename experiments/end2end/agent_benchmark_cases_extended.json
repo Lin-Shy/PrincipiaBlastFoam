@@ -1,0 +1,184 @@
+{
+  "name": "principia_agent_e2e_extended_real_case_benchmark",
+  "version": "0.2.0",
+  "description": "Extended real-case-inspired end-to-end workflow prompts for evaluating the PrincipiaBlastFoam multi-agent system beyond the 3-case smoke benchmark. The original 3-case smoke benchmark remains unchanged in agent_benchmark_cases.json.",
+  "safety_scope": "These prompts are short-runtime computational benchmark tasks for validating case selection, configuration, execution, reporting, and review. They are not instructions for planning, constructing, or optimizing real explosive devices.",
+  "sources": [
+    {
+      "id": "blastfoam_erdc_internal_airblast",
+      "title": "ERDC Small-Scale High-Explosive Airblast Experiments",
+      "url": "https://www.blastfoam.org/examples/erdc-internal-blast-test/",
+      "benchmark_use": "Internal/vented airblast with pressure gauges and comparison to test data."
+    },
+    {
+      "id": "blastfoam_reconass_400kg",
+      "title": "Simulation of the RECONASS 400kg TNT NEQ Explosive Test",
+      "url": "https://www.blastfoam.org/examples/reconass-explosive-test.md/",
+      "benchmark_use": "Full-scale external blast against a monitored building; useful for facade-load and sensor-output tasks."
+    },
+    {
+      "id": "blastfoam_cityscape",
+      "title": "Cityscape Modeling for Explosive Threat Scenarios",
+      "url": "https://www.blastfoam.org/examples/cityscape-modeling/",
+      "benchmark_use": "Urban blast propagation, shielding, and multi-building case-selection tasks."
+    },
+    {
+      "id": "building_corner_experiment",
+      "title": "Experimental study of blast loading behind a building corner",
+      "url": "https://link.springer.com/article/10.1007/s00193-020-00936-1",
+      "benchmark_use": "27 TNT tests with corner shielding, probe positions, peak overpressure, impulse, and arrival-time observations."
+    },
+    {
+      "id": "erdc_bls_report_5",
+      "title": "Blast load simulator experiments for computational model validation. Report 5",
+      "url": "https://erdc-library.erdc.dren.mil/items/81b728f7-ab65-4ef8-e053-411ac80adeb3",
+      "benchmark_use": "Two steel box-type structures in a blast load simulator with pressure-time data on multiple surfaces."
+    },
+    {
+      "id": "vented_confined_gas_explosion",
+      "title": "Pressure Wave Generated in Vented Confined Gas Explosions: Experiment and Simulation",
+      "url": "https://repository.lib.ncsu.edu/items/a1ffa2b9-261c-49c4-b3d3-0e3a0d82f9ec",
+      "benchmark_use": "Vented/confined pressure-wave benchmark for internal pressure and vent/outlet propagation checks."
+    },
+    {
+      "id": "hemicylinder_obstacle_experiment",
+      "title": "A two-scale approach to widen a predictive blast propagation model around a hemicylindrical obstacle",
+      "url": "https://link.springer.com/article/10.1007/s00193-023-01135-4",
+      "benchmark_use": "Solid-explosive blast interaction with a rigid hemicylindrical obstacle, pressure transducers, and high-speed imaging."
+    },
+    {
+      "id": "three_level_building_experiment",
+      "title": "Experimental and Numerical Investigation of Blast Wave Interaction with a Three Level Building",
+      "url": "https://cris.bgu.ac.il/en/publications/experimental-and-numerical-investigation-of-blast-wave-interactio/",
+      "benchmark_use": "Building-interior propagation with schlieren images and wall pressure histories."
+    },
+    {
+      "id": "blastfoam_user_guide",
+      "title": "blastFoam Theory and User Guide",
+      "url": "https://www.blastfoam.org/blastFoam_User_Guide.pdf",
+      "benchmark_use": "blastFoam model, solver, and tutorial context for matching benchmark prompts to available local tutorials."
+    }
+  ],
+  "cases": [
+    {
+      "id": "erdc_internal_airblast_vent_pipe_probe",
+      "title": "ERDC-style internal airblast vent-pipe pressure probe test",
+      "tags": ["internal_blast", "vent_pipe", "pressure_probe", "real_experiment"],
+      "source_ids": ["blastfoam_erdc_internal_airblast", "blastfoam_user_guide"],
+      "difficulty": "extended",
+      "user_request": "构建一个ERDC小尺度内部空气爆炸风格的短时验证算例：优先从internalDetonation、internalDetonation_withObstacleAndGlass或最接近的内部爆炸tutorial初始化；保留封闭/半封闭空间和出口/管道传播特征，在通道或出口路径上设置两个压力或总压探针，分别代表近端和远端测点；不扩大计算域，不做大规模网格加密；将endTime控制在0.0015秒以内，writeInterval不超过0.0005秒；输出p、overpressure或impulse中可用的压力历史，并生成物理分析、执行和审查报告。",
+      "expected": {
+        "max_end_time": 0.0015,
+        "required_reports": ["physics_report.md", "execution_report.md", "execution_status.json"],
+        "preferred_case_keywords": ["internalDetonation", "burstingWindow"],
+        "important_files": ["system/controlDict", "system/setFieldsDict", "0/p.orig"],
+        "observability": ["two_pressure_probe_locations", "pressure_history_output", "clean_solver_end"]
+      }
+    },
+    {
+      "id": "reconass_400kg_external_facade_smoke",
+      "title": "RECONASS-style external building blast facade-load smoke test",
+      "tags": ["building", "facade_load", "full_scale_reference", "real_test"],
+      "source_ids": ["blastfoam_reconass_400kg", "blastfoam_user_guide"],
+      "difficulty": "extended",
+      "user_request": "构建一个RECONASS 400kg TNT NEQ外部爆炸测试风格的短时建筑迎爆面载荷算例：优先使用building3D、building3DWorkshop或mappedBuilding3D相关tutorial；保持建筑外部爆炸作用于迎爆面的基本场景，不追求复现真实400kg全尺寸，只要求保留可解释的缩放说明；在迎爆面附近设置少量压力探针或面载荷后处理，至少输出p或overpressure；endTime控制在0.0015秒以内，writeInterval不超过0.0005秒；避免扩大域和细化大网格，目标是验证agent能否从真实测试描述迁移到可运行的建筑爆炸载荷smoke算例。",
+      "expected": {
+        "max_end_time": 0.0015,
+        "required_reports": ["physics_report.md", "execution_report.md", "execution_status.json"],
+        "preferred_case_keywords": ["building3D", "mappedBuilding3D"],
+        "important_files": ["system/controlDict", "system/setFieldsDict"],
+        "observability": ["facade_pressure_probe", "scaling_note", "post_processing_present"]
+      }
+    },
+    {
+      "id": "building_corner_diffraction_probe_grid",
+      "title": "Building-corner diffraction probe-grid benchmark",
+      "tags": ["urban_blast", "corner_diffraction", "pressure_impulse", "real_experiment"],
+      "source_ids": ["building_corner_experiment", "blastfoam_cityscape", "blastfoam_user_guide"],
+      "difficulty": "extended",
+      "user_request": "构建一个建筑转角绕射实验风格的短时验证算例：优先选择building3D、mappedBuilding3D、sector、wedge或最接近的城市/建筑tutorial；用刚性墙面或建筑角部表达L形遮挡关系，在直达测点和转角后方沿墙面设置3到4个压力探针，模拟文献中A、B1、B2、B3这类测点；使用TNT等价缩放说明，但不要追求真实实验全量复现；endTime控制在0.0015秒以内，writeInterval不超过0.0005秒；输出p、overpressure和可用的impulse，并在报告中说明哪些测点可用于峰值超压、冲量和到达时间比较。",
+      "expected": {
+        "max_end_time": 0.0015,
+        "required_reports": ["physics_report.md", "execution_report.md", "execution_status.json", "review_report.md"],
+        "preferred_case_keywords": ["building3D", "mappedBuilding3D", "sector", "wedge"],
+        "important_files": ["system/controlDict", "system/setFieldsDict", "system/blockMeshDict"],
+        "observability": ["direct_probe", "shielded_corner_probes", "arrival_time_possible"]
+      }
+    },
+    {
+      "id": "bls_two_box_interference_pressure_history",
+      "title": "Blast-load-simulator two-box interference benchmark",
+      "tags": ["blast_load_simulator", "two_structures", "surface_pressure", "real_experiment"],
+      "source_ids": ["erdc_bls_report_5", "blastfoam_user_guide"],
+      "difficulty": "extended",
+      "user_request": "构建一个Blast Load Simulator两箱体结构干扰实验风格的短时算例：优先使用building3D、building3DWorkshop或mappedBuilding3D相关tutorial；场景中保留两个近似刚性箱体/建筑块及其间距，不要求真实BLS几何全量复现；在两个箱体迎波面、间隙侧面或背风面至少设置3个压力采样位置，用于比较压力-时间历史；endTime控制在0.0015秒以内，writeInterval不超过0.0005秒；报告需说明该任务考察多障碍物反射、遮挡和表面压力输出链路。",
+      "expected": {
+        "max_end_time": 0.0015,
+        "required_reports": ["physics_report.md", "execution_report.md", "execution_status.json"],
+        "preferred_case_keywords": ["building3D", "mappedBuilding3D"],
+        "important_files": ["system/controlDict", "system/snappyHexMeshDict", "system/setFieldsDict"],
+        "observability": ["multi_surface_pressure_points", "two_obstacle_geometry", "pressure_time_history"]
+      }
+    },
+    {
+      "id": "vented_confined_gas_explosion_window_smoke",
+      "title": "Vented confined explosion pressure-release smoke test",
+      "tags": ["confined_explosion", "venting", "window", "pressure_wave", "real_experiment"],
+      "source_ids": ["vented_confined_gas_explosion", "blastfoam_user_guide"],
+      "difficulty": "extended",
+      "user_request": "构建一个通风/泄爆受限空间压力波实验风格的短时算例：优先使用burstingWindow_workshop、internalDetonation_withObstacleAndGlass或最接近的内部空间tutorial；保留室内压力释放到窗口/开口外部的传播路径，在室内、开口附近和外部近场至少设置3个压力探针；如果所选tutorial不是气体燃爆模型，需要在物理报告中明确说明这是压力波和泄爆路径的计算链路验证，不是燃烧化学复现实验；endTime控制在0.0015秒以内，writeInterval不超过0.0005秒；输出p、overpressure或impulse。",
+      "expected": {
+        "max_end_time": 0.0015,
+        "required_reports": ["physics_report.md", "execution_report.md", "execution_status.json"],
+        "preferred_case_keywords": ["burstingWindow", "internalDetonation"],
+        "important_files": ["system/controlDict", "system/setFieldsDict"],
+        "observability": ["inside_probe", "vent_probe", "outside_probe", "model_scope_note"]
+      }
+    },
+    {
+      "id": "hemicylinder_obstacle_reflection_probe_smoke",
+      "title": "Hemicylindrical-obstacle reflection benchmark",
+      "tags": ["obstacle", "reflection", "overpressure", "real_experiment"],
+      "source_ids": ["hemicylinder_obstacle_experiment", "blastfoam_user_guide"],
+      "difficulty": "extended",
+      "user_request": "构建一个半圆柱障碍物冲击波反射实验风格的短时算例：优先选择movingCone、mappedBuilding3D、building3D或可表达刚性障碍物的tutorial；用现有几何近似刚性半圆柱/圆柱障碍物，不要求重新生成复杂CAD；沿来波方向和障碍物前后设置压力探针，用于观察入射、反射和绕流后的超压变化；endTime控制在0.0015秒以内，writeInterval不超过0.0005秒；报告中说明几何近似、测点含义和与实验数据可比的指标。",
+      "expected": {
+        "max_end_time": 0.0015,
+        "required_reports": ["physics_report.md", "execution_report.md", "execution_status.json", "review_report.md"],
+        "preferred_case_keywords": ["movingCone", "mappedBuilding3D", "building3D"],
+        "important_files": ["system/controlDict", "system/setFieldsDict"],
+        "observability": ["incident_probe", "reflected_probe", "wake_probe", "geometry_approximation_note"]
+      }
+    },
+    {
+      "id": "three_level_building_room_pressure_smoke",
+      "title": "Three-level building room-pressure benchmark",
+      "tags": ["building_interaction", "indoor_pressure", "wall_history", "real_experiment"],
+      "source_ids": ["three_level_building_experiment", "blastfoam_user_guide"],
+      "difficulty": "extended",
+      "user_request": "构建一个三层建筑爆炸波相互作用实验风格的短时算例：优先从building3D、building3DWorkshop、internalDetonation_withObstacle或internalDetonation_withObstacleAndGlass初始化；保留建筑内外传播、墙面反射和房间压力历史这一核心验证目标；在入口/迎爆面、室内房间和背风侧设置少量压力探针；endTime控制在0.0015秒以内，writeInterval不超过0.0005秒；报告中说明该smoke算例不能替代完整结构响应实验，只用于验证agent能否完成建筑内外压力历史输出。",
+      "expected": {
+        "max_end_time": 0.0015,
+        "required_reports": ["physics_report.md", "execution_report.md", "execution_status.json"],
+        "preferred_case_keywords": ["building3D", "internalDetonation"],
+        "important_files": ["system/controlDict", "system/setFieldsDict"],
+        "observability": ["external_probe", "room_probe", "leeward_probe", "scope_limitation_note"]
+      }
+    },
+    {
+      "id": "blast_simulator_planar_wave_wall_load",
+      "title": "Blast-simulator planar wave wall-load benchmark",
+      "tags": ["shock_tube", "planar_wave", "wall_load", "real_facility"],
+      "source_ids": ["erdc_bls_report_5", "blastfoam_user_guide"],
+      "difficulty": "extended",
+      "user_request": "构建一个压缩气体驱动Blast Load Simulator的平面波近似短时算例：优先使用blastEquation/planarWall、shockTube_tabulated、obliqueShock或最接近的一维/准一维激波tutorial；保持平面激波或近似平面入射波作用于刚性墙/试件的设置，输出壁面或近壁压力历史；endTime控制在0.001秒以内，writeInterval不超过0.00025秒；报告中说明该算例主要验证平面波载荷、到达时间和反射压力输出，不验证真实装置全尺寸结构。",
+      "expected": {
+        "max_end_time": 0.001,
+        "required_reports": ["physics_report.md", "execution_report.md", "execution_status.json"],
+        "preferred_case_keywords": ["planarWall", "shockTube", "obliqueShock"],
+        "important_files": ["system/controlDict", "system/setFieldsDict"],
+        "observability": ["wall_pressure_history", "arrival_time_possible", "reflected_pressure_note"]
+      }
+    }
+  ]
+}

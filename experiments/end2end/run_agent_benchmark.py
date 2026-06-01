@@ -18,7 +18,7 @@ import signal
 import subprocess
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 import shlex
@@ -36,12 +36,27 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from principia_ai.utils.solver_logs import solver_log_has_clean_end
 from principia_ai.utils.execution_status import read_execution_status, status_run_completed
+from principia_ai.utils.openfoam_diagnostics import classify_case_openfoam_logs, summarize_diagnostics
 from principia_ai.utils.redaction import redact_file_in_place, redact_text
 
 DEFAULT_CASES_FILE = PROJECT_ROOT / "experiments" / "end2end" / "agent_benchmark_cases.json"
 DEFAULT_OUTPUT_ROOT = Path("/data/PrincipiaBlastFoam_output/e2e_agent_benchmark")
 DEFAULT_TUTORIAL_PATH = Path(os.getenv("BLASTFOAM_TUTORIALS", "/data/graduation-projects/blastFoam_tutorials"))
 NUMERIC_TIME_RE = re.compile(r"^\d+(?:\.\d+)?(?:[eE][+-]?\d+)?$")
+WORKFLOW_UTF8_ENV = {
+    "LANG": "C.utf8",
+    "LC_ALL": "C.utf8",
+    "PYTHONUTF8": "1",
+    "PYTHONIOENCODING": "utf-8",
+}
+
+
+def utc_timestamp(fmt: str = "%Y%m%d_%H%M%S") -> str:
+    return datetime.now(timezone.utc).strftime(fmt)
+
+
+def utc_iso_timestamp() -> str:
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def load_cases(path: Path) -> Dict[str, Any]:
@@ -123,10 +138,23 @@ def chown_tree(path: Path, username: Optional[str]) -> None:
             os.chown(os.path.join(root, name), user.pw_uid, user.pw_gid)
 
 
+def shell_env_assignments(env: Dict[str, str]) -> str:
+    return " ".join(f"{key}={shlex.quote(value)}" for key, value in env.items())
+
+
+def workflow_subprocess_env() -> Dict[str, str]:
+    env = os.environ.copy()
+    env.update(WORKFLOW_UTF8_ENV)
+    return env
+
+
 def wrap_command_for_user(command: str, run_as_user: Optional[str]) -> str:
     if not run_as_user or os.geteuid() != 0:
         return command
-    return f"runuser -u {shlex.quote(run_as_user)} -- bash -lc {shlex.quote(command)}"
+    return (
+        f"runuser -u {shlex.quote(run_as_user)} -- env "
+        f"{shell_env_assignments(WORKFLOW_UTF8_ENV)} bash -lc {shlex.quote(command)}"
+    )
 
 
 def build_workflow_command(args: argparse.Namespace, case_path: Path, user_request: str) -> str:
@@ -167,7 +195,7 @@ def run_subprocess(command: str, log_path: Path, timeout: int) -> Dict[str, Any]
             cwd=PROJECT_ROOT,
             stdout=log_file,
             stderr=subprocess.STDOUT,
-            env=os.environ.copy(),
+            env=workflow_subprocess_env(),
             preexec_fn=os.setsid,
             text=True,
         )
@@ -248,6 +276,37 @@ def load_json(path: Optional[Path]) -> Optional[Dict[str, Any]]:
         return None
 
 
+def command_version(command: str) -> Optional[str]:
+    resolved = shutil.which(command)
+    if not resolved:
+        return None
+    try:
+        result = subprocess.run(
+            [resolved, "--version"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=False,
+        )
+    except Exception:
+        return resolved
+    first_line = (result.stdout or result.stderr or "").splitlines()
+    return first_line[0] if first_line else resolved
+
+
+def collect_runtime_environment() -> Dict[str, Any]:
+    return {
+        "mpirun": {
+            "path": shutil.which("mpirun"),
+            "version": command_version("mpirun"),
+        },
+        "mpiexec": {
+            "path": shutil.which("mpiexec"),
+            "version": command_version("mpiexec"),
+        },
+    }
+
+
 def read_log_tail(log_path: Path, max_chars: int = 4000) -> str:
     if not log_path.exists():
         return ""
@@ -299,6 +358,9 @@ def collect_case_summary(
             "execution_report.md",
             "execution_status.json",
             "review_report.md",
+            "artifact_contract.json",
+            "workflow_evidence.md",
+            "workflow_evidence.json",
             "scaledDistance_modification.md",
         )
     }
@@ -307,6 +369,10 @@ def collect_case_summary(
     metrics = load_json(metrics_path)
     max_end_time = expected.get("max_end_time")
     execution_status = read_execution_status(case_path)
+    artifact_contract = load_json(case_path / "artifact_contract.json")
+    all_openfoam_diagnostics = classify_case_openfoam_logs(case_path)
+    openfoam_diagnostic_summary = summarize_diagnostics(all_openfoam_diagnostics)
+    openfoam_diagnostics = all_openfoam_diagnostics[:100]
 
     checks = {
         "physics_report_present": report_files["physics_report.md"],
@@ -322,6 +388,8 @@ def collect_case_summary(
         "selected_tutorial_matches_expected": preferred_case_matched(selected_tutorial, expected),
         "case_selection_error_absent": "Error in LLM case selection" not in log_text,
         "orchestrator_empty_output_absent": "Orchestrator: Could not find JSON in output" not in log_text,
+        "openfoam_blocking_diagnostics_absent": openfoam_diagnostic_summary.get("blocking", 0) == 0,
+        "artifact_contract_ok": artifact_contract.get("ok") is True if artifact_contract else None,
     }
 
     return {
@@ -335,6 +403,10 @@ def collect_case_summary(
         "metrics_report": str(metrics_path) if metrics_path else None,
         "metrics_summary": summarize_metrics(metrics),
         "execution_status": execution_status,
+        "artifact_contract": artifact_contract,
+        "openfoam_diagnostics": openfoam_diagnostics,
+        "openfoam_diagnostic_summary": openfoam_diagnostic_summary,
+        "openfoam_diagnostics_total": len(all_openfoam_diagnostics),
         "checks": checks,
     }
 
@@ -387,6 +459,8 @@ def result_passed(result: Dict[str, Any]) -> bool:
         and checks.get("workflow_failure_absent")
         and checks.get("case_selection_error_absent")
         and checks.get("orchestrator_empty_output_absent")
+        and checks.get("openfoam_blocking_diagnostics_absent")
+        and checks.get("artifact_contract_ok") is not False
         and end_time_check is not False
         and checks.get("selected_tutorial_matches_expected") is not False
     )
@@ -479,7 +553,7 @@ def main() -> None:
     if not selected_cases:
         raise SystemExit("No benchmark cases selected.")
 
-    run_id = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    run_id = utc_timestamp()
     output_root = args.output_root.resolve()
     run_root = output_root / f"run_{run_id}"
     run_root.mkdir(parents=True, exist_ok=True)
@@ -566,7 +640,7 @@ def build_report(benchmark: Dict[str, Any], results: List[Dict[str, Any]], run_i
     passed = sum(1 for item in completed if result_passed(item))
     return {
         "run_id": run_id,
-        "created_at": datetime.utcnow().isoformat() + "Z",
+        "created_at": utc_iso_timestamp(),
         "benchmark": {
             "name": benchmark.get("name"),
             "version": benchmark.get("version"),
@@ -581,6 +655,7 @@ def build_report(benchmark: Dict[str, Any], results: List[Dict[str, Any]], run_i
             "tutorial_path": str(args.tutorial_path),
             "run_as_user": args.run_as_user,
             "allow_root_openfoam": args.allow_root_openfoam,
+            "runtime_environment": collect_runtime_environment(),
         },
         "aggregate": {
             "cases_total": len(results),

@@ -7,7 +7,7 @@ from ..graph.graph_state import GraphState
 from ..prompts import PromptManager
 from ..tools.mcp_retrieval_tools import get_mcp_retrieval_tools, set_retrieval_context
 from ..tools.context import scoped_tool_context
-from ..utils.report_contracts import validate_agent_report
+from ..utils.report_contracts import build_report_repair_prompt, validate_agent_report
 from ..metrics.decorators import track_agent_execution, track_llm_call
 
 # New imports for Refactoring
@@ -54,6 +54,32 @@ class PhysicsAnalystAgent:
             max_iterations=int(os.getenv("MAX_ITERATIONS", "50"))
         )
 
+    def _run_report_task(self, case_path: str, input_text: str) -> tuple[str, Dict[str, Any]]:
+        with scoped_tool_context(case_path):
+            result = self.agent.invoke({"input": input_text})
+        output = result.get("output", "No output generated.")
+        validation = validate_agent_report(output, "physics_report", min_chars=120)
+
+        max_repairs = int(os.getenv("REPORT_REPAIR_ATTEMPTS", "1"))
+        for _attempt in range(max_repairs):
+            if validation["valid"]:
+                break
+            print(f"Physics Analyst: physics_report contract failed; retrying once: {validation['reason']}")
+            repair_prompt = build_report_repair_prompt(
+                report_name="physics_report.md",
+                original_task=input_text,
+                invalid_report=output,
+                validation=validation,
+            )
+            with scoped_tool_context(case_path):
+                retry_result = self.agent.invoke({"input": repair_prompt})
+            retry_output = retry_result.get("output", "")
+            if retry_output.strip():
+                output = retry_output
+            validation = validate_agent_report(output, "physics_report", min_chars=120)
+
+        return output, validation
+
     @track_agent_execution("physics_analyst_agent")
     def analyze(self, state: GraphState) -> Dict[str, Any]:
         """
@@ -79,11 +105,7 @@ class PhysicsAnalystAgent:
             f"Focus on analyzing the CURRENT state. Do NOT generate a fix plan yet."
         )
         
-        # Run the agent with filesystem tools scoped to the generated case.
-        with scoped_tool_context(case_path):
-            result = self.agent.invoke({"input": input_text})
-        output = result.get("output", "No output generated.")
-        report_status = validate_agent_report(output, "physics_report", min_chars=120)
+        output, report_status = self._run_report_task(case_path, input_text)
         
         # Save the report to a file for other agents to use
         report_path = os.path.join(case_path, "physics_report.md")

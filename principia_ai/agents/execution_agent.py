@@ -11,6 +11,8 @@ from ..tools.mcp_retrieval_tools import get_mcp_retrieval_tools, set_retrieval_c
 from ..tools.context import scoped_tool_context
 from ..utils.execution_preflight import format_preflight_report, run_execution_preflight
 from ..utils.execution_status import build_execution_status, write_execution_status
+from ..utils.report_contracts import build_report_repair_prompt, validate_agent_report
+from ..utils.workflow_evidence import write_workflow_evidence
 
 # New imports
 from .base_agent import BaseAgent
@@ -81,6 +83,32 @@ class ExecutionAgent:
 
         return "completed"
 
+    def _run_report_task(self, case_path: str, input_text: str) -> tuple[str, Dict[str, Any]]:
+        with scoped_tool_context(case_path):
+            result = self.agent.invoke({"input": input_text})
+        output = result.get("output", "")
+        validation = validate_agent_report(output, "execution_report", min_chars=120)
+
+        max_repairs = int(os.getenv("REPORT_REPAIR_ATTEMPTS", "1"))
+        for _attempt in range(max_repairs):
+            if validation["valid"]:
+                break
+            print(f"Execution Agent: execution_report contract failed; retrying once: {validation['reason']}")
+            repair_prompt = build_report_repair_prompt(
+                report_name="execution_report.md",
+                original_task=input_text,
+                invalid_report=output,
+                validation=validation,
+            )
+            with scoped_tool_context(case_path):
+                retry_result = self.agent.invoke({"input": repair_prompt})
+            retry_output = retry_result.get("output", "")
+            if retry_output.strip():
+                output = retry_output
+            validation = validate_agent_report(output, "execution_report", min_chars=120)
+
+        return output, validation
+
     @track_agent_execution("execution_agent")
     def execute(self, state: GraphState) -> Dict[str, Any]:
         """
@@ -119,6 +147,11 @@ class ExecutionAgent:
                 print(f"Execution Agent: Preflight status saved to {status_path}")
             except Exception as e:
                 print(f"Execution Agent: Warning - could not save execution status file: {e}")
+            try:
+                write_workflow_evidence(case_path)
+                print("Execution Agent: Preflight workflow evidence saved.")
+            except Exception as e:
+                print(f"Execution Agent: Warning - could not save workflow evidence: {e}")
 
             current_task['status'] = "failed"
             current_task['result_summary'] = output
@@ -140,9 +173,7 @@ class ExecutionAgent:
             f"Report the final status and a summary of the execution."
         )
         
-        with scoped_tool_context(case_path):
-            result = self.agent.invoke({"input": input_text})
-        output = result.get("output", "")
+        output, report_status = self._run_report_task(case_path, input_text)
         
         # Save the report to a file for other agents to use
         report_path = os.path.join(case_path, "execution_report.md")
@@ -155,6 +186,7 @@ class ExecutionAgent:
         
         parsed_report_status = self._parse_execution_status(output)
         execution_status = build_execution_status(case_path, output, parsed_report_status)
+        execution_status["report_contract"] = report_status
         status = execution_status["run_status"]
         status_path = None
         try:
@@ -163,17 +195,27 @@ class ExecutionAgent:
         except Exception as e:
             print(f"Execution Agent: Warning - could not save execution status file: {e}")
 
+        try:
+            write_workflow_evidence(case_path)
+            print("Execution Agent: Workflow evidence saved.")
+        except Exception as e:
+            print(f"Execution Agent: Warning - could not save workflow evidence: {e}")
+
         summary = output
 
         current_task['status'] = status
         current_task['result_summary'] = summary
         
-        return {
+        state_update = {
             'current_task': current_task,
             "run_status": status,
             "execution_status": execution_status,
             "execution_status_path": str(status_path) if status_path else None,
             "execution_output": output,
             "execution_summary": summary,
-            "completed_tasks": state.get('completed_tasks', []) + [current_task]
+            "execution_report_status": "completed" if report_status["valid"] else "failed",
+            "completed_tasks": state.get('completed_tasks', []) + [current_task],
         }
+        if not report_status["valid"]:
+            state_update["workflow_error"] = f"execution_report.md failed artifact contract: {report_status['reason']}"
+        return state_update

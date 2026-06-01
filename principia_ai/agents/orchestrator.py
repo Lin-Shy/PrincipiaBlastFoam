@@ -17,6 +17,7 @@ from ..tools.physics_inspection import read_physics_report_file, get_physics_rep
 from ..tools.execution_inspection import get_execution_report_tool
 from ..tools.review_inspection import get_review_report_tool
 from ..utils.execution_status import read_execution_status, status_run_completed
+from ..utils.workflow_artifacts import validate_workflow_artifacts, write_artifact_contract
 
 # New imports
 from .base_agent import BaseAgent
@@ -144,6 +145,37 @@ class OrchestratorAgent:
     def _auto_repair_execution_failures_enabled(self) -> bool:
         return os.getenv("AUTO_REPAIR_EXECUTION_FAILURES", "false").lower() in {"1", "true", "yes", "on"}
 
+    def _review_required_for_contract(self, state: GraphState, case_path: str) -> bool:
+        if not self._execution_enabled():
+            return False
+        execution_status = self._current_execution_status(state, case_path)
+        return status_run_completed(execution_status)
+
+    def _terminal_artifact_contract(
+        self,
+        state: GraphState,
+        case_path: str,
+        *,
+        require_review: bool | None = None,
+    ) -> Dict[str, Any]:
+        contract = validate_workflow_artifacts(
+            case_path,
+            state,
+            require_execution=self._execution_enabled(),
+            require_review=(
+                self._review_required_for_contract(state, case_path)
+                if require_review is None
+                else require_review
+            ),
+        )
+        try:
+            path = write_artifact_contract(case_path, contract)
+            contract["artifact_contract_path"] = str(path)
+        except Exception as exc:
+            contract.setdefault("issues", []).append(f"could not write artifact_contract.json: {exc}")
+            contract["ok"] = False
+        return contract
+
     def _normalize_case_rel_path(self, rel_path: str) -> str:
         return rel_path.replace(os.sep, "/")
 
@@ -241,6 +273,10 @@ class OrchestratorAgent:
                 payload["run_status"] = execution_status.get("run_status", "completed")
             else:
                 payload["run_status"] = "failed"
+        if state and state.get("case_path"):
+            contract = self._terminal_artifact_contract(state, state.get("case_path", ""))
+            payload["artifact_contract"] = contract
+            payload["artifact_contract_path"] = contract.get("artifact_contract_path")
         return payload
 
     def _current_execution_status(self, state: GraphState, case_path: str) -> Dict[str, Any] | None:
@@ -278,6 +314,14 @@ class OrchestratorAgent:
 
         if state.get("validation_status") == "failed":
             return False, "reviewer marked validation as failed"
+
+        contract = self._terminal_artifact_contract(
+            state,
+            case_path,
+            require_review=self._execution_enabled(),
+        )
+        if not contract["ok"]:
+            return False, "artifact contract failed: " + "; ".join(contract["issues"])
 
         return True, ""
 
@@ -659,8 +703,24 @@ class OrchestratorAgent:
                     },
                 }
             if state.get("validation_status") == "passed":
+                contract = self._terminal_artifact_contract(
+                    state,
+                    case_path,
+                    require_review=True,
+                )
+                if not contract["ok"]:
+                    return self._fail_workflow(
+                        "artifact contract failed: " + "; ".join(contract["issues"]),
+                        {"artifact_contract": contract, "artifact_contract_path": contract.get("artifact_contract_path")},
+                        state=state,
+                    )
                 print("Orchestrator: Execution and review completed successfully.")
-                return {"current_agent": "end", "workflow_status": "completed"}
+                return {
+                    "current_agent": "end",
+                    "workflow_status": "completed",
+                    "artifact_contract": contract,
+                    "artifact_contract_path": contract.get("artifact_contract_path"),
+                }
             if state.get("validation_status") == "failed":
                 return self._fail_workflow("reviewer marked validation as failed", state=state)
         

@@ -54,6 +54,9 @@ def _looks_case_relative(path: str) -> bool:
         "Allclean",
         "log.blastFoam",
         "execution_report.md",
+        "workflow_evidence.md",
+        "workflow_evidence.json",
+        "artifact_contract.json",
         "physics_report.md",
         "review_report.md",
     } or first_part.startswith(("processor", "log."))
