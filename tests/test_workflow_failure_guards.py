@@ -8,6 +8,7 @@ from langchain.schema import AIMessage
 
 from principia_ai.agents.orchestrator import OrchestratorAgent
 from principia_ai.agents.execution_agent import ExecutionAgent
+from principia_ai.agents.physics_analyst_agent import PhysicsAnalystAgent
 from principia_ai.agents.reviewer import ReviewerAgent
 from principia_ai.agents.workflow import WorkflowApp, _checkpointing_enabled
 from principia_ai.agents.orchestrator import RouteDecision
@@ -914,6 +915,81 @@ def test_report_contract_rejects_placeholder_and_raw_tool_output():
     assert "placeholder continuation" in placeholder["reason"]
     assert not raw_tool["valid"]
     assert "raw tool" in raw_tool["reason"]
+
+
+def test_physics_analyst_react_prompt_uses_programmatic_digest(tmp_path, monkeypatch):
+    monkeypatch.setenv("PHYSICS_ANALYST_CASE_DIGEST", "true")
+
+    system_dir = tmp_path / "system"
+    system_dir.mkdir()
+    (system_dir / "controlDict").write_text(
+        "application blastFoam;\n"
+        "endTime 0.0005;\n"
+        "writeInterval 0.00025;\n"
+        "functions\n"
+        "{\n"
+        "    pressureProbes\n"
+        "    {\n"
+        "        type blastProbes;\n"
+        "        probeLocations ((1 0 0) (2 0 0));\n"
+        "        fields (p impulse dynamicP);\n"
+        "    }\n"
+        "}\n",
+        encoding="utf-8",
+    )
+    (system_dir / "setFieldsDict").write_text(
+        "regions\n(\n    sphereToCell\n    {\n        centre (0 0 0);\n        radius 0.1;\n    }\n);\n",
+        encoding="utf-8",
+    )
+
+    valid_report = (
+        "Physics Report\n\n"
+        "The current blastFoam case uses blastFoam with endTime 0.0005 and pressure probes. "
+        "The setFieldsDict contains a sphereToCell source centered at the origin, so the case "
+        "has enough evidence for the requested short smoke configuration. "
+        "No direct file edits are made by the physics analyst."
+    )
+    agent = PhysicsAnalystAgent.__new__(PhysicsAnalystAgent)
+    agent.agent = SequentialAgent([valid_report])
+
+    result = agent.analyze(
+        {
+            "user_request": "Create a short blastFoam smoke case with pressure probes.",
+            "case_path": str(tmp_path),
+            "tutorial_case_path": "blastFoam/shockTube_tabulated",
+            "tutorial_source_path": "/tutorials/blastFoam/shockTube_tabulated",
+            "current_task": {"description": "Analyze current case."},
+        }
+    )
+
+    assert result["physics_report_status"] == "completed"
+    assert (tmp_path / "physics_report.md").read_text(encoding="utf-8") == valid_report
+    assert len(agent.agent.inputs) == 1
+    react_input = agent.agent.inputs[0]
+    assert "PROGRAMMATIC CASE DIGEST" in react_input
+    assert "system/controlDict" in react_input
+    assert "application=blastFoam" in react_input
+    assert "Stay in the ReAct workflow" in react_input
+
+
+def test_physics_analyst_react_repair_path_remains_available(tmp_path, monkeypatch):
+    monkeypatch.setenv("REPORT_REPAIR_ATTEMPTS", "1")
+
+    agent = PhysicsAnalystAgent.__new__(PhysicsAnalystAgent)
+    agent.agent = SequentialAgent(
+        [
+            "Sorry, need more steps to process this request.",
+            "Physics Report\n\nThe case has a defined OpenFOAM configuration and enough evidence for analysis. "
+            "The report identifies the current physical setup, relevant files, and remaining discrepancies.",
+        ]
+    )
+
+    output, report_status = agent._run_report_task(str(tmp_path), "Analyze the case using ReAct.")
+
+    assert report_status["valid"]
+    assert output.startswith("Physics Report")
+    assert len(agent.agent.inputs) == 2
+    assert "previous physics_report.md did not satisfy" in agent.agent.inputs[1].lower()
 
 
 def test_reviewer_retries_invalid_placeholder_report(tmp_path, monkeypatch):

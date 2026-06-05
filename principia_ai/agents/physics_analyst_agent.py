@@ -7,7 +7,13 @@ from ..graph.graph_state import GraphState
 from ..prompts import PromptManager
 from ..tools.mcp_retrieval_tools import get_mcp_retrieval_tools, set_retrieval_context
 from ..tools.context import scoped_tool_context
-from ..utils.report_contracts import build_report_repair_prompt, validate_agent_report
+from ..utils.report_contracts import (
+    build_report_repair_prompt,
+    compact_agent_report,
+    report_length_instruction,
+    validate_agent_report,
+)
+from ..utils.case_digest import build_physics_case_digest
 from ..metrics.decorators import track_agent_execution, track_llm_call
 
 # New imports for Refactoring
@@ -57,7 +63,7 @@ class PhysicsAnalystAgent:
     def _run_report_task(self, case_path: str, input_text: str) -> tuple[str, Dict[str, Any]]:
         with scoped_tool_context(case_path):
             result = self.agent.invoke({"input": input_text})
-        output = result.get("output", "No output generated.")
+        output = compact_agent_report(result.get("output", "No output generated."), "physics_report")
         validation = validate_agent_report(output, "physics_report", min_chars=120)
 
         max_repairs = int(os.getenv("REPORT_REPAIR_ATTEMPTS", "1"))
@@ -75,7 +81,7 @@ class PhysicsAnalystAgent:
                 retry_result = self.agent.invoke({"input": repair_prompt})
             retry_output = retry_result.get("output", "")
             if retry_output.strip():
-                output = retry_output
+                output = compact_agent_report(retry_output, "physics_report")
             validation = validate_agent_report(output, "physics_report", min_chars=120)
 
         return output, validation
@@ -95,14 +101,32 @@ class PhysicsAnalystAgent:
         current_task = state.get("current_task", {})
         task_description = current_task.get("description", "Analyze the current case configuration against the User Query.")
 
+        digest_context = ""
+        if os.getenv("PHYSICS_ANALYST_CASE_DIGEST", "true").lower() in {"1", "true", "yes", "on"}:
+            digest = build_physics_case_digest(
+                case_path,
+                user_request=user_query,
+                tutorial_case_path=state.get("tutorial_case_path"),
+                tutorial_source_path=state.get("tutorial_source_path"),
+            )
+            digest_context = (
+                "=== PROGRAMMATIC CASE DIGEST ===\n"
+                f"{digest['markdown']}\n\n"
+                "Digest guidance: This digest is precomputed evidence from the current case files. "
+                "Use it as your starting context. Stay in the ReAct workflow and call tools only for "
+                "targeted follow-up questions, missing files, or ambiguity that the digest cannot resolve. "
+                "Do not repeat broad directory scans or full-file reads for files already summarized here.\n\n"
+            )
 
         # Construct input for the agent
         input_text = (
             f"User Query: {user_query}\n"
             f"Case Path: {case_path}\n"
             f"Task: {task_description}\n"
+            f"{digest_context}"
             f"Output a comprehensive 'Physics Report' detailing the current configuration and discrepancies.\n"
             f"Focus on analyzing the CURRENT state. Do NOT generate a fix plan yet."
+            f"\n{report_length_instruction('physics_report')}"
         )
         
         output, report_status = self._run_report_task(case_path, input_text)

@@ -5,8 +5,12 @@ from principia_ai.tools.context import resolve_tool_path
 from principia_ai.utils.redaction import is_sensitive_path, redact_text
 
 
+DEFAULT_MAX_CHARS = 12000
+MAX_ALLOWED_CHARS = 50000
+
+
 @tool
-def read_file(path: str, start_line: int = 1, end_line: int = -1, max_chars: int = 120000):
+def read_file(path: str, start_line: int = 1, end_line: int = -1, max_chars: int = DEFAULT_MAX_CHARS):
     """Read the contents of a file.
     
     Args:
@@ -23,7 +27,7 @@ def read_file(path: str, start_line: int = 1, end_line: int = -1, max_chars: int
         if not os.path.exists(resolved_path):
             return f"Error: File {path} does not exist. Resolved path: {resolved_path}."
 
-        max_chars = max(1000, min(int(max_chars), 500000))
+        max_chars = max(1000, min(int(max_chars), MAX_ALLOWED_CHARS))
         file_size = os.path.getsize(resolved_path)
         if end_line == -1 and file_size > max_chars:
             return (

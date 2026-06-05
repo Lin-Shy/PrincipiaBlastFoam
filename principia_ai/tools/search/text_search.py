@@ -8,8 +8,8 @@ from principia_ai.utils.redaction import redact_text
 
 
 RUNTIME_DIR_NAMES = {"postProcessing", "VTK", "polyMesh"}
-DEFAULT_MAX_MATCHES = 80
-DEFAULT_MAX_CHARS = 20000
+DEFAULT_MAX_MATCHES = 40
+DEFAULT_MAX_CHARS = 12000
 DEFAULT_MAX_FILE_BYTES = 1_000_000
 
 
@@ -65,8 +65,8 @@ def text_search(
     """
     try:
         search_path = resolve_tool_path(path, default_to_case=True)
-        max_matches = max(1, min(int(max_matches), 500))
-        max_chars = max(1000, min(int(max_chars), 200000))
+        max_matches = max(1, min(int(max_matches), 200))
+        max_chars = max(1000, min(int(max_chars), 50000))
         matches = []
         skipped_large = 0
         truncated = False

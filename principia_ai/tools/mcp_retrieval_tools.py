@@ -248,22 +248,24 @@ def mcp_find_variable(variable_name: str, case_path: Optional[str] = None) -> st
     )
 
 
-def mcp_get_file_content(file_path: str, case_path: Optional[str] = None, max_lines: int = 120) -> str:
+def mcp_get_file_content(file_path: str, case_path: Optional[str] = None, max_lines: int = 80) -> str:
     """Read tutorial file content for a case and relative file path."""
     effective_case_path = _effective_case_path(case_path)
     if not effective_case_path:
         return "No case_path provided and no retrieval context is available."
+    max_lines = max(10, min(int(max_lines), 200))
     return _CLIENT.call_tool(
         "get_file_content",
         {"case_path": effective_case_path, "file_path": file_path, "max_lines": max_lines},
     )
 
 
-def mcp_get_modification_targets(user_request: Optional[str] = None, top_k: int = 5) -> str:
+def mcp_get_modification_targets(user_request: Optional[str] = None, top_k: int = 3) -> str:
     """Return likely case files that should be modified for a user request."""
     effective_request = user_request or _current_user_request.get()
     if not effective_request:
         return "No user_request provided and no retrieval context is available."
+    top_k = max(1, min(int(top_k), 5))
     return _CLIENT.call_tool(
         "get_modification_targets",
         {
@@ -280,7 +282,7 @@ def mcp_search_case_content(
     case_path: Optional[str] = None,
     file_path: Optional[str] = None,
     variable_name: Optional[str] = None,
-    top_k: int = 5,
+    top_k: int = 3,
     include_file_content: bool = False,
     max_iterations: int = 1,
 ) -> str:
@@ -288,6 +290,8 @@ def mcp_search_case_content(
     effective_query = _effective_query(query, user_query)
     if not effective_query and not (file_path or variable_name):
         return "No query/user_query provided and no retrieval context is available."
+    top_k = max(1, min(int(top_k), 5))
+    max_iterations = max(1, min(int(max_iterations), 2))
     return _CLIENT.call_tool(
         "search_case_content",
         {
@@ -302,11 +306,12 @@ def mcp_search_case_content(
     )
 
 
-def mcp_search_user_guide(query: Optional[str] = None, user_query: Optional[str] = None, top_k: int = 5) -> str:
+def mcp_search_user_guide(query: Optional[str] = None, user_query: Optional[str] = None, top_k: int = 3) -> str:
     """Search the BlastFoam user guide knowledge graph through MCP."""
     effective_query = _effective_query(query, user_query)
     if not effective_query:
         return "No query/user_query provided and no retrieval context is available."
+    top_k = max(1, min(int(top_k), 5))
     return _CLIENT.call_tool("search_user_guide", {"query": effective_query, "top_k": top_k})
 
 

@@ -8,8 +8,8 @@ from principia_ai.tools.context import resolve_tool_path
 
 
 RUNTIME_DIR_NAMES = {"postProcessing", "VTK", "polyMesh"}
-DEFAULT_MAX_MATCHES = 200
-DEFAULT_MAX_CHARS = 20000
+DEFAULT_MAX_MATCHES = 80
+DEFAULT_MAX_CHARS = 12000
 
 
 def _is_numeric_time_dir(name: str) -> bool:
@@ -45,8 +45,8 @@ def file_search(
     """
     try:
         search_path = resolve_tool_path(path, default_to_case=True)
-        max_matches = max(1, min(int(max_matches), 1000))
-        max_chars = max(1000, min(int(max_chars), 200000))
+        max_matches = max(1, min(int(max_matches), 300))
+        max_chars = max(1000, min(int(max_chars), 50000))
         matches = []
         truncated = False
 
