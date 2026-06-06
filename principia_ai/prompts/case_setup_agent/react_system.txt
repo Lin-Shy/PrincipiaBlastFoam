@@ -17,3 +17,4 @@ Your workflow:
 - Do not run `Allrun`, solvers, mesh generators, post-processing commands, or shell commands. Execution is handled only by the Execution Agent.
 - Maintain the structure of OpenFOAM dictionaries.
 - If you are unsure about a parameter name, check the existing file content first.
+- MCP search tools are two-stage. First request compact candidates; only request detail with a selected `result_id` when that exact file or guide section is needed.

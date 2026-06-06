@@ -285,13 +285,17 @@ def mcp_search_case_content(
     top_k: int = 3,
     include_file_content: bool = False,
     max_iterations: int = 1,
+    detail_level: str = "candidates",
+    result_id: Optional[str] = None,
+    max_detail_lines: int = 120,
 ) -> str:
-    """Search case knowledge with scoped filters before falling back to full-graph retrieval."""
+    """Search case knowledge in two stages: candidates first, detail by result_id only when needed."""
     effective_query = _effective_query(query, user_query)
-    if not effective_query and not (file_path or variable_name):
+    if not effective_query and not (file_path or variable_name or result_id):
         return "No query/user_query provided and no retrieval context is available."
     top_k = max(1, min(int(top_k), 5))
     max_iterations = max(1, min(int(max_iterations), 2))
+    max_detail_lines = max(10, min(int(max_detail_lines), 200))
     return _CLIENT.call_tool(
         "search_case_content",
         {
@@ -302,17 +306,34 @@ def mcp_search_case_content(
             "top_k": top_k,
             "include_file_content": include_file_content,
             "max_iterations": max_iterations,
+            "detail_level": detail_level,
+            "result_id": result_id,
+            "max_detail_lines": max_detail_lines,
         },
     )
 
 
-def mcp_search_user_guide(query: Optional[str] = None, user_query: Optional[str] = None, top_k: int = 3) -> str:
-    """Search the BlastFoam user guide knowledge graph through MCP."""
+def mcp_search_user_guide(
+    query: Optional[str] = None,
+    user_query: Optional[str] = None,
+    top_k: int = 3,
+    detail_level: str = "candidates",
+    result_id: Optional[str] = None,
+) -> str:
+    """Search the BlastFoam user guide in two stages: candidates first, detail by result_id only when needed."""
     effective_query = _effective_query(query, user_query)
-    if not effective_query:
+    if not effective_query and not result_id:
         return "No query/user_query provided and no retrieval context is available."
     top_k = max(1, min(int(top_k), 5))
-    return _CLIENT.call_tool("search_user_guide", {"query": effective_query, "top_k": top_k})
+    return _CLIENT.call_tool(
+        "search_user_guide",
+        {
+            "query": effective_query,
+            "top_k": top_k,
+            "detail_level": detail_level,
+            "result_id": result_id,
+        },
+    )
 
 
 def get_mcp_retrieval_tools(
@@ -365,9 +386,9 @@ def get_mcp_retrieval_tools(
                     mcp_search_case_content,
                     name="search_case_content",
                     description=(
-                        "Search blastFoam tutorial case knowledge. Prefer passing case_path, file_path, or "
-                        "variable_name to scope retrieval; the tool falls back to full-graph retrieval only "
-                        "when scoped lookup has no hit."
+                        "Two-stage search for blastFoam tutorial case knowledge. Default detail_level='candidates' "
+                        "returns compact candidates with result_id. Use detail_level='detail' with a selected "
+                        "result_id only when file content is required; use detail_level='full' only for rare deep dives."
                     ),
                 ),
             ]
@@ -378,7 +399,10 @@ def get_mcp_retrieval_tools(
             StructuredTool.from_function(
                 mcp_search_user_guide,
                 name="search_user_guide",
-                description="Search the BlastFoam user guide through the shared MCP retrieval server.",
+                description=(
+                    "Two-stage search for the BlastFoam user guide. Default detail_level='candidates' returns compact "
+                    "section candidates with result_id. Use detail_level='detail' with result_id only for needed content."
+                ),
             )
         )
 

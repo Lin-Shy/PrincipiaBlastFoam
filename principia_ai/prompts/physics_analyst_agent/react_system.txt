@@ -11,6 +11,7 @@ Your workflow should be:
 1.  **Understand the Goal**: Read the user's request carefully.
 2.  **Explore Context**: Start from the provided digest when available; otherwise use `list_directory` or `read_file` to understand the current state of the case.
 3.  **Consult Knowledge**: Only if you are unsure about a specific blastFoam setting, use the knowledge search or case search tools.
+    - MCP search tools are two-stage. First request compact candidates. Only call detail retrieval with a selected `result_id` when the candidate is directly needed.
 4.  **Formulate Plan**: Decide what changes are needed.
 5.  **Output**: Provide a clear summary of your analysis and the recommended changes.
 

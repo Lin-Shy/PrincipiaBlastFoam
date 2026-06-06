@@ -10,6 +10,8 @@ from principia_ai.agents.orchestrator import OrchestratorAgent
 from principia_ai.agents.execution_agent import ExecutionAgent
 from principia_ai.agents.physics_analyst_agent import PhysicsAnalystAgent
 from principia_ai.agents.reviewer import ReviewerAgent
+from mcp_servers.principia_retrieval.retrieval_service import PrincipiaRetrievalService
+from principia_ai.tools import mcp_retrieval_tools
 from principia_ai.agents.workflow import WorkflowApp, _checkpointing_enabled
 from principia_ai.agents.orchestrator import RouteDecision
 from principia_ai.tools.context import scoped_tool_context
@@ -483,6 +485,129 @@ def test_mcp_adapter_tool_filter_respects_retriever_flags():
 
     assert [tool.name for tool in tutorial_only] == ["principia_retrieval__get_case_by_intent"]
     assert [tool.name for tool in guide_only] == ["search_user_guide"]
+
+
+def test_mcp_case_search_returns_candidates_then_detail():
+    service = PrincipiaRetrievalService.__new__(PrincipiaRetrievalService)
+    service._detail_cache = {}
+    service._detail_cache_order = []
+    service._resolve_case_path = lambda _value: "blastFoam/freeField"
+    service._score_case_files = lambda case_path, query, top_k=5: [
+        {
+            "rank": 1,
+            "score": 85.0,
+            "case_path": case_path,
+            "file_path": "system/controlDict",
+            "node_id": "file-control",
+            "content": "this full content should not be returned in candidate mode",
+        }
+    ]
+    service.get_file_content = lambda case_path, file_path, max_lines=120: {
+        "found": True,
+        "case_path": case_path,
+        "file_path": file_path,
+        "content": "application blastFoam;\nendTime 0.001;",
+        "max_lines": max_lines,
+    }
+
+    candidates = service.search_case_content("endTime writeInterval", case_path="free field")
+
+    assert candidates["detail_level"] == "candidates"
+    assert candidates["results"][0]["file_path"] == "system/controlDict"
+    assert "content" not in candidates["results"][0]
+    result_id = candidates["results"][0]["result_id"]
+
+    detail = service.search_case_content(detail_level="detail", result_id=result_id, max_detail_lines=40)
+
+    assert detail["detail_level"] == "detail"
+    assert detail["content"].startswith("application blastFoam")
+    assert detail["max_lines"] == 40
+
+
+def test_mcp_user_guide_search_returns_candidates_then_detail():
+    class FakeGuide:
+        id_to_node = {"sec-1": {"number": "4.2", "title": "Time integration"}}
+
+        def _identify_relevant_chapters(self, _query):
+            return ["ch4"]
+
+        def _identify_relevant_sections(self, _query, _chapter_ids):
+            return ["sec-1"]
+
+        def _identify_relevant_subsections(self, _query, _section_ids):
+            return []
+
+        def _rank_candidates(self, query, chapter_ids, section_ids, subsection_ids, top_k):
+            return ["sec-1"]
+
+        def _build_structured_results(self, _node_ids, top_k=5):
+            return [
+                {
+                    "node_id": "sec-1",
+                    "canonical_id": "sec-1",
+                    "number": "4.2",
+                    "title": "Time integration",
+                    "score": 1.0,
+                }
+            ]
+
+        def _retrieve_full_content(self, node_ids):
+            return "Full guide content for " + ",".join(node_ids)
+
+    service = PrincipiaRetrievalService.__new__(PrincipiaRetrievalService)
+    service._detail_cache = {}
+    service._detail_cache_order = []
+    service.user_guide_retriever = FakeGuide()
+
+    candidates = service.search_user_guide("RK4 time integration", top_k=1)
+
+    assert candidates["detail_level"] == "candidates"
+    assert candidates["results"][0]["title"] == "Time integration"
+    assert "content" not in candidates["results"][0]
+    result_id = candidates["results"][0]["result_id"]
+
+    detail = service.search_user_guide(detail_level="detail", result_id=result_id)
+
+    assert detail["detail_level"] == "detail"
+    assert detail["content"] == "Full guide content for sec-1"
+
+
+def test_mcp_wrapper_passes_two_stage_detail_arguments(monkeypatch):
+    class FakeClient:
+        def __init__(self):
+            self.calls = []
+
+        def call_tool(self, name, arguments):
+            self.calls.append((name, arguments))
+            return "ok"
+
+    fake_client = FakeClient()
+    monkeypatch.setattr(mcp_retrieval_tools, "_CLIENT", fake_client)
+
+    output = mcp_retrieval_tools.mcp_search_case_content(
+        detail_level="detail",
+        result_id="case_file:abc123",
+        max_detail_lines=40,
+    )
+
+    assert output == "ok"
+    assert fake_client.calls == [
+        (
+            "search_case_content",
+            {
+                "query": "",
+                "case_path": None,
+                "file_path": None,
+                "variable_name": None,
+                "top_k": 3,
+                "include_file_content": False,
+                "max_iterations": 1,
+                "detail_level": "detail",
+                "result_id": "case_file:abc123",
+                "max_detail_lines": 40,
+            },
+        )
+    ]
 
 
 def test_secret_redaction_masks_common_secret_shapes():

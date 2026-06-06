@@ -3,6 +3,8 @@ from __future__ import annotations
 import os
 import re
 import sys
+import hashlib
+import json
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -239,6 +241,108 @@ class PrincipiaRetrievalService:
             llm_model=llm_config["model"],
         )
         self.user_guide_retriever: Optional[UserGuideKnowledgeGraphRetriever] = None
+        self._detail_cache: Dict[str, Dict[str, Any]] = {}
+        self._detail_cache_order: List[str] = []
+
+    def _cache_limit(self) -> int:
+        try:
+            return max(20, min(int(os.getenv("MCP_RETRIEVAL_DETAIL_CACHE_SIZE", "200")), 1000))
+        except ValueError:
+            return 200
+
+    def _register_detail_result(self, kind: str, payload: Dict[str, Any]) -> str:
+        serialized = json.dumps({"kind": kind, **payload}, sort_keys=True, ensure_ascii=False, default=str)
+        result_id = f"{kind}:{hashlib.sha1(serialized.encode('utf-8')).hexdigest()[:16]}"
+        if result_id not in self._detail_cache:
+            self._detail_cache_order.append(result_id)
+        self._detail_cache[result_id] = {"kind": kind, **payload}
+        while len(self._detail_cache_order) > self._cache_limit():
+            stale = self._detail_cache_order.pop(0)
+            self._detail_cache.pop(stale, None)
+        return result_id
+
+    def _detail_instruction(self, tool_name: str) -> str:
+        return (
+            f"Use {tool_name} with detail_level='detail' and the selected result_id to retrieve full content. "
+            "Only request detail for candidates that are needed for the current reasoning step."
+        )
+
+    def _candidate_case_file(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        case_path = str(item.get("case_path") or "")
+        file_path = str(item.get("file_path") or "")
+        candidate = {
+            key: value
+            for key, value in item.items()
+            if key not in {"content", "file_content"}
+        }
+        if case_path and file_path:
+            candidate["result_id"] = self._register_detail_result(
+                "case_file",
+                {
+                    "case_path": case_path,
+                    "file_path": file_path,
+                    "source": "search_case_content",
+                },
+            )
+        return candidate
+
+    def _candidate_user_guide_node(self, item: Dict[str, Any]) -> Dict[str, Any]:
+        node_id = str(item.get("node_id") or item.get("canonical_id") or "")
+        candidate = dict(item)
+        if node_id:
+            candidate["result_id"] = self._register_detail_result(
+                "user_guide_node",
+                {
+                    "node_id": node_id,
+                    "source": "search_user_guide",
+                },
+            )
+        return candidate
+
+    def _detail_from_result_id(self, result_id: Optional[str], max_lines: int = 120) -> Optional[Dict[str, Any]]:
+        if not result_id:
+            return None
+        entry = self._detail_cache.get(result_id)
+        if not entry:
+            return {
+                "found": False,
+                "result_id": result_id,
+                "reason": "Unknown or expired result_id. Repeat candidate retrieval and select a fresh result_id.",
+            }
+
+        kind = entry.get("kind")
+        if kind == "case_file":
+            detail = self.get_file_content(
+                str(entry.get("case_path") or ""),
+                str(entry.get("file_path") or ""),
+                max_lines=max_lines,
+            )
+            detail["result_id"] = result_id
+            detail["detail_level"] = "detail"
+            return detail
+
+        if kind == "user_guide_node":
+            if self.user_guide_retriever is None:
+                llm_config = resolve_retrieval_llm_config()
+                self.user_guide_retriever = UserGuideKnowledgeGraphRetriever(
+                    llm_api_key=llm_config["api_key"],
+                    llm_base_url=llm_config["base_url"],
+                    llm_model=llm_config["model"],
+                )
+            node_id = str(entry.get("node_id") or "")
+            content = self.user_guide_retriever._retrieve_full_content([node_id])
+            node = self.user_guide_retriever.id_to_node.get(node_id, {})
+            return {
+                "found": bool(node_id and node),
+                "result_id": result_id,
+                "detail_level": "detail",
+                "node_id": node_id,
+                "number": node.get("number"),
+                "title": node.get("title"),
+                "content": content,
+            }
+
+        return {"found": False, "result_id": result_id, "reason": f"Unsupported result kind: {kind}"}
 
     def get_status(self) -> Dict[str, Any]:
         return {
@@ -408,17 +512,21 @@ class PrincipiaRetrievalService:
         scored_targets.sort(key=lambda pair: (-pair[0], str(pair[1]["file_path"])))
         targets = []
         for rank, (score, item) in enumerate(scored_targets[: max(1, int(top_k))], start=1):
-            targets.append(
-                {
-                    "rank": rank,
-                    "score": score,
-                    "case_path": case_path,
-                    "file_path": item["file_path"],
-                    "node_id": item["node_id"],
-                }
-            )
+            target = {
+                "rank": rank,
+                "score": score,
+                "case_path": case_path,
+                "file_path": item["file_path"],
+                "node_id": item["node_id"],
+            }
+            targets.append(self._candidate_case_file(target))
 
-        return {"found": bool(targets), "case_path": case_path, "targets": targets}
+        return {
+            "found": bool(targets),
+            "case_path": case_path,
+            "targets": targets,
+            "detail_instruction": self._detail_instruction("search_case_content"),
+        }
 
     def _score_case_files(self, case_path: str, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
         files_info = self.get_files_for_case(case_path)
@@ -462,63 +570,144 @@ class PrincipiaRetrievalService:
 
     def search_case_content(
         self,
-        query: str,
+        query: str = "",
         case_path: Optional[str] = None,
         file_path: Optional[str] = None,
         variable_name: Optional[str] = None,
         top_k: int = 5,
         include_file_content: bool = False,
         max_iterations: int = 1,
+        detail_level: str = "candidates",
+        result_id: Optional[str] = None,
+        max_detail_lines: int = 120,
     ) -> Dict[str, Any]:
+        normalized_detail_level = str(detail_level or "candidates").strip().lower()
+        if normalized_detail_level in {"detail", "content"}:
+            detail = self._detail_from_result_id(result_id, max_lines=max_detail_lines)
+            if detail is not None:
+                return detail
+            if case_path and file_path:
+                detail = self.get_file_content(case_path, file_path, max_lines=max_detail_lines)
+                detail["detail_level"] = "detail"
+                return detail
+            return {
+                "found": False,
+                "detail_level": "detail",
+                "reason": "detail_level='detail' requires result_id or case_path plus file_path.",
+            }
+
+        full_mode = normalized_detail_level in {"full", "legacy", "all"} or bool(include_file_content)
         resolved_case = self._resolve_case_path(case_path or "") if case_path else None
 
         if resolved_case and file_path:
-            content = self.get_file_content(resolved_case, file_path, max_lines=120 if include_file_content else 40)
+            if full_mode or include_file_content:
+                content = self.get_file_content(resolved_case, file_path, max_lines=max_detail_lines)
+                return {
+                    "found": content.get("found", False),
+                    "strategy": "scoped_file_content",
+                    "case_path": resolved_case,
+                    "results": [content] if content.get("found") else [],
+                    "fallback_used": False,
+                    "detail_level": "full" if full_mode else "detail",
+                }
+            candidate = self._candidate_case_file(
+                {
+                    "rank": 1,
+                    "score": 1.0,
+                    "case_path": resolved_case,
+                    "file_path": str(file_path).strip().lstrip("/"),
+                    "strategy": "scoped_file_content",
+                }
+            )
             return {
-                "found": content.get("found", False),
-                "strategy": "scoped_file_content",
+                "found": True,
+                "strategy": "scoped_file_candidate",
                 "case_path": resolved_case,
-                "results": [content] if content.get("found") else [],
+                "results": [candidate],
                 "fallback_used": False,
+                "detail_level": "candidates",
+                "text": "Candidate file found. Retrieve detail only if this file is needed.",
+                "detail_instruction": self._detail_instruction("search_case_content"),
             }
 
         if resolved_case and variable_name:
             variable_result = self.find_variable(resolved_case, variable_name)
+            matches = []
+            for item in variable_result.get("matches", []):
+                match = dict(item)
+                if match.get("case_path") and match.get("file_path"):
+                    match = self._candidate_case_file(match)
+                matches.append(match)
             return {
                 "found": variable_result.get("found", False),
                 "strategy": "scoped_variable_lookup",
                 "case_path": resolved_case,
-                "results": variable_result.get("matches", []),
+                "results": matches,
                 "fallback_used": False,
+                "detail_level": "candidates",
+                "text": "Variable matches returned as file candidates.",
+                "detail_instruction": self._detail_instruction("search_case_content"),
             }
 
         if resolved_case:
             scoped_results = self._score_case_files(resolved_case, query, top_k=top_k)
             if scoped_results:
-                if include_file_content:
+                if full_mode or include_file_content:
                     for item in scoped_results:
                         content = self.get_file_content(resolved_case, item["file_path"], max_lines=80)
                         item["content"] = content.get("content", "")
+                    detail_level_out = "full" if full_mode else "detail"
+                else:
+                    scoped_results = [self._candidate_case_file(item) for item in scoped_results]
+                    detail_level_out = "candidates"
                 return {
                     "found": True,
                     "strategy": "scoped_case_file_rules",
                     "case_path": resolved_case,
                     "results": scoped_results,
                     "fallback_used": False,
+                    "detail_level": detail_level_out,
+                    "text": (
+                        "Scoped file candidates returned. "
+                        "Retrieve detail only for files required by the current reasoning step."
+                    ),
+                    "detail_instruction": self._detail_instruction("search_case_content"),
                 }
 
         result = self.case_retriever.search_detailed(
             query,
             top_k=top_k,
-            include_file_content=include_file_content,
+            include_file_content=include_file_content if full_mode else False,
             max_iterations=max_iterations,
         )
+        if not full_mode:
+            structured_results = [
+                self._candidate_case_file(item)
+                for item in result.get("structured_results", [])
+                if isinstance(item, dict)
+            ]
+            result = {
+                "found": bool(structured_results),
+                "strategy": "fallback_candidate_search",
+                "text": "Candidate retrieval returned structured case/file hits without full file content.",
+                "structured_results": structured_results,
+                "results": structured_results,
+                "node_ids": result.get("node_ids", []),
+                "detail_level": "candidates",
+                "detail_instruction": self._detail_instruction("search_case_content"),
+            }
         if resolved_case:
             result["scoped_case_path"] = resolved_case
             result["fallback_used"] = True
         return result
 
-    def search_user_guide(self, query: str, top_k: int = 5) -> Dict[str, Any]:
+    def search_user_guide(
+        self,
+        query: str = "",
+        top_k: int = 5,
+        detail_level: str = "candidates",
+        result_id: Optional[str] = None,
+    ) -> Dict[str, Any]:
         if self.user_guide_retriever is None:
             llm_config = resolve_retrieval_llm_config()
             self.user_guide_retriever = UserGuideKnowledgeGraphRetriever(
@@ -526,7 +715,48 @@ class PrincipiaRetrievalService:
                 llm_base_url=llm_config["base_url"],
                 llm_model=llm_config["model"],
             )
-        return self.user_guide_retriever.search_detailed(query, top_k=top_k)
+
+        normalized_detail_level = str(detail_level or "candidates").strip().lower()
+        if normalized_detail_level in {"detail", "content"}:
+            detail = self._detail_from_result_id(result_id, max_lines=120)
+            if detail is not None:
+                return detail
+            return {
+                "found": False,
+                "detail_level": "detail",
+                "reason": "detail_level='detail' requires a result_id from search_user_guide candidates.",
+            }
+
+        if normalized_detail_level in {"full", "legacy", "all"}:
+            result = self.user_guide_retriever.search_detailed(query, top_k=top_k)
+            result["detail_level"] = "full"
+            return result
+
+        chapter_ids = self.user_guide_retriever._identify_relevant_chapters(query)
+        section_ids = self.user_guide_retriever._identify_relevant_sections(query, chapter_ids)
+        subsection_ids = self.user_guide_retriever._identify_relevant_subsections(query, section_ids)
+        ranked_node_ids = self.user_guide_retriever._rank_candidates(
+            query=query,
+            chapter_ids=chapter_ids,
+            section_ids=section_ids,
+            subsection_ids=subsection_ids,
+            top_k=top_k,
+        )
+        structured_results = self.user_guide_retriever._build_structured_results(
+            ranked_node_ids,
+            top_k=top_k,
+        )
+        candidates = [self._candidate_user_guide_node(item) for item in structured_results]
+        return {
+            "found": bool(candidates),
+            "strategy": "user_guide_candidate_search",
+            "detail_level": "candidates",
+            "text": "User-guide section candidates returned without full documentation content.",
+            "results": candidates,
+            "structured_results": candidates,
+            "node_ids": [str(item.get("node_id")) for item in candidates if item.get("node_id")],
+            "detail_instruction": self._detail_instruction("search_user_guide"),
+        }
 
 
 @lru_cache(maxsize=1)

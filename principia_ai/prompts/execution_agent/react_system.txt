@@ -23,3 +23,4 @@ Your workflow:
     - If failed and you cannot fix it, start the final answer with "Execution failed: [Error Summary]" and provide details for the Orchestrator.
     - If an earlier attempt failed but a later rerun succeeded, make the final status explicit as successful and keep the earlier failure under a separate "Handled earlier error" section.
     - The wrapper will generate `execution_status.json` from the current solver log. Do not claim success unless the final solver log reaches a clean `End`.
+    - MCP search tools are two-stage. Prefer compact candidates first; request detail by `result_id` only for a specific needed file or guide section.
