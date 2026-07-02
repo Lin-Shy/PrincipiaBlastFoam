@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "principia-blastfoam-deepagents"
+version = "0.1.0"
+description = "Deep Agents based automation system for blastFoam/OpenFOAM workflows."
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+dependencies = [
+    "deepagents==0.6.12",
+    "langchain>=1.0",
+    "langchain-openai>=1.0",
+    "langchain-mcp-adapters>=0.3,<0.4",
+    "langgraph>=1.0",
+    "mcp>=1.27.1",
+    "python-dotenv>=1.1",
+    "pydantic>=2.11",
+    "pydantic-settings>=2.9",
+    "requests>=2.32",
+    "networkx>=3.4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+]
+retrieval = [
+    "numpy>=2.2",
+    "pandas>=2.2",
+]
+
+[project.scripts]
+principia-deepagents = "principia_deepagents.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+addopts = "-q"

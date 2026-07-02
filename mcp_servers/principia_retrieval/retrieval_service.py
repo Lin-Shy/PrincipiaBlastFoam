@@ -18,11 +18,11 @@ if str(PROJECT_ROOT) not in sys.path:
 
 load_dotenv(PROJECT_ROOT / ".env", override=False)
 
-from principia_ai.retrieval.case_content_knowledge_graph import (  # noqa: E402
+from principia_deepagents.retrieval.case_content_knowledge_graph import (  # noqa: E402
     CaseContentKnowledgeGraphRetriever,
 )
-from principia_ai.tools.retrieval_llm_config import resolve_retrieval_llm_config  # noqa: E402
-from principia_ai.retrieval.user_guide_knowledge_graph import (  # noqa: E402
+from principia_deepagents.tools.retrieval_llm_config import resolve_retrieval_llm_config  # noqa: E402
+from principia_deepagents.retrieval.user_guide_knowledge_graph import (  # noqa: E402
     UserGuideKnowledgeGraphRetriever,
 )
 

@@ -11,7 +11,7 @@ from typing import Dict
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 RETRIEVAL_DIR = PROJECT_ROOT / "dataset" / "retrieval"
 BENCHMARKS_DIR = RETRIEVAL_DIR / "benchmarks"
-RESULTS_DIR = PROJECT_ROOT / "experiments" / "retrieval_method" / "results"
+RESULTS_DIR = RETRIEVAL_DIR / "results"
 
 
 BENCHMARK_CONFIGS: Dict[str, Dict[str, object]] = {
@@ -19,7 +19,7 @@ BENCHMARK_CONFIGS: Dict[str, Dict[str, object]] = {
         "label": "Case Content",
         "default_dataset": BENCHMARKS_DIR / "case_content" / "blastfoam_retrieval_validation_dataset_strict.json",
         "default_results_dir": RESULTS_DIR / "case_content",
-        "knowledge_graph_module": PROJECT_ROOT / "principia_ai" / "retrieval" / "case_content_knowledge_graph.py",
+        "knowledge_graph_module": PROJECT_ROOT / "src" / "principia_deepagents" / "retrieval" / "case_content_knowledge_graph.py",
         "knowledge_graph_class": "CaseContentKnowledgeGraphRetriever",
         "summary_metrics": (
             "mrr",
@@ -37,7 +37,7 @@ BENCHMARK_CONFIGS: Dict[str, Dict[str, object]] = {
         "label": "User Guide",
         "default_dataset": BENCHMARKS_DIR / "user_guide" / "user_guide_retrieval_validation_dataset.json",
         "default_results_dir": RESULTS_DIR / "user_guide",
-        "knowledge_graph_module": PROJECT_ROOT / "principia_ai" / "retrieval" / "user_guide_knowledge_graph.py",
+        "knowledge_graph_module": PROJECT_ROOT / "src" / "principia_deepagents" / "retrieval" / "user_guide_knowledge_graph.py",
         "knowledge_graph_class": "UserGuideKnowledgeGraphRetriever",
         "summary_metrics": (
             "mrr",
