@@ -17,6 +17,10 @@ python run_workflow.py --help
 python run_batch_workflow.py --help
 ```
 
+Select models through `--model-profile` or `PRINCIPIA_MODEL_PROFILE`. The
+profile registry is `config/model_profiles.json`; `.env` only needs provider
+API keys and local runtime switches.
+
 Run a non-execution workflow:
 
 ```bash
@@ -24,7 +28,7 @@ python run_workflow.py \
   --case-path /tmp/principia_deepagents_surfaceburst \
   --user-request "模拟一个触地爆场景，并修改爆炸场景的最远比例距离接近3。" \
   --tutorial-path /data/graduation-projects/blastFoam_tutorials \
-  --llm-active-profile deepseek_v4_flash \
+  --model-profile deepseek_v4_flash \
   --retrieval-llm-active-profile deepseek_v4_flash
 ```
 

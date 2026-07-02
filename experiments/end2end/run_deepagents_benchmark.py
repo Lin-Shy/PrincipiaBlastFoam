@@ -21,6 +21,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from dotenv import load_dotenv
+
+from principia_deepagents.utils.model_profiles import (
+    get_model_profile,
+    normalize_profile_id,
+    resolve_profile_api_key,
+)
 from principia_deepagents.utils.time_dirs import discover_numeric_time_dirs, unique_numeric_time_values
 
 
@@ -75,7 +82,9 @@ def command_for_case(args: argparse.Namespace, case_path: Path, user_request: st
         command.append("--no-mcp")
     if args.env_file:
         command.extend(["--env-file", str(args.env_file)])
-    if args.llm_active_profile:
+    if args.model_profile:
+        command.extend(["--model-profile", args.model_profile])
+    elif args.llm_active_profile:
         command.extend(["--llm-active-profile", args.llm_active_profile])
     if args.retrieval_llm_active_profile:
         command.extend(["--retrieval-llm-active-profile", args.retrieval_llm_active_profile])
@@ -140,6 +149,60 @@ def run_command(
         "timed_out": timed_out,
         "dry_run": False,
     }
+
+
+def load_benchmark_env(env_file: Path | None) -> None:
+    load_dotenv(env_file or PROJECT_ROOT / ".env", override=False)
+
+
+def _legacy_profile_env_prefix(profile_name: str) -> str:
+    normalized = "".join(char if char.isalnum() else "_" for char in profile_name.strip().upper())
+    normalized = "_".join(part for part in normalized.split("_") if part)
+    return f"LLM_PROFILE_{normalized}" if normalized else ""
+
+
+def selected_model_profile(args: argparse.Namespace) -> str | None:
+    return (
+        args.model_profile
+        or args.llm_active_profile
+        or os.getenv("PRINCIPIA_MODEL_PROFILE")
+        or os.getenv("LLM_ACTIVE_PROFILE")
+    )
+
+
+def model_profile_metadata(args: argparse.Namespace) -> dict[str, Any]:
+    profile_name = selected_model_profile(args)
+    payload: dict[str, Any] = {
+        "requested_model_profile": args.model_profile,
+        "legacy_llm_active_profile": args.llm_active_profile,
+        "retrieval_llm_active_profile": args.retrieval_llm_active_profile,
+        "resolved_profile": None,
+    }
+    if not profile_name:
+        payload["legacy_llm_env"] = {
+            "provider": os.getenv("LLM_PROVIDER"),
+            "model": os.getenv("LLM_MODEL"),
+            "base_url": os.getenv("LLM_API_BASE_URL"),
+        }
+        return payload
+
+    profile = get_model_profile(profile_name)
+    if profile is not None:
+        _, selected_api_key_env = resolve_profile_api_key(profile)
+        payload["resolved_profile"] = profile.public_metadata(selected_api_key_env=selected_api_key_env)
+        return payload
+
+    prefix = _legacy_profile_env_prefix(profile_name)
+    payload["resolved_profile"] = {
+        "id": normalize_profile_id(profile_name),
+        "display_name": profile_name,
+        "source": "legacy_llm_profile_env",
+        "provider": os.getenv(f"{prefix}_PROVIDER"),
+        "model": os.getenv(f"{prefix}_MODEL"),
+        "base_url": os.getenv(f"{prefix}_API_BASE_URL") or os.getenv(f"{prefix}_BASE_URL"),
+        "selected_api_key_env": f"{prefix}_API_KEY" if prefix else None,
+    }
+    return payload
 
 
 def _kill_process_group(process: subprocess.Popen, sig: int) -> None:
@@ -283,6 +346,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--timeout", type=int, default=3600)
     parser.add_argument("--workflow-mode", choices=["prepare", "run"], default="run")
     parser.add_argument("--env-file", type=Path, default=None)
+    parser.add_argument("--model-profile", default=None)
     parser.add_argument("--llm-active-profile", default=None)
     parser.add_argument("--retrieval-llm-active-profile", default=None)
     parser.add_argument("--recursion-limit", type=int, default=None)
@@ -309,8 +373,12 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+    load_benchmark_env(args.env_file)
+    if not args.model_profile and not args.llm_active_profile:
+        args.model_profile = os.getenv("PRINCIPIA_MODEL_PROFILE")
     payload = load_cases(args.cases_file)
     selected = select_cases(payload["cases"], args.limit, args.case_id)
+    profile_metadata = model_profile_metadata(args)
 
     run_id = f"deepagents_{args.workflow_mode}_{utc_timestamp()}"
     output_root = args.output_root / run_id
@@ -340,6 +408,7 @@ def main() -> int:
             "case_id": case_id,
             "title": case.get("title"),
             "workflow_mode": args.workflow_mode,
+            "model_profile": profile_metadata,
             "command": command,
             "run": run,
             "summary": summary,
@@ -357,6 +426,7 @@ def main() -> int:
         "benchmark_version": payload.get("version"),
         "run_id": run_id,
         "workflow_mode": args.workflow_mode,
+        "model_profile": profile_metadata,
         "output_root": str(output_root),
         "aggregate": aggregate,
         "results": results,

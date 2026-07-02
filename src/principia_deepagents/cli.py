@@ -40,7 +40,16 @@ def _add_runtime_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--user-request", default=DEFAULT_USER_REQUEST, help="Natural-language task.")
     parser.add_argument("--tutorial-path", default=os.getenv("BLASTFOAM_TUTORIALS", DEFAULT_TUTORIAL_PATH))
     parser.add_argument("--env-file", default=None, help="Optional .env file path.")
-    parser.add_argument("--llm-active-profile", default=os.getenv("LLM_ACTIVE_PROFILE"))
+    parser.add_argument(
+        "--model-profile",
+        default=os.getenv("PRINCIPIA_MODEL_PROFILE"),
+        help="Model profile id from config/model_profiles.json.",
+    )
+    parser.add_argument(
+        "--llm-active-profile",
+        default=os.getenv("LLM_ACTIVE_PROFILE"),
+        help="Deprecated alias for --model-profile.",
+    )
     parser.add_argument(
         "--retrieval-llm-active-profile",
         default=None,
@@ -71,6 +80,7 @@ def _config_from_args(args: argparse.Namespace):
         llm_api_base_url=args.llm_api_base_url,
         llm_api_key=args.llm_api_key,
         llm_model=args.llm_model,
+        model_profile=getattr(args, "model_profile", None),
         recursion_limit=args.recursion_limit,
         use_mcp_retrieval=not args.no_mcp,
     )
@@ -296,8 +306,10 @@ def cmd_execute(args: argparse.Namespace) -> int:
 
 def cmd_mcp_smoke(args: argparse.Namespace) -> int:
     load_project_env(args.env_file)
-    if args.llm_active_profile:
-        os.environ["LLM_ACTIVE_PROFILE"] = args.llm_active_profile
+    model_profile = args.model_profile or args.llm_active_profile
+    if model_profile:
+        os.environ["PRINCIPIA_MODEL_PROFILE"] = model_profile
+        os.environ["LLM_ACTIVE_PROFILE"] = model_profile
     if args.retrieval_llm_active_profile:
         os.environ["RETRIEVAL_LLM_ACTIVE_PROFILE"] = args.retrieval_llm_active_profile
     tools = load_mcp_retrieval_tools()
@@ -450,6 +462,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     smoke_parser = subparsers.add_parser("mcp-smoke", help="Load MCP retrieval tools.")
     smoke_parser.add_argument("--env-file", default=None)
+    smoke_parser.add_argument("--model-profile", default=os.getenv("PRINCIPIA_MODEL_PROFILE"))
     smoke_parser.add_argument("--llm-active-profile", default=os.getenv("LLM_ACTIVE_PROFILE"))
     smoke_parser.add_argument("--retrieval-llm-active-profile", default=None)
     smoke_parser.set_defaults(func=cmd_mcp_smoke)

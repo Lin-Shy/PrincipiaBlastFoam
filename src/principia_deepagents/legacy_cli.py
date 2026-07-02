@@ -29,6 +29,7 @@ def _common_runtime_args(parser: argparse.ArgumentParser) -> None:
         help="blastFoam tutorial root directory.",
     )
     parser.add_argument("--env-file", default=None, help="Optional .env file. Defaults to this project .env.")
+    parser.add_argument("--model-profile", default=os.getenv("PRINCIPIA_MODEL_PROFILE"))
     parser.add_argument("--llm-active-profile", default=os.getenv("LLM_ACTIVE_PROFILE"))
     parser.add_argument("--llm-provider", default=None)
     parser.add_argument("--llm-api-base-url", default=None)
@@ -93,6 +94,7 @@ def workflow_args_for_deepagents(args: argparse.Namespace) -> list[str]:
     ]
     optional_pairs = [
         ("--env-file", args.env_file),
+        ("--model-profile", args.model_profile),
         ("--llm-active-profile", args.llm_active_profile),
         ("--retrieval-llm-active-profile", args.retrieval_llm_active_profile),
         ("--llm-provider", args.llm_provider),
@@ -147,6 +149,7 @@ def build_batch_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output-base-dir", default=None)
     parser.add_argument("--results-file", default=None)
     parser.add_argument("--env-file", default=None)
+    parser.add_argument("--model-profile", default=os.getenv("PRINCIPIA_MODEL_PROFILE"))
     parser.add_argument("--llm-active-profile", default=os.getenv("LLM_ACTIVE_PROFILE"))
     parser.add_argument("--llm-provider", default=None)
     parser.add_argument("--llm-api-base-url", default=None)
@@ -197,6 +200,7 @@ def _workflow_argv_for_batch(args: argparse.Namespace, case_path: Path, user_req
     ]
     optional_pairs = [
         ("--env-file", args.env_file),
+        ("--model-profile", args.model_profile),
         ("--llm-active-profile", args.llm_active_profile),
         ("--retrieval-llm-active-profile", args.retrieval_llm_active_profile),
         ("--llm-provider", args.llm_provider),
@@ -231,6 +235,7 @@ def run_batch(args: argparse.Namespace) -> dict[str, object]:
         "modifications_file": str(modifications_file),
         "output_directory": str(output_base_dir),
         "tutorial_path": args.tutorial_path,
+        "model_profile": args.model_profile,
         "llm_active_profile": args.llm_active_profile,
         "results": [],
     }

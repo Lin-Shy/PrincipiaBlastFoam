@@ -23,6 +23,11 @@ pip install -e ".[dev]"
 ```
 
 项目直接使用当前目录下已有的 `.env`，该文件保持 git 忽略，不要提交或打印。
+模型厂商、模型名、base URL 等非密钥信息现在集中放在
+`config/model_profiles.json`；`.env` 只需要保存 `PRINCIPIA_MODEL_PROFILE`、
+各厂商 API key 和本地运行开关。旧的 `LLM_ACTIVE_PROFILE` 与
+`LLM_PROFILE_*` 仍兼容读取，但新增实验建议使用 `--model-profile`，这样本地
+实验归档可以稳定记录 profile id，而不需要在 `.env` 里重复维护模型元数据。
 
 ## 快速检查
 

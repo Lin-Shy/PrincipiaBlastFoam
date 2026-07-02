@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "default_profile": "deepseek_v4_flash",
+  "profiles": {
+    "deepseek_v4_flash": {
+      "display_name": "deepseek-v4-flash",
+      "provider": "deepseek",
+      "model_provider": "openai",
+      "model": "deepseek-v4-flash",
+      "base_url": "https://api.deepseek.com",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "legacy_api_key_env": "LLM_PROFILE_DEEPSEEK_V4_FLASH_API_KEY",
+      "aliases": ["deepseek-v4-flash"]
+    },
+    "deepseek_v4_pro": {
+      "display_name": "deepseek-v4-pro",
+      "provider": "deepseek",
+      "model_provider": "openai",
+      "model": "deepseek-v4-pro",
+      "base_url": "https://api.deepseek.com",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "legacy_api_key_env": "LLM_PROFILE_DEEPSEEK_V4_PRO_API_KEY",
+      "aliases": ["deepseek-v4-pro"]
+    },
+    "qwen_plus": {
+      "display_name": "qwen-plus",
+      "provider": "qwen",
+      "model_provider": "openai",
+      "model": "qwen-plus",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "api_key_env": "DASHSCOPE_API_KEY",
+      "legacy_api_key_env": "LLM_PROFILE_QWEN_PLUS_API_KEY",
+      "aliases": ["qwen-plus"]
+    },
+    "minimax_m27": {
+      "display_name": "MiniMax-M2.7",
+      "provider": "minimax",
+      "model_provider": "openai",
+      "model": "MiniMax-M2.7",
+      "base_url": "https://api.minimaxi.com/v1",
+      "api_key_env": "MINIMAX_API_KEY",
+      "legacy_api_key_env": "LLM_PROFILE_MINIMAX_M27_API_KEY",
+      "aliases": ["minimax-m27", "MiniMax-M2.7"]
+    },
+    "glm_47": {
+      "display_name": "glm-4.7",
+      "provider": "glm",
+      "model_provider": "openai",
+      "model": "glm-4.7",
+      "base_url": "https://open.bigmodel.cn/api/paas/v4",
+      "api_key_env": "ZHIPUAI_API_KEY",
+      "legacy_api_key_env": "LLM_PROFILE_GLM_47_API_KEY",
+      "aliases": ["glm-4.7", "zhipu-glm-4.7"]
+    },
+    "openai_gpt5": {
+      "display_name": "gpt-5",
+      "provider": "openai",
+      "model_provider": "openai",
+      "model": "gpt-5",
+      "base_url": "https://api.openai.com/v1",
+      "api_key_env": "OPENAI_API_KEY",
+      "legacy_api_key_env": "LLM_PROFILE_OPENAI_GPT5_API_KEY",
+      "aliases": ["gpt-5"]
+    }
+  }
+}

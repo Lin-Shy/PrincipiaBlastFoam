@@ -14,6 +14,12 @@ import os
 from dataclasses import asdict, dataclass, field
 from typing import Any, Mapping
 
+from principia_deepagents.utils.model_profiles import (
+    get_model_profile,
+    normalize_profile_id,
+    resolve_profile_api_key,
+)
+
 
 STRUCTURED_OUTPUT_MODES = {"json_schema", "json_object", "prompt_only", "disabled"}
 THINKING_MODES = {"auto", "enabled", "disabled", "passthrough"}
@@ -40,7 +46,12 @@ class LLMRuntimeConfig:
     model: str | None = None
     base_url: str | None = None
     provider: str | None = None
+    model_provider: str | None = None
     active_profile: str | None = None
+    profile_id: str | None = None
+    profile_label: str | None = None
+    api_key_env: str | None = None
+    profile_metadata: dict[str, Any] = field(default_factory=dict)
     source: str = "legacy"
 
 
@@ -67,9 +78,30 @@ def _env_first(*names: str) -> str | None:
 
 
 def _config_from_active_profile(active_profile: str | None = None) -> LLMRuntimeConfig:
-    profile_name = _normalize_profile_name(active_profile if active_profile is not None else os.getenv("LLM_ACTIVE_PROFILE"))
+    profile_name = _normalize_profile_name(
+        active_profile
+        if active_profile is not None
+        else os.getenv("PRINCIPIA_MODEL_PROFILE") or os.getenv("LLM_ACTIVE_PROFILE")
+    )
     if not profile_name:
         return LLMRuntimeConfig()
+
+    model_profile = get_model_profile(profile_name)
+    if model_profile is not None:
+        api_key, api_key_env = resolve_profile_api_key(model_profile)
+        return LLMRuntimeConfig(
+            api_key=api_key,
+            model=model_profile.model,
+            base_url=model_profile.base_url,
+            provider=model_profile.provider,
+            model_provider=model_profile.model_provider,
+            active_profile=model_profile.id,
+            profile_id=model_profile.id,
+            profile_label=model_profile.display_name,
+            api_key_env=api_key_env,
+            profile_metadata=model_profile.public_metadata(selected_api_key_env=api_key_env),
+            source="model_profile",
+        )
 
     prefix = _profile_env_prefix(profile_name)
     if not prefix:
@@ -80,9 +112,23 @@ def _config_from_active_profile(active_profile: str | None = None) -> LLMRuntime
         model=_env_first(f"{prefix}_MODEL"),
         base_url=_env_first(f"{prefix}_API_BASE_URL", f"{prefix}_BASE_URL"),
         provider=_env_first(f"{prefix}_PROVIDER"),
+        model_provider=_env_first(f"{prefix}_MODEL_PROVIDER") or "openai",
         active_profile=profile_name,
+        profile_id=normalize_profile_id(profile_name),
+        profile_label=profile_name,
+        api_key_env=f"{prefix}_API_KEY",
         source="profile",
     )
+
+
+def _model_provider_for(provider: str | None, explicit_model_provider: str | None = None) -> str | None:
+    model_provider = _normalize(explicit_model_provider or os.getenv("PRINCIPIA_MODEL_PROVIDER") or os.getenv("LLM_MODEL_PROVIDER"))
+    if model_provider:
+        return model_provider
+    normalized_provider = _normalize(provider)
+    if normalized_provider in {"deepseek", "qwen", "glm", "minimax", "moonshot", "generic"}:
+        return "openai"
+    return normalized_provider or None
 
 
 def resolve_main_llm_config(
@@ -98,10 +144,11 @@ def resolve_main_llm_config(
 
     Priority:
     1. Explicit function arguments, usually CLI arguments.
-    2. The selected LLM_ACTIVE_PROFILE block.
-    3. Legacy LLM_* variables.
+    2. The selected PRINCIPIA_MODEL_PROFILE registry entry.
+    3. Legacy LLM_ACTIVE_PROFILE / LLM_PROFILE_* variables.
+    4. Legacy LLM_* variables.
 
-    The active profile block uses variables such as
+    The legacy active profile block uses variables such as
     LLM_PROFILE_DEEPSEEK_V4_FLASH_MODEL. Profile names are normalized to
     uppercase and non-alphanumeric characters become underscores.
     """
@@ -112,6 +159,7 @@ def resolve_main_llm_config(
     resolved_model = model or profile_config.model or os.getenv("LLM_MODEL")
     explicit_provider = provider or profile_config.provider or os.getenv("LLM_PROVIDER")
     resolved_provider = infer_provider(resolved_base_url, resolved_model, explicit_provider)
+    resolved_model_provider = _model_provider_for(resolved_provider, profile_config.model_provider)
     source = profile_config.source if profile_config.active_profile else "legacy"
 
     return LLMRuntimeConfig(
@@ -119,7 +167,12 @@ def resolve_main_llm_config(
         model=resolved_model,
         base_url=resolved_base_url,
         provider=resolved_provider,
+        model_provider=resolved_model_provider,
         active_profile=profile_config.active_profile,
+        profile_id=profile_config.profile_id,
+        profile_label=profile_config.profile_label,
+        api_key_env=profile_config.api_key_env,
+        profile_metadata=profile_config.profile_metadata,
         source=source,
     )
 

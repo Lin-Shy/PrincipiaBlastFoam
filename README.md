@@ -25,6 +25,13 @@ pip install -e ".[dev]"
 ```
 
 The existing `.env` file is used directly and remains git-ignored.
+Model/provider/base URL metadata is tracked in
+`config/model_profiles.json`; `.env` should only carry the selected
+`PRINCIPIA_MODEL_PROFILE`, provider API keys, and local runtime switches. The
+older `LLM_ACTIVE_PROFILE` and `LLM_PROFILE_*` variables are still accepted for
+compatibility, but new experiments should use `--model-profile` so local result
+archives record a stable profile id without duplicating model metadata in
+`.env`.
 
 ## Smoke Commands
 
@@ -49,7 +56,7 @@ python run_workflow.py \
   --case-path /data/PrincipiaBlastFoam_output/deepagents_surfaceburst \
   --user-request "模拟一个触地爆场景，并修改爆炸场景的最远比例距离接近3。" \
   --tutorial-path /data/graduation-projects/blastFoam_tutorials \
-  --llm-active-profile deepseek_v4_flash \
+  --model-profile deepseek_v4_flash \
   --retrieval-llm-active-profile deepseek_v4_flash
 ```
 
@@ -60,7 +67,7 @@ principia-deepagents run \
   --case-path /data/PrincipiaBlastFoam_output/deepagents_surfaceburst \
   --user-request "模拟一个触地爆场景，并修改爆炸场景的最远比例距离接近3。" \
   --tutorial-path /data/graduation-projects/blastFoam_tutorials \
-  --llm-active-profile deepseek_v4_flash \
+  --model-profile deepseek_v4_flash \
   --retrieval-llm-active-profile deepseek_v4_flash
 ```
 

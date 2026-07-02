@@ -9,12 +9,14 @@ from principia_deepagents import legacy_cli
 def test_legacy_workflow_maps_old_args_and_prints_completion_marker(monkeypatch, capsys) -> None:
     captured: list[list[str]] = []
     for name in (
+        "PRINCIPIA_MODEL_PROFILE",
+        "LLM_ACTIVE_PROFILE",
         "RETRIEVAL_LLM_ACTIVE_PROFILE",
         "RETRIEVAL_LLM_API_KEY",
         "RETRIEVAL_LLM_API_BASE_URL",
         "RETRIEVAL_LLM_MODEL",
     ):
-        monkeypatch.delenv(name, raising=False)
+        monkeypatch.setenv(name, "")
 
     def fake_deepagents_main(argv: list[str]) -> int:
         captured.append(argv)
@@ -82,6 +84,8 @@ def test_legacy_workflow_maps_old_args_and_prints_completion_marker(monkeypatch,
 
 
 def test_legacy_workflow_prints_failure_marker(monkeypatch, capsys) -> None:
+    monkeypatch.setenv("PRINCIPIA_MODEL_PROFILE", "")
+    monkeypatch.setenv("LLM_ACTIVE_PROFILE", "")
     monkeypatch.setattr(legacy_cli, "deepagents_main", lambda _argv: 1)
 
     return_code = legacy_cli.workflow_main(["--case-path", "/tmp/case"])
@@ -93,6 +97,8 @@ def test_legacy_workflow_prints_failure_marker(monkeypatch, capsys) -> None:
 
 
 def test_legacy_batch_writes_old_style_results(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv("PRINCIPIA_MODEL_PROFILE", "")
+    monkeypatch.setenv("LLM_ACTIVE_PROFILE", "")
     modifications = [
         {
             "case_path": "freeField",
